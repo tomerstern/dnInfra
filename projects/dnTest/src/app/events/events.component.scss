@@ -1,0 +1,13 @@
+.container{
+    display:flex;
+    flex-wrap: wrap;
+    .top{
+        flex-basis: 100%;
+    }
+    .left, .right{
+        flex:1;
+    }
+    .left{
+        max-width: 200px;
+    }
+}

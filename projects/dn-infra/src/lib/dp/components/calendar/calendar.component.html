@@ -1,0 +1,8 @@
+<p-calendar (onBlur)="onInputBlur($event)" (onSelect)="onSelectedDate($event)"
+    [(ngModel)]="definition.isStandAlone ? ngModelDP : rowData[columnDefinition.fieldname]"
+    [selectionMode]="definition.selectionMode" [readonlyInput]="definition.readonlyInput"
+    [showTime]="definition.showTime" dateFormat="dd/mm/yy" [minDate]="definition.minDate" [maxDate]="definition.maxDate"
+    [monthNavigator]='definition.monthNavigator' [yearNavigator]='definition.yearNavigator'
+    [yearRange]="definition.yearRange" [showButtonBar]="definition.showButtonBar" 
+    [style]="definition.isStandAlone ? {} : {'width':'100%'}" >
+</p-calendar>

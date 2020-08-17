@@ -1,0 +1,15 @@
+<dp-calendar [definition]="calendarDefinitions" [ngModelDP]="calendarData1" ></dp-calendar>
+<dp-checkbox [definition]="checkboxDefinitions" [ngModelDP]="true" ></dp-checkbox>
+
+<dp-autocomplete (getSelected)="external_data_selected_1 = $event" 
+[definition]="autocompleteDefinition1" [datasource]="data_for_ac1"></dp-autocomplete>
+
+<div>external_data_selected_1: <div class='s'>                    
+    {{ !external_data_selected_1 ? '' : (external_data_selected_1 | json ) }}
+</div>
+</div>
+
+<hr>
+<app-autocompletesingletest></app-autocompletesingletest>
+<hr>
+<app-autocompletetest></app-autocompletetest>

@@ -1,0 +1,12 @@
+<div class="container">
+    <div class="top">
+        <app-actionbar (onSort)="someString = $event"></app-actionbar>
+    </div>
+    <div class="left">
+        <app-sidenav></app-sidenav> 
+    </div>
+    <div class="right">
+        {{someString}}
+        <app-table [newString]="someString"></app-table>
+    </div>
+</div>

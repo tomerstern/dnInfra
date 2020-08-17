@@ -1,0 +1,95 @@
+<div>
+    <div class="p-grid">
+        <div class="p-col-12 p-md-6">
+            <fieldset>
+                <legend>regular:</legend>
+                <!-- <dp-autocomplete *ngIf="data_for_ac1 != undefined"   -->
+                <dp-autocomplete (getSelected)="external_data_selected_1 = $event" [definition]=autocompleteDefinition1 [datasource]=data_for_ac1></dp-autocomplete>
+
+                <br><br>
+
+                <!-- dont show null or empty arr sign: [] if multi select -->
+                <div>external_data_selected_1: <div class='s'>                    
+                        {{ !external_data_selected_1 ? '' : (external_data_selected_1 | json ) }}
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="p-col-12 p-md-6">
+            <fieldset>
+                <legend>regular with multi select:</legend>
+
+                <dp-autocomplete (getSelected)="external_data_selected_2 = $event" [definition]=autocompleteDefinition2 [datasource]=data_for_ac2></dp-autocomplete>
+
+                <br><br>
+                <div>external_data_selected_2: <div class='s'>                
+                        {{ !external_data_selected_2 || !external_data_selected_2.length ? '' : (external_data_selected_2 | json)  }} 
+                    </div>
+                </div>
+
+                <!-- <div>222222222: {{external_data_selected_2[0]}}</div> -->
+            </fieldset>
+
+        </div>
+    </div>
+    <div class="p-grid">
+        <div class="p-col-12 p-md-6">
+            <fieldset>
+                <legend>With Images (default):</legend>
+
+                <dp-autocomplete (getSelected)="external_data_selected_3 = $event" [definition]=autocompleteDefinition3 [datasource]=data_for_ac3></dp-autocomplete>
+
+                <br><br>
+                <div>external 3: <div class='s'>
+                        {{ !external_data_selected_3 || !external_data_selected_3.length ? '' : (external_data_selected_3 | json)  }}
+                    </div>
+                </div>
+
+            </fieldset>
+        </div>
+        <div class="p-col-12 p-md-6">
+            <fieldset>
+                <legend>Load on first click / open </legend>
+
+                <dp-autocomplete (getSelected)="external_data_selected_4 = $event" [definition]="autocompleteDefinition4" [datasource]="data_for_ac4"></dp-autocomplete>
+
+                <br><br>
+
+                <div>external 4: <div class='s'>{{ !external_data_selected_4 ? '' : (external_data_selected_4 | json) }}
+                    </div>
+                </div>
+
+            </fieldset>
+        </div>
+    </div>
+    <div class="p-grid">
+        <div class="p-col-12 p-md-6">
+            <fieldset>
+                <legend>With Table (default):</legend>
+
+                <dp-autocomplete (getSelected)="external_data_selected_5 = $event" [definition]="autocompleteDefinition5" [datasource]="data_for_ac5"></dp-autocomplete>
+
+                <br><br>
+                <div>external 5: <div class='s'>{{ !external_data_selected_5 ? '' : (external_data_selected_5 | json) }}
+                    </div>
+                </div>
+
+            </fieldset>
+        </div>
+        <div class="p-col-12 p-md-6">
+            <fieldset>
+                <legend>Table with Columns Extra Definitons</legend>
+
+                <dp-autocomplete (getSelected)="external_data_selected_6 = $event" [definition]="autocompleteDefinition6" [datasource]="data_for_ac6"></dp-autocomplete>
+
+                <br><br>
+
+                <div>external 6: <div class='s'>{{ !external_data_selected_6 ? '' : (external_data_selected_6 | json) }}
+                    </div>
+                </div>
+
+            </fieldset>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,4 @@
+/* @media(min-width:992px){body{font-size:14px;}} */
+fieldset{padding:.5em; margin-bottom: .5em; min-height: 10em;}
+.c{background: grey; color: white; padding: 0.1em;}
+.s{background-color: lightseagreen; color:white; min-width: 200px;display: inline;}

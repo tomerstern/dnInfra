@@ -1,0 +1,33 @@
+.cls-t-row {
+    display: table-row;
+  }
+  .cls-t-cell {
+    display: table-cell;
+    padding-right: 0.25em;
+    padding-left: 0.25em;
+    min-width: 80px;
+    // width: 150px;
+    width: 100%;
+  }
+  
+  p-autocomplete .clsWithTable ul li:first-child {
+    pointer-events:none;
+    font-weight:bold;
+    background-color: lightgray !important;
+    position: sticky;
+    top:0;
+    z-index:2;
+  }
+  
+  
+  /*.clsWithTable ul { ';*/
+  
+  
+  /*
+   li :nth-child(1) {width:100px; background-color:yellow !important; font-weight: bold; padding: 1px;} 
+   li :nth-child(2) {width:100px; background-color:red !important;} 
+   li :nth-child(3) {width:180px; background-color: orange !important;} 
+   li :nth-child(4) {width:180px; background-color:palegreen !important;}
+   li :nth-child(5) {width:50px; background-color: purple ;}
+  */
+   /*} ;*/
