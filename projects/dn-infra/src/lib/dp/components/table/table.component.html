@@ -34,14 +34,15 @@
         </tr>
     </ng-template>
 
-    <ng-template pTemplate="body" let-row let-columns="columns" *ngIf="definition.editMode == 'cell'">
+    <ng-template pTemplate="body" let-index="rowIndex" let-row let-columns="columns" 
+    *ngIf="definition.editMode == 'cell'">
         <tr>
             <td *ngFor="let column of columns" pEditableColumn>
                 <app-cell [row]="row" [column]="column"></app-cell>
             </td>
             <td>
                 <button *ngIf="isEditable" pButton type="button" icon="pi pi-trash" class="ui-button-info"
-                    (click)="deleteRow(row[definition.dataKey])" pAddRow>
+                    (click)="deleteRow(index, row)">
                 </button>
             </td>
         </tr>

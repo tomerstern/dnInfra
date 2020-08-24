@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { GridDefinitions } from './objects/grid-definitions';
+import { TableStoreService, TableState } from '../../services/table-store.service';
+
 @Component({
   selector: 'dp-table',
   templateUrl: './table.component.html',
@@ -13,8 +15,8 @@ export class TableComponent implements OnInit {
   first = 0;
   isEditable: boolean;
   selectedEntity: any;
-  // checked = false;
-  constructor() { }
+
+  constructor(private tableStore: TableStoreService) { }
 
   // constructor(private customerService: CustomerService) { }
 
@@ -22,6 +24,7 @@ export class TableComponent implements OnInit {
 
     this.exportColumns = this.definition.columns.map(col => ({ title: col.headername, dataKey: col.fieldname }));
     this.setIsEditable();
+    // console.log(this.tableStore.getState());
   }
 
   // if at least one of the columns is editable then the grid is editable and we add add and delete buttons
@@ -31,7 +34,6 @@ export class TableComponent implements OnInit {
     this.definition.columns.forEach((column) => {
       if (column.iseditable) {
         isColumnEditable = true;
-        // this.isEditable = true;
       }
     });
     if (isColumnEditable) {
@@ -39,15 +41,12 @@ export class TableComponent implements OnInit {
     }
   }
 
-  deleteRow(id) {
+  deleteRow(id, row) {
     if (this.definition.onBeforeDelete !== undefined) {
       this.definition.onBeforeDelete(id);
     }
-    const columnIdName = this.definition.dataKey;
-    const dataRemoved = this.datasource.filter((el) => {
-      // return el.id !== id;
-    });
-    // this.datasource = dataRemoved;
+    this.datasource = this.datasource.filter((val, i) => i !== id);
+    this.tableStore.deleteRow(row);
     if (this.definition.onAfterDelete !== undefined) {
       this.definition.onAfterDelete(id);
     }
@@ -60,6 +59,7 @@ export class TableComponent implements OnInit {
     if (this.definition.onAfterAdd !== undefined) {
       this.definition.onAfterAdd(table);
     }
+    this.tableStore.addRow(newRow);
   }
 
   newEmptyRow() {
