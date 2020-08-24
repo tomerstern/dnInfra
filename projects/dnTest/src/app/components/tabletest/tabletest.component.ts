@@ -20,10 +20,7 @@ export class TabletestComponent implements OnInit {
 
   ngOnInit(): void {
     const columns: GridColumn[] = this.getColumns();
-    this.gridDefinition = new GridDefinitions({
-      dataKey: 'id', columns, editMode: 'row', toolbar: true,
-      selectionMode: 'multiple'
-    });
+    this.gridDefinition = new GridDefinitions({ dataKey: 'id', columns, toolbar: true, selectionMode: 'single' });
     this.SetData();
   }
 

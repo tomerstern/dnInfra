@@ -26,6 +26,7 @@ export class TableComponent implements OnInit {
 
   // if at least one of the columns is editable then the grid is editable and we add add and delete buttons
   setIsEditable() {
+    debugger
     this.isEditable = false;
     let isColumnEditable = false;
     this.definition.columns.forEach(function (column) {
@@ -58,7 +59,7 @@ export class TableComponent implements OnInit {
     // this.datasource = [jsonData, this.datasource];
     this.datasource.push(jsonData);
     this.setLastPage();
-    // todo method after add raow
+    // todo method after add row
   }
 
   setLastPage() {
