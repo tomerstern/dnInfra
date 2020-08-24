@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { GridDefinitions } from './objects/grid-definitions';
-
 @Component({
   selector: 'dp-table',
   templateUrl: './table.component.html',
@@ -74,9 +73,9 @@ export class TableComponent implements OnInit {
   }
 
   exportPdf() {
-    import('jspdf').then(jsPDF => {
+    import('jspdf').then((jspdf: any) => {
       import('jspdf-autotable').then(x => {
-        const doc = new jsPDF.default(0, 0);
+        const doc = new jspdf.default('l', 'mm', [305, 250]);
         doc.autoTable(this.exportColumns, this.datasource);
         doc.save('products.pdf');
       });
@@ -86,7 +85,7 @@ export class TableComponent implements OnInit {
   exportExcel() {
     import('xlsx').then(xlsx => {
       const worksheet = xlsx.utils.json_to_sheet(this.datasource);
-      const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+      const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
       const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
       this.saveAsExcelFile(excelBuffer, 'products');
     });
