@@ -29,7 +29,7 @@ export class TableComponent implements OnInit {
     debugger
     this.isEditable = false;
     let isColumnEditable = false;
-    this.definition.columns.forEach(function (column) {
+    this.definition.columns.forEach((column) => {
       if (column.iseditable) {
         isColumnEditable = true;
         // this.isEditable = true;
@@ -44,22 +44,26 @@ export class TableComponent implements OnInit {
     // todo method before delete
     const columnIdName = this.definition.dataKey;
     const dataRemoved = this.datasource.filter((el) => {
-      return el.id !== id;
+      // return el.id !== id;
     });
-    this.datasource = dataRemoved;
+    // this.datasource = dataRemoved;
     // todo method after delete
   }
 
-  addRow() {
-    let jsonData = {};
-    this.definition.columns.forEach(function (column) {
-      let columnName = column.fieldname;
-      jsonData[columnName] = '';
-    });
-    // this.datasource = [jsonData, this.datasource];
-    this.datasource.push(jsonData);
+  addRow(table) {
+    const newRow = this.newRow();
+    table.value.push(newRow);
     this.setLastPage();
     // todo method after add row
+  }
+
+  newRow() {
+    const row = {};
+    this.definition.columns.forEach((column) => {
+      const columnName = column.fieldname;
+      row[columnName] = '';
+    });
+    return row;
   }
 
   setLastPage() {
@@ -99,8 +103,8 @@ export class TableComponent implements OnInit {
       FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
     });
   }
-  onRowSelect(event){
-    let boo = this.selectedEntity;
+  onRowSelect(event) {
+    const boo = this.selectedEntity;
     alert(boo[0].id);
   }
 }
