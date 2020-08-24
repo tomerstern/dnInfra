@@ -1,30 +1,34 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { GridDefinitions } from './objects/grid-definitions';
 import { TableStoreService, TableState } from '../../services/table-store.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'dp-table',
   templateUrl: './table.component.html',
-  styleUrls: ['./table.component.scss']
+  styleUrls: ['./table.component.scss'],
+  providers: [TableStoreService]
 })
 export class TableComponent implements OnInit {
 
   @Input() definition: GridDefinitions;
   @Input() datasource: Array<any> = [];
+  @Output() stateChanges: EventEmitter<TableState> = new EventEmitter();
   exportColumns: any[];
   first = 0;
   isEditable: boolean;
   selectedEntity: any;
-
+  sub: Subscription;
   constructor(private tableStore: TableStoreService) { }
 
-  // constructor(private customerService: CustomerService) { }
 
   ngOnInit() {
 
     this.exportColumns = this.definition.columns.map(col => ({ title: col.headername, dataKey: col.fieldname }));
     this.setIsEditable();
-    // console.log(this.tableStore.getState());
+    this.sub = this.tableStore.tableState$.subscribe(newState => {
+      this.stateChanges.emit(newState);
+    });
   }
 
   // if at least one of the columns is editable then the grid is editable and we add add and delete buttons

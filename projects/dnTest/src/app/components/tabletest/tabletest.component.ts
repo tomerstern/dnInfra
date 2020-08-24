@@ -45,9 +45,12 @@ export class TabletestComponent implements OnInit {
     window.open('https://www.google.com?HeyYo=' + val);
   }
 
+  readState(tableId, state) {
+    console.log(tableId, state);
+  }
+
   getColumns() {
     const columns: GridColumn[] = [];
-
     const columnParams1: GridColumnParams = new GridColumnParams();
     columnParams1.addParam(InputTextProperties.mode, 'basic');
     const column1 = new GridColumn({

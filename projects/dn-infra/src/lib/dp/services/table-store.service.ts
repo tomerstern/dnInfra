@@ -1,11 +1,21 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
+// OLD STATE STRUCTURE
 export interface TableState {
   modifiedRows: Array<any>;
   addedRows: Array<any>;
   deletedRows: Array<any>;
 }
+
+// NEW STATE STRUCTURE
+// export interface Row{
+//   rowData: any;
+//   rowState: 'clean' | 'deleted' | 'modified' | 'added';
+// }
+// export interface TableState {
+//  rows: Row[];
+// }
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +23,21 @@ export interface TableState {
 export class TableStoreService {
 
   // Make state private so it's not accessible from the outside,
-  // expose it as puppies$ observable (read-only) instead.
+  // expose it as tableState$ observable (read-only) instead.
   // Write to state only through specified store methods below.
+
+  // OLD STATE INIT
   private readonly state = new BehaviorSubject<TableState>({
     modifiedRows: [],
     addedRows: [],
     deletedRows: []
   });
+
+  // NEW STATE INIT
+  //   private readonly state = new BehaviorSubject<TableState>({rows: [{
+  //     rowData: null,
+  //     rowState: 'clean'
+  //   }]});
 
   // Exposed observable (read-only).
   readonly tableState$ = this.state.asObservable();
