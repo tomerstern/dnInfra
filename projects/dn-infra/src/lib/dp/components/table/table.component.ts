@@ -9,7 +9,7 @@ import { GridDefinitions } from './objects/grid-definitions';
 export class TableComponent implements OnInit {
 
   @Input() definition: GridDefinitions;
-  @Input() datasource: [] = [];
+  @Input() datasource: Array<any> = [];
   exportColumns: any[];
   first = 0;
   isEditable: boolean;
@@ -42,6 +42,7 @@ export class TableComponent implements OnInit {
 
   deleteRow(id) {
     // todo method before delete
+    //this.callBeforeDelete();
     const columnIdName = this.definition.dataKey;
     const dataRemoved = this.datasource.filter((el) => {
       // return el.id !== id;
@@ -50,14 +51,20 @@ export class TableComponent implements OnInit {
     // todo method after delete
   }
 
+  callBeforeDelete() {
+    let stringFunction = 'changeColor';
+    let param = 'green';
+    window[stringFunction](param);
+  }
+
   addRow(table) {
-    const newRow = this.newRow();
+    const newRow = this.newEmptyRow();
     table.value.push(newRow);
     this.setLastPage();
     // todo method after add row
   }
 
-  newRow() {
+  newEmptyRow() {
     const row = {};
     this.definition.columns.forEach((column) => {
       const columnName = column.fieldname;

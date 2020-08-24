@@ -77,4 +77,9 @@ export class TabletestComponent implements OnInit {
   SaveCutomers() {
     this.customerService.saveCustomers(this.customers);
   }
+
+  changeColor(message) {
+    alert(message);
+  }
 }
+
