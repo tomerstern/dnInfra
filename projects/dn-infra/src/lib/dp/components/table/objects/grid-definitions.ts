@@ -11,6 +11,9 @@ export interface IGridDefinition {
     exportToExcel?: boolean;
     exportToPdf?: boolean;
     selectionMode?: string;
+    onBeforeDelete?: Function;
+    onAfterDelete?: Function;
+    onAfterAdd?: Function;
 }
 
 export interface IGridColumn {
@@ -25,6 +28,7 @@ export interface IGridColumn {
     style?: string;
     clickColumnName?: string;
     class?: string;
+    onClick?: Function;
 }
 
 export enum GridColumnType {
@@ -51,6 +55,9 @@ export class GridDefinitions implements IGridDefinition {
     exportToExcel: boolean;
     exportToPdf: boolean;
     selectionMode: string;
+    onBeforeDelete: Function;
+    onAfterDelete: Function;
+    onAfterAdd: Function;
     constructor(params: IGridDefinition) {
         this.dataKey = params.dataKey;
         this.columns = params.columns;
@@ -65,6 +72,9 @@ export class GridDefinitions implements IGridDefinition {
         this.exportToExcel = (params.exportToExcel == null ? true : params.exportToExcel);
         this.exportToPdf = (params.exportToPdf == null ? true : params.exportToPdf);
         this.selectionMode = params.selectionMode;
+        this.onBeforeDelete = params.onBeforeDelete;
+        this.onAfterDelete = params.onAfterDelete;
+        this.onAfterAdd = params.onAfterAdd;
     }
 }
 
@@ -85,8 +95,8 @@ export class GridColumnParam implements IGridColumnParam {
 export class GridColumnParams {
     params: GridColumnParam[];
 
-     constructor() {
-         this.params = [];
+    constructor() {
+        this.params = [];
     }
 
     addParam(key: string, value: any) {
@@ -96,7 +106,7 @@ export class GridColumnParams {
 
     isKeyExist(key: string) {
         const result = this.getValueByKey(key);
-        if  (result !== undefined) {
+        if (result !== undefined) {
             return true;
         } else {
             return false;
@@ -105,7 +115,7 @@ export class GridColumnParams {
 
     getValueByKey(key: string) {
         const foundParam = this.params.find(i => i.key === key);
-        if  (foundParam !== undefined) {
+        if (foundParam !== undefined) {
             return foundParam.value;
         } else {
             return undefined;
@@ -125,6 +135,7 @@ export class GridColumn implements IGridColumn {
     style: string;
     clickColumnName: string;
     class: string;
+    onClick: Function;
     constructor(params: IGridColumn) {
         this.headername = params.headername;
         this.fieldname = params.fieldname;
@@ -137,5 +148,6 @@ export class GridColumn implements IGridColumn {
         this.style = params.style;
         this.clickColumnName = params.clickColumnName;
         this.class = params.class;
+        this.onClick = params.onClick;
     }
 }

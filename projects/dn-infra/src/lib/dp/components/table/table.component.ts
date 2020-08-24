@@ -19,13 +19,13 @@ export class TableComponent implements OnInit {
   // constructor(private customerService: CustomerService) { }
 
   ngOnInit() {
+
     this.exportColumns = this.definition.columns.map(col => ({ title: col.headername, dataKey: col.fieldname }));
     this.setIsEditable();
   }
 
   // if at least one of the columns is editable then the grid is editable and we add add and delete buttons
   setIsEditable() {
-    debugger
     this.isEditable = false;
     let isColumnEditable = false;
     this.definition.columns.forEach((column) => {
@@ -40,27 +40,26 @@ export class TableComponent implements OnInit {
   }
 
   deleteRow(id) {
-    // todo method before delete
-    //this.callBeforeDelete();
+    if (this.definition.onBeforeDelete !== undefined) {
+      this.definition.onBeforeDelete(id);
+    }
     const columnIdName = this.definition.dataKey;
     const dataRemoved = this.datasource.filter((el) => {
       // return el.id !== id;
     });
     // this.datasource = dataRemoved;
-    // todo method after delete
-  }
-
-  callBeforeDelete() {
-    let stringFunction = 'changeColor';
-    let param = 'green';
-    window[stringFunction](param);
+    if (this.definition.onAfterDelete !== undefined) {
+      this.definition.onAfterDelete(id);
+    }
   }
 
   addRow(table) {
     const newRow = this.newEmptyRow();
     table.value.push(newRow);
     this.setLastPage();
-    // todo method after add row
+    if (this.definition.onAfterAdd !== undefined) {
+      this.definition.onAfterAdd(table);
+    }
   }
 
   newEmptyRow() {

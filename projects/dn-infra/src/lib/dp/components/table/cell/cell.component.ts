@@ -41,7 +41,9 @@ export class CellComponent implements OnInit {
   ngOnInit(): void { }
 
   clickEvent(val) {
-    alert(val);
+    if (this.column.onClick !== undefined) {
+      this.column.onClick(val);
+    }
   }
 }
 

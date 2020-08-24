@@ -20,8 +20,29 @@ export class TabletestComponent implements OnInit {
 
   ngOnInit(): void {
     const columns: GridColumn[] = this.getColumns();
-    this.gridDefinition = new GridDefinitions({ dataKey: 'id', columns, toolbar: true, selectionMode: 'single' });
+    this.gridDefinition = new GridDefinitions({
+      dataKey: 'id', columns, toolbar: true, selectionMode: 'single',
+      onAfterDelete: (param) => { this.onAfter(param); },
+      onAfterAdd: (param) => { this.onAfterAdd(param); },
+    });
+
     this.SetData();
+  }
+
+  onBefore(val) {
+    alert('onBeforeDelete' + val);
+  }
+
+  onAfter(val) {
+    alert('onAfterDelete' + val);
+  }
+
+  onAfterAdd(val) {
+    alert('onAfterAdd' + val);
+  }
+
+  onClick(val) {
+    window.open("https://www.google.com?HeyYo=" + val);
   }
 
   getColumns() {
@@ -31,7 +52,7 @@ export class TabletestComponent implements OnInit {
     columnParams1.addParam(InputTextProperties.mode, 'basic');
     const column1 = new GridColumn({
       headername: 'Customer Name', fieldname: 'name', columnParams: columnParams1,
-      iseditable: false, clickColumnName: 'id', class: 'clsSpanLink'
+      iseditable: false, clickColumnName: 'id', class: 'clsSpanLink', onClick: (param) => { this.onClick(param); }
     });
     columns.push(column1);
 
