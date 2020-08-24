@@ -27,9 +27,12 @@ export class TabletestComponent implements OnInit {
     this.SetData();
   }
 
+  readState(tableId, state){
+    console.log(tableId, state);
+  }
+
   getColumns() {
     const columns: GridColumn[] = [];
-
     const columnParams1: GridColumnParams = new GridColumnParams();
     columnParams1.addParam(InputTextProperties.mode, 'basic');
     const column1 = new GridColumn({
