@@ -1,5 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { GridDefinitions } from './objects/grid-definitions';
+import { TableStoreService, TableState } from '../../services/table-store.service';
+
+
 @Component({
   selector: 'dp-table',
   templateUrl: './table.component.html',
@@ -8,19 +11,20 @@ import { GridDefinitions } from './objects/grid-definitions';
 export class TableComponent implements OnInit {
 
   @Input() definition: GridDefinitions;
-  @Input() datasource: [] = [];
+  @Input() datasource: Array<any> = [];
   exportColumns: any[];
   first = 0;
   isEditable: boolean;
   selectedEntity: any;
-  // checked = false;
-  constructor() { }
+
+  constructor(private tableStore: TableStoreService) { }
 
   // constructor(private customerService: CustomerService) { }
 
   ngOnInit() {
     this.exportColumns = this.definition.columns.map(col => ({ title: col.headername, dataKey: col.fieldname }));
     this.setIsEditable();
+    // console.log(this.tableStore.getState());
   }
 
   // if at least one of the columns is editable then the grid is editable and we add add and delete buttons
@@ -38,21 +42,16 @@ export class TableComponent implements OnInit {
     }
   }
 
-  deleteRow(id) {
-    // todo method before delete
-    const columnIdName = this.definition.dataKey;
-    const dataRemoved = this.datasource.filter((el) => {
-      // return el.id !== id;
-    });
-    // this.datasource = dataRemoved;
-    // todo method after delete
+  deleteRow(id, row) {
+    this.datasource = this.datasource.filter((val, i) => i !== id);
+    this.tableStore.deleteRow(row);
   }
 
   addRow(table) {
     const newRow = this.newRow();
     table.value.push(newRow);
     this.setLastPage();
-    // todo method after add raow
+    this.tableStore.addRow(newRow);
   }
 
   newRow() {
