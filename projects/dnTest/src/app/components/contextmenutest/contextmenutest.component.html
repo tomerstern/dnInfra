@@ -1,0 +1,68 @@
+<div style="border: 1px solid gray;">
+    <h2>in contextmenutest.component.html</h2>
+    <div class="p-grid"> 
+        <div class="p-col-12 p-md-6">
+            <fieldset>
+                <legend>Global Contextmenu:</legend>  
+                <div class="text-right"> Contextmenu  לחיצה בכל מקום בדף תפתח   </div>
+                
+                <!-- <dp-contextmenu 
+                [definition]=contextmenuDefinition0
+                [datasource]=items0
+                [target]="" 
+                ></dp-contextmenu> -->
+
+                <br><br>
+            </fieldset>
+        </div>
+        <div class="p-col-12 p-md-6">
+            <fieldset id="fieldset_Contextmenu_Images">
+                <legend>Contextmenu On Images:</legend>
+                <div class="p-grid">   
+
+                    <div class="p-col-12 p-md-4">
+                        <h5>צבע ותמונות 1</h5>
+
+                        <dp-contextmenu id="contextmenu_infra_2"
+                        [definition]=contextmenuDefinition2 
+                        [datasource]=items2   
+                        [target]="img2"           
+                        ></dp-contextmenu>
+
+                        <img #img2 src="/assets/Images/testImages/shipment.png"
+                        id="imgContextmenu2"  style=" background-color: rgb(136, 235, 116); " alt="Logo" >
+                    </div>
+
+                    <div class="p-col-12 p-md-4">
+                        <h5>צבע ותמונות 2</h5>
+
+                        <dp-contextmenu  id="contextmenu_infra_3"
+                        [definition]=contextmenuDefinition3 
+                        [datasource]=items3  
+                        [target]="img3"           
+                        ></dp-contextmenu>
+
+                        <img #img3 src="/assets/Images/testImages/shipment.png"
+                        id="imgContextmenu2"  style=" background-color: rgb(240, 137, 137) ;" alt="Logo" >
+                    </div>
+
+                    <div class="p-col-12 p-md-4">
+                        <h5>פעולות</h5>
+
+                        <dp-contextmenu
+                        [definition]=contextmenuDefinition1 
+                        [datasource]=items1   
+                        [target]="img1"           
+                        ></dp-contextmenu>
+
+                        <img #img1 src="/assets/Images/testImages/shipment.png"
+                        id="imgContextmenu2"  style="background-color: lightskyblue ;" alt="Logo" >
+                    </div>
+
+                </div>
+                
+            </fieldset>
+            
+        </div>
+    </div>  
+</div>

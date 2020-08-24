@@ -1,0 +1,6 @@
+<p-toolbar styleClass="p-mb-4">
+    <div class="p-toolbar-group-left">
+        <button pButton pRipple label="Save" icon="pi pi-save" class="p-button-success p-mr-2" (click)="SaveCutomers()"></button>                
+    </div>
+</p-toolbar>
+<dp-table [definition]="gridDefinition" [datasource]="customers" ></dp-table>

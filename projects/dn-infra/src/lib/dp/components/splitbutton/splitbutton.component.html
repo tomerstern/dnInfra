@@ -1,0 +1,18 @@
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+
+
+<p-splitButton *ngIf="definition"
+    (onClick)="click_.emit($event)"
+    [model]="model"
+    [label]="definition.label"
+    [icon]="definition.icon"
+    [styleClass]="definition.styleClass"
+    [iconPos]="definition.iconPos"
+    [style]="definition.style"
+    [menuStyle]="definition.menuStyle"
+    [menuStyleClass]="definition.menuStyleClass"
+    [appendTo]="definition.appendTo"
+    [disabled]="definition.disabled"
+    [dir]="definition.dir"
+>
+</p-splitButton>

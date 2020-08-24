@@ -1,0 +1,29 @@
+.clsSplitBtnCustom{
+    button {background-image: linear-gradient(red, yellow);color:brown }
+    li {background-color: lightskyblue;}
+}
+
+#splitbutton_infra_3 [class^="mItem_4_"] {
+    font-weight: bold  !important;
+    background-repeat: no-repeat; background-position: left center;
+    .ui-menuitem-text{padding: 1.5em;}
+}
+
+#splitbutton_infra_3
+{
+    .mItem_4_1
+    {
+        background-color: rgb(136, 235, 116);     
+        background-image: url('/assets/Images/collection_png_32x32/flags/flag_canada.png');        
+    }
+    .mItem_4_2
+    {
+        background-color: rgb(221, 221, 149);
+        background-image: url('/assets/Images/collection_png_32x32/flags/flag_brazil.png');
+    }
+    .mItem_4_3
+    {
+        background-color: rgb(241, 171, 104);
+        background-image: url('/assets/Images/collection_png_32x32/flags/flag_germany.png');
+    }
+}

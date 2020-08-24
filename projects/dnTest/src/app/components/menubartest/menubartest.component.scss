@@ -1,0 +1,54 @@
+
+#menubar_infra_2 
+{
+    .ui-menubar {border-width: 0px !important;}
+    .ui-menuitem {background-color:#CEE7F7 !important;color: blue !important;font-size: 13px !important; border:1px solid blue;}    
+    .ui-menuitem-active > .ui-menuitem-link { background-color: #ffff9c !important;}
+}
+
+
+#menubar_infra_3 [class^="mItem_"] {
+    font-weight: bold  !important;
+    background-repeat: no-repeat; background-position: left center;
+    .ui-menuitem-text{padding: 1.5em;}
+    // .ui-menuitem-text{color:rgb(177, 173, 173) !important;text-shadow: 2px 2px #f02547;}
+}
+#menubar_infra_3 
+{
+    .ui-menubar {border-width: 0px !important;}
+    .mItem_1_0
+    {   
+        background-color:#f7f0ce;
+        background-image: url('/assets/Images/collection_png_32x32/plain/airplane.png');
+    }
+    .mItem_2_0
+    {   
+        background-color:#b6d2ec;
+        background-image: url('/assets/Images/collection_png_32x32/plain/address_book.png');
+    }
+    .mItem_3_0
+    {    
+        background-color:#cffac7;
+        background-image: url('/assets/Images/collection_png_32x32/plain/blueprint.png');
+    }
+    .mItem_4_0
+    {    
+        background-color:#fac7c7;
+        background-image: url('/assets/Images/collection_png_32x32/plain/airbrush.png');
+    }
+    .mItem_4_1
+    {
+        background-color:#bbdcf1;
+        background-image: url('/assets/Images/collection_png_32x32/plain/bag.png');
+    }
+    .mItem_4_2
+    {
+        background-color:#f1d3bb;
+        background-image: url('/assets/Images/collection_png_32x32/plain/3d_glasses.png');
+    }
+    .mItem_4_3
+    {
+        background-color:#e0cef7;
+        background-image: url('/assets/Images/collection_png_32x32/plain/baseball.png');
+    }
+}

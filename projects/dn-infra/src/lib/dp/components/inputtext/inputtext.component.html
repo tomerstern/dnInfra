@@ -1,0 +1,7 @@
+<input *ngIf="definition.mode == inputTextModeEnum.basic" pInputText type="text" 
+[(ngModel)]="definition.isStandAlone ? ngModelDP : rowData[columnDefinition.fieldname]" [size]="definition.size">
+<span *ngIf="definition.mode == inputTextModeEnum.float" class="ui-float-label">
+    <input [(ngModel)]="definition.isStandAlone ? ngModelDP : rowData[columnDefinition.fieldname]" 
+    type="text" [size]="definition.size" pInputText> 
+    <label [for]="definition.id">{{definition.floatMessage}}</label>    
+</span>

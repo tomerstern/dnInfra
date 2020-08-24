@@ -1,0 +1,22 @@
+
+<div style="background-color: lightgrey;padding: 1em;">
+    <h2>in toasttest.component.html</h2>
+    <button type="button" pButton (click)="func1()" label="Info" class="ui-button-info"></button>
+    <!-- <app-toast [definition]=gridDefinition [datasource]=customers></app-toast> -->
+
+    <!-- <div>toastDefinition.summary={{toastDefinition.summary}}</div>
+    <div>toastDefinition.detail={{toastDefinition.detail}}</div> -->
+
+
+    <dp-toast [definition]=toastDefinition></dp-toast>
+
+    <!-- <app-toast [definition]=toastDefinition (stockValueChange)=changeStockValue($event)></app-toast> -->
+
+    
+</div>
+
+
+<!-- <button type="button" pButton (click)="ngMsg()" label="Success" class="ui-button-success"></button>
+<button type="button" pButton (click)="showInfo()" label="Info" class="ui-button-info"></button>
+<button type="button" pButton (click)="showWarn()" label="Warn" class="ui-button-warning"></button>
+<button type="button" pButton (click)="showError()" label="Error" class="ui-button-danger"></button> -->

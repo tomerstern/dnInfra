@@ -1,0 +1,47 @@
+<div *ngIf="column.iseditable">
+    <p-cellEditor [ngSwitch]="column.type" >
+        <ng-template pTemplate="input">
+            <dp-inputtext *ngSwitchCase="gridColumnTypeEnum.span" [rowData]="row" [columnDefinition]="column"></dp-inputtext>
+            <dp-checkbox *ngSwitchCase="gridColumnTypeEnum.checkbox" [rowData]="row" [columnDefinition]="column"></dp-checkbox>
+            <img *ngSwitchCase="gridColumnTypeEnum.image" class="my-center-text" src="{{row[column.fieldname]}}"
+                 title="{{row[column.fieldname.concat('_tooltip')]}}" width="{{column.width}}" height="{{column.height}}">
+            <dp-inputnumber *ngSwitchCase="gridColumnTypeEnum.inputnumber" [rowData]="row" [columnDefinition]="column"></dp-inputnumber>
+            <dp-autocomplete *ngSwitchCase="gridColumnTypeEnum.dropdown" (getSelected)="$event" 
+                [rowData]="row" [columnDefinition]="column" 
+                [datasource]="countries" >
+            </dp-autocomplete>
+            <dp-calendar *ngSwitchCase="gridColumnTypeEnum.calendar" [rowData]="row" [columnDefinition]="column"></dp-calendar>
+        </ng-template>
+        <ng-template pTemplate="output">
+            <span *ngSwitchCase="gridColumnTypeEnum.span">{{row[column.fieldname]}}</span>
+            <span *ngSwitchCase="gridColumnTypeEnum.calendar">{{row[column.fieldname] | date: 'dd/MM/yyyy'}}</span>
+            <span *ngSwitchCase="gridColumnTypeEnum.inputnumber">{{column.columnParams.getValueByKey(inputNumberProperties.prefix)}}
+                                                                 {{row[column.fieldname]}}
+                                                                 {{column.columnParams.getValueByKey(inputNumberProperties.suffix)}}
+            </span>
+            <dp-checkbox *ngSwitchCase="gridColumnTypeEnum.checkbox" [rowData]="row" [columnDefinition]="column"></dp-checkbox>
+            <img *ngSwitchCase="gridColumnTypeEnum.image" class="my-center-text" src="{{row[column.fieldname]}}"
+                 title="{{row[column.fieldname.concat('_tooltip')]}}" width="{{column.width}}" height="{{column.height}}">
+            <span *ngSwitchCase="gridColumnTypeEnum.dropdown">{{row[column.fieldname]}}</span>
+        </ng-template>
+    </p-cellEditor>
+</div>
+<div *ngIf="column.iseditable == false" [ngSwitch]="column.type">
+    <span *ngSwitchCase="gridColumnTypeEnum.span" 
+        (click)="column.clickColumnName !== undefined ? clickEvent(row[column.clickColumnName]) : ''"
+        [style]="column.style"
+        [class]="column.class"
+    >
+        {{row[column.fieldname]}}
+    </span>
+    <span *ngSwitchCase="gridColumnTypeEnum.calendar">{{row[column.fieldname] | date: 'dd/MM/yyyy'}}</span>
+    <span *ngSwitchCase="gridColumnTypeEnum.inputnumber">{{column.columnParams.getValueByKey(inputNumberProperties.prefix)}}
+        {{row[column.fieldname]}}
+        {{column.columnParams.getValueByKey(inputNumberProperties.suffix)}}
+    </span>
+    <dp-checkbox *ngSwitchCase="gridColumnTypeEnum.checkbox" [rowData]="row" [columnDefinition]="column"></dp-checkbox>
+    <img *ngSwitchCase="gridColumnTypeEnum.image" class="my-center-text" src="{{row[column.fieldname]}}"
+         title="{{row[column.fieldname.concat('_tooltip')]}}" width="{{column.width}}" height="{{column.height}}">
+    <span *ngSwitchCase="gridColumnTypeEnum.dropdown">{{row[column.fieldname]}}</span>
+</div>
+
