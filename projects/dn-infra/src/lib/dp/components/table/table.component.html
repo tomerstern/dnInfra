@@ -26,13 +26,13 @@
             </th>
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-row let-columns="columns" *ngIf="definition.editMode == 'row'">
+    <!-- <ng-template pTemplate="body" let-row let-columns="columns" *ngIf="definition.editMode == 'row'">
         <tr [pEditableRow]="row">
             <td *ngFor="let column of columns">
                 <app-cell [row]="row" [column]="column"></app-cell>
             </td>
         </tr>
-    </ng-template>
+    </ng-template> -->
 
     <ng-template pTemplate="body" let-index="rowIndex" let-row let-columns="columns" 
     *ngIf="definition.editMode == 'cell'">

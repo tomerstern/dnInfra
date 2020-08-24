@@ -42,7 +42,7 @@ export class TabletestComponent implements OnInit {
   }
 
   onClick(val) {
-    window.open("https://www.google.com?HeyYo=" + val);
+    window.open('https://www.google.com?HeyYo=' + val);
   }
 
   getColumns() {
