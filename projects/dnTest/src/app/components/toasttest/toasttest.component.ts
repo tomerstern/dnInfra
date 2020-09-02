@@ -23,7 +23,7 @@ export class ToasttestComponent implements OnInit {
   }
   func1()
   {
-    debugger;
+    // debugger;
     this.toastDefinition = new ToastDefinitions('summary text 222', 'context 222 ... ');
    
   }

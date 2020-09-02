@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { GridDefinitions } from './objects/grid-definitions';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges } from '@angular/core';
+import { GridDefinitions, GridColumnType } from './objects/grid-definitions';
 import { TableStoreService, TableState } from '../../services/table-store.service';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'dp-table',
@@ -9,26 +10,41 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./table.component.scss'],
   providers: [TableStoreService]
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, OnChanges {
 
   @Input() definition: GridDefinitions;
   @Input() datasource: Array<any> = [];
   @Output() stateChanges: EventEmitter<TableState> = new EventEmitter();
+  data: Observable<any>;
   exportColumns: any[];
   first = 0;
+  toggleFilter: boolean;
   isEditable: boolean;
   selectedEntity: any;
+  obj = {};
   sub: Subscription;
+  gridColumnTypeEnum = GridColumnType;
+  @ViewChild('dt') table: Table;
+  @ViewChild('testEl') testEl: ElementRef;
+
   constructor(private tableStore: TableStoreService) { }
 
-
   ngOnInit() {
-
+    this.data = this.tableStore.dataState$;
+    this.obj = { background: 'red', color: 'green' };
     this.exportColumns = this.definition.columns.map(col => ({ title: col.headername, dataKey: col.fieldname }));
     this.setIsEditable();
     this.sub = this.tableStore.tableState$.subscribe(newState => {
       this.stateChanges.emit(newState);
     });
+  }
+
+  ngOnChanges() {
+    this.tableStore.setDataState(this.datasource);
+  }
+
+  toggleFn(el: HTMLElement) {
+    console.log(el);
   }
 
   // if at least one of the columns is editable then the grid is editable and we add add and delete buttons
@@ -46,24 +62,31 @@ export class TableComponent implements OnInit {
   }
 
   deleteRow(id, row) {
+    console.log(row);
     if (this.definition.onBeforeDelete !== undefined) {
       this.definition.onBeforeDelete(id);
     }
-    this.datasource = this.datasource.filter((val, i) => i !== id);
-    this.tableStore.deleteRow(row);
+    this.tableStore.deleteRow(id, row);
     if (this.definition.onAfterDelete !== undefined) {
       this.definition.onAfterDelete(id);
     }
   }
 
   addRow(table) {
-    const newRow = this.newEmptyRow();
-    table.value.push(newRow);
-    this.setLastPage();
     if (this.definition.onAfterAdd !== undefined) {
       this.definition.onAfterAdd(table);
     }
+    const newRow = this.newEmptyRow();
+    this.setLastPage();
     this.tableStore.addRow(newRow);
+  }
+
+  onEditInit(event) { console.log('onEditInit', event); }
+  onEditCancel(event) { console.log('onEditCancel', event); }
+  onEditComplete(event) {
+    debugger
+    console.log('onEditComplete', event);
+    this.tableStore.modifyRow(event.data);
   }
 
   newEmptyRow() {
@@ -72,6 +95,9 @@ export class TableComponent implements OnInit {
       const columnName = column.fieldname;
       row[columnName] = '';
     });
+    const maxIndex = Math.max.apply(null, this.datasource.map(item => item.dpIndex));
+    //row['dpIndex'] = maxIndex + 1;
+
     return row;
   }
 
@@ -115,5 +141,9 @@ export class TableComponent implements OnInit {
   onRowSelect(event) {
     const boo = this.selectedEntity;
     alert(boo[0].id);
+  }
+
+  onDateSelect(value) {
+    this.table.filter(value, 'date', 'equals');
   }
 }

@@ -30,23 +30,23 @@ export class TabletestComponent implements OnInit {
   }
 
   onBefore(val) {
-    alert('onBeforeDelete' + val);
+    // alert('onBeforeDelete' + val);
   }
 
   onAfter(val) {
-    alert('onAfterDelete' + val);
+     // alert('onAfterDelete' + val);
   }
 
   onAfterAdd(val) {
-    alert('onAfterAdd' + val);
+    // alert('onAfterAdd' + val);
   }
 
-  onClick(val) {
+  onCustomerNameClick(val) {
     window.open('https://www.google.com?HeyYo=' + val);
   }
 
   readState(tableId, state) {
-    console.log(tableId, state);
+    // console.log(tableId, state);
   }
 
   getColumns() {
@@ -55,7 +55,8 @@ export class TabletestComponent implements OnInit {
     columnParams1.addParam(InputTextProperties.mode, 'basic');
     const column1 = new GridColumn({
       headername: 'Customer Name', fieldname: 'name', columnParams: columnParams1,
-      iseditable: false, clickColumnName: 'id', class: 'clsSpanLink', onClick: (param) => { this.onClick(param); }
+      iseditable: false, clickColumnName: 'id', class: 'clsSpanLink',
+      onClick: (param) => { this.onCustomerNameClick(param); }
     });
     columns.push(column1);
 
@@ -79,7 +80,7 @@ export class TabletestComponent implements OnInit {
     columnParams4.addParam(InputNumberProperties.step, '2');
     const column4 = new GridColumn({
       headername: 'Orders', fieldname: 'NumOrderInMonth', type: this.gridColumnTypeEnum.inputnumber,
-      columnParams: columnParams4, iseditable: true
+      columnParams: columnParams4, iseditable: true, isMandatory: true
     });
     columns.push(column4);
 
@@ -100,10 +101,6 @@ export class TabletestComponent implements OnInit {
 
   SaveCutomers() {
     this.customerService.saveCustomers(this.customers);
-  }
-
-  changeColor(message) {
-    alert(message);
   }
 }
 

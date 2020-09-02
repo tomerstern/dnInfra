@@ -21,6 +21,7 @@ export interface IGridColumn {
     fieldname: string;
     type?: GridColumnType;
     iseditable?: boolean;
+    isMandatory?: boolean;
     width?: number;
     height?: number;
     align?: string;
@@ -127,6 +128,7 @@ export class GridColumn implements IGridColumn {
     headername: string;
     fieldname: string;
     iseditable: boolean;
+    isMandatory: boolean;
     type: GridColumnType;
     width: number;
     height: number;
@@ -141,6 +143,7 @@ export class GridColumn implements IGridColumn {
         this.fieldname = params.fieldname;
         this.type = (params.type == null ? GridColumnType.span : params.type);
         this.iseditable = (params.iseditable == null ? false : params.iseditable);
+        this.isMandatory = (params.isMandatory == null ? false : params.isMandatory);
         this.width = (params.width == null ? 17 : params.width);
         this.height = (params.height == null ? 17 : params.height);
         this.align = (this.type === GridColumnType.image ? 'center' : (params.align == null ? 'left' : params.align));

@@ -1,9 +1,10 @@
-<p-table #dt [columns]="definition.columns" [value]="datasource" [dataKey]="definition.dataKey"
+<p-table #dt [columns]="definition.columns" [value]="data | async" [dataKey]="definition.dataKey"
     [rowHover]="definition.rowHover" [rows]="definition.rows" [showCurrentPageReport]="true"
     [rowsPerPageOptions]="definition.rowsPerPageOptions" [paginator]="definition.paginator"
     [currentPageReportTemplate]="definition.currentPageReportTemplate" [editMode]="definition.editMode"
     [sortMode]="'multiple'" [(first)]="first" [selectionMode]="definition.selectionMode" [(selection)]="selectedEntity"
-    (onRowSelect)="onRowSelect($event)">
+    (onRowSelect)="onRowSelect($event)" (onEditInit)="onEditInit($event)" (onEditCancel)="onEditCancel($event)"
+    (onEditComplete)="onEditComplete($event)">
     <ng-template pTemplate="caption" *ngIf="definition.toolbar">
         <div class="p-toolbar-group-left">
             <button *ngIf="isEditable" pButton type="button" icon="pi pi-plus" class="ui-button-info" [label]="'Add'"
@@ -23,6 +24,32 @@
             <th *ngFor="let column of definition.columns" [pSortableColumn]="column.fieldname">
                 {{column.headername}}
                 <p-sortIcon [field]="column.fieldname"></p-sortIcon>
+                <span *ngIf="column.isMandatory" class="mandatory">&bull;</span>
+            </th>
+            <th>
+                <button pButton type="button" [icon]="toggleFilter ? 'pi pi-caret-up' : 'pi pi-caret-down'"
+                    class="ui-button-info" (click)="toggleFilter = !toggleFilter" pAddRow>
+                </button>
+            </th>
+        </tr>
+        <tr>
+            <th *ngFor="let column of definition.columns" [hidden]="!toggleFilter" [ngSwitch]="column.type">
+                <!-- <dp-inputtext *ngSwitchCase="gridColumnTypeEnum.span" 
+                    (input)="dt.filter($event.target.value, column.fieldname, 'contains')">
+                </dp-inputtext> -->
+                <input *ngSwitchCase="gridColumnTypeEnum.span" pInputText type="text"
+                    (input)="dt.filter($event.target.value, column.fieldname, 'contains')">
+                <input *ngSwitchCase="gridColumnTypeEnum.inputnumber" pInputText type="text"
+                    (input)="dt.filter($event.target.value, column.fieldname, 'contains')">
+                <p-checkbox *ngSwitchCase="gridColumnTypeEnum.checkbox"
+                    (onChange)="dt.filter($event.target.value, column.fieldname, 'equals')">
+                </p-checkbox>
+                <p-calendar *ngSwitchCase="gridColumnTypeEnum.calendar" (onSelect)="onDateSelect($event)"
+                    (onClearClick)="dt.filter('', 'date', 'equals')" [showButtonBar]="true" styleClass="p-column-filter"
+                    placeholder="Registration Date" [readonlyInput]="true" dateFormat="dd/mm/yy"
+                    [style]="{'width':'100%'}">
+                </p-calendar>
+
             </th>
         </tr>
     </ng-template>
@@ -34,10 +61,10 @@
         </tr>
     </ng-template> -->
 
-    <ng-template pTemplate="body" let-index="rowIndex" let-row let-columns="columns" 
-    *ngIf="definition.editMode == 'cell'">
+    <ng-template pTemplate="body" let-index="rowIndex" let-row let-columns="columns"
+        *ngIf="definition.editMode == 'cell'">
         <tr>
-            <td *ngFor="let column of columns" pEditableColumn>
+            <td *ngFor="let column of columns" [pEditableColumn]="row" [pEditableColumnField]="column">
                 <app-cell [row]="row" [column]="column"></app-cell>
             </td>
             <td>
