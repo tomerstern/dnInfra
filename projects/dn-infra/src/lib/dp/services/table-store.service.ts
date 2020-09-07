@@ -7,7 +7,7 @@ export interface Row {
   rowData: any;
 }
 export interface TableState {
-  rows: { [id: string]: Row };
+  [key: string]: Row;
 }
 
 @Injectable({
@@ -20,7 +20,7 @@ export class TableStoreService {
   // Write to state only through specified store methods below.
 
   // STATE INIT
-  private readonly changeState = new BehaviorSubject<TableState>({ rows: null });
+  private readonly changeState = new BehaviorSubject<TableState>({});
 
   private readonly dataState = new BehaviorSubject<any>([]);
 
@@ -31,6 +31,7 @@ export class TableStoreService {
   constructor() { }
 
   // Get last value without subscribing to the puppies$ observable (synchronously).
+
   // אובייקט השינויים
   getChanges(): any {
     return this.changeState.getValue();
@@ -47,15 +48,17 @@ export class TableStoreService {
 
   // setstate is actually the changes object
   private setChangeState(row: any, key, lastAction): void {
-    const addedRow: any = { [key]: { rowState: lastAction, rowData: row } };
-    const newState = { ...this.getChanges().rows, ...addedRow };
+    const state = this.getChanges();
+    const obj1 = { [key]: { rowState: lastAction, rowData: row } };
+    const obj2 = { ...obj1[key] };
+    const newState = { ...state, ...{ [key]: obj2 } };
+    console.log(newState);
     this.changeState.next(newState);
-    console.log(this.getChanges());
   }
 
   // specific action on a row
   addRow(row: any): void {
-    const key = this.getKey();
+    const key = this.getKey(6);
     row.state = { added: true, key };
     const newState = [...this.getDataState(), ...[row]];
     this.dataState.next(newState);
@@ -66,32 +69,38 @@ export class TableStoreService {
   // inside the action you get the current state
   deleteRow(id, row: any): void {
     let key;
-    row.state ? key = row.state.key : key = this.getKey();
+    row.state ? key = row.state.key : key = this.getKey(6);
+    console.log(row);
     let table = this.getDataState();
     row.state = { deleted: true, key };
     table = table.filter((val, i) => i !== id);
     this.dataState.next(table);
+
     // עדכון אובייקט השינויים
     this.setChangeState(row, key, 'deleted');
   }
 
   modifyRow(row: any): void {
-    debugger
-   
-    if (row.state && row.state.added){
+    if (row.state && row.state.added) {
       return;
     }
     let key;
-    row.state ? key = row.state.key : key = this.getKey();
+    row.state ? key = row.state.key : key = this.getKey(6);
     const newState = [...this.getDataState(), ...[row]];
     this.dataState.next(newState);
+
     // עדכון אובייקט השינויים
     this.setChangeState(row, key, 'modified');
   }
 
-  getKey(): any {
-    const rand = Math.random();
-    return 'dso' + rand;
+  getKey(length) {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
   }
 
 }

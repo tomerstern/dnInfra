@@ -62,10 +62,10 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   deleteRow(id, row) {
-    console.log(row);
     if (this.definition.onBeforeDelete !== undefined) {
       this.definition.onBeforeDelete(id);
     }
+    // console.log(id);
     this.tableStore.deleteRow(id, row);
     if (this.definition.onAfterDelete !== undefined) {
       this.definition.onAfterDelete(id);
@@ -84,7 +84,6 @@ export class TableComponent implements OnInit, OnChanges {
   onEditInit(event) { console.log('onEditInit', event); }
   onEditCancel(event) { console.log('onEditCancel', event); }
   onEditComplete(event) {
-    debugger
     console.log('onEditComplete', event);
     this.tableStore.modifyRow(event.data);
   }
