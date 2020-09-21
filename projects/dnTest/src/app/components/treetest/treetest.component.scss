@@ -1,0 +1,54 @@
+
+
+#tree_infra_1 {
+     div > span {margin-left:0.5em;}
+
+    .clsTreestyleClass_main {
+        > div {
+            background-image: url('/assets/Images/Customs/customs.gif') !important; background-repeat: no-repeat;background-position: left center;
+            > span {margin-left: 1.3em;}
+        }
+    }
+    .clsTreestyleClass_0 {
+        > div{
+            background-image: url('/assets/Images/Customs/Customer.gif') !important; background-repeat: no-repeat; background-position: left center;
+        }
+        li
+        {
+            background-image: url('/assets/Images/Customs/Customer.gif') !important; background-repeat: no-repeat;  background-position: left center; margin-left: 1em;
+        }
+    }    
+    .clsTreestyleClass_1 {
+        > div{
+            background-image: url('/assets/Images/Customs/Supplier.gif') !important; background-repeat: no-repeat; background-position: left center;
+        }
+        li
+        {
+            background-image: url('/assets/Images/Customs/Supplier.gif') !important; background-repeat: no-repeat;  background-position: left center; margin-left: 1em;
+        }
+    }   
+    .clsTreestyleClass_2 {
+        > div{
+            background-image: url('/assets/Images/Customs/FileIcon.gif') !important; background-repeat: no-repeat; background-position: left center;
+        }
+        li
+        {
+            background-image: url('/assets/Images/Customs/FileIcon.gif') !important; background-repeat: no-repeat;  background-position: left center; margin-left: 1em;
+        }
+    }   
+    .clsTreestyleClass_3 {
+        > div{
+            background-image: url('/assets/Images/Customs/coins17.gif') !important; background-repeat: no-repeat; background-position: left center;
+        }
+        li
+        {
+            background-image: url('/assets/Images/Customs/coins17.gif') !important; background-repeat: no-repeat;  background-position: left center; margin-left: 1em;
+        }
+    }   
+}
+
+#tree_infra_3 {
+    .pi-folder{color:green}
+    .pi-folder-open{color:greenyellow}
+    .pi-file{color:blue}
+}

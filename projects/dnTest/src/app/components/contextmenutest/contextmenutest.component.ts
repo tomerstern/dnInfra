@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ContextmenuDefinitions } from 'projects/dn-infra/src/lib/dp/components/contextmenu/Objects/contextmenu-definitions';
+import { ContextmenuDefinitions, DpMenuItem } from 'projects/dn-infra/src/lib/dp/components/contextmenu/Objects/contextmenu-definitions';
 
 @Component({
   selector: 'app-contextmenutest',
@@ -11,10 +11,10 @@ export class ContextmenutestComponent implements OnInit {
 
 
   // items0: MenuItem[];
-  items0: any[]; /* for global*/
-  items1: any[];
-  items2: any[];
-  items3: any[];
+  items0: DpMenuItem[]; /* for global*/
+  items1: DpMenuItem[];
+  items2: DpMenuItem[];
+  items3: DpMenuItem[];
 
   contextmenuDefinition0: ContextmenuDefinitions;
   contextmenuDefinition1: ContextmenuDefinitions;

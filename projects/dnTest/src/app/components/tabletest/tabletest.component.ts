@@ -5,6 +5,10 @@ import { InputNumberProperties } from 'projects/dn-infra/src/lib/dp/components/i
 import { InputTextProperties } from 'projects/dn-infra/src/lib/dp/components/inputtext/objects/inputtext-definitions';
 import { CustomerService } from '../../events/services/customerservice';
 import { CalendarProperties } from 'projects/dn-infra/src/lib/dp/components/calendar/objects/calendar-definitions';
+import { AutocompleteProperties } from 'projects/dn-infra/src/lib/dp/components/autocomplete/Objects/autocomplete-definitions';
+import { CountryService } from '../../events/services/countryservice';
+import { Country } from '../../events/models/customer';
+//import { TableComponent } from 'projects/dn-infra/src/lib/dp/components/table/table.component';
 
 @Component({
   selector: 'app-tabletest',
@@ -13,10 +17,17 @@ import { CalendarProperties } from 'projects/dn-infra/src/lib/dp/components/cale
 })
 export class TabletestComponent implements OnInit {
 
-  constructor(private customerService: CustomerService) { }
+  constructor(private customerService: CustomerService, private countryService: CountryService) { }
   gridDefinition: GridDefinitions;
-  customers: Customer[];
+  customers: Customer[] = null;
   gridColumnTypeEnum = GridColumnType;
+  myList = [];
+  // dataForAc3: Country[]; // Country
+
+  dataForAc3: any[] = [{ name: 'Afghanistan', code: 'AF' }, { name: 'Albania', code: 'AL' }, { name: 'Angola', code: 'AO' },
+  { name: 'Anguilla', code: 'AI' }, { name: 'brazil', code: 'BR' }];
+
+
 
   ngOnInit(): void {
     const columns: GridColumn[] = this.getColumns();
@@ -29,12 +40,14 @@ export class TabletestComponent implements OnInit {
     this.SetData();
   }
 
+
+
   onBefore(val) {
     // alert('onBeforeDelete' + val);
   }
 
   onAfter(val) {
-     // alert('onAfterDelete' + val);
+    // alert('onAfterDelete' + val);
   }
 
   onAfterAdd(val) {
@@ -66,12 +79,22 @@ export class TabletestComponent implements OnInit {
     });
     columns.push(column2);
 
-    // const column3 = new GridColumn({ headername: 'Remarks', fieldname: 'remarksImg', type: this.gridColumnTypeEnum.image });
-    // columns.push(column3);
+
+    //  minLength: 1,
+
+    // this.countryService.getCountries().then(countries => {
+    //   this.dataForAc3 = countries;
+    // });
+
+    const columnParams3: GridColumnParams = new GridColumnParams();
+    columnParams3.addParam(AutocompleteProperties.dp_AutocompleteType, 0);
+    columnParams3.addParam(AutocompleteProperties.multiple, false);
+    columnParams3.addParam(AutocompleteProperties.dropdown, false);
 
     const column3 = new GridColumn({
-      headername: 'Country', fieldname: 'country', type: this.gridColumnTypeEnum.dropdown,
-      iseditable: true
+      headername: 'Country', fieldname: 'country', type: this.gridColumnTypeEnum.dropdown, columnParams: columnParams3,
+      iseditable: true,
+      ColumnDatasource: this.dataForAc3, isMandatory: true
     });
     columns.push(column3);
 
@@ -99,7 +122,14 @@ export class TabletestComponent implements OnInit {
     this.customers = await this.customerService.getCustomersLarge();
   }
 
-  SaveCutomers() {
+  getMandatory($event) {
+    this.SaveCutomers($event);
+  }
+
+  SaveCutomers($event: any) {
+    console.log($event);
+    // let emptyMandatoryFieldNames = this.table1.checkMandatory();
+    // debugger
     this.customerService.saveCustomers(this.customers);
   }
 }

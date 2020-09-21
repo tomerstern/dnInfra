@@ -1,1 +1,40 @@
-<p>dialog works!</p>
+
+<p-dialog *ngIf="definition"
+    [style]="definition.style"
+    [styleClass]="definition.styleClass"
+    [(visible)]="definition.visible"       
+    [header]="definition.header"    
+    [position]="definition.position"
+    [modal]="definition.modal"
+    [contentStyle]="definition.contentStyle"
+    [resizable]="definition.resizable"
+    [maximizable]="definition.maximizable"
+    [showHeader]="definition.showHeader"
+    [maskStyleClass]="definition.maskStyleClass"
+    [appendTo]="definition.appendTo"
+    [closable]="definition.closable"
+    [rtl]="definition.rtl"
+    [dismissableMask]="definition.dismissableMask"
+    [closeOnEscape]="definition.closeOnEscape"
+    [blockScroll]="definition.blockScroll"
+    [keepInViewport]="definition.keepInViewport"
+    [draggable]="definition.draggable"
+    >
+        <p [innerHtml]="definition.dpDialogContext"></p>
+
+            <p-footer *ngIf="definition.buttons.toLowerCase() === 'default'">
+                <button type="button" pButton icon="pi pi-check" (click)="dpDialogFunc(1)" label="Yes"></button>
+                <button type="button" pButton icon="pi pi-times" (click)="dpDialogFunc(2)" label="No" class="ui-button-secondary"></button>
+            </p-footer>
+
+            <p-footer *ngIf="definition.buttons.toLowerCase() === 'custom'">
+                <button *ngFor="let btn of definition.buttonsArr; let j=index"
+                    type="button" pButton 
+                    (click)="dpDialogFunc(btn.index === undefined ? j + 1 : btn.index)" 
+                    [class]="btn.class === undefined ? 'ui-button-secondary' : btn.class "
+                    [label]="btn.label === undefined ? 'default text' : btn.label "                    
+                >
+                </button>
+        </p-footer>
+
+</p-dialog>

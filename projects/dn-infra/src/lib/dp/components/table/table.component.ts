@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges } from '@angular/core';
 import { GridDefinitions, GridColumnType } from './objects/grid-definitions';
 import { TableStoreService, TableState } from '../../services/table-store.service';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription, Observable, BehaviorSubject } from 'rxjs';
 import { Table } from 'primeng/table';
 
 @Component({
@@ -16,10 +16,13 @@ export class TableComponent implements OnInit, OnChanges {
   @Input() datasource: Array<any> = [];
   @Output() stateChanges: EventEmitter<TableState> = new EventEmitter();
   data: Observable<any>;
+  @Output()
+  mandatoryFields: EventEmitter<any[]> = new EventEmitter();
   exportColumns: any[];
   first = 0;
   toggleFilter: boolean;
   isEditable: boolean;
+  isFooter = false;
   selectedEntity: any;
   obj = {};
   sub: Subscription;
@@ -34,6 +37,7 @@ export class TableComponent implements OnInit, OnChanges {
     this.obj = { background: 'red', color: 'green' };
     this.exportColumns = this.definition.columns.map(col => ({ title: col.headername, dataKey: col.fieldname }));
     this.setIsEditable();
+    this.setIsFooter();
     this.sub = this.tableStore.tableState$.subscribe(newState => {
       this.stateChanges.emit(newState);
     });
@@ -44,25 +48,65 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   toggleFn(el: HTMLElement) {
-    console.log(el);
+    // console.log(el);
   }
 
   // if at least one of the columns is editable then the grid is editable and we add add and delete buttons
   setIsEditable() {
-    this.isEditable = false;
-    let isColumnEditable = false;
-    this.definition.columns.forEach((column) => {
+    for (const column of this.definition.columns) {
       if (column.iseditable) {
-        isColumnEditable = true;
+        this.isEditable = true;
+        break;
       }
-    });
-    if (isColumnEditable) {
-      this.isEditable = true;
     }
   }
 
+  setIsFooter() {
+    for (const column of this.definition.columns) {
+      if (column.ColumnSum || column.ColumnTotal) {
+        this.isFooter = true;
+        break;
+      }
+    }
+  }
+
+  checkMandatory() {
+    const emptyMandatoryFieldNames: string[] = [];
+    const mandatoryFieldNames: string[] = this.getMandatoryFieldNames();
+    const rows = this.data.source['_value'];
+    this.loopRows(rows, mandatoryFieldNames, emptyMandatoryFieldNames);
+    // debugger
+    this.mandatoryFields.emit(emptyMandatoryFieldNames);
+  }
+
+  loopRows(rows, mandatoryFieldNames, emptyMandatoryFieldNames) {
+    for (const row of rows) {
+      this.loopMandatoryFields(row, mandatoryFieldNames, emptyMandatoryFieldNames);
+    }
+  }
+
+  loopMandatoryFields(row, mandatoryFieldNames, emptyMandatoryFieldNames) {
+    for (const fieldName of mandatoryFieldNames) {
+      if (row[fieldName] === '' || row[fieldName] === undefined || row[fieldName] == null) {
+        if (!emptyMandatoryFieldNames.includes(fieldName)) {
+          emptyMandatoryFieldNames.push(fieldName);
+        }
+      }
+    }
+  }
+
+  getMandatoryFieldNames() {
+    const mandatoryFieldNames: string[] = [];
+    for (const column of this.definition.columns) {
+      if (!column.isMandatory) {
+        continue;
+      }
+      mandatoryFieldNames.push(column.fieldname);
+    }
+    return mandatoryFieldNames;
+  }
+
   deleteRow(id, row) {
-    console.log(row);
     if (this.definition.onBeforeDelete !== undefined) {
       this.definition.onBeforeDelete(id);
     }
@@ -84,9 +128,10 @@ export class TableComponent implements OnInit, OnChanges {
   onEditInit(event) { console.log('onEditInit', event); }
   onEditCancel(event) { console.log('onEditCancel', event); }
   onEditComplete(event) {
-    debugger
-    console.log('onEditComplete', event);
+    // console.log('onEditComplete', event);
     this.tableStore.modifyRow(event.data);
+    // todo remove call to checkMandatory
+    this.checkMandatory();
   }
 
   newEmptyRow() {
@@ -96,7 +141,6 @@ export class TableComponent implements OnInit, OnChanges {
       row[columnName] = '';
     });
     const maxIndex = Math.max.apply(null, this.datasource.map(item => item.dpIndex));
-    //row['dpIndex'] = maxIndex + 1;
 
     return row;
   }
@@ -140,10 +184,64 @@ export class TableComponent implements OnInit, OnChanges {
   }
   onRowSelect(event) {
     const boo = this.selectedEntity;
-    alert(boo[0].id);
+    // alert(boo[0].id);  
+    alert(boo.id);
   }
 
   onDateSelect(value) {
     this.table.filter(value, 'date', 'equals');
   }
+
+
+  dpCalculateColumnSum(index, column, table): number {
+    let sum = 0;
+    // console.log('index=');
+    // console.log(index);
+    // console.log('items.length=');
+    // console.log(items.length);
+    // console.log('aaaaaaaaaa=');
+    // console.log(items[1][3]);
+    // for (let i = 0; i < items.length; i++) {
+    //   sum += items[i][index];
+    //   console.log(items[i][index]);
+    // }
+
+
+
+    //  const row = table.body.rows[index];
+    // const yourdatalist = table.columns[0];
+    // if (yourdatalist) {
+    //   return ( yourdatalist.map(t => t.Amount).reduce((a, value) => a + value, 0));
+
+    // }
+    // return 0;
+
+    // for (let j = 0, col; col = yourdatalist[j]; j++) {
+    //   sum += col;
+    // }
+
+    return sum;
+  }
+
+
+  //   for(var i = 0, row; row = table.rows[i]; i++) {
+  //   for (let j = 0, col; col = row.cells[j]; j++) {
+  //     sum += col;
+  // //   }
+  // // }
+  // return sum;
+  //   }
+
+  dpCalculateTotalRows(ind, column, table) {
+
+
+    console.log(ind);
+    console.log(column);
+    console.log(table);
+
+    // console.log($event.target.value);
+
+
+  }
+
 }

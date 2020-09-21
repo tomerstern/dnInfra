@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-// import { TabviewDefinitions } from './Objects/tabview-definitions';
+import { Component, OnInit, Input, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
+import { TabviewDefinitions, TabpanelDefinitions } from './Objects/tabview-definitions';
 
 @Component({
   selector: 'dp-tabview',
@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tabview.component.scss']
 })
 export class TabviewComponent implements OnInit {
+
+  @Input() TabViewDefinition: TabviewDefinitions;
+  @Input() TabPanelDefinition: TabpanelDefinitions;
 
   constructor() { }
 

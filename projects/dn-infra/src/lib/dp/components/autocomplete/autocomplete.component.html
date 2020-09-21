@@ -1,12 +1,17 @@
 
 
 <!-- *ngIf="definition" -->
+<!-- 
+gil:{{ rowData[columnDefinition.fieldname]}}<br>
+gil2{{columnDefinition.fieldname}} -->
+
 <p-autoComplete  #autoComplete [id]="definition.inputId" [suggestions]="filteredData"
+[ngModelOptions]="{standalone:true}"
 (completeMethod)="
   filterEntity(
     $event,
     definition.dp_AutocompleteType,
-    definition.dp_AutocompleteMaxSuggestionsToShow
+    definition.dpAutocompleteMaxSuggestionsToShow
   )
 " (onSelect)="getSelected.emit(autoComplete.value)" (onClear)="getSelected.emit('')"  (onUnselect)="getSelected.emit(autoComplete.value)" 
 [(ngModel)]="definition.isStandAlone ? definition.name : rowData[columnDefinition.fieldname]"
@@ -21,8 +26,7 @@
 [autoHighlight]="definition.autoHighlight" [type]="definition.type" [emptyMessage]="definition.emptyMessage"
 [required]="definition.required" [autofocus]="definition.autofocus" [forceSelection]="definition.forceSelection"
 [dropdownMode]="definition.dropdownMode" [baseZIndex]="definition.baseZIndex" [autoZIndex]="definition.autoZIndex"
-[showTransitionOptions]="definition.showTransitionOptions" [hideTransitionOptions]="definition.hideTransitionOptions"
-[ariaLabel]="definition.ariaLabel" [ariaLabelledBy]="definition.ariaLabelledBy" [unique]="definition.unique"
+[ariaLabel]="definition.ariaLabel" [ariaLabelledBy]="definition.ariaLabelledBy" 
 [autocomplete]="definition.autocomplete">
 
 <ng-container *ngIf="definition.dp_AutocompleteType === 1">

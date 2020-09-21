@@ -3,7 +3,8 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { GlobalFunctionsService } from './services/global-functions.service';
 import { AppComponent } from './app.component';
-import { DnInfraModule } from 'projects/dn-infra/src/public-api';
+import { DnInfraModule } from 'projects/dn-infra/src/public-api'; /* before build */
+// import { DnInfraModule } from 'dn-infra';  /* go to dist after build */
 import { CountryService } from './events/services/countryservice';
 import { HttpClientModule } from '@angular/common/http';
 import { AutocompletetestComponent } from './components/autocompletetest/autocompletetest.component';
@@ -24,7 +25,13 @@ import { GlobalfunctionstestComponent } from './components/globalfunctionstest/g
 import { Page1testComponent } from './components/page1test/page1test.component';
 import { Page2testComponent } from './components/page2test/page2test.component';
 import { Page3testComponent } from './components/page3test/page3test.component';
+import { Page4testComponent } from './components/page4test/page4test.component';
 import { TabletestComponent } from './components/tabletest/tabletest.component';
+import { Page0testComponent } from './components/page0test/page0test.component';
+import { TabmenutestComponent } from './components/tabmenutest/tabmenutest.component';
+import { GeneraltestComponent } from './components/generaltest/generaltest.component';
+import { Table2testComponent } from './components/table2test/table2test.component';
+
 
 
 // actual build
@@ -37,7 +44,9 @@ import { TabletestComponent } from './components/tabletest/tabletest.component';
     ContextmenutestComponent, DialogtestComponent, MenubartestComponent,
      SplitbuttontestComponent,
     TabviewtestComponent, ToasttestComponent, TreetestComponent, GlobalfunctionstestComponent,
-     Page1testComponent, Page2testComponent, Page3testComponent
+     Page1testComponent, Page2testComponent, Page3testComponent, Page0testComponent,
+     TabmenutestComponent,
+     Page4testComponent, GeneraltestComponent, Table2testComponent
   ],
   imports: [
     CommonModule,

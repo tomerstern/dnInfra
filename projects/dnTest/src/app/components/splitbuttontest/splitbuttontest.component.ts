@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { SplitbuttonDefinitions } from 'projects/dn-infra/src/lib/dp/components/splitbutton/Objects/splitbutton-definitions';
+import { SplitbuttonDefinitions, DpMenuItem } from 'projects/dn-infra/src/lib/dp/components/splitbutton/Objects/splitbutton-definitions';
+// import { SplitbuttonDefinitions, DpMenuItem } from 'projects/dn-infra/src/lib/dp/components/splitbutton/Objects/splitbutton-definitions';
+
 import { MenuItem } from 'primeng/api';
+
 import { MessageService } from 'primeng/api';
 
 @Component({
@@ -14,10 +17,11 @@ export class SplitbuttontestComponent implements OnInit {
 
 
   // items1: MenuItem[];
-  items1: any[];
-  items2: any[];
-  items3: any[];
-  items4: MenuItem[];
+  items1: DpMenuItem[];
+  items2: DpMenuItem[];
+  items3: DpMenuItem[];
+  items4: DpMenuItem[];
+
   // items4: any[];
 
   splitbuttonDefinition1: SplitbuttonDefinitions;

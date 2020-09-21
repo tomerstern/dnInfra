@@ -21,22 +21,19 @@ export class ToasttestComponent implements OnInit {
     this.toastDefinition = new ToastDefinitions('summary text', 'context ... ');
 
   }
-  func1()
-  {
-    // debugger;
+  func1() {
     this.toastDefinition = new ToastDefinitions('summary text 222', 'context 222 ... ');
-   
-  }
- 
-  ShowgMsg()
-  {
-   //this.ShowgMsg.
+
   }
 
-  
+  ShowgMsg() {
+    // this.ShowgMsg.
+  }
+
+
 
   stockValueChanged() {
     // this.stockValueChange.emit({ id: this.productId, updatdstockvalue: this.updatedstockvalue });
     // this.updatedstockvalue = null;
-}
+  }
 }

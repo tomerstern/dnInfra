@@ -1,38 +1,30 @@
 
-<div style="border: 1px solid gray;">
+<div class="clsEelementContainer">
     <h2>in confirmdialogtest.component.html</h2>
     <div class="p-grid"> 
         <div class="p-col-12 p-md-3">
             <fieldset>
                 <legend>confirm on other controls</legend>  
 
-                <dp-confirmdialog #cd6 [definition]="confirmdialogDef6"></dp-confirmdialog>
+                <dp-confirmdialog #cd6 [definition]="confirmdialogDef6"></dp-confirmdialog>                
                 <img 
                     src="/assets/Images/collection_png_32x32/flags/flag_usa.png" 
                     (click)="cd6.dp_confirm()"
                 > 
 
-                <br><br>   
-                
-
-                <!-- <dp-confirmdialog #cd7 [definition]="confirmdialogDef7"></dp-confirmdialog> -->
-
+                <br><br>                        
 
                 <!-- [(ngModel)]="selectedValue"  * 3 times-->
 
                 <dp-confirmdialog #cd8 [definition]="confirmdialogDef8"></dp-confirmdialog>
-                <input type="radio" id="r_opt1" name="gender" value="opt 1" 
-               
-                    >
+
+                <input type="radio" id="r_opt1" name="gender" value="opt 1"  >
                 <label for="r_opt1">opt 1 - dont confirm</label><br>
-                <input type="radio" id="r_opt2" name="gender" value="opt 2" 
-                   
-                 (click)="cd8.dp_confirm()"
-                    >
+
+                <input type="radio" id="r_opt2" name="gender" value="opt 2" (click)="cd8.dp_confirm()">
                 <label for="r_opt2" style="color: limegreen;">opt 2 - confirm only here</label><br>
-                <input type="radio" id="other" name="gender" value="opt 3" 
-                   
-                    >
+
+                <input type="radio" id="other" name="gender" value="opt 3" >
                 <label for="other">opt 3 - dont confirm</label>
 
 
@@ -51,12 +43,11 @@
             </fieldset>
         </div>
 
-
         
         <div class="p-col-12 p-md-4">
-            <fieldset class="fieldset-ConfirmDialog-center">
+            <fieldset class="clsWidth114 fieldset-ConfirmDialog-center">
                 
-                <legend>Position</legend>  
+                <legend>Position</legend>
                 <div class="p-grid">                    
                     <div class="p-col-12 p-md-4">
                 
@@ -70,6 +61,7 @@
                     <div class="p-col-12 p-md-4">
 
                         <dp-confirmdialog #cd3 [definition]="confirmdialogDef3"></dp-confirmdialog>
+                        
                         <button (click)="cd3.dp_confirm()" pButton icon="pi pi-arrow-down" label="Bottom"
                             class="ui-button-warning"
                         ></button>
@@ -103,6 +95,7 @@
                 <legend>confirm dialog with style control elements and buttons class</legend>
           
                 <dp-confirmdialog #cd5 [definition]="confirmdialogDef5"></dp-confirmdialog>
+
                 <button (click)="cd5.dp_confirm()" pButton icon="pi pi-check" label="test width"
                 class="ui-button-info"
                 ></button>

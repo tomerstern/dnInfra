@@ -40,8 +40,6 @@ export class AppComponent implements OnInit {
     });
     this.calendarData1 = new Date();
     this.checkboxDefinitions = new CheckboxDefinitions({});
-
-    this.autocompleteDefinition1 = new AutocompleteDefinitions(false, 'elem_1111', 'name', 0, false, 1, 'ph text 1', false);
     this.it1 = new InputtextDefinitions({});
     this.in1 = new InputNumberDefinitions({});
 

@@ -1,10 +1,108 @@
+
+export enum AutocompleteProperties {
+    // isStandAlone = 'isStandAlone',
+    // suggestions = 'suggestions',
+    dp_AutocompleteType = 'dp_AutocompleteType',
+    field = 'field',
+    scrollHeight = 'scrollHeight',
+    dropdown = 'dropdown',
+    multiple = 'multiple',
+    dropdownIcon = 'dropdownIcon',
+    minLength = 'minLength',
+    delay = 'delay',
+    completeOnFocus = 'completeOnFocus',
+    style = 'style',
+    inputStyle = 'inputStyle',
+    panelStyle = 'panelStyle',
+    styleClass = 'styleClass',
+    inputStyleClass = 'inputStyleClass',
+    panelStyleClass = 'panelStyleClass',
+    inputId = 'inputId',
+    name = 'name',
+    placeholder = 'placeholder',
+    readonly = 'readonly',
+    disabled = 'disabled',
+    maxlength = 'maxlength',
+    size = 'size',
+    appendTo = 'appendTo',
+    tabindex = 'tabindex',
+    dataKey = 'dataKey',
+    autoHighlight = 'autoHighlight',
+    type = 'type',
+    emptyMessage = 'emptyMessage',
+    immutable = 'immutable',
+    required = 'required',
+    autofocus = 'autofocus',
+    forceSelection = 'forceSelection',
+    dropdownMode = 'dropdownMode',
+    baseZIndex = 'baseZIndex',
+    autoZIndex = 'autoZIndex',
+    dpAutocompleteMaxSuggestionsToShow = 'dpAutocompleteMaxSuggestionsToShow',
+    dp_AutocompleteImagesPath = 'dp_AutocompleteImagesPath',
+    dp_AutocompleteImageExtension = 'dp_AutocompleteImageExtension',
+    dp_AutocompleteImageContainerStyle = 'dp_AutocompleteImageContainerStyle',
+    dp_AutocompleteImageTextStyle = 'dp_AutocompleteImageTextStyle',
+    dp_AutocompleteImageStyle = 'dp_AutocompleteImageStyle',
+    dp_AutocompleteTableFields = 'dp_AutocompleteTableFields',
+    dpAutocompleteLazyDataFunc = 'dpAutocompleteLazyDataFunc'
+}
+
+
+export interface iAutocompleteDefinitions {
+    isStandAlone?: boolean;
+    dp_AutocompleteType?: number;
+    // suggestions?: array;
+    field?: any;
+    scrollHeight?: string;
+    dropdown?: boolean;
+    multiple?: boolean;
+    dropdownIcon?: string;
+    minLength?: number;
+    delay?: number;
+    completeOnFocus?: boolean;
+    style?: string;
+    inputStyle?: string;
+    panelStyle?: string;
+    styleClass?: string;
+    inputStyleClass?: string;
+    panelStyleClass?: string;
+    inputId?: string;
+    name?: string;
+    placeholder?: string;
+    readonly?: boolean;
+    disabled?: boolean;
+    maxlength?: number;
+    size?: number;
+    appendTo?: any;
+    tabindex?: number;
+    dataKey?: string;
+    autoHighlight?: boolean;
+    type?: string;
+    emptyMessage?: string;
+    immutable?: boolean;
+    required?: boolean;
+    autofocus?: boolean;
+    forceSelection?: boolean;
+    dropdownMode?: string;
+    baseZIndex?: number;
+    autoZIndex?: boolean;
+    dpAutocompleteMaxSuggestionsToShow?: number;
+    dp_AutocompleteImagesPath?: string;
+    dp_AutocompleteImageExtension?: string;
+    dp_AutocompleteImageContainerStyle?: string;
+    dp_AutocompleteImageTextStyle?: string;
+    dp_AutocompleteImageStyle?: string;
+    dp_AutocompleteTableFields?: any;
+    dpAutocompleteLazyDataFunc?: Function;
+    // dpColumnDatasource: any = [];
+}
 // export interface IAutocompleteDefinition {
-    /*rowHover: boolean;
-    rows: number;
-    rowsPerPageOptions: object;
-    paginator: boolean;
-    currentPageReportTemplate: string;
-    columns: IGridColumn[];*/
+/*rowHover: boolean;
+rows: number;
+rowsPerPageOptions: object;
+paginator: boolean;
+currentPageReportTemplate: string;
+columns: IGridColumn[];*/
 // }
 
 export interface IAutocompleteTableFields {
@@ -59,7 +157,9 @@ export enum AutocompleteType {
 //   ]
 
 // export class AutocompleteDefinitions implements IAutocompleteDefinition {
-export class AutocompleteDefinitions {
+
+// export class AutocompleteDefinitions implements iAutocompleteDefinitions{
+export class AutocompleteDefinitions implements iAutocompleteDefinitions {
     isStandAlone: boolean;
     dp_AutocompleteType: number;  /*custom type*/
     inputId: string;
@@ -97,20 +197,19 @@ export class AutocompleteDefinitions {
     dropdownMode: string;
     baseZIndex: number;
     autoZIndex: boolean;
-    showTransitionOptions: string;
-    hideTransitionOptions: string;
+    // showTransitionOptions: string;
+    // hideTransitionOptions: string;
     ariaLabel: string;
     ariaLabelledBy: string;
-    unique: boolean;
     autocomplete: string;
-    dp_AutocompleteTableFields: {IAutocompleteTableFields};  /* Extra data if needed for table fields */
-    dp_AutocompleteMaxSuggestionsToShow: number;  /*custom type*/
+    dp_AutocompleteTableFields: { IAutocompleteTableFields };  /* Extra data if needed for table fields */
+    dpAutocompleteMaxSuggestionsToShow: number;  /*custom type*/
     dp_AutocompleteImagesPath: string;
     dp_AutocompleteImageExtension: string;
     dp_AutocompleteImageContainerStyle: string;
     dp_AutocompleteImageTextStyle: string;
     dp_AutocompleteImageStyle: string;
-
+    dpAutocompleteLazyDataFunc: Function;
     /*
     dataKey: string;
     rowHover: boolean;
@@ -130,72 +229,75 @@ export class AutocompleteDefinitions {
     }*/
 
     /*if default value is null' no need to use in constructor*/
-    constructor(isStandAlone: boolean, inputId?: string, field?: any,  dp_AutocompleteType?: number, multiple?: boolean, minLength?: number,
-        placeholder?: string, dropdown?: boolean, dp_AutocompleteImagesPath?: string,
-        dp_AutocompleteImageExtension?: string, dp_AutocompleteImageContainerStyle?: string,
-        dp_AutocompleteImageTextStyle?: string, dp_AutocompleteImageStyle?: string,
-        dp_AutocompleteTableFields?: any
-        , scrollHeight?: string, dropdownIcon?: string, delay?: number, style?: string,
-        readonly?: boolean, disabled?: boolean, completeOnFocus?: boolean, autoHighlight?: boolean,
-        type?: string, immutable?: boolean, required?: boolean, autofocus?: boolean,
-        forceSelection?: boolean, dropdownMode?: string, baseZIndex?: number, autoZIndex?: boolean,
-        showTransitionOptions?: string, hideTransitionOptions?: string, unique?: boolean, styleClass?: string
-        , dp_AutocompleteMaxSuggestionsToShow?: number, emptyMessage?: string, name?: string) {
+    constructor(params: iAutocompleteDefinitions) {
+        // constructor(isStandAlone?: boolean, inputId?: string, field?: any, dp_AutocompleteType
+        // ?: number, multiple?: boolean, minLength?: number,
+        //     placeholder?: string, dropdown?: boolean, dp_AutocompleteImagesPath?: string,
+        //     dp_AutocompleteImageExtension?: string, dp_AutocompleteImageContainerStyle?: string,
+        //     dp_AutocompleteImageTextStyle?: string, dp_AutocompleteImageStyle?: string,
+        //     dp_AutocompleteTableFields?: any
+        //     , scrollHeight?: string, dropdownIcon?: string, delay?: number, style?: string,
+        //     readonly?: boolean, disabled?: boolean, completeOnFocus?: boolean, autoHighlight?: boolean,
+        //     type?: string, immutable?: boolean, required?: boolean, autofocus?: boolean,
+        //     forceSelection?: boolean, dropdownMode?: string, baseZIndex?: number, autoZIndex?: boolean,
+        //     showTransitionOptions?: string, hideTransitionOptions?: string, styleClass?: string
+        //     , dpAutocompleteMaxSuggestionsToShow?: number, emptyMessage?: string, name?: string) {
         /*, autocomplete?: string*/
         /*this.suggestions = (suggestions == null ? null : suggestions);*/
-        this.isStandAlone = ( isStandAlone == null ? true : isStandAlone);
+        this.isStandAlone = (params.isStandAlone == null || params.isStandAlone === undefined ? true : params.isStandAlone);
         // this.inputId = inputId;
-        this.inputId = (inputId == null ||  inputId === undefined ? 'dynamicInputId' : inputId);
-        this.field = (field == null ? null : field);
-        this.dp_AutocompleteType = (dp_AutocompleteType == null ? AutocompleteType.Regular : dp_AutocompleteType);
-        this.dropdown = (dropdown == null ? false : dropdown);
+        this.inputId = (params.inputId == null || params.inputId === undefined ? 'dynamicInputId' : params.inputId);
+        this.field = (params.field == null  || params.field === undefined  ? 'name' : params.field);
+        this.dp_AutocompleteType = (params.dp_AutocompleteType == null ? AutocompleteType.Regular : params.dp_AutocompleteType);
+        this.dropdown = (params.dropdown == null ? false : params.dropdown);
         // this.multiple = (multiple == null ? false : multiple);
-        this.multiple = (dp_AutocompleteType !== 0 ? false :
-            (multiple == null ? false : multiple)); /* if not regular, dont allow multiple */
-        this.minLength = (minLength == null ? 1 : minLength);
-        this.placeholder = placeholder;
-        this.scrollHeight = (scrollHeight == null ? '200px' : scrollHeight);
-        this.dropdownIcon = (dropdownIcon == null ? 'pi pi-caret-down' : dropdownIcon);
-        this.delay = (delay == null ? 300 : delay);
-        this.readonly = (readonly == null ? false : readonly);
-        this.disabled = (disabled == null ? false : disabled);
-        this.completeOnFocus = (dp_AutocompleteType === 1 ? true :
-                (completeOnFocus == null ? false : completeOnFocus)); /* if tablse inside - open it on click*/
+        this.multiple = (params.dp_AutocompleteType !== 0 ? false :
+            (params.multiple == null ? false : params.multiple)); /* if not regular, dont allow multiple */
+        this.minLength = (params.minLength == null ? 1 : params.minLength);
+        this.placeholder = params.placeholder;
+        this.scrollHeight = (params.scrollHeight == null ? '200px' : params.scrollHeight);
+        this.dropdownIcon = (params.dropdownIcon == null ? 'pi pi-caret-down' : params.dropdownIcon);
+        this.delay = (params.delay == null ? 300 : params.delay);
+        this.readonly = (params.readonly == null ? false : params.readonly);
+        this.disabled = (params.disabled == null ? false : params.disabled);
+        this.completeOnFocus = (params.dp_AutocompleteType === 1 ? true :
+            (params.completeOnFocus == null ? false : params.completeOnFocus)); /* if tablse inside - open it on click*/
         /*this.completeOnFocus = (completeOnFocus == null ? false : completeOnFocus);*/
-        this.autoHighlight = (autoHighlight == null ? false : autoHighlight);
-        this.type = (type == null ? 'text' : type);
-        this.immutable = (immutable == null ? true : immutable);
-        this.required = (required == null ? false : required);
-        this.autofocus = (autofocus == null ? false : autofocus);
+        this.autoHighlight = (params.autoHighlight == null ? false : params.autoHighlight);
+        this.type = (params.type == null ? 'text' : params.type);
+        this.immutable = (params.immutable == null ? true : params.immutable);
+        this.required = (params.required == null ? false : params.required);
+        this.autofocus = (params.autofocus == null ? false : params.autofocus);
         /* forceSelection - if true, clears the manual input if it does not match of the suggestions,  changed default from false to true*/
-        this.forceSelection = (forceSelection == null ? true : forceSelection); /* change default to true */
-        this.dropdownMode = (dropdownMode == null ? 'blank' : dropdownMode);
-        this.baseZIndex = (baseZIndex == null ? 0 : baseZIndex);
-        this.autoZIndex = (autoZIndex == null ? true : autoZIndex);
-        this.showTransitionOptions = (showTransitionOptions == null ? '225ms ease-out' : 'showTransitionOptions');
-        this.hideTransitionOptions = (hideTransitionOptions == null ? '195ms ease-in' : 'hideTransitionOptions');
-        this.unique = (unique == null ? true : unique);
-        this.styleClass = (this.dp_AutocompleteType === 1 ? 'clsWithTable' : styleClass);
-        this.dp_AutocompleteMaxSuggestionsToShow = (dp_AutocompleteMaxSuggestionsToShow == null ? 300
-            : dp_AutocompleteMaxSuggestionsToShow);
+        this.forceSelection = (params.forceSelection == null ? true : params.forceSelection); /* change default to true */
+        this.dropdownMode = (params.dropdownMode == null ? 'blank' : params.dropdownMode);
+        this.baseZIndex = (params.baseZIndex == null ? 0 : params.baseZIndex);
+        this.autoZIndex = (params.autoZIndex == null ? true : params.autoZIndex);
+        // this.showTransitionOptions = (params.showTransitionOptions == null ? '225ms ease-out' : 'showTransitionOptions');
+        // this.hideTransitionOptions = (params.hideTransitionOptions == null ? '195ms ease-in' : 'hideTransitionOptions');        
+        this.styleClass = (this.dp_AutocompleteType === 1 ? 'clsWithTable' : params.styleClass);
+        this.dpAutocompleteMaxSuggestionsToShow = (params.dpAutocompleteMaxSuggestionsToShow == null ? 300
+            : params.dpAutocompleteMaxSuggestionsToShow);
 
-        this.emptyMessage = (emptyMessage == null ? 'No Suggestions found' : emptyMessage);
-        this.dp_AutocompleteImagesPath = (dp_AutocompleteImagesPath == null ? '' : dp_AutocompleteImagesPath);
-        this.dp_AutocompleteImageExtension = (dp_AutocompleteImageExtension == null ? 'png' : dp_AutocompleteImageExtension);
+        this.emptyMessage = (params.emptyMessage == null ? 'No Suggestions found' : params.emptyMessage);
+        this.dp_AutocompleteImagesPath = (params.dp_AutocompleteImagesPath == null ? '' : params.dp_AutocompleteImagesPath);
+        this.dp_AutocompleteImageExtension = (params.dp_AutocompleteImageExtension == null ? 'png' : params.dp_AutocompleteImageExtension);
 
-        this.dp_AutocompleteImageStyle = (dp_AutocompleteImageStyle == null
-            ? 'width:32px;display:inline-block;margin:5px 0 2px 5px' : dp_AutocompleteImageStyle);
+        this.dp_AutocompleteImageStyle = (params.dp_AutocompleteImageStyle == null
+            ? 'width:32px;display:inline-block;margin:5px 0 2px 5px' : params.dp_AutocompleteImageStyle);
 
-        this.dp_AutocompleteImageTextStyle = (dp_AutocompleteImageTextStyle == null
-            ? 'font-size:18px;float:right;margin:10px 10px 0 0' : dp_AutocompleteImageTextStyle);
+        this.dp_AutocompleteImageTextStyle = (params.dp_AutocompleteImageTextStyle == null
+            ? 'font-size:18px;float:right;margin:10px 10px 0 0' : params.dp_AutocompleteImageTextStyle);
 
-        this.dp_AutocompleteImageContainerStyle = (dp_AutocompleteImageContainerStyle == null
-             ? 'border-bottom:1px solid #D5D5D5' : dp_AutocompleteImageContainerStyle);
+        this.dp_AutocompleteImageContainerStyle = (params.dp_AutocompleteImageContainerStyle == null
+            ? 'border-bottom:1px solid #D5D5D5' : params.dp_AutocompleteImageContainerStyle);
 
-        this.style = (style == null ||  style === undefined ? '' : style);
-        this.dp_AutocompleteTableFields = (dp_AutocompleteTableFields == null ? undefined : dp_AutocompleteTableFields);
+        this.style = (params.style == null || params.style === undefined ? '' : params.style);
+        this.dp_AutocompleteTableFields = (params.dp_AutocompleteTableFields == null ? undefined : params.dp_AutocompleteTableFields);
 
         this.name = (name == null ? this.inputId : name);
+
+        this.dpAutocompleteLazyDataFunc = params.dpAutocompleteLazyDataFunc;
 
         /*this.autocomplete = (autocomplete == null ? 'off' : autocomplete);*/
         /*

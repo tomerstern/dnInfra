@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+
+
+import { TabviewDefinitions } from 'projects/dn-infra/src/lib/dp/components/tabview/Objects/tabview-definitions';
 
 @Component({
   selector: 'app-tabviewtest',

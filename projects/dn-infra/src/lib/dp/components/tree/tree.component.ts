@@ -1,8 +1,7 @@
-import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
 import { TreeDefinitions, TreeProperties } from './Objects/tree-definitions';
 
-import {TreeModule} from 'primeng/tree';
-import {TreeNode} from 'primeng/api';
+// import { TreeNode } from 'primeng/api';
 
 @Component({
   selector: 'dp-tree',
@@ -13,11 +12,41 @@ export class TreeComponent implements OnInit {
 
   @Input() definition: TreeDefinitions;
   @Input() datasource: any = [];
+  @Output() getSelected: EventEmitter<any> = new EventEmitter();
 
+  treeSelectedValues: any[];
   constructor() { }
 
   ngOnInit(): void {
   }
+
+  onTreeNodeSelect(LocSelection, LocSelectionMode, LocEvent) {
+    try {
+
+      let retTreeNodesData;
+      console.log(LocEvent.node);
+      console.log('finish');
+
+      if ( LocSelection == null) {
+        this.getSelected.emit('');
+      } else {
+        if (LocSelectionMode === 'single') {
+          retTreeNodesData = LocSelection.data;
+        } else if (LocSelectionMode === 'checkbox' || LocSelectionMode === 'multiple') {
+          retTreeNodesData = [...new Set(LocSelection.map(it => it.data))];
+        }
+
+        if (retTreeNodesData !== undefined) {
+          this.getSelected.emit(retTreeNodesData);
+        } else {
+          this.getSelected.emit('');
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 
 
 }

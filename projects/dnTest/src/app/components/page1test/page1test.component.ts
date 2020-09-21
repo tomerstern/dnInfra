@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {InputTextModule} from 'primeng/inputtext';
 
 @Component({
   selector: 'app-page1test',
@@ -7,9 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Page1testComponent implements OnInit {
 
-  constructor() { }
 
   ngOnInit(): void {
+
   }
+
 
 }

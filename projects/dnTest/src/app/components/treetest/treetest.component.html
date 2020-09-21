@@ -1,11 +1,20 @@
 
-<div style="border: 1px solid gray;">
+<div class="clsEelementContainer">
     <h2>in treetest.component.html</h2>
     <div class="p-grid"> 
-        <div class="p-col-12 p-md-3">
+        <div class="p-col-12 p-md-4">
             <fieldset>
-                <legend> tree - single </legend>  
+                <legend> single - templating </legend>  
 
+                <div>Selected:<div class='s'> {{ !treeSelected1 ? '' : (treeSelected1 | json)  }}</div></div><br>
+
+                    <dp-tree id="tree_infra_1"
+                        (getSelected)="treeSelected1 = $event" 
+                        [definition]="treeDefinitions1"
+                        [datasource]="treeItems1"
+                        
+                    >
+                    </dp-tree>                    
 
                 <br><br>            
             </fieldset>
@@ -13,9 +22,11 @@
 
         <div class="p-col-12 p-md-3">
             <fieldset>
-                <legend> tree - multiple </legend>  
+                <legend> single - templating result  </legend> <!--tree - multiple-->
 
-
+                    CHANGE PAGE <br><br>
+                    
+                    <router-outlet></router-outlet>
 
                 <br><br>            
             </fieldset>
@@ -23,28 +34,34 @@
 
 
         
-        <div class="p-col-12 p-md-3">
+        <div class="p-col-12 p-md-5">
             <fieldset>
-                <legend> tree - checkbox </legend>
-                     
-                <!-- <p-tree [value]="treeItems1" [(selection)]="treeSelected1"></p-tree> -->
+                <legend> tree - checkbox (multi) </legend>                                    
 
-                <div>result: {{treeSelected1}}</div>
+                <div style="min-height: 126px;">Selected:<div class='s'> {{ !treeSelected3 ? '' : (treeSelected3 | json)  }}</div></div><br>
+
+                <dp-tree  id="tree_infra_3"
+                    (getSelected)="treeSelected3 = $event" 
+                    [definition]="treeDefinitions3"
+                    [datasource]="treeItems3"
+                >
+                </dp-tree>
                
                 <br><br>
             </fieldset>
             
         </div>
 
-        <div class="p-col-12 p-md-3">
+        
+        <!-- <div class="p-col-12 p-md-1">
             <fieldset>
-                <legend>tree vertical / horizontal</legend>  
+                <legend></legend>  
 
-                <!-- <dp-tree [value]="treeItems1" [(selection)]="treeSelected1"></dp-tree> -->
-
+              
                 <br><br>            
             </fieldset>
-        </div>
+        </div> -->
+
     </div>
 
     

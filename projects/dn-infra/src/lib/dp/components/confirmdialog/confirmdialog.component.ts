@@ -15,7 +15,7 @@ export class ConfirmdialogComponent implements OnInit {
 
   // msgs: Message[] = [];
 
-  position: string;
+  // position: string;
 
    constructor(private confirmationService: ConfirmationService) {}
   // constructor() {}

@@ -16,6 +16,19 @@ export enum TreeProperties {
   filterPlaceholder = 'filterPlaceholder'
 }
 
+
+export enum selectionModeDpTree {
+  single = 'single',
+  checkbox = 'checkbox',
+  multiple = 'multiple'
+}
+
+export enum typeDpTreeNode {
+  routerLink = 'routerLink',
+  url = 'url',
+  default = 'default'
+}
+
 export interface ITreeDefinitions {
   value?: any;
   selectionMode?: string;
@@ -51,7 +64,19 @@ export class TreeDefinitions implements ITreeDefinitions {
   filterPlaceholder: string;
   constructor(params: ITreeDefinitions) {
     // this.value = (params.value == null ? false : params.value);
-    this.selectionMode = (params.selectionMode == null ? params.selectionMode : params.selectionMode);
+    // this.selectionMode = (params.selectionMode == null ? params.selectionMode : params.selectionMode);
+
+    this.selectionMode =
+      (params.selectionMode == null ? 'single' :
+        (params.selectionMode.toLowerCase() === 'single' ? 'single' :
+          (params.selectionMode.toLowerCase() === 'checkbox' ? 'checkbox' :
+            (params.selectionMode.toLowerCase() === 'multiple' ? 'multiple' :
+              'single'
+            )
+          )
+        )
+      );
+
     // this.style = (params.style == null ? params.style : params.style);
     // this.styleClass = (params.styleClass == null ? params.styleClass : params.styleClass);
     // this.appendTo = (params.appendTo == null ? params.appendTo : params.appendTo);

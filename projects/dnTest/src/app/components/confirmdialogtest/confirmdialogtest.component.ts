@@ -1,8 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, SimpleChanges, AfterViewChecked , AfterViewInit  } from '@angular/core';
-import { ConfirmdialogDefinitions, Confirmdialog_Position } from 'projects/dn-infra/src/lib/dp/components/confirmdialog/Objects/confirmdialog-definitions';
-// import { position } from '../../components/toast/Objects/toast-definitions';
-
-
+import { ConfirmdialogDefinitions, positionDpConfirmdialog } from 'projects/dn-infra/src/lib/dp/components/confirmdialog/Objects/confirmdialog-definitions';
 // import { position } from '../../components/toast/Objects/toast-definitions';
 // import { ConfirmationService } from 'primeng/api';
 // import { Message } from 'primeng/api';
@@ -36,7 +33,7 @@ export class ConfirmdialogtestComponent implements OnInit {
   confirmdialogDef2: ConfirmdialogDefinitions = new ConfirmdialogDefinitions({
     header: 'message header 2 ... ', message: 'message text 2 ... ',
     icon: 'pi pi-exclamation-triangle',
-    dp_Confirmdialog_Position: Confirmdialog_Position.left,
+    dp_positionDpConfirmdialog: positionDpConfirmdialog.left,
     accept: () => {
       alert('You have accepted 2');
     },
@@ -49,7 +46,7 @@ export class ConfirmdialogtestComponent implements OnInit {
   confirmdialogDef3: ConfirmdialogDefinitions = new ConfirmdialogDefinitions({
     header: 'message header 3 ... ', message: 'message text 3 ... ',
     icon: 'pi pi-exclamation-triangle',
-    dp_Confirmdialog_Position: Confirmdialog_Position.bottom,
+    dp_positionDpConfirmdialog: positionDpConfirmdialog.bottom,
     accept: () => {
       alert('You have accepted 3');
     },
@@ -62,7 +59,7 @@ export class ConfirmdialogtestComponent implements OnInit {
   confirmdialogDef4: ConfirmdialogDefinitions = new ConfirmdialogDefinitions({
     header: 'message header 4 ... ', message: 'message text 4 ... ',
     icon: 'pi pi-exclamation-triangle',
-    dp_Confirmdialog_Position: Confirmdialog_Position.topright,
+    dp_positionDpConfirmdialog: positionDpConfirmdialog.topright,
     accept: () => {
       alert('You have accepted 4');
     },
@@ -75,8 +72,8 @@ export class ConfirmdialogtestComponent implements OnInit {
   confirmdialogDef5: ConfirmdialogDefinitions = new ConfirmdialogDefinitions({
     header: 'message header 5 ... ', message: 'message text 5 ... ',
     icon: 'pi pi-exclamation-triangle',
-    dp_Confirmdialog_Position: 'topcenter',
-    style: { 'width': '1200px' },
+    dp_positionDpConfirmdialog: 'topcenter',
+    style: { width: '1200px' },
     acceptButtonStyleClass: 'ui-button-success',
     rejectButtonStyleClass: 'ui-button-danger',
     acceptLabel: 'looking good',
@@ -90,6 +87,7 @@ export class ConfirmdialogtestComponent implements OnInit {
     }/*,
     key: 'positionDialog'*/
   });
+
 
   confirmdialogDef6: ConfirmdialogDefinitions = new ConfirmdialogDefinitions({
     header: 'confirm option 7 ... ', message: 'confirm option 7 ? ',

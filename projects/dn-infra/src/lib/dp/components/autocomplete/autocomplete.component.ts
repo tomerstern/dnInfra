@@ -1,6 +1,6 @@
 
 import { Component, OnInit, Input, ViewEncapsulation, ɵConsole, forwardRef, Output, EventEmitter } from '@angular/core';
-import { AutocompleteDefinitions } from './Objects/autocomplete-definitions';
+import { AutocompleteDefinitions, AutocompleteProperties } from './Objects/autocomplete-definitions';
 // import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -54,27 +54,42 @@ export class AutocompleteComponent implements OnInit {
       // this.definition = new AutocompleteDefinitions(false, 'elem_table', 'Event Code', 1, false, 1, 'ph text 3', true,
       // '', '', '', '', '');
 
-      this.definition = new AutocompleteDefinitions(false);
+      this.definition = new AutocompleteDefinitions({});
 
 
-
-      if (this.columnDefinition.columnParams.params.length > 0) {
-        // if (this.columnDefinition.columnParams.isKeyExist(InputNumberProperties.prefix)) {
-        //   this.definition.prefix = this.columnDefinition.columnParams.getValueByKey(InputNumberProperties.prefix);
+      if (this.columnDefinition.columnParams && this.columnDefinition.columnParams.length > 0) {
+        this.definition = new AutocompleteDefinitions({ isStandAlone: false});
+        // if (this.columnDefinition.columnParams.isKeyExist(AutocompleteProperties.isStandAlone)) {
+        //   this.definition.isStandAlone = this.columnDefinition.columnParams.getValueByKey(AutocompleteProperties.isStandAlone);
         // }
 
-        // if (this.columnDefinition.columnParams.isKeyExist(InputNumberProperties.suffix)) {
-        //   this.definition.suffix = this.columnDefinition.columnParams.getValueByKey(InputNumberProperties.suffix);
-        // }
+        if (this.columnDefinition.columnParams.isKeyExist(AutocompleteProperties.field)) {
+          this.definition.field = this.columnDefinition.columnParams.getValueByKey(AutocompleteProperties.field);
+        }
 
-        // if (this.columnDefinition.columnParams.isKeyExist(InputNumberProperties.step)) {
-        //   this.definition.step = this.columnDefinition.columnParams.getValueByKey(InputNumberProperties.step);
-        // }
+        if (this.columnDefinition.columnParams.isKeyExist(AutocompleteProperties.dp_AutocompleteType)) {
+          this.definition.dp_AutocompleteType = this.columnDefinition.columnParams.getValueByKey
+          (AutocompleteProperties.dp_AutocompleteType);
+        }
+
+        if (this.columnDefinition.columnParams.isKeyExist(AutocompleteProperties.multiple)) {
+          this.definition.multiple = this.columnDefinition.columnParams.getValueByKey(AutocompleteProperties.multiple);
+        }
+
+        if (this.columnDefinition.columnParams.isKeyExist(AutocompleteProperties.dropdown)) {
+          this.definition.dropdown = this.columnDefinition.columnParams.getValueByKey(AutocompleteProperties.dropdown);
+        }
+
+
       }
     }
-
     // console.log(this.datasource);
   }
+
+log(a) {
+  console.log('tomer');
+  console.log(a);
+}
 
   get(event) {
     console.log(event);
@@ -88,25 +103,35 @@ export class AutocompleteComponent implements OnInit {
   //   autocomplete.handleDropdownClick();
   // }\
 
-  hey($event) {
-    console.log($event);
-  }
+  // hey($event) {
+  //   console.log($event);
+  // }
 
-  filterEntity(event, Loc_dp_AutocompleteType: number, Loc_dp_AutocompleteMaxSuggestionsToShow: number): any[] {
-    // console.log('1) in  filterEntity Loc_dp_AutocompleteType=' + Loc_dp_AutocompleteType + ' suggestions=');
-    // debugger
-    // const data_json = import("../app_data_files/file1.json");
-    console.log(' filterEntity this.datasource=');
-    // console.log(this.datasource);
+  filterEntity(event, Loc_dp_AutocompleteType: number, Loc_dpAutocompleteMaxSuggestionsToShow: number): any[] {
 
-    if (this.datasource === '::') {
-      // this.datasource = import("src/assets/cities_100k.json");
-      // this.datasource = import('../assets/cities_100k.json');
-      this.datasource = this.getDynamicData();
+    if (this.datasource !== undefined) {
+      if (this.datasource[0] === ':::') {
+
+        this.datasource = this.dpAutocompleteLazyDataFunc();
+
+        // this.datasource = this.getDynamicData(); /* working */
+
+        // this.countryService.getData_iis(`http://import-iis-dev:8090/Assist/GetCountriesCode`)
+        // .subscribe((data: []) => {
+        //   this.datasource = data;
+        // });
+
+      }
     }
 
-    // this.countryService.get_data('assets/EventCodes.json').then(data_for_ac5 => {
-    //   this.datasource = data_for_ac5;
+    if (this.datasource === undefined) {
+      return;
+    }
+
+
+
+    // this.countryService.get_data('assets/EventCodes.json').then(dataForAc5 => {
+    //   this.datasource = dataForAc5;
     //   console.log('GET DATA 5');
     // });
 
@@ -122,31 +147,33 @@ export class AutocompleteComponent implements OnInit {
 
     const filtered: any[] = [];
     if (Loc_dp_AutocompleteType === 1) { /* Table */
-      this.filteredData = this.filterEntityWithTable(event, Loc_dp_AutocompleteMaxSuggestionsToShow);
+      this.filteredData = this.filterEntityWithTable(event, Loc_dpAutocompleteMaxSuggestionsToShow);
       return this.filteredData;
     } else if (Loc_dp_AutocompleteType === 2) { /* WithImage */
-      this.filteredData = this.filterEntityWithImage(event, Loc_dp_AutocompleteMaxSuggestionsToShow);
+      this.filteredData = this.filterEntityWithImage(event, Loc_dpAutocompleteMaxSuggestionsToShow);
       return this.filteredData;
     }
 
     for (let i = 0; i < this.datasource.length && filtered.length <
-      Loc_dp_AutocompleteMaxSuggestionsToShow; i++) { /* dont want to load more than this number of suggestions*/
+      Loc_dpAutocompleteMaxSuggestionsToShow; i++) { /* dont want to load more than this number of suggestions*/
       const foundedEntity = this.datasource[i];
       // this.entitySelected = foundedEntity;
-      if (foundedEntity.name.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
-        filtered.push(foundedEntity);
+      if (foundedEntity.name !== undefined) {
+        if (foundedEntity.name.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
+          filtered.push(foundedEntity);
+        }
       }
     }
     this.filteredData = filtered;
     return filtered;
   }
 
-  filterEntityWithImage(event, Loc_dp_AutocompleteMaxSuggestionsToShow: number): any[] {
+  filterEntityWithImage(event, Loc_dpAutocompleteMaxSuggestionsToShow: number): any[] {
     const filtered: any[] = [];
     this.filteredData = [];
 
     for (let i = 0; i < this.datasource.length && filtered.length <
-      Loc_dp_AutocompleteMaxSuggestionsToShow; i++) { /* dont want to load more than this number of suggestions*/
+      Loc_dpAutocompleteMaxSuggestionsToShow; i++) { /* dont want to load more than this number of suggestions*/
       const foundedEntity = this.datasource[i];
       // this.entitySelected = foundedEntity;
       this.val = foundedEntity;
@@ -159,12 +186,12 @@ export class AutocompleteComponent implements OnInit {
     return filtered;
   }
 
-  // hey(event) {
-  //   // console.log(event);
-  //   console.log(this.datasource[event]);
-  // }
 
-  filterEntityWithTable(event, Loc_dp_AutocompleteMaxSuggestionsToShow: number): any[] {
+  filterEntityWithTable(event, Loc_dpAutocompleteMaxSuggestionsToShow: number): any[] {
+
+    if (this.datasource === undefined) {
+      return;
+    }
 
     const Loc_dp_AutocompleteFieldsToFIlter = '';
 
@@ -172,7 +199,7 @@ export class AutocompleteComponent implements OnInit {
     this.filteredData = [];
 
     for (let i = 0, isFound = false; i < this.datasource.length && filtered.length <
-      Loc_dp_AutocompleteMaxSuggestionsToShow; i++) { /* dont want to load more than 200 suggestions*/
+      Loc_dpAutocompleteMaxSuggestionsToShow; i++) { /* dont want to load more than 200 suggestions*/
       const foundedEntity = this.datasource[i];
       // const foundedEntity = this.datasource["Active"];
       isFound = false;
@@ -220,6 +247,10 @@ export class AutocompleteComponent implements OnInit {
 
     /* create an array of keys by the first element*/
     if (this.ArrTable_Keys.length === 0) {
+
+      if (this.datasource === undefined) {
+        return;
+      }
       const jsonData = this.datasource[0];
       // tslint:disable-next-line: forin
       for (const myIndex in jsonData) {
@@ -307,10 +338,23 @@ export class AutocompleteComponent implements OnInit {
   }
 
 
-  getDynamicData() {
-    const retData = JSON.parse('[ {"name": "Bulgaria", "code": "BG"},{ "name": "Afghanistan", "code": "AF" },{ "name": "Åland Islands", "code": "AX" },{ "name": "Albania", "code": "AL" },{ "name": "Algeria", "code": "DZ" },{ "name": "American Samoa", "code": "AS" },{ "name": "Andorra", "code": "AD" } ]');
-    return retData;
+  // getDynamicData() {
+  //   const retData = JSON.parse('[ {"name": "Bulgaria", "code": "BG"},{ "name": "Afghanistan", "code": "AF" },
+  //   { "name": "Åland Islands", "code": "AX" },{ "name": "Albania", "code": "AL" },
+  // { "name": "Algeria", "code": "DZ" },{ "name": "American Samoa", "code": "AS" },
+  // { "name": "Andorra", "code": "AD" } ]');
+  //   return retData;
+  // }
+
+
+  dpAutocompleteLazyDataFunc() {
+
+    console.log('');
+    console.log(this.definition.dpAutocompleteLazyDataFunc);
+
+    return this.definition.dpAutocompleteLazyDataFunc();
   }
+
 }
 
 

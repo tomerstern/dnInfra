@@ -44,5 +44,26 @@ export class CountryService {
   };
  */
 
+    getUsers2(): Observable<any[]> {
+        const Url = `https://jsonplaceholder.typicode.com/users`;
+        return this.http.get(Url).pipe(map((response: any[]) => response));
+    }
+
+
+    // Access to XMLHttpRequest at  ... from origin 'http://localhost:4200' has been blocked by CORS policy:
+    // No 'Access-Control-Allow-Origin'
+    // header is present on the requested resource
+    // const Url = `http://import-iis-dev:8090/Assist/Get`;
+
+    getData_Local(): Observable<any[]> {
+        const Url = `http://localhost:60255/Assist/GetCountriesCode`;
+        return this.http.get(Url).pipe(map((response: any[]) => response));
+    }
+
+    getData_iis(url): Observable<any[]> {
+        const Url = url;
+        return this.http.get(Url).pipe(map((response: any[]) => response));
+    }
+
 }
 

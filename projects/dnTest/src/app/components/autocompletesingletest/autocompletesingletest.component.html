@@ -1,15 +1,15 @@
 
 
-<!-- [(ngModel)]="external_data_selected_6"    -->
+<!-- [(ngModel)]="externalDataSelected6"    -->
 
 <!-- <dp-autocomplete (autocompleteSelectChanged)="funcTest($event)"
 [definition]="autocompleteDefinition6" 
-[datasource]="data_for_ac6"            
+[datasource]="dataForAc6"            
 ></dp-autocomplete> -->
 
-<dp-autocomplete (getSelected)="external_data_selected_6 = $event" 
+<dp-autocomplete (getSelected)="externalDataSelected6 = $event" 
 [definition]="autocompleteDefinition6" 
-[datasource]="data_for_ac6">
+[datasource]="dataForAc6">
 </dp-autocomplete>
 
-<br><br><div>Selected:<div class='s'> {{ !external_data_selected_6 ? '' : (external_data_selected_6 | json)  }}</div></div>
+<br><br><div>Selected:<div class='s'> {{ !externalDataSelected6 ? '' : (externalDataSelected6 | json)  }}</div></div>

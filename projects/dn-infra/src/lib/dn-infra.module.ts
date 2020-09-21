@@ -10,7 +10,7 @@ import {
   ToastModule, ConfirmDialogModule, MenubarModule, DialogModule,
   TabViewModule,
   TreeModule,
-  ButtonModule, InputTextModule, InputNumberModule, TableModule
+  ButtonModule, InputTextModule, InputNumberModule, TableModule, TabMenuModule
 } from 'primeng';
 import { ChartModule } from 'primeng/chart';
 import { AutocompleteComponent } from './dp/components/autocomplete/autocomplete.component';
@@ -29,13 +29,15 @@ import { TableComponent } from './dp/components/table/table.component';
 import { CellComponent } from './dp/components/table/cell/cell.component';
 import { ToolbarModule } from 'primeng/toolbar';
 import { DatePipe } from '@angular/common';
+import { TabmenuComponent } from './dp/components/tabmenu/tabmenu.component';
 
 
 @NgModule({
   declarations: [DnInfraComponent, CalendarComponent, CheckboxComponent, AutocompleteComponent,
     ContextmenuComponent, SplitbuttonComponent, ToastComponent, ConfirmdialogComponent,
     MenubarComponent, DialogComponent, TabviewComponent, TreeComponent
-    , InputtextComponent, InputnumberComponent, ButtonComponent, TableComponent, CellComponent],
+    , InputtextComponent, InputnumberComponent, ButtonComponent, TableComponent, CellComponent
+    , TabmenuComponent],
   imports: [
     CalendarModule,
     FormsModule,
@@ -47,13 +49,28 @@ import { DatePipe } from '@angular/common';
     InputTextModule,
     InputNumberModule,
     TableModule,
-    ToolbarModule
+    ToolbarModule,
+    TabMenuModule
   ],
-  exports: [DnInfraComponent, CalendarComponent, CheckboxComponent, AutocompleteComponent
+  exports: [ /* Components start */
+    DnInfraComponent, CalendarComponent, CheckboxComponent, AutocompleteComponent
     , ContextmenuComponent, SplitbuttonComponent, ToastComponent, ConfirmdialogComponent
     , MenubarComponent, DialogComponent, TabviewComponent, TreeComponent, ButtonModule,
     InputnumberComponent, ButtonComponent, TableComponent, CellComponent, ToolbarModule, ButtonModule,
-    InputtextComponent
+    InputtextComponent, TabmenuComponent,
+    /* Modules start */
+    CalendarModule,
+    FormsModule,
+    ChartModule,
+    BrowserAnimationsModule,
+    CheckboxModule,
+    AutoCompleteModule, ContextMenuModule, SplitButtonModule, ToastModule, ConfirmDialogModule,
+    MenubarModule, DialogModule, TabViewModule, TreeModule, ButtonModule,
+    InputTextModule,
+    InputNumberModule,
+    TableModule,
+    ToolbarModule,
+    TabMenuModule
   ],
   providers: [DatePipe]
 })

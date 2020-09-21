@@ -14,6 +14,12 @@ export interface IGridDefinition {
     onBeforeDelete?: Function;
     onAfterDelete?: Function;
     onAfterAdd?: Function;
+    checkMandatory?: Function;
+    // isFooter?: boolean;
+    // FreezeHeader?: boolean;
+    FreezeHeaderTableHeight?: string;
+    scrollable?: string;
+    HeaderColGroup?: string;
 }
 
 export interface IGridColumn {
@@ -30,7 +36,11 @@ export interface IGridColumn {
     clickColumnName?: string;
     class?: string;
     onClick?: Function;
+    ColumnDatasource?: any[];
+    ColumnSum?: boolean;
+    ColumnTotal?: boolean;
 }
+
 
 export enum GridColumnType {
     span = 10,
@@ -59,6 +69,11 @@ export class GridDefinitions implements IGridDefinition {
     onBeforeDelete: Function;
     onAfterDelete: Function;
     onAfterAdd: Function;
+    checkMandatory: Function;
+    // isFooter: boolean;
+    FreezeHeaderTableHeight: string;
+    scrollable: string;
+    HeaderColGroup: string;
     constructor(params: IGridDefinition) {
         this.dataKey = params.dataKey;
         this.columns = params.columns;
@@ -76,6 +91,13 @@ export class GridDefinitions implements IGridDefinition {
         this.onBeforeDelete = params.onBeforeDelete;
         this.onAfterDelete = params.onAfterDelete;
         this.onAfterAdd = params.onAfterAdd;
+        this.checkMandatory = params.checkMandatory;
+        // this.isFooter = (params.isFooter == null || params.isFooter === undefined ? false : params.isFooter);
+        this.FreezeHeaderTableHeight = (params.FreezeHeaderTableHeight == null
+            || params.FreezeHeaderTableHeight === undefined ? '' : params.FreezeHeaderTableHeight);
+        this.scrollable = (this.FreezeHeaderTableHeight === '' ? '' : 'true');
+        this.HeaderColGroup = (params.HeaderColGroup == null
+            || params.HeaderColGroup === undefined ? '' : params.HeaderColGroup);
     }
 }
 
@@ -138,6 +160,9 @@ export class GridColumn implements IGridColumn {
     clickColumnName: string;
     class: string;
     onClick: Function;
+    ColumnDatasource: any[];
+    ColumnSum: boolean;
+    ColumnTotal: boolean;
     constructor(params: IGridColumn) {
         this.headername = params.headername;
         this.fieldname = params.fieldname;
@@ -152,5 +177,8 @@ export class GridColumn implements IGridColumn {
         this.clickColumnName = params.clickColumnName;
         this.class = params.class;
         this.onClick = params.onClick;
+        this.ColumnDatasource = params.ColumnDatasource;
+        this.ColumnSum = (params.ColumnSum == null || params.ColumnSum === undefined ? false : params.ColumnSum);
+        this.ColumnTotal = (params.ColumnTotal == null || params.ColumnTotal === undefined ? false : params.ColumnTotal);
     }
 }

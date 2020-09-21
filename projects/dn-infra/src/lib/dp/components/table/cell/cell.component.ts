@@ -25,11 +25,7 @@ export class CellComponent implements OnInit {
   gridColumnTypeEnum = GridColumnType;
   inputNumberProperties = InputNumberProperties;
 
-  // countries: string[] = ['argentina', 'brazil', 'bulgaria', 'canada', 'cuba', 'finland', 'germany', 'hungary',
-  //   'india', 'ireland', 'israel', 'russia', 'usa'];
 
-
-  countries: any[] = [{ "name": "Afghanistan", "code": "AF" }, { "name": "brazil", "code": "BR" }];
   // countries : Country[];
   // constructor() { }
 
