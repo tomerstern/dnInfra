@@ -110,6 +110,7 @@ export class TableComponent implements OnInit, OnChanges {
     if (this.definition.onBeforeDelete !== undefined) {
       this.definition.onBeforeDelete(id);
     }
+    // console.log(id);
     this.tableStore.deleteRow(id, row);
     if (this.definition.onAfterDelete !== undefined) {
       this.definition.onAfterDelete(id);
