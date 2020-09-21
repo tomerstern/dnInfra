@@ -1,7 +1,9 @@
 
-import { Component, OnInit, Input, ViewEncapsulation, ɵConsole, forwardRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation, ɵConsole, forwardRef, Output, EventEmitter, Provider } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { AutocompleteDefinitions, AutocompleteProperties } from './Objects/autocomplete-definitions';
 // import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+
 
 @Component({
   // tslint:disable-next-line: component-selector
@@ -12,6 +14,7 @@ import { AutocompleteDefinitions, AutocompleteProperties } from './Objects/autoc
 })
 
 export class AutocompleteComponent implements OnInit {
+
 
   val = ''; /* for ControlValueAccessor*/
 
@@ -43,10 +46,12 @@ export class AutocompleteComponent implements OnInit {
   ArrTable_fieldsToSearch: number[] = []; /* list of columns(index) to filter by */
   ArrTable_ColumnsStyle: string[] = [];  /* list of table columns(index) style */
 
-  entitySelected: any;
+  entitySelected: any
+
+
+
 
   ngOnInit() {
-
 
     if (this.definition == null) {
       // this.definition = new AutocompleteDefinitions({ isStandAlone: false });
@@ -58,7 +63,7 @@ export class AutocompleteComponent implements OnInit {
 
 
       if (this.columnDefinition.columnParams && this.columnDefinition.columnParams.length > 0) {
-        this.definition = new AutocompleteDefinitions({ isStandAlone: false});
+        this.definition = new AutocompleteDefinitions({ isStandAlone: false });
         // if (this.columnDefinition.columnParams.isKeyExist(AutocompleteProperties.isStandAlone)) {
         //   this.definition.isStandAlone = this.columnDefinition.columnParams.getValueByKey(AutocompleteProperties.isStandAlone);
         // }
@@ -69,7 +74,7 @@ export class AutocompleteComponent implements OnInit {
 
         if (this.columnDefinition.columnParams.isKeyExist(AutocompleteProperties.dp_AutocompleteType)) {
           this.definition.dp_AutocompleteType = this.columnDefinition.columnParams.getValueByKey
-          (AutocompleteProperties.dp_AutocompleteType);
+            (AutocompleteProperties.dp_AutocompleteType);
         }
 
         if (this.columnDefinition.columnParams.isKeyExist(AutocompleteProperties.multiple)) {
@@ -86,10 +91,10 @@ export class AutocompleteComponent implements OnInit {
     // console.log(this.datasource);
   }
 
-log(a) {
-  console.log('tomer');
-  console.log(a);
-}
+  log(a) {
+    console.log('tomer');
+    console.log(a);
+  }
 
   get(event) {
     console.log(event);

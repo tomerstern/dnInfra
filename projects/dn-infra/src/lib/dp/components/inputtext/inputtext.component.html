@@ -1,7 +1,12 @@
-<input *ngIf="definition.mode == inputTextModeEnum.basic" pInputText type="text" 
-[(ngModel)]="definition.isStandAlone ? ngModelDP : rowData[columnDefinition.fieldname]" [size]="definition.size">
+<ng-container *ngIf="definition.mode == inputTextModeEnum.basic">
+    <input #ngm="ngModel" (blur)="isValid.emit(ngm.valid)"
+    [required]="columnDefinition.isMandatory" minlength="2" pInputText type="text"
+        [(ngModel)]="definition.isStandAlone ? ngModelDP : rowData[columnDefinition.fieldname]"
+        [size]="definition.size">
+</ng-container>
+
 <span *ngIf="definition.mode == inputTextModeEnum.float" class="ui-float-label">
-    <input [(ngModel)]="definition.isStandAlone ? ngModelDP : rowData[columnDefinition.fieldname]" 
-    type="text" [size]="definition.size" pInputText> 
-    <label [for]="definition.id">{{definition.floatMessage}}</label>    
+    <input minlength="10" [(ngModel)]="definition.isStandAlone ? ngModelDP : rowData[columnDefinition.fieldname]"
+        type="text" [size]="definition.size" pInputText>
+    <label [for]="definition.id">{{definition.floatMessage}}</label>
 </span>

@@ -1,24 +1,36 @@
 <div *ngIf="column.iseditable">
+
     <p-cellEditor [ngSwitch]="column.type" >
         <ng-template pTemplate="input">
-            <dp-inputtext *ngSwitchCase="gridColumnTypeEnum.span" [rowData]="row" [columnDefinition]="column"></dp-inputtext>
+
+            <dp-inputtext (isValid)="stateInstance.validate(row, $event)"
+            *ngSwitchCase="gridColumnTypeEnum.span" 
+            [rowData]="row" 
+            [columnDefinition]="column"></dp-inputtext>
+
             <dp-checkbox *ngSwitchCase="gridColumnTypeEnum.checkbox" [rowData]="row" [columnDefinition]="column"></dp-checkbox>
             <img *ngSwitchCase="gridColumnTypeEnum.image" class="my-center-text" src="{{row[column.fieldname]}}"
                  title="{{row[column.fieldname.concat('_tooltip')]}}" width="{{column.width}}" height="{{column.height}}">
             <dp-inputnumber *ngSwitchCase="gridColumnTypeEnum.inputnumber" [rowData]="row" [columnDefinition]="column"></dp-inputnumber>
-            <dp-autocomplete *ngSwitchCase="gridColumnTypeEnum.dropdown" (getSelected)="$event" 
+            <dp-autocomplete *ngSwitchCase="gridColumnTypeEnum.dropdown" 
                 [rowData]="row" [columnDefinition]="column" 
                 [datasource]="column.ColumnDatasource" >
             </dp-autocomplete>
             <dp-calendar *ngSwitchCase="gridColumnTypeEnum.calendar" [rowData]="row" [columnDefinition]="column"></dp-calendar>
         </ng-template>
         <ng-template pTemplate="output">
-            <dp-inputtext *ngSwitchCase="gridColumnTypeEnum.span" [rowData]="row" [columnDefinition]="column"></dp-inputtext>
+
+
+            <dp-inputtext 
+            *ngSwitchCase="gridColumnTypeEnum.span" [rowData]="row" 
+            [columnDefinition]="column"></dp-inputtext>
+
+
             <dp-checkbox *ngSwitchCase="gridColumnTypeEnum.checkbox" [rowData]="row" [columnDefinition]="column"></dp-checkbox>
             <img *ngSwitchCase="gridColumnTypeEnum.image" class="my-center-text" src="{{row[column.fieldname]}}"
                  title="{{row[column.fieldname.concat('_tooltip')]}}" width="{{column.width}}" height="{{column.height}}">
             <dp-inputnumber *ngSwitchCase="gridColumnTypeEnum.inputnumber" [rowData]="row" [columnDefinition]="column"></dp-inputnumber>
-            <dp-autocomplete *ngSwitchCase="gridColumnTypeEnum.dropdown" (getSelected)="$event" 
+            <dp-autocomplete *ngSwitchCase="gridColumnTypeEnum.dropdown" 
                 [rowData]="row" [columnDefinition]="column" 
                 [datasource]="column.ColumnDatasource" >
             </dp-autocomplete>

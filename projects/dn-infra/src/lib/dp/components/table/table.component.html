@@ -1,4 +1,6 @@
 
+
+
 <p-table #dt [columns]="definition.columns" [value]="data | async" [dataKey]="definition.dataKey"
     [rowHover]="definition.rowHover" [rows]="definition.rows" [showCurrentPageReport]="true"
     [rowsPerPageOptions]="definition.rowsPerPageOptions" [paginator]="definition.paginator"
@@ -71,8 +73,9 @@
     <ng-template pTemplate="body" let-index="rowIndex" let-row let-columns="columns"
         *ngIf="definition.editMode == 'cell'">
         <tr [pSelectableRow]="row">
-            <td *ngFor="let column of columns" [pEditableColumn]="row" [pEditableColumnField]="column">
-                <app-cell [row]="row" [column]="column"></app-cell>
+            <td *ngFor="let column of columns" [pEditableColumn]="row" 
+            [pEditableColumnField]="column">
+                <app-cell [stateInstance]="tableStore" [rowIndex]="index" [row]="row" [column]="column"></app-cell>
             </td>
             <td>
                 <button *ngIf="isEditable" pButton type="button" icon="pi pi-trash" class="ui-button-info"

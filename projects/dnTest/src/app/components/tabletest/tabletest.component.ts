@@ -8,6 +8,8 @@ import { CalendarProperties } from 'projects/dn-infra/src/lib/dp/components/cale
 import { AutocompleteProperties } from 'projects/dn-infra/src/lib/dp/components/autocomplete/Objects/autocomplete-definitions';
 import { CountryService } from '../../events/services/countryservice';
 import { Country } from '../../events/models/customer';
+import { combineLatest, Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 //import { TableComponent } from 'projects/dn-infra/src/lib/dp/components/table/table.component';
 
 @Component({
@@ -59,7 +61,7 @@ export class TabletestComponent implements OnInit {
   }
 
   readState(tableId, state) {
-    // console.log(tableId, state);
+    // console.log(state);
   }
 
   getColumns() {
@@ -92,7 +94,7 @@ export class TabletestComponent implements OnInit {
     columnParams3.addParam(AutocompleteProperties.dropdown, false);
 
     const column3 = new GridColumn({
-      headername: 'Country', fieldname: 'country', type: this.gridColumnTypeEnum.dropdown, columnParams: columnParams3,
+      headername: 'Country', fieldname: 'country', type: this.gridColumnTypeEnum.span, columnParams: columnParams3,
       iseditable: true,
       ColumnDatasource: this.dataForAc3, isMandatory: true
     });
@@ -126,11 +128,22 @@ export class TabletestComponent implements OnInit {
     this.SaveCutomers($event);
   }
 
-  SaveCutomers($event: any) {
-    console.log($event);
-    // let emptyMandatoryFieldNames = this.table1.checkMandatory();
-    // debugger
-    this.customerService.saveCustomers(this.customers);
+  // SaveCutomers($event: any) {
+  //   console.log($event);
+  //   // let emptyMandatoryFieldNames = this.table1.checkMandatory();
+  //   // debugger
+  //   this.customerService.saveCustomers(this.customers);
+  // }
+
+  SaveCutomers(data: Observable<any>[]) {
+  const combined = data.map(x => x);
+  const c = combineLatest(combined).pipe(
+    take(1),
+    map(y => y)
+  );
+  c.subscribe(x => {
+    console.log(x);
+  });
   }
 }
 

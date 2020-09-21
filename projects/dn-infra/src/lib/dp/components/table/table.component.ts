@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges } from '@angular/core';
 import { GridDefinitions, GridColumnType } from './objects/grid-definitions';
 import { TableStoreService, TableState } from '../../services/table-store.service';
-import { Subscription, Observable, BehaviorSubject } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { Table } from 'primeng/table';
 
 @Component({
@@ -16,8 +16,7 @@ export class TableComponent implements OnInit, OnChanges {
   @Input() datasource: Array<any> = [];
   @Output() stateChanges: EventEmitter<TableState> = new EventEmitter();
   data: Observable<any>;
-  @Output()
-  mandatoryFields: EventEmitter<any[]> = new EventEmitter();
+
   exportColumns: any[];
   first = 0;
   toggleFilter: boolean;
@@ -29,8 +28,8 @@ export class TableComponent implements OnInit, OnChanges {
   gridColumnTypeEnum = GridColumnType;
   @ViewChild('dt') table: Table;
   @ViewChild('testEl') testEl: ElementRef;
-
-  constructor(private tableStore: TableStoreService) { }
+  dataState$: Observable<any> = this.tableStore.dataState$;
+  constructor(public tableStore: TableStoreService) { }
 
   ngOnInit() {
     this.data = this.tableStore.dataState$;
@@ -76,7 +75,6 @@ export class TableComponent implements OnInit, OnChanges {
     const rows = this.data.source['_value'];
     this.loopRows(rows, mandatoryFieldNames, emptyMandatoryFieldNames);
     // debugger
-    this.mandatoryFields.emit(emptyMandatoryFieldNames);
   }
 
   loopRows(rows, mandatoryFieldNames, emptyMandatoryFieldNames) {
@@ -126,8 +124,12 @@ export class TableComponent implements OnInit, OnChanges {
     this.tableStore.addRow(newRow);
   }
 
-  onEditInit(event) { console.log('onEditInit', event); }
-  onEditCancel(event) { console.log('onEditCancel', event); }
+  onEditInit(event) {
+    // console.log('onEditInit', event); 
+  }
+  onEditCancel(event) { 
+    // console.log('onEditCancel', event); 
+  }
   onEditComplete(event) {
     // console.log('onEditComplete', event);
     this.tableStore.modifyRow(event.data);
@@ -185,8 +187,8 @@ export class TableComponent implements OnInit, OnChanges {
   }
   onRowSelect(event) {
     const boo = this.selectedEntity;
-    // alert(boo[0].id);  
-    alert(boo.id);
+    // alert(boo[0].id);
+    // alert(boo.id);
   }
 
   onDateSelect(value) {
@@ -236,9 +238,9 @@ export class TableComponent implements OnInit, OnChanges {
   dpCalculateTotalRows(ind, column, table) {
 
 
-    console.log(ind);
-    console.log(column);
-    console.log(table);
+    // console.log(ind);
+    // console.log(column);
+    // console.log(table);
 
     // console.log($event.target.value);
 

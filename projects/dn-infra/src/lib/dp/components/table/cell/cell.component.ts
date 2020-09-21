@@ -2,13 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { GridColumn, GridColumnType } from '../objects/grid-definitions';
 import { CheckboxDefinitions } from '../../checkbox/objects/checkbox-definitions';
 import { InputNumberProperties } from '../../inputnumber/objects/inputnumber-definitions';
-
-// import { Country } from '../../../events/models/customer';
-/*import { CustomerService } from '../../../events/services/customerservice';*/
-
-// import { CountryService } from '../../../events/services/countryservice';
-
-
+import { TableStoreService } from '../../../services/table-store.service';
 
 @Component({
   selector: 'app-cell',
@@ -22,19 +16,27 @@ export class CellComponent implements OnInit {
   @Input()
   column: GridColumn;
 
+  @Input()
+  rowIndex: number;
+
+  @Input()
+  stateInstance: TableStoreService;
+
   gridColumnTypeEnum = GridColumnType;
+
   inputNumberProperties = InputNumberProperties;
-
-
-  // countries : Country[];
-  // constructor() { }
 
   createCheckboxDefinition(column: GridColumn) {
     const checkboxDefinition = new CheckboxDefinitions({ binary: true });
     return checkboxDefinition;
   }
 
-  ngOnInit(): void { }
+  // isRowValid(id: number, event: boolean){
+  //   this.stateInstance.validate(id, event);
+  // }
+
+  ngOnInit(): void {
+  }
 
   clickEvent(val) {
     if (this.column.onClick !== undefined) {

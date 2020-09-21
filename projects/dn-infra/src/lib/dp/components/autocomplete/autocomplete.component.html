@@ -13,8 +13,11 @@ gil2{{columnDefinition.fieldname}} -->
     definition.dp_AutocompleteType,
     definition.dpAutocompleteMaxSuggestionsToShow
   )
-" (onSelect)="getSelected.emit(autoComplete.value)" (onClear)="getSelected.emit('')"  (onUnselect)="getSelected.emit(autoComplete.value)" 
+" (onSelect)="getSelected.emit(autoComplete.value)" (onClear)="getSelected.emit('')" 
+(onUnselect)="getSelected.emit(autoComplete.value)" 
 [(ngModel)]="definition.isStandAlone ? definition.name : rowData[columnDefinition.fieldname]"
+#ngm="ngModel"
+(onBlur)="ngm.touched && !ngm.valid? '':''"
 [scrollHeight]="definition.scrollHeight" [style]="definition.style" [field]="definition.field"
 [dropdown]="definition.dropdown" [multiple]="definition.multiple" [dropdownIcon]="definition.dropdownIcon"
 [minLength]="definition.minLength" [delay]="definition.delay" [completeOnFocus]="definition.completeOnFocus"
@@ -24,7 +27,7 @@ gil2{{columnDefinition.fieldname}} -->
 [disabled]="definition.disabled" [maxlength]="definition.maxlength" [size]="definition.size"
 [appendTo]="definition.appendTo" [tabindex]="definition.tabindex" [dataKey]="definition.dataKey"
 [autoHighlight]="definition.autoHighlight" [type]="definition.type" [emptyMessage]="definition.emptyMessage"
-[required]="definition.required" [autofocus]="definition.autofocus" [forceSelection]="definition.forceSelection"
+[required]="columnDefinition.isMandatory" minlength="3" [autofocus]="definition.autofocus" [forceSelection]="definition.forceSelection"
 [dropdownMode]="definition.dropdownMode" [baseZIndex]="definition.baseZIndex" [autoZIndex]="definition.autoZIndex"
 [ariaLabel]="definition.ariaLabel" [ariaLabelledBy]="definition.ariaLabelledBy" 
 [autocomplete]="definition.autocomplete">

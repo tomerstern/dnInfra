@@ -52,8 +52,8 @@ export class TableStoreService {
     const obj1 = { [key]: { rowState: lastAction, rowData: row } };
     const obj2 = { ...obj1[key] };
     const newState = { ...state, ...{ [key]: obj2 } };
-    debugger
-    console.log(newState);
+    // debugger
+    // console.log(newState);
     this.changeState.next(newState);
   }
 
@@ -65,6 +65,28 @@ export class TableStoreService {
     this.dataState.next(newState);
     // עדכון אובייקט השינויים
     this.setChangeState(row, key, 'added');
+  }
+
+  validate(row: any, isValid: boolean): void {
+    let key;
+    row.dirty ? key = row.dirty.key : key = this.getKey(6);
+    row.dirty = { valid: isValid, key, modified: true };
+    console.log(row);
+    // עדכון אובייקט השינויים
+    this.setChangeState(row, key, 'modified');
+  }
+
+   modifyRow(row: any): void {
+    let isDeleteAddedRow;
+    if (row.dirty && row.dirty.added) {
+      isDeleteAddedRow = true;
+    }
+    let key;
+    row.dirty ? key = row.dirty.key : key = this.getKey(6);
+    row.dirty = { modified: true, key, valid: row.dirty.valid };
+    // const newState = [...this.getDataState(), ...[row]];
+    // עדכון אובייקט השינויים
+    this.setChangeState(row, key, isDeleteAddedRow ? 'added' : 'modified');
   }
 
   // inside the action you get the current state
@@ -96,19 +118,7 @@ export class TableStoreService {
     this.setChangeState(row, key, 'deleted');
   }
 
-  modifyRow(row: any): void {
-    let isDeleteAddedRow;
-    if (row.dirty && row.dirty.added) {
-      isDeleteAddedRow = true;
-    }
-    let key;
-    row.dirty ? key = row.dirty.key : key = this.getKey(6);
-    row.dirty = { modified: true, key };
-    const newState = [...this.getDataState(), ...[row]];
-
-    // עדכון אובייקט השינויים
-    this.setChangeState(row, key, isDeleteAddedRow ? 'added' : 'modified');
-  }
+ 
 
   getKey(length) {
     let result = '';
