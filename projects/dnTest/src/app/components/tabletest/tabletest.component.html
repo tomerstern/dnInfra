@@ -1,16 +1,15 @@
 <p-toolbar styleClass="p-mb-4">
     <div class="p-toolbar-group-left">
         <button pButton pRipple label="Save" icon="pi pi-save" class="p-button-success p-mr-2"
-            (click)="SaveCutomers([table2.dataState$, table1.dataState$])"></button>
+            (click)="SaveCutomers([table1.dataState$])"></button>
     </div>
 </p-toolbar>
-<dp-table #table1
-(stateChanges)="readState('table1 state:', $event)"
-    [definition]="gridDefinition" [datasource]="customers"></dp-table>
-    <br>
+<dp-table #table1 tableId="table1" [definition]="gridDefinition" [datasource]="customers"></dp-table>
+<dp-table tableId="table2" [definition]="gridDefinition" [datasource]="customers"></dp-table>
+    <!-- <br>
     <br>
     <br>
     <br>
 <dp-table #table2
-(stateChanges)="readState('table1 state:', $event)"
-    [definition]="gridDefinition" [datasource]="customers"></dp-table>
+(stateChanges)="readState('table2 state:', $event)"
+    [definition]="gridDefinition" [datasource]="customers"></dp-table> -->

@@ -1,14 +1,22 @@
-import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation, forwardRef, Provider } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CalendarDefinitions, SelectionMode } from './objects/calendar-definitions';
-import { NgModel } from '@angular/forms';
+
+export const CALENDAR_CONTROL_VALUE_ACCESSOR: Provider = {
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() => CalendarComponent),
+  multi: true
+};
 
 @Component({
   selector: 'dp-calendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss', '../../../infralib.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  providers: [CALENDAR_CONTROL_VALUE_ACCESSOR]
+
 })
-export class CalendarComponent implements OnInit {
+export class CalendarComponent implements OnInit, ControlValueAccessor {
 
   lastInputDate: Date;
   isInputByUser: boolean;
@@ -16,34 +24,71 @@ export class CalendarComponent implements OnInit {
   @Input() ngModelDP: Date;
   @Input() rowData: any;
   @Input() columnDefinition: any;
+  private _innerValue: Date;
   constructor() { }
+
+
+  private onChangeCallback: (_: any) => void = () => { };
+  private onTouchedCallback: () => void = () => { };
+
 
   ngOnInit(): void {
     if (this.definition == null) {
-      this.rowData[this.columnDefinition.fieldname] = new Date(this.rowData[this.columnDefinition.fieldname]);
+      // this.rowData[this.columnDefinition.fieldname] = new Date(this.rowData[this.columnDefinition.fieldname]);
       this.definition = new CalendarDefinitions({ isStandAlone: false });
-      if (this.columnDefinition.columnParams.length > 0) {
-        let i = 0;
-        while (i < this.columnDefinition.columnParams.length) {
-          if (this.columnDefinition.columnParams[i].key === 'showTime') {
-            this.definition.showTime = this.columnDefinition.columnParams[i].value;
-          }
+      // if (this.columnDefinition.columnParams.length > 0) {
+      //   let i = 0;
+      //   while (i < this.columnDefinition.columnParams.length) {
+      //     if (this.columnDefinition.columnParams[i].key === 'showTime') {
+      //       this.definition.showTime = this.columnDefinition.columnParams[i].value;
+      //     }
 
-          if (this.columnDefinition.columnParams[i].key === 'minDate') {
-            this.definition.minDate = this.columnDefinition.columnParams[i].value;
-          }
+      //     if (this.columnDefinition.columnParams[i].key === 'minDate') {
+      //       this.definition.minDate = this.columnDefinition.columnParams[i].value;
+      //     }
 
-          if (this.columnDefinition.columnParams[i].key === 'maxDate') {
-            this.definition.maxDate = this.columnDefinition.columnParams[i].value;
-          }
+      //     if (this.columnDefinition.columnParams[i].key === 'maxDate') {
+      //       this.definition.maxDate = this.columnDefinition.columnParams[i].value;
+      //     }
 
-          if (this.columnDefinition.columnParams[i].key === 'selectionMode') {
-            this.definition.selectionMode = this.columnDefinition.columnParams[i].value;
-          }
-          i++;
-        }
-      }
+      //     if (this.columnDefinition.columnParams[i].key === 'selectionMode') {
+      //       this.definition.selectionMode = this.columnDefinition.columnParams[i].value;
+      //     }
+      //     i++;
+      //   }
+      // }
     }
+  }
+
+  public get innerValue(): Date {
+    return this._innerValue;
+  }
+
+  public set innerValue(newValue: Date) {
+    if(newValue){
+      this._innerValue = new Date(newValue);
+    }
+    this.onChangeCallback(newValue);
+  }
+
+  public onBlur() {
+    this.onTouchedCallback();
+  }
+
+  public writeValue(value: Date) {
+    if (value !== this.innerValue) {
+      this.innerValue = value;
+    }
+  }
+
+
+  public registerOnChange(callback: (_: Date) => void) {
+    this.onChangeCallback = callback;
+  }
+
+
+  public registerOnTouched(callback: () => void) {
+    this.onTouchedCallback = callback;
   }
 
   onSelectedDate(selectedDate: Date) {

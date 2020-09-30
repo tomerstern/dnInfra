@@ -1,19 +1,24 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges, forwardRef, Provider } from '@angular/core';
 import { GridDefinitions, GridColumnType } from './objects/grid-definitions';
 import { TableStoreService, TableState } from '../../services/table-store.service';
 import { Subscription, Observable } from 'rxjs';
 import { Table } from 'primeng/table';
+import { InputNumberProperties } from '../inputnumber/objects/inputnumber-definitions';
+
+
 
 @Component({
   selector: 'dp-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
-  providers: [TableStoreService]
+  providers: [TableStoreService],
+
 })
 export class TableComponent implements OnInit, OnChanges {
 
   @Input() definition: GridDefinitions;
   @Input() datasource: Array<any> = [];
+  @Input() tableId: string;
   @Output() stateChanges: EventEmitter<TableState> = new EventEmitter();
   data: Observable<any>;
 
@@ -25,6 +30,7 @@ export class TableComponent implements OnInit, OnChanges {
   selectedEntity: any;
   obj = {};
   sub: Subscription;
+  inputNumberProperties = InputNumberProperties;
   gridColumnTypeEnum = GridColumnType;
   @ViewChild('dt') table: Table;
   @ViewChild('testEl') testEl: ElementRef;
@@ -58,6 +64,10 @@ export class TableComponent implements OnInit, OnChanges {
         break;
       }
     }
+  }
+
+  getIt(x) {
+    console.log(x);
   }
 
   setIsFooter() {
@@ -105,46 +115,21 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   deleteRow(id, row) {
-    if (this.definition.onBeforeDelete !== undefined) {
-      this.definition.onBeforeDelete(id);
-    }
-    // console.log(id);
-    this.tableStore.deleteRow(id, row);
-    if (this.definition.onAfterDelete !== undefined) {
-      this.definition.onAfterDelete(id);
-    }
+    delete this.datasource[id];
   }
 
-  addRow(table) {
-    if (this.definition.onAfterAdd !== undefined) {
-      this.definition.onAfterAdd(table);
-    }
+  addRow() {
     const newRow = this.newEmptyRow();
-    this.setLastPage();
-    this.tableStore.addRow(newRow);
-  }
-
-  onEditInit(event) {
-    // console.log('onEditInit', event); 
-  }
-  onEditCancel(event) { 
-    // console.log('onEditCancel', event); 
-  }
-  onEditComplete(event) {
-    // console.log('onEditComplete', event);
-    this.tableStore.modifyRow(event.data);
-    // todo remove call to checkMandatory
-    this.checkMandatory();
+    this.datasource.push(newRow);
   }
 
   newEmptyRow() {
     const row = {};
+    row[this.definition.dataKey] = '';
     this.definition.columns.forEach((column) => {
       const columnName = column.fieldname;
       row[columnName] = '';
     });
-    const maxIndex = Math.max.apply(null, this.datasource.map(item => item.dpIndex));
-
     return row;
   }
 
@@ -187,64 +172,10 @@ export class TableComponent implements OnInit, OnChanges {
   }
   onRowSelect(event) {
     const boo = this.selectedEntity;
-    // alert(boo[0].id);
-    // alert(boo.id);
   }
 
   onDateSelect(value) {
     this.table.filter(value, 'date', 'equals');
-  }
-
-
-  dpCalculateColumnSum(index, column, table): number {
-    let sum = 0;
-    // console.log('index=');
-    // console.log(index);
-    // console.log('items.length=');
-    // console.log(items.length);
-    // console.log('aaaaaaaaaa=');
-    // console.log(items[1][3]);
-    // for (let i = 0; i < items.length; i++) {
-    //   sum += items[i][index];
-    //   console.log(items[i][index]);
-    // }
-
-
-
-    //  const row = table.body.rows[index];
-    // const yourdatalist = table.columns[0];
-    // if (yourdatalist) {
-    //   return ( yourdatalist.map(t => t.Amount).reduce((a, value) => a + value, 0));
-
-    // }
-    // return 0;
-
-    // for (let j = 0, col; col = yourdatalist[j]; j++) {
-    //   sum += col;
-    // }
-
-    return sum;
-  }
-
-
-  //   for(var i = 0, row; row = table.rows[i]; i++) {
-  //   for (let j = 0, col; col = row.cells[j]; j++) {
-  //     sum += col;
-  // //   }
-  // // }
-  // return sum;
-  //   }
-
-  dpCalculateTotalRows(ind, column, table) {
-
-
-    // console.log(ind);
-    // console.log(column);
-    // console.log(table);
-
-    // console.log($event.target.value);
-
-
   }
 
 }

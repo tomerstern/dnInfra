@@ -1,2 +1,5 @@
-<p-checkbox [(ngModel)]="definition.isStandAlone ? ngModelDP : rowData[columnDefinition.fieldname]"
- [binary]="definition.binary" [disabled]="definition.disabled" ></p-checkbox>
+<!-- <p-checkbox [(ngModel)]="definition.isStandAlone ? ngModelDP : rowData[columnDefinition.fieldname]"
+ [binary]="definition.binary" [disabled]="definition.disabled" ></p-checkbox> -->
+
+    <p-checkbox [name]="innerValue" [ngModelOptions]="{standalone: true}"
+      [(ngModel)]="innerValue" [binary]="true"></p-checkbox>

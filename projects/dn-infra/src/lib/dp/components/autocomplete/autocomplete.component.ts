@@ -4,6 +4,11 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { AutocompleteDefinitions, AutocompleteProperties } from './Objects/autocomplete-definitions';
 // import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
+export const AC_CONTROL_VALUE_ACCESSOR: Provider = {
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() => AutocompleteComponent),
+  multi: true
+};
 
 @Component({
   // tslint:disable-next-line: component-selector
@@ -11,9 +16,11 @@ import { AutocompleteDefinitions, AutocompleteProperties } from './Objects/autoc
   templateUrl: './autocomplete.component.html',
   styleUrls: ['./autocomplete.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  providers: [AC_CONTROL_VALUE_ACCESSOR]
+
 })
 
-export class AutocompleteComponent implements OnInit {
+export class AutocompleteComponent implements OnInit, ControlValueAccessor {
 
 
   val = ''; /* for ControlValueAccessor*/
@@ -46,9 +53,13 @@ export class AutocompleteComponent implements OnInit {
   ArrTable_fieldsToSearch: number[] = []; /* list of columns(index) to filter by */
   ArrTable_ColumnsStyle: string[] = [];  /* list of table columns(index) style */
 
-  entitySelected: any
+  entitySelected: any;
 
 
+  private _innerValue: any;
+
+  private onChangeCallback: (_: any) => void = () => { };
+  private onTouchedCallback: () => void = () => { };
 
 
   ngOnInit() {
@@ -89,6 +100,37 @@ export class AutocompleteComponent implements OnInit {
       }
     }
     // console.log(this.datasource);
+  }
+
+
+  
+  public get innerValue(): any {
+    return this._innerValue;
+  }
+
+  public set innerValue(newValue: any) {
+    this._innerValue = newValue;
+    this.onChangeCallback(newValue);
+  }
+
+  public onBlur() {
+    this.onTouchedCallback();
+  }
+
+  public writeValue(value: any) {
+    if (value !== this.innerValue) {
+      this.innerValue = value;
+    }
+  }
+
+
+  public registerOnChange(callback: (_: any) => void) {
+    this.onChangeCallback = callback;
+  }
+
+
+  public registerOnTouched(callback: () => void) {
+    this.onTouchedCallback = callback;
   }
 
   log(a) {

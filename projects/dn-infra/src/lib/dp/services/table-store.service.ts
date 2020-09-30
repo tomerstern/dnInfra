@@ -71,7 +71,6 @@ export class TableStoreService {
     let key;
     row.dirty ? key = row.dirty.key : key = this.getKey(6);
     row.dirty = { valid: isValid, key, modified: true };
-    console.log(row);
     // עדכון אובייקט השינויים
     this.setChangeState(row, key, 'modified');
   }
@@ -104,7 +103,6 @@ export class TableStoreService {
     this.dataState.next(table);
 
     if (isDeleteAddedRow) {
-
       const changes = this.getChanges();
       delete changes[key];
       this.changeState.next(changes);
