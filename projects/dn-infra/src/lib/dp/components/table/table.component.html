@@ -6,7 +6,8 @@
   form values: {{myForm.value | json}}
   <br>
   <br>
-  <p-table #dt [columns]="definition.columns" [value]="datasource" [dataKey]="definition.dataKey"
+  data Values: {{data$ | async| json}}
+  <p-table #dt [columns]="definition.columns" [value]="data$ | async" [dataKey]="definition.dataKey"
     [rowHover]="definition.rowHover" [rows]="definition.rows" [showCurrentPageReport]="true"
     [rowsPerPageOptions]="definition.rowsPerPageOptions" [paginator]="definition.paginator"
     [currentPageReportTemplate]="definition.currentPageReportTemplate" [editMode]="definition.editMode"
@@ -59,7 +60,7 @@
     <ng-template [ngModelGroup]="tableId" pTemplate="body" let-index="rowIndex" let-row let-columns="columns"
       *ngIf="definition.editMode == 'cell'">
       <tr *ngIf="row" [pSelectableRow]="row">
-        <td [ngModelGroup]="'row'+index" *ngFor="let column of columns" [pEditableColumn]="row"
+        <td  [ngModelGroup]="'row'+index" *ngFor="let column of columns" [pEditableColumn]="row"
           [pEditableColumnField]="column">
           <!-- <app-cell [ngModel]="row" [name]="'row'+index" [rowIndex]="index" [row]="row" [column]="column"></app-cell> -->
 
@@ -67,33 +68,32 @@
 
             <ng-container [ngSwitch]="column.type">
 
-              <dp-inputtext  [required]="column.isMandatory" name="{{column.fieldname}}"
+              <dp-inputtext (keyup)="updateRow(column.fieldname, row, $event.target.value, index)" [required]="column.isMandatory" name="{{column.fieldname}}"
                 *ngSwitchCase="gridColumnTypeEnum.span" ngModel="{{row[column.fieldname]}}" [columnDefinition]="column">
               </dp-inputtext>
 
-
-              <dp-checkbox *ngSwitchCase="gridColumnTypeEnum.checkbox" ngModel="{{row[column.fieldname]}}"
+              <dp-checkbox (keyup)="updateRow(column.fieldname, row, $event.target.value, index)" *ngSwitchCase="gridColumnTypeEnum.checkbox" ngModel="{{row[column.fieldname]}}"
                 name="{{column.fieldname}}">
               </dp-checkbox>
 
-              <dp-inputnumber [required]="column.isMandatory" ngModel="{{row[column.fieldname]}}"
+              <dp-inputnumber (keyup)="updateRow(column.fieldname, row, $event.target.value, index)" [required]="column.isMandatory" ngModel="{{row[column.fieldname]}}"
                 name="{{column.fieldname}}" [columnDefinition]="column" *ngSwitchCase="gridColumnTypeEnum.inputnumber">
               </dp-inputnumber>
 
-              <img *ngSwitchCase="gridColumnTypeEnum.image" class="my-center-text" src="{{row[column.fieldname]}}"
-                title="{{row[column.fieldname.concat('_tooltip')]}}" width="{{column.width}}"
-                height="{{column.height}}">
-
-              <dp-calendar [required]="column.isMandatory" [rowData]="row" [columnDefinition]="column"
+              <dp-calendar (ngModelChange)="updateRow(column.fieldname, row, $event, index)" [required]="column.isMandatory" [rowData]="row" [columnDefinition]="column"
                 ngModel="{{row[column.fieldname]}}" name="{{column.fieldname}}"
                 *ngSwitchCase="gridColumnTypeEnum.calendar">
               </dp-calendar>
 
-              <dp-autocomplete  ngModel="{{row[column.fieldname]}}" 
+              <dp-autocomplete (ngModelChange)="updateRow(column.fieldname, row, $event, index)"  ngModel="{{row[column.fieldname].name}}" 
               name="{{column.fieldname}}" *ngSwitchCase="gridColumnTypeEnum.dropdown" 
               [columnDefinition]="column"
                 [datasource]="column.ColumnDatasource">
               </dp-autocomplete>
+
+              <img *ngSwitchCase="gridColumnTypeEnum.image" class="my-center-text" src="{{row[column.fieldname]}}"
+              title="{{row[column.fieldname.concat('_tooltip')]}}" width="{{column.width}}"
+              height="{{column.height}}">
 
             </ng-container>
           </ng-container>
@@ -127,7 +127,7 @@
         </td>
         <td>
           <button *ngIf="isEditable" pButton type="button" icon="pi pi-trash" class="ui-button-info"
-            (click)="deleteRow(index, row)">
+            (click)="deleteRow(index)">
           </button>
         </td>
       </tr>

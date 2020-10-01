@@ -1,9 +1,16 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges, forwardRef, Provider } from '@angular/core';
+import {
+  Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges,
+  ChangeDetectionStrategy, SimpleChanges
+} from '@angular/core';
 import { GridDefinitions, GridColumnType } from './objects/grid-definitions';
 import { TableStoreService, TableState } from '../../services/table-store.service';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription, Observable, fromEvent, Subject } from 'rxjs';
 import { Table } from 'primeng/table';
 import { InputNumberProperties } from '../inputnumber/objects/inputnumber-definitions';
+import { Store } from '@ngrx/store';
+import { addRow, deleteRow, updateTable } from '../../store/actions';
+import { getAppState, getTableStateById } from '../../store/selectors';
+import { debounceTime, distinctUntilChanged, map, take } from 'rxjs/operators';
 
 
 
@@ -12,6 +19,7 @@ import { InputNumberProperties } from '../inputnumber/objects/inputnumber-defini
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
   providers: [TableStoreService],
+  changeDetection: ChangeDetectionStrategy.OnPush
 
 })
 export class TableComponent implements OnInit, OnChanges {
@@ -20,7 +28,7 @@ export class TableComponent implements OnInit, OnChanges {
   @Input() datasource: Array<any> = [];
   @Input() tableId: string;
   @Output() stateChanges: EventEmitter<TableState> = new EventEmitter();
-  data: Observable<any>;
+  data$: Observable<any>;
 
   exportColumns: any[];
   first = 0;
@@ -30,30 +38,55 @@ export class TableComponent implements OnInit, OnChanges {
   selectedEntity: any;
   obj = {};
   sub: Subscription;
+  newRow = {};
   inputNumberProperties = InputNumberProperties;
   gridColumnTypeEnum = GridColumnType;
   @ViewChild('dt') table: Table;
   @ViewChild('testEl') testEl: ElementRef;
-  dataState$: Observable<any> = this.tableStore.dataState$;
-  constructor(public tableStore: TableStoreService) { }
+  private inputDebouncer$: Subject<string> = new Subject();
+
+  constructor(private store: Store<any>) { }
 
   ngOnInit() {
-    this.data = this.tableStore.dataState$;
     this.obj = { background: 'red', color: 'green' };
     this.exportColumns = this.definition.columns.map(col => ({ title: col.headername, dataKey: col.fieldname }));
     this.setIsEditable();
     this.setIsFooter();
-    this.sub = this.tableStore.tableState$.subscribe(newState => {
-      this.stateChanges.emit(newState);
+
+    this.inputDebouncer$.pipe(
+      debounceTime(1000),
+      distinctUntilChanged(),
+    ).subscribe((val: string) => {
+      // Remember value after debouncing
+      console.log(val);
+
+      // Do the actual search
     });
+
   }
 
-  ngOnChanges() {
-    this.tableStore.setDataState(this.datasource);
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.tableId && this.datasource && changes.datasource.previousValue === null) {
+      this.store.dispatch(updateTable({ data: { tableId: this.tableId, tableData: this.datasource } }));
+      this.data$ = this.store.select(getTableStateById(this.tableId));
+    } else {
+      // alert('you must supply an ID for each table');
+    }
   }
 
   toggleFn(el: HTMLElement) {
     // console.log(el);
+  }
+
+  updateRow(columnField: string, row: object, val: string, rowIndex: number) {
+    // console.log(columnField, row)
+    this.newRow = { ...row, ...{ [columnField]: val } };
+    this.inputDebouncer$.next(val);
+    // console.log();
+    // this.inputDebouncer$.next([rowIndex, newRow]);
+    // if (event.target) {
+    // }
+
   }
 
   // if at least one of the columns is editable then the grid is editable and we add add and delete buttons
@@ -79,13 +112,13 @@ export class TableComponent implements OnInit, OnChanges {
     }
   }
 
-  checkMandatory() {
-    const emptyMandatoryFieldNames: string[] = [];
-    const mandatoryFieldNames: string[] = this.getMandatoryFieldNames();
-    const rows = this.data.source['_value'];
-    this.loopRows(rows, mandatoryFieldNames, emptyMandatoryFieldNames);
-    // debugger
-  }
+  // checkMandatory() {
+  //   const emptyMandatoryFieldNames: string[] = [];
+  //   const mandatoryFieldNames: string[] = this.getMandatoryFieldNames();
+  //   const rows = this.data.source['_value'];
+  //   this.loopRows(rows, mandatoryFieldNames, emptyMandatoryFieldNames);
+  //   // debugger
+  // }
 
   loopRows(rows, mandatoryFieldNames, emptyMandatoryFieldNames) {
     for (const row of rows) {
@@ -114,13 +147,15 @@ export class TableComponent implements OnInit, OnChanges {
     return mandatoryFieldNames;
   }
 
-  deleteRow(id, row) {
-    delete this.datasource[id];
+  deleteRow(id) {
+    // delete this.datasource[id];
+    this.store.dispatch(deleteRow({ data: { tableId: this.tableId, rowIndex: id } }));
   }
 
   addRow() {
-    const newRow = this.newEmptyRow();
-    this.datasource.push(newRow);
+    // const newRow = this.newEmptyRow();
+    // this.datasource.push(newRow);
+    this.store.dispatch(addRow({ data: { tableId: this.tableId, rowToAdd: this.newEmptyRow() } }));
   }
 
   newEmptyRow() {
@@ -142,13 +177,16 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   exportPdf() {
-    import('jspdf').then((jspdf: any) => {
-      import('jspdf-autotable').then(x => {
-        const doc = new jspdf.default('l', 'mm', [305, 250]);
-        doc.autoTable(this.exportColumns, this.datasource);
-        doc.save('products.pdf');
+    this.data$.pipe(take(1), map(x => x)).subscribe(data => {
+      import('jspdf').then((jspdf: any) => {
+        import('jspdf-autotable').then(x => {
+          const doc = new jspdf.default('l', 'mm', [305, 250]);
+          doc.autoTable(this.exportColumns, data);
+          doc.save('products.pdf');
+        });
       });
     });
+
   }
 
   exportExcel() {

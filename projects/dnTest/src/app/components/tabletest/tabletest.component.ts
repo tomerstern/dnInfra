@@ -33,7 +33,7 @@ export class TabletestComponent implements OnInit {
 
   ngOnInit(): void {
     const columns: GridColumn[] = this.getColumns();
-    console.log(columns);
+    // console.log(columns);
     this.gridDefinition = new GridDefinitions({
       dataKey: 'id', columns, toolbar: true, selectionMode: 'single',
       onAfterDelete: (param) => { this.onAfter(param); },
@@ -92,10 +92,10 @@ export class TabletestComponent implements OnInit {
     const columnParams3: GridColumnParams = new GridColumnParams();
     columnParams3.addParam(AutocompleteProperties.dp_AutocompleteType, 0);
     columnParams3.addParam(AutocompleteProperties.multiple, false);
-    columnParams3.addParam(AutocompleteProperties.dropdown, true);
+    columnParams3.addParam(AutocompleteProperties.dropdown, false);
 
     const column3 = new GridColumn({
-      headername: 'Country', fieldname: 'country', type: this.gridColumnTypeEnum.dropdown, columnParams: columnParams3,
+      headername: 'Country', fieldname: 'country', type: this.gridColumnTypeEnum.span, columnParams: columnParams3,
       iseditable: true,
       ColumnDatasource: this.dataForAc3, isMandatory: true
     });
@@ -143,7 +143,7 @@ export class TabletestComponent implements OnInit {
     map(y => y)
   );
   c.subscribe(x => {
-    console.log(x);
+    // console.log(x);
   });
   }
 }

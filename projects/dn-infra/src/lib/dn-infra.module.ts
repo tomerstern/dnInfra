@@ -30,7 +30,9 @@ import { CellComponent } from './dp/components/table/cell/cell.component';
 import { ToolbarModule } from 'primeng/toolbar';
 import { DatePipe } from '@angular/common';
 import { TabmenuComponent } from './dp/components/tabmenu/tabmenu.component';
-
+import { StoreModule } from '@ngrx/store';
+import { tableReducer } from './dp/store/reducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [DnInfraComponent, CalendarComponent, CheckboxComponent, AutocompleteComponent,
@@ -50,7 +52,14 @@ import { TabmenuComponent } from './dp/components/tabmenu/tabmenu.component';
     InputNumberModule,
     TableModule,
     ToolbarModule,
-    TabMenuModule
+    TabMenuModule,
+    StoreModule.forRoot({
+      tables: tableReducer
+    }),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: true
+    })
   ],
   exports: [ /* Components start */
     DnInfraComponent, CalendarComponent, CheckboxComponent, AutocompleteComponent
