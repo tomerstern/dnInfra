@@ -23,8 +23,8 @@ export class MenubarDefinitions implements IMenubarDefinitions {
   baseZIndex: number;
   autoZIndex: boolean;
   constructor(params: IMenubarDefinitions) {
-    this.style = (params.style == null ? params.style : params.style);
-    this.styleClass = (params.styleClass == null ? params.styleClass : params.styleClass);
+    this.style = (params.style == null || params.style === undefined ? '' : params.style);
+    this.styleClass = (params.styleClass == null || params.styleClass === undefined ? '' : params.styleClass);
     this.baseZIndex = (params.baseZIndex == null ? 0 : params.baseZIndex);
     this.autoZIndex = (params.autoZIndex == null ? true : params.autoZIndex);
   }

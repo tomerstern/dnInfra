@@ -1,0 +1,40 @@
+{
+    "data": [ 
+        {
+            "ShipmentNumber": 1234, 
+            "Dept_Code": "1",
+            "Shlifa_Order": 1,
+            "G7_LineNumber": 1,
+            "G7_MIS_SIDURI": 123,
+            "G7_PRAT_MECHES": "IL1234",
+            "G7_YECHIDAT_MIDA": 123,
+            "G7_KAMUT": 10,
+            "G7_MECHIR_YECHIDA": 12,
+            "G7_ERECH_SCHORA": 10
+        },
+        {
+            "ShipmentNumber": 1234, 
+            "Dept_Code": "1",
+            "Shlifa_Order": 1,
+            "G7_LineNumber": 2,
+            "G7_MIS_SIDURI": 123,
+            "G7_PRAT_MECHES": "IL1234",
+            "G7_YECHIDAT_MIDA": 123,
+            "G7_KAMUT": 10,
+            "G7_MECHIR_YECHIDA": 12,
+            "G7_ERECH_SCHORA": 10
+        },
+        {
+            "ShipmentNumber": 1234, 
+            "Dept_Code": "1",
+            "Shlifa_Order": 1,
+            "G7_LineNumber": 3,
+            "G7_MIS_SIDURI": 123,
+            "G7_PRAT_MECHES": "IL1234",
+            "G7_YECHIDAT_MIDA": 123,
+            "G7_KAMUT": 10,
+            "G7_MECHIR_YECHIDA": 12,
+            "G7_ERECH_SCHORA": 10
+        }
+    ]
+}

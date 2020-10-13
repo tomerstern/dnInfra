@@ -76,7 +76,7 @@ export class DialogtestComponent implements OnInit {
       , buttons: buttonsDpDialog.custom
       , buttonsArr: buttonsArr10
       , dpDialogFunc: (index) => {
-        alert('in dpDialogFunc dialogDefinition10 , index=' + index  ); 
+        alert('in dpDialogFunc dialogDefinition10 , index=' + index  );
         this.dialogDefinition10.visible = false; /* close the dialog */
       }
     });

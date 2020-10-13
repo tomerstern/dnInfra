@@ -10,8 +10,8 @@ import {
   ToastModule, ConfirmDialogModule, MenubarModule, DialogModule,
   TabViewModule,
   TreeModule,
-  ButtonModule, InputTextModule, InputNumberModule, TableModule, TabMenuModule, PickListModule
-  ,DynamicDialogModule
+  ButtonModule, InputTextModule, InputNumberModule, TableModule, TabMenuModule, PickListModule, DragDropModule,
+  DynamicDialogModule, TooltipModule,
 } from 'primeng';
 import { ChartModule } from 'primeng/chart';
 import { AutocompleteComponent } from './dp/components/autocomplete/autocomplete.component';
@@ -36,7 +36,10 @@ import { tableReducer } from './dp/store/reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { PicklistComponent } from './dp/components/picklist/picklist.component';
 import { ColumnSelectionComponent } from './dp/components/table/columnSelection/column-selection/column-selection.component';
+
 import { DynamicdialogComponent } from './dp/components/dynamicdialog/dynamicdialog.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 
 @NgModule({
   declarations: [DnInfraComponent, CalendarComponent, CheckboxComponent, AutocompleteComponent,
@@ -56,9 +59,11 @@ import { DynamicdialogComponent } from './dp/components/dynamicdialog/dynamicdia
     PickListModule,
     InputNumberModule,
     TableModule,
+    DragDropModule,
     ToolbarModule,
-    TabMenuModule,
-    DynamicDialogModule,
+    TabMenuModule, DynamicDialogModule,
+    TooltipModule,
+    FontAwesomeModule,
     StoreModule.forRoot({
       tables: tableReducer
     }),
@@ -84,10 +89,12 @@ import { DynamicdialogComponent } from './dp/components/dynamicdialog/dynamicdia
     InputTextModule,
     InputNumberModule,
     TableModule,
+    DragDropModule,
     ToolbarModule,
-    TabMenuModule,
-    PickListModule,
-    DynamicDialogModule
+    TabMenuModule, DynamicDialogModule,
+    TooltipModule,
+    FontAwesomeModule,
+    PickListModule
   ],
   providers: [DatePipe]
 })

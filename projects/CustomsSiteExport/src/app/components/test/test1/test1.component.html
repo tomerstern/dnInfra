@@ -1,0 +1,40 @@
+
+<!-- <div class="p-field">
+    <label for="fieldId">Label</label>
+    <input id="fieldId" type="text" pInputText> 
+</div> -->
+<h3> <u>tanslate in TypeScript</u></h3>
+<p>{{ strWelcome }}</p>
+<p>{{strCity}}</p>
+<p>{{strStreet}}</p>
+
+<hr>
+<h3> <u>Form - Html translate</u></h3>
+<div class="ui-fluid">
+    <div class="p-field">
+        <label for="firstname1">{{ 'username' | translate  }}</label>
+        <input id="firstname1" type="text" pInputText placeholder="{{ 'login.username' | translate }}"> 
+    </div>
+    <div class="p-field">
+        <label for="lastname1">{{ 'password' | translate  }}</label>
+        <input id="lastname1" type="text" pInputText placeholder="{{ 'login.password' | translate }}"> 
+    </div>
+    <div class="p-field">
+        <label for="lastname1">{{ 'email' | translate  }}</label>
+        <input id="lastname1" type="text" pInputText placeholder="{{ 'login.email' | translate }}"> 
+    </div>    
+</div>
+<!-- (click)="" -->
+<button pButton label="{{ 'login.login' | translate }}"
+    class="ui-button-warning"
+></button>
+
+<!-- <label translate='username'></label>
+<input type="text" placeholder="{{ 'login.username' | translate }}">
+
+<label translate='password'></label>
+<input type="password" placeholder="{{ 'login.password' | translate }}"> -->
+
+
+
+

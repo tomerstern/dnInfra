@@ -9,7 +9,7 @@ import { Table } from 'primeng/table';
 })
 export class TableComponent implements OnInit {
 
-    
+
     @Input()
     newString = 'newdata';
     customers: Customer[];

@@ -44,7 +44,8 @@ export enum AutocompleteProperties {
     dp_AutocompleteImageTextStyle = 'dp_AutocompleteImageTextStyle',
     dp_AutocompleteImageStyle = 'dp_AutocompleteImageStyle',
     dp_AutocompleteTableFields = 'dp_AutocompleteTableFields',
-    dpAutocompleteLazyDataFunc = 'dpAutocompleteLazyDataFunc'
+    dpAutocompleteLazyDataFunc = 'dpAutocompleteLazyDataFunc',
+    initialValues = 'initialValues'
 }
 
 
@@ -94,6 +95,7 @@ export interface iAutocompleteDefinitions {
     dp_AutocompleteImageStyle?: string;
     dp_AutocompleteTableFields?: any;
     dpAutocompleteLazyDataFunc?: Function;
+    initialValues?: any;
     // dpColumnDatasource: any = [];
 }
 // export interface IAutocompleteDefinition {
@@ -129,6 +131,8 @@ export enum GridColumnType {
 }
 
 */
+
+
 
 export enum AutocompleteType {
     'Regular' = 0,
@@ -210,6 +214,7 @@ export class AutocompleteDefinitions implements iAutocompleteDefinitions {
     dp_AutocompleteImageTextStyle: string;
     dp_AutocompleteImageStyle: string;
     dpAutocompleteLazyDataFunc: Function;
+    initialValues: any;
     /*
     dataKey: string;
     rowHover: boolean;
@@ -248,6 +253,8 @@ export class AutocompleteDefinitions implements iAutocompleteDefinitions {
         // this.inputId = inputId;
         this.inputId = (params.inputId == null || params.inputId === undefined ? 'dynamicInputId' : params.inputId);
         this.field = (params.field == null  || params.field === undefined  ? 'name' : params.field);
+        this.initialValues = (params.initialValues == null  || params.initialValues === undefined  ? null : params.initialValues);
+        
         this.dp_AutocompleteType = (params.dp_AutocompleteType == null ? AutocompleteType.Regular : params.dp_AutocompleteType);
         this.dropdown = (params.dropdown == null ? false : params.dropdown);
         // this.multiple = (multiple == null ? false : multiple);
@@ -295,7 +302,7 @@ export class AutocompleteDefinitions implements iAutocompleteDefinitions {
         this.style = (params.style == null || params.style === undefined ? '' : params.style);
         this.dp_AutocompleteTableFields = (params.dp_AutocompleteTableFields == null ? undefined : params.dp_AutocompleteTableFields);
 
-        this.name = (name == null ? this.inputId : name);
+        // this.name = (name == null ? this.inputId : name);
 
         this.dpAutocompleteLazyDataFunc = params.dpAutocompleteLazyDataFunc;
 

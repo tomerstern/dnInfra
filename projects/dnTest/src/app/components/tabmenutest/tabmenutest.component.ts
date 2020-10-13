@@ -41,9 +41,11 @@ export class TabmenutestComponent implements OnInit {
       { label: 'Air Import', id: 'idTabmenuItem1', routerLink: 'page1new' },
       { label: 'Ocean Import', id: 'idTabmenuItem2', routerLink: 'page2new' },
       { label: 'Ocean Export', id: 'idTabmenuItem3', routerLink: 'page3new' },
-      // { label: 'Drop', id: 'idTabmenuItem4', routerLink: '[/(third:tabmenulink4)]' },
-      { label: 'Drop', id: 'idTabmenuItem4', routerLink: '[{ outlets: { third: ["tabmenulink4"] } }]' },
-      { label: 'aaaa', id: 'aaaa', routerLink: 'page1new(third:tabmenulink4)' },
+
+      // { label: 'Drop', id: 'idTabmenuItem4', routerLink: '[{ outlets: { third: ["tabmenulink4"] } }]' },
+      // { label: 'aaaa', id: 'aaaa', routerLink: 'page1new(third:tabmenulink4)' },
+
+            // { label: 'Drop', id: 'idTabmenuItem4', routerLink: '[/(third:tabmenulink4)]' },
       // { label: 'Drop', id: 'idTabmenuItem4', url: '/(third:tabmenulink4)' },/*working*/
       // { label: 'Drop', id: 'idTabmenuItem4', routerLink: '(third:tabmenulink4)' },
     ];

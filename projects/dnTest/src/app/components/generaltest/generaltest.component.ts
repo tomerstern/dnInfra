@@ -100,7 +100,6 @@ export class GeneraltestComponent implements OnInit {
     //   }
 
     dpCalculateColumnSum(index, items): number {
-        
         let sum = 0;
         console.log('index=');
         console.log(index);
@@ -108,6 +107,7 @@ export class GeneraltestComponent implements OnInit {
         console.log(items.length);
         console.log('aaaaaaaaaa=');
         console.log(items[1][3]);
+        // tslint:disable-next-line: prefer-for-of
         for (let i = 0; i < items.length; i++) {
             sum += items[i][index];
             console.log(items[i][index]);

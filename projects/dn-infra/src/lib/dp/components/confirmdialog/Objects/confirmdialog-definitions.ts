@@ -74,9 +74,9 @@ export class ConfirmdialogDefinitions implements IConfirmdialogDefinitions {
   rejectVisible: boolean;
   style: object;
   styleClass: string;
-  maskStyleClass: string;
-  blockScroll: boolean;
-  defaultFocus: string;
+  // maskStyleClass: string;
+  // blockScroll: boolean;
+  // defaultFocus: string;
   constructor(params: IConfirmdialogDefinitions) { /* fix case sensitive */
     this.dp_positionDpConfirmdialog =
       (params.dp_positionDpConfirmdialog == null ? 'center' :

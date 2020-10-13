@@ -4,7 +4,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 // import { Country } from '../../../events/models/customer';
 /*import { CustomerService } from '../../../events/services/customerservice';*/
 
-import { AutocompleteDefinitions } from 'projects/dn-infra/src/lib/dp/components/autocomplete/Objects/autocomplete-definitions';
+import { AutocompleteDefinitions, AutocompleteType } from 'projects/dn-infra/src/lib/dp/components/autocomplete/Objects/autocomplete-definitions';
 import { CountryService } from '../../events/services/countryservice';
 import { Country } from '../../events/models/customer';
 
@@ -58,17 +58,20 @@ export class AutocompletetestComponent implements OnInit {
     // false, 1, 'ph text 1', false);
 
     this.autocompleteDefinition1 = new AutocompleteDefinitions({
-      isStandAlone: false, inputId: 'elem_1111', field: 'name',
+      inputId: 'elem_1111', field: 'name',
       dp_AutocompleteType: 0, multiple: false, minLength: 1, placeholder: 'ph text 1'
-      , dropdown: false
+      , dropdown: true
+      // name: 'Afghanistan'
+      , initialValues: [{ name: 'Afghanistan', code: 'AF' }]
+      // name: [{ name: 'Afghanistan', code: 'AF' }]
     });
 
     // 2 regular
-    // this.autocompleteDefinition2 = new AutocompleteDefinitions(false, 'elem_2222', 'name', 0, true, 
+    // this.autocompleteDefinition2 = new AutocompleteDefinitions(false, 'elem_2222', 'name', 0, true,
     // 1, 'ph text 2', true);
 
     this.autocompleteDefinition2 = new AutocompleteDefinitions({
-      isStandAlone: false, inputId: 'elem_2222', field: 'name',
+      inputId: 'elem_2222', field: 'name',
       dp_AutocompleteType: 0, multiple: true, minLength: 1, placeholder: 'ph text 2'
       , dropdown: true
     });
@@ -78,7 +81,7 @@ export class AutocompletetestComponent implements OnInit {
     //  '/assets/Images/collection_png_32x32/flags/flag_', 'png');
 
     this.autocompleteDefinition3 = new AutocompleteDefinitions({
-      isStandAlone: false, inputId: 'elem_3', field: '',
+      inputId: 'elem_3', field: '',
       dp_AutocompleteType: 2, multiple: true, minLength: 1, placeholder: 'ph text 3'
       , dropdown: true, dp_AutocompleteImagesPath: '/assets/Images/collection_png_32x32/flags/flag_',
       dp_AutocompleteImageExtension: 'png'
@@ -87,7 +90,7 @@ export class AutocompletetestComponent implements OnInit {
     // 4 load on click / open
 
     this.autocompleteDefinition4 = new AutocompleteDefinitions({
-      isStandAlone: false, inputId: 'elem_4', field: 'name',
+      inputId: 'elem_4', field: 'name',
       dp_AutocompleteType: 0, multiple: false, minLength: 1, placeholder: 'ph text 4'
       , dropdown: true
       , dpAutocompleteLazyDataFunc: () => {
@@ -106,7 +109,7 @@ export class AutocompletetestComponent implements OnInit {
     // this.autocompleteDefinition5 = new AutocompleteDefinitions(false, 'elem_table', 'Event Code', 1, false, 1, 'ph text 5', true);
 
     this.autocompleteDefinition5 = new AutocompleteDefinitions({
-      isStandAlone: false, inputId: 'elem_table', field: 'Event Code',
+      inputId: 'elem_table5', field: 'Event Code',
       dp_AutocompleteType: 1, multiple: false, minLength: 1, placeholder: 'ph text 5'
       , dropdown: true
     });
@@ -126,14 +129,14 @@ export class AutocompletetestComponent implements OnInit {
     ];
 
     this.autocompleteDefinition6 = new AutocompleteDefinitions({
-      isStandAlone: false, inputId: 'elem_table', field: 'Event Code',
+      inputId: 'elem_table6', field: 'Event Code',
       dp_AutocompleteType: 1, multiple: false, minLength: 1, placeholder: 'ph text 6'
       , dropdown: true, dp_AutocompleteTableFields: ColumnsExtradata
     });
 
 
     this.autocompleteDefinition7 = new AutocompleteDefinitions({
-      isStandAlone: false, inputId: 'elem_table', field: 'name',
+      inputId: 'elem_table7', field: 'name',
       dp_AutocompleteType: 1, multiple: false, minLength: 1, placeholder: 'ph text 7'
       , dropdown: true
     });
@@ -145,6 +148,7 @@ export class AutocompletetestComponent implements OnInit {
 
     this.countryService.getCountries().then(countries => {
       this.dataForAc1 = countries;
+      // console.log(countries);
     });
 
     this.countryService.get_tbl_WorldCities_100k().then(dataForAc2 => {

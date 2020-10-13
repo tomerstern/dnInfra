@@ -12,6 +12,7 @@ export class ICalendarDefinitions {
     yearNavigator?: boolean;
     yearRange?: string;
     showButtonBar?: boolean;
+    icon?: string;
 }
 
 export enum CalendarProperties {
@@ -26,7 +27,8 @@ export enum CalendarProperties {
     monthNavigator = 'monthNavigator',
     yearNavigator = 'yearNavigator',
     yearRange = 'yearRange',
-    showButtonBar = 'showButtonBar'
+    showButtonBar = 'showButtonBar',
+    icon = 'icon'
   }
 
 export enum SelectionMode {
@@ -49,12 +51,13 @@ export class CalendarDefinitions implements ICalendarDefinitions {
     yearNavigator: boolean;
     yearRange: string;
     showButtonBar?: boolean;
+    icon: string;
     constructor(params: ICalendarDefinitions) {
         this.isStandAlone = (params.isStandAlone == null ? true : params.isStandAlone);
         this.selectionMode = (params.selectionMode == null ? SelectionMode.single : params.selectionMode);
         this.showTime = (params.showTime == null ? false : params.showTime);
         this.timeOnly = (params.timeOnly == null ? false : params.timeOnly);
-        this.showIcon = (params.showIcon == null ? true : params.showIcon);
+        this.showIcon = (params.showIcon == null || params.showIcon === undefined ? true : params.showIcon);
         this.readonlyInput = (params.readonlyInput == null ? false : params.readonlyInput);
         this.minDate = (params.minDate == null ? new Date(1900, 1, 1) : params.minDate);
         this.maxDate = (params.maxDate == null ? new Date(2500, 1, 1) : params.maxDate);
@@ -64,6 +67,7 @@ export class CalendarDefinitions implements ICalendarDefinitions {
         const defaultYearRange = (new Date().getFullYear() - 2) + ':' + (new Date().getFullYear() + 2);
         this.yearRange = (params.yearRange == null ? defaultYearRange : params.yearRange);
         this.showButtonBar = (params.showButtonBar == null ? true : params.showButtonBar);
+        this.icon = (params.icon == null || params.icon === undefined ? 'pi pi-calendar' : params.icon);
     }
 }
 

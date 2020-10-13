@@ -1,20 +1,13 @@
-<div style="background-color: lightgoldenrodyellow;padding: 1em;">
-    <p-toast></p-toast>
-    <h3>in toast.component.html</h3>
-
-    <h3 class="first">Severities</h3>
-    <button type="button" pButton (click)="showSuccess()" label="Success" class="ui-button-success"></button>
-    <button type="button" pButton (click)="showInfo()" label="Info" class="ui-button-info"></button>
-    <button type="button" pButton (click)="showWarn()" label="Warn" class="ui-button-warning"></button>
-    <button type="button" pButton (click)="showError()" label="Error" class="ui-button-danger"></button>
-    <button type="button" pButton (click)="showError()" label="Custom"></button>
-
     
-    <div>this.definition.summary={{this.definition.summary}}</div>
-    <div>this.definition.detail={{this.definition.detail}}</div>
+    <p-toast *ngIf="definition"
+        [key]="definition.key"
+        [style]="definition.style"
+        [styleClass]="definition.styleClass"
+        [position]="definition.position"
+        [baseZIndex]="definition.baseZIndex"
+        [autoZIndex]="definition.autoZIndex"
+        [preventOpenDuplicates]="definition.preventOpenDuplicates"
+        [preventDuplicates]="definition.preventDuplicates"        
+    ></p-toast>
 
-    <div>
-    <button type="button" pButton (click)="ngMsg()" label="Success" class="ui-button-success"></button>
-    <button type="button" pButton (click)="showError()" label="Error" class="ui-button-danger"></button> 
-    </div>
-</div>
+

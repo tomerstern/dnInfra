@@ -116,7 +116,7 @@ export class MenubartestComponent implements OnInit {
       {
         label: 'routerLink',
         styleClass: 'mItem_2_0',
-        routerLink: ['/page1']
+        routerLink: ['/page2']
       },
       {
         label: 'command', styleClass: 'mItem_3_0', command: (event) => {

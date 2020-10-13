@@ -1,11 +1,14 @@
 import {
-  Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges,
+  Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges, ViewEncapsulation,
   ChangeDetectionStrategy, SimpleChanges
 } from '@angular/core';
 import { GridDefinitions, GridColumnType } from './objects/grid-definitions';
 import { TableStoreService, TableState } from '../../services/table-store.service';
 import { Subscription, Observable, fromEvent, Subject } from 'rxjs';
 import { Table } from 'primeng/table';
+import {
+  faThumbtack, faFileExcel, faFilePdf, faFilter, faPlus
+} from '@fortawesome/free-solid-svg-icons';
 import { InputNumberProperties } from '../inputnumber/objects/inputnumber-definitions';
 import { Store } from '@ngrx/store';
 import { addRow, deleteRow, updateTable } from '../../store/actions';
@@ -15,13 +18,14 @@ import { DpDialogService, DpDynamicDialogRef } from '../dynamicdialog/Objects/dy
 import { ColumnSelectionComponent } from './columnSelection/column-selection/column-selection.component';
 import { MessageService } from 'primeng/api'; /* only for showing return value */
 
+
 @Component({
   selector: 'dp-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
   providers: [TableStoreService, DpDialogService, MessageService],
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
-
 })
 export class TableComponent implements OnInit, OnChanges {
 
@@ -30,13 +34,25 @@ export class TableComponent implements OnInit, OnChanges {
   @Input() tableId: string;
   @Output() stateChanges: EventEmitter<TableState> = new EventEmitter();
   data$: Observable<any>;
-
   exportColumns: any[];
   first = 0;
   toggleFilter: boolean;
   isEditable: boolean;
   isFooter = false;
+  isfrozenCols = false;
+  frozenColsIndex = 0;
+  frozenCols: any[];
+  scrollableCols: any[]; /* non frozen Cols*/
   selectedEntity: any;
+  frozenWidth = '0px';
+  frozenColsCounter = -1;
+  frozenButtonText = 'גרור אותי להקפיא עמודות';
+  frozenButtonClasses = 'clsBtnFreezeCols';
+  HeadersHeight = '74px';
+  isColumnsWidthDefined = false;
+  isFreezeColumnActive = false;
+  ArrFooterCells: string[];
+  ArrDatasourceKeys: string[] = [];
   obj = {};
   sub: Subscription;
   newRow = {};
@@ -44,19 +60,30 @@ export class TableComponent implements OnInit, OnChanges {
   gridColumnTypeEnum = GridColumnType;
   @ViewChild('dt') table: Table;
   @ViewChild('testEl') testEl: ElementRef;
+
   private inputDebouncer$: Subject<string> = new Subject();
   ref1: DpDynamicDialogRef;
   sourceList: any[] = [];
-  //targetList: any[] = [];
 
-  constructor(public dialogService: DpDialogService, public messageService: MessageService, private store: Store<any>) { 
-  }
+  faThumbtack = faThumbtack;
+  faFileExcel = faFileExcel;
+  faFilePdf = faFilePdf;
+  faFilter = faFilter;
+  faPlus = faPlus;
+
+  constructor(public dialogService: DpDialogService, public messageService: MessageService, private store: Store<any>) { }
+
 
   ngOnInit() {
     this.obj = { background: 'red', color: 'green' };
     this.exportColumns = this.definition.columns.map(col => ({ title: col.headername, dataKey: col.fieldname }));
     this.setIsEditable();
     this.setIsFooter();
+
+    this.isColumnsWidthDefined = this.ColumnsWidthDefined();
+    // this.sub = this.tableStore.tableState$.subscribe(newState => {
+    //   this.stateChanges.emit(newState);
+    // });
 
     this.inputDebouncer$.pipe(
       debounceTime(1000),
@@ -68,25 +95,35 @@ export class TableComponent implements OnInit, OnChanges {
       // Do the actual search
     });
     //this.targetList = this.definition.columns;
+
+
+    this.scrollableCols = this.definition.columns;
+    this.dpCreateFooterData();
+
+
+    /* when on init for frozen columns and header - works*/
+    // this.frozenColsCounter = 1;
+    // this.dpFreezeColumns('400px');
+
   }
 
+
   showDynamicdialog1() {
-    debugger
     const Tlist = this.definition.columns;
     this.ref1 = this.dialogService.open(ColumnSelectionComponent, {
       header: 'Choose Columns',
       width: '70%',
       data: {
         sourceList: this.sourceList,
-        //targetList: this.targetList
+        // targetList: this.targetList
         targetList: Tlist
-        //id: '154'
+        // id: '154'
       },
     });
 
     this.ref1.onClose.subscribe((ReturnObj) => {
 
-      debugger;
+      // debugger;
       if (ReturnObj) {
         this.definition.columns = ReturnObj;
         // this.messageService.add({ severity: 'info', summary: 'Car Selected', detail: 'Vin:' + car.vin });
@@ -101,8 +138,11 @@ export class TableComponent implements OnInit, OnChanges {
     }
   }
 
+
   ngOnChanges(changes: SimpleChanges) {
-    if (this.tableId && this.datasource && changes.datasource.previousValue === null) {
+    // this.dpCreateFooterData();
+    if (this.tableId && this.datasource) {
+      console.log(changes);
       this.store.dispatch(updateTable({ data: { tableId: this.tableId, tableData: this.datasource } }));
       this.data$ = this.store.select(getTableStateById(this.tableId));
     } else {
@@ -111,7 +151,7 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   toggleFn(el: HTMLElement) {
-    // console.log(el);
+    console.log(el);
   }
 
   updateRow(columnField: string, row: object, val: string, rowIndex: number) {
@@ -125,7 +165,24 @@ export class TableComponent implements OnInit, OnChanges {
 
   }
 
+
+
   // if at least one of the columns is editable then the grid is editable and we add add and delete buttons
+
+  // setIsEditable() {
+  //   this.isEditable = false;
+  //   let isColumnEditable = false;
+  //   this.definition.columns.forEach((column) => {
+
+  //     if (column.iseditable) {
+  //       isColumnEditable = true;
+  //     }
+  //   });
+  //   if (isColumnEditable) {
+  //     this.isEditable = true;
+  //   }
+  // }
+
   setIsEditable() {
     for (const column of this.definition.columns) {
       if (column.iseditable) {
@@ -139,6 +196,7 @@ export class TableComponent implements OnInit, OnChanges {
     console.log(x);
   }
 
+
   setIsFooter() {
     for (const column of this.definition.columns) {
       if (column.ColumnSum || column.ColumnTotal) {
@@ -148,13 +206,6 @@ export class TableComponent implements OnInit, OnChanges {
     }
   }
 
-  // checkMandatory() {
-  //   const emptyMandatoryFieldNames: string[] = [];
-  //   const mandatoryFieldNames: string[] = this.getMandatoryFieldNames();
-  //   const rows = this.data.source['_value'];
-  //   this.loopRows(rows, mandatoryFieldNames, emptyMandatoryFieldNames);
-  //   // debugger
-  // }
 
   loopRows(rows, mandatoryFieldNames, emptyMandatoryFieldNames) {
     for (const row of rows) {
@@ -194,6 +245,8 @@ export class TableComponent implements OnInit, OnChanges {
     this.store.dispatch(addRow({ data: { tableId: this.tableId, rowToAdd: this.newEmptyRow() } }));
   }
 
+
+
   newEmptyRow() {
     const row = {};
     row[this.definition.dataKey] = '';
@@ -201,6 +254,8 @@ export class TableComponent implements OnInit, OnChanges {
       const columnName = column.fieldname;
       row[columnName] = '';
     });
+    // const maxIndex = Math.max.apply(null, this.datasource.map(item => item.dpIndex));
+
     return row;
   }
 
@@ -250,6 +305,232 @@ export class TableComponent implements OnInit, OnChanges {
 
   onDateSelect(value) {
     this.table.filter(value, 'date', 'equals');
+  }
+
+  dpInitArrDatasourceKeys() {
+
+    if (this.datasource !== undefined) {
+      const jsonData = this.datasource[0];
+      // tslint:disable-next-line: forin
+      for (const myIndex in jsonData) {
+        const key = myIndex;
+        this.ArrDatasourceKeys.push(key);
+      }
+    }
+  }
+
+  dpCreateFooterData() {
+
+    if (!this.ArrDatasourceKeys.length) {
+      this.dpInitArrDatasourceKeys();
+    }
+    let tmpStr1 = '';
+    let tmpStr2 = '';
+    let i = 0;
+
+    this.ArrFooterCells = [];
+
+    this.definition.columns.forEach((column) => {
+      tmpStr1 = '';
+      tmpStr2 = '';
+      if (column.ColumnSum) {
+
+        tmpStr1 = this.dpCalculateColumnSum(i, {}, this.table, column.LocaleString);
+      }
+      if (column.ColumnTotal) {
+        tmpStr2 = this.dpCalculateTotalRows(i, {}, this.table, column.LocaleString);
+        if (tmpStr2 !== '') { tmpStr2 = 'Total:' + tmpStr2; }
+        if (tmpStr1 !== '') { tmpStr2 = '  ' + tmpStr2; }
+      }
+      this.ArrFooterCells.push(tmpStr1 + tmpStr2);
+
+      i++;
+    });
+
+  }
+
+  dpCalculateColumnSum(index, column, table, LocaleString): string {
+    let sum = 0;
+    let strSum = '0';
+    let i = 0;
+
+    try {
+      const t0 = performance.now();
+      // console.log('t0=' + t0 + ' , index=' + index);
+
+      if (this.datasource !== undefined) {
+
+
+        // tslint:disable-next-line: prefer-for-of
+        //   for (i = 0; i < this.datasource.length; i++) {
+        //     if (this.datasource[i][table.columns[index].fieldname] !== undefined) {
+        //       if (typeof this.datasource[i][table.columns[index].fieldname] === 'number') {
+        //         sum += this.datasource[i][table.columns[index].fieldname];
+        //       }
+        //     }
+        //   }
+        // }
+
+        for (i = 0; i < this.datasource.length; i++) {
+          if (this.datasource[i][this.ArrDatasourceKeys[index]] !== undefined) {
+            if (typeof this.datasource[i][this.ArrDatasourceKeys[index]] === 'number') {
+              sum += this.datasource[i][this.ArrDatasourceKeys[index]];
+            }
+          }
+        }
+      }
+
+      if (this.isInteger(sum)) { /* dont format .00*/
+        strSum = (LocaleString ? sum.toLocaleString() : sum.toString());
+      } else {
+        strSum = (LocaleString ? (Math.round(sum * 100) / 100).toFixed(2).toLocaleString() : (Math.round(sum * 100) / 100).toFixed(2));
+      }
+
+      const t1 = performance.now();
+      // console.log('t1=' + t1);
+      console.log('Function took ' + (t1 - t0) + ' milliseconds.');
+
+      return strSum;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+  dpCalculateTotalRows(ind, column, table, LocaleString): string {
+    let strSum = '';
+    if (this.datasource !== undefined) {
+      strSum = (LocaleString ? this.datasource.length.toLocaleString() : this.datasource.length.toString());
+    }
+    return strSum;
+  }
+
+
+  isInteger(n) {
+    // tslint:disable-next-line: no-bitwise
+    return n === +n && n === (n | 0);
+  }
+
+
+  dpFreezeColumns(dt, LocFrozenWidth) {
+    // console.log('frozenColsCounter=' + this.frozenColsCounter);
+    this.frozenCols = this.definition.columns.slice(0, this.frozenColsCounter + 1);
+    this.scrollableCols = this.definition.columns.slice(this.frozenColsCounter + 1, this.definition.columns.length);
+    this.isFreezeColumnActive = true;
+    this.frozenWidth = LocFrozenWidth;
+
+    const Elems = dt.el.nativeElement.querySelectorAll('.ui-table-scrollable-view');
+    const Elem = Elems[1];
+
+  }
+
+  log(val) { console.log(val); }
+  // {{log('repeat')}}
+
+
+  dpIsHScroll(dt): boolean {
+    try {
+      return this.definition.isFreezeColumns;
+
+      // const header = dt.el.nativeElement.querySelectorAll('thead');
+      // const scrollWidth = header[0].scrollWidth;
+      // const clientWidth = header[0].clientWidth;
+      // const offsetWidth = header[0].offsetWidth;
+
+
+      // const tfoot = dt.el.nativeElement.querySelectorAll('tfoot');
+      // const scrollWidth1 = tfoot[0].scrollWidth;
+      // const clientWidth1 = tfoot[0].clientWidth;
+      // const offsetWidth1 = tfoot[0].offsetWidth;
+
+      // if (scrollWidth1 === clientWidth1) {
+      //   return false;
+      // } else {
+      //   return true;
+      // }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+  dpFreezeColumndrop(event, columnInd, dt) {
+
+    if (this.frozenColsCounter >= 0) {
+      return;
+    }
+
+
+    this.frozenButtonClasses = 'clsBtnFreezeCols clsBtnFreezeColsSelected';
+    this.frozenButtonText = 'לחץ עלי לבטל נעילה';
+    this.frozenColsCounter = columnInd;
+
+
+    if (this.dpIsHScroll(dt) === false) {
+      return;
+    }
+
+
+    let LocWidth = 0;
+    this.HeadersHeight = this.dpCalcHeadersHeight(dt);
+
+    LocWidth = this.dpCalcFreezeColumnsWidth(dt);
+
+    this.dpFreezeColumns(dt, LocWidth + 'px');
+  }
+
+
+  dpUnFreezeCols() {
+    this.frozenColsCounter = -1;
+    this.frozenButtonClasses = 'clsBtnFreezeCols';
+    this.frozenButtonText = 'גרור אותי להקפיא עמודות';
+    this.frozenCols = null;
+    this.scrollableCols = this.definition.columns;
+    this.isFreezeColumnActive = false;
+    this.frozenWidth = '0px';
+  }
+
+
+  dpCalcFreezeColumnsWidth(dt) {
+    let LocWidth = 0;
+    let i: number;
+    const headers = dt.el.nativeElement.querySelectorAll('thead > tr th');
+    for (i = 0; i < headers.length; ++i) {
+      if (this.frozenColsCounter < i) {
+        break;
+      }
+      // LocWidth +=  headers[i].clientWidth;
+      LocWidth += headers[i].offsetWidth;
+    }
+    // console.log('LocWidth=' + LocWidth);
+
+    return LocWidth;
+  }
+
+  dpCalcHeadersHeight(dt) {
+    let LocHeight = '';
+    const headers = dt.el.nativeElement.querySelectorAll('thead > tr > th');
+    if (headers.length) {
+      const header = headers[0];
+      LocHeight = header.offsetHeight + 'px';
+    }
+    return LocHeight;
+  }
+
+
+  ColumnsWidthDefined() {
+    return true;
+  }
+
+  funcTest() {
+    const a = document.scrollingElement;
+    console.log(a);
+
+    const Elems = this.table.el.nativeElement.querySelectorAll('.ui-table-scrollable-view');
+    const Elem = Elems[1];
+    Elem.classList.add('ui-table-unfrozen-view');
+    // ui-table-scrollable-view -> ui-table-unfrozen-view
+
   }
 
 }

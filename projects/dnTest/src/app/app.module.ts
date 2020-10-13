@@ -31,7 +31,10 @@ import { Page0testComponent } from './components/page0test/page0test.component';
 import { TabmenutestComponent } from './components/tabmenutest/tabmenutest.component';
 import { GeneraltestComponent } from './components/generaltest/generaltest.component';
 import { Table2testComponent } from './components/table2test/table2test.component';
-
+import { DynamicdialogtestComponent } from './components/dynamicdialogtest/dynamicdialogtest.component';
+import { Dynamicdialogsrc1testComponent } from './components/dynamicdialogsrc1test/dynamicdialogsrc1test.component';
+import { Dynamicdialogsrc2testComponent } from './components/dynamicdialogsrc2test/dynamicdialogsrc2test.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 // actual build
@@ -42,11 +45,12 @@ import { Table2testComponent } from './components/table2test/table2test.componen
     AppComponent, TabletestComponent,
     AutocompletetestComponent, AutocompletesingletestComponent, ConfirmdialogtestComponent,
     ContextmenutestComponent, DialogtestComponent, MenubartestComponent,
-     SplitbuttontestComponent,
+    SplitbuttontestComponent,
     TabviewtestComponent, ToasttestComponent, TreetestComponent, GlobalfunctionstestComponent,
-     Page1testComponent, Page2testComponent, Page3testComponent, Page0testComponent,
-     TabmenutestComponent,
-     Page4testComponent, GeneraltestComponent, Table2testComponent
+    Page1testComponent, Page2testComponent, Page3testComponent, Page0testComponent,
+    TabmenutestComponent,
+    Page4testComponent, GeneraltestComponent, Table2testComponent, DynamicdialogtestComponent,
+    Dynamicdialogsrc1testComponent, Dynamicdialogsrc2testComponent
   ],
   imports: [
     CommonModule,
@@ -54,9 +58,13 @@ import { Table2testComponent } from './components/table2test/table2test.componen
     AppRoutingModule,
     DnInfraModule,
     HttpClientModule,
-    EventsModule
+    EventsModule, FontAwesomeModule
   ],
   providers: [CustomerService, CountryService, ConfirmationService, GlobalFunctionsService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    Dynamicdialogsrc1testComponent,
+    Dynamicdialogsrc2testComponent
+  ]
 })
 export class AppModule { }

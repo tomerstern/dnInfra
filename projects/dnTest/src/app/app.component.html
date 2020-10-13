@@ -1,27 +1,50 @@
+
+
+
+
+<dp-calendar [definition]="calendarDefinitions" [ngModel]="calendarData1" class="p-mr-1"></dp-calendar>
+<dp-calendar [definition]="calendarDefinitions2" [ngModel]="calendarData2" class="p-mr-1"></dp-calendar>
+ 
+
+<dp-calendar [definition]="calendarDefinitions" ngModel="{{calendarData1}}">
+</dp-calendar>
+
+<dp-inputtext [definition]="InputtextDefinitions1" [ngModel]="'dddddddd'" class="p-mr-1"></dp-inputtext>
+<!-- <app-page0test></app-page0test> -->
+
+<app-table2test></app-table2test>
+
+<app-tabletest></app-tabletest> 
+
+<br>
+<dp-calendar [definition]="calendarDefinitions" [ngModel]="calendarData1" ></dp-calendar>
+<dp-checkbox [definition]="checkboxDefinitions" [ngModel]="true" ></dp-checkbox>
+
+
+<app-tabmenutest></app-tabmenutest>
+
+<app-dynamicdialogtest></app-dynamicdialogtest>
+
+<app-dialogtest></app-dialogtest>
+
+<app-confirmdialogtest></app-confirmdialogtest>
+
+<app-treetest></app-treetest>
+
+<app-toasttest></app-toasttest>
+
+<app-globalfunctionstest></app-globalfunctionstest>
+
+<app-splitbuttontest></app-splitbuttontest>
+
+<app-menubartest></app-menubartest>
+
+<app-contextmenutest></app-contextmenutest> 
+
 <router-outlet></router-outlet>
-<app-tabletest></app-tabletest>
 
-<!-- <hr>
-<dp-calendar [definition]="calendarDefinitions" [ngModelDP]="calendarData1" ></dp-calendar>
-<hr>
-<dp-checkbox [definition]="checkboxDefinitions" [ngModelDP]="true" ></dp-checkbox>
-<hr>
-<dp-inputtext [definition]="it1" [ngModelDP]="inputText1"></dp-inputtext>
-<hr>
-<dp-inputnumber [definition]="in1" [ngModelDP]="inputNumber1"></dp-inputnumber>
-<hr>
-<dp-autocomplete (getSelected)="external_data_selected_1 = $event" 
-    [definition]="autocompleteDefinition1" [datasource]="data_for_ac1">
-</dp-autocomplete>
-
-<div>external_data_selected_1: <div class='s'>                    
-    {{ !external_data_selected_1 ? '' : (external_data_selected_1 | json ) }}
-</div>
-</div>
-
-<hr>
+<br>
+<hr><hr><hr>
 <app-autocompletesingletest></app-autocompletesingletest>
-<hr>
-<app-autocompletetest></app-autocompletetest>
-<hr> -->
-
+<hr> 
+<app-autocompletetest></app-autocompletetest>  

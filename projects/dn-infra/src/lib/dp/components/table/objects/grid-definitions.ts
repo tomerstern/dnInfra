@@ -20,6 +20,10 @@ export interface IGridDefinition {
     // FreezeHeader?: boolean;
     FreezeHeaderTableHeight?: string;
     scrollable?: string;
+    HeadersMergeGroupsHtml?: string;
+    isFreezeColumns?: boolean;
+    // isFreezeColumnActive?: boolean;
+    HideBtnsCol?: boolean;
     HeaderColGroup?: string;
 }
 
@@ -40,6 +44,8 @@ export interface IGridColumn {
     ColumnDatasource?: any[];
     ColumnSum?: boolean;
     ColumnTotal?: boolean;
+    LocaleString?: boolean;
+    HeaderClassNames?: string; /*for frozen columns*/
 }
 
 
@@ -75,6 +81,10 @@ export class GridDefinitions implements IGridDefinition {
     // isFooter: boolean;
     FreezeHeaderTableHeight: string;
     scrollable: string;
+    HeadersMergeGroupsHtml: string;
+    // isFreezeColumnActive: boolean;
+    isFreezeColumns: boolean;
+    HideBtnsCol: boolean;
     HeaderColGroup: string;
     constructor(params: IGridDefinition) {
         this.dataKey = params.dataKey;
@@ -98,7 +108,17 @@ export class GridDefinitions implements IGridDefinition {
         // this.isFooter = (params.isFooter == null || params.isFooter === undefined ? false : params.isFooter);
         this.FreezeHeaderTableHeight = (params.FreezeHeaderTableHeight == null
             || params.FreezeHeaderTableHeight === undefined ? '' : params.FreezeHeaderTableHeight);
-        this.scrollable = (this.FreezeHeaderTableHeight === '' ? '' : 'true');
+        // this.scrollable = (this.FreezeHeaderTableHeight === '' ? '' : 'true');
+        this.scrollable = (params.scrollable == null
+            || params.scrollable === undefined ? 'true' : params.scrollable);
+        this.HeadersMergeGroupsHtml = (params.HeadersMergeGroupsHtml == null
+            || params.HeadersMergeGroupsHtml === undefined ? '' : params.HeadersMergeGroupsHtml);
+        // this.isFreezeColumnActive = (params.isFreezeColumnActive == null
+        //     || params.isFreezeColumnActive === undefined ? false : params.isFreezeColumnActive);
+        this.HideBtnsCol = (params.HideBtnsCol == null
+            || params.HideBtnsCol === undefined ? false : params.HideBtnsCol);
+        this.isFreezeColumns = (params.isFreezeColumns == null
+            || params.isFreezeColumns === undefined ? false : params.isFreezeColumns);
         this.HeaderColGroup = (params.HeaderColGroup == null
             || params.HeaderColGroup === undefined ? '' : params.HeaderColGroup);
     }
@@ -166,6 +186,8 @@ export class GridColumn implements IGridColumn {
     ColumnDatasource: any[];
     ColumnSum: boolean;
     ColumnTotal: boolean;
+    LocaleString: boolean;
+    HeaderClassNames: string; /*for Frozen Cols*/
     constructor(params: IGridColumn) {
         this.headername = params.headername;
         this.fieldname = params.fieldname;
@@ -173,7 +195,9 @@ export class GridColumn implements IGridColumn {
         this.iseditable = (params.iseditable == null ? false : params.iseditable);
         this.isMandatory = (params.isMandatory == null ? false : params.isMandatory);
         this.width = (params.width == null ? 17 : params.width);
-        this.height = (params.height == null ? 17 : params.height);
+        // this.width = (params.width == null ? 17 : params.width);
+        this.width = (params.width);
+        // this.height = (params.height == null ? 17 : params.height);
         this.align = (this.type === GridColumnType.image ? 'center' : (params.align == null ? 'left' : params.align));
         this.columnParams = (params.columnParams == null ? new GridColumnParams() : params.columnParams);
         this.style = params.style;
@@ -183,5 +207,7 @@ export class GridColumn implements IGridColumn {
         this.ColumnDatasource = params.ColumnDatasource;
         this.ColumnSum = (params.ColumnSum == null || params.ColumnSum === undefined ? false : params.ColumnSum);
         this.ColumnTotal = (params.ColumnTotal == null || params.ColumnTotal === undefined ? false : params.ColumnTotal);
+        this.LocaleString = (params.LocaleString == null || params.LocaleString === undefined ? false : params.LocaleString);
+        this.HeaderClassNames = (params.HeaderClassNames == null || params.HeaderClassNames === undefined ? '' : params.HeaderClassNames);
     }
 }

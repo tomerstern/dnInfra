@@ -1,1 +1,21 @@
-<p>globalfunctionstest works!</p>
+<h2>in globalfunctionstest</h2>
+
+<span class="pull-left clsSpanRounded" 
+    [escape]="false" 
+    pTooltip="<h2>header</h2>text1...<br> <u>text2...</u>
+    <div style='color: green'>text3</div>">?</span>
+
+<div class="p-grid">
+    <div class="p-col-12 p-md-3" pTooltip="default" tooltipPosition="top" >
+        default Uuid: <div class="s">{{this.uuid1}}</div>
+    </div>
+    <div class="p-col-12 p-md-3">
+        short Uuid: <div class="s">{{this.uuid2}}</div>
+    </div>
+    <div class="p-col-12 p-md-3">
+        long Uuid: <div class="s">{{this.uuid3}}</div>
+    </div>
+    <div class="p-col-12 p-md-3">
+        prefix table Uuid: <div class="s">{{this.uuid4}}</div>
+    </div>    
+</div>

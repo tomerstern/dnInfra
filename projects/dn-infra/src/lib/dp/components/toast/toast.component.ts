@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Injectable } from '@angular/core';
-import {MessageService} from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { ToastDefinitions } from './Objects/toast-definitions';
 
 @Component({
@@ -21,31 +20,27 @@ export class ToastComponent implements OnInit {
   constructor(private messageService: MessageService) { }
 
   ngOnInit(): void {
-    console.log('in ngOnInit in toast.component');
-    this.ngMsg();
-    this.showSuccess('aaaaaaa', 'bbbbbbbb');
+
   }
 
 
-  ngMsg(){
+  dp_showToast(summary?: string, detail?: string, severity?: string, life?: number) {
+    summary = (summary == null || summary === undefined ? 'Default Header' : summary );
+    detail = (detail == null || detail === undefined ? 'Default Mesaage' : detail );
+    severity = (severity == null || severity === undefined ? 'info' : severity );
+    life = (life == null || life === undefined ? 3000 : life );
+    // this.messageService.add({ severity: this.definition.severity, summary: this.definition.header, detail: this.definition.body });
+    this.messageService.add({ severity, summary, detail, life });
+  }
+
+  // dpToastFunc(defToast) {
+  //   // debugger
+  //   console.log('in 1111111111111111111');
+  //   // this.dp_showToast();
+  // }
+
+  ngMsg() {
     console.log('in ngMsg');
   }
-
-  showSuccess(t_summary:string = 'Success Message', t_detail:string = 'Success'  ) {
-    this.messageService.add({severity:'success', summary: t_summary, detail:t_detail});
-  }
-  
-  showInfo(t_summary:string = 'info Message', t_detail:string = 'info') {
-    this.messageService.add({severity:'info', summary: t_summary, detail:t_detail});
-  }
-  
-  showWarn(t_summary:string = 'warn Message' ,t_detail:string = 'warn' ) {
-    this.messageService.add({severity:'warn', summary: t_summary, detail:t_detail});
-  }
-  
-  showError(t_summary:string = 'error Message', t_detail:string = 'failed') {
-    this.messageService.add({severity:'error', summary: t_summary, detail:t_detail});
-  }
-
 
 }

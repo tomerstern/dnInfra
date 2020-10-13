@@ -1,9 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { SplitbuttonDefinitions, DpMenuItem } from 'projects/dn-infra/src/lib/dp/components/splitbutton/Objects/splitbutton-definitions';
-// import { SplitbuttonDefinitions, DpMenuItem } from 'projects/dn-infra/src/lib/dp/components/splitbutton/Objects/splitbutton-definitions';
-
-import { MenuItem } from 'primeng/api';
-
 import { MessageService } from 'primeng/api';
 
 @Component({
@@ -94,7 +90,7 @@ export class SplitbuttontestComponent implements OnInit {
       },
       { label: 'Angular.io', icon: 'pi pi-info', url: 'http://angular.io' },
       { separator: true },
-      { label: 'Setup', icon: 'pi pi-cog', routerLink: ['/page1'] }
+      { label: 'Setup', icon: 'pi pi-cog', routerLink: ['/page3'] }
     ];
 
     this.items2 = this.items1;

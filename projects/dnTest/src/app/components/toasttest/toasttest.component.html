@@ -1,22 +1,98 @@
 
-<div style="background-color: lightgrey;padding: 1em;">
+<div class="clsToastTest">
     <h2>in toasttest.component.html</h2>
-    <button type="button" pButton (click)="func1()" label="Info" class="ui-button-info"></button>
-    <!-- <app-toast [definition]=gridDefinition [datasource]=customers></app-toast> -->
 
-    <!-- <div>toastDefinition.summary={{toastDefinition.summary}}</div>
-    <div>toastDefinition.detail={{toastDefinition.detail}}</div> -->
+    <div class="p-grid">
+        <div class="p-col-12 p-md-3">
+            <fieldset>            
+                <legend>Severities:</legend>
+
+                <dp-toast #toast1 [definition]="toastDefinition1"></dp-toast>
+
+                <button type="button" pButton (click)="toast1.dp_showToast(  'header 1', 'text 1' , 'success')" 
+                    label="success" class="ui-button-success">
+                </button>
+                <button type="button" pButton (click)="toast1.dp_showToast( 'header 2', 'text 2' ,  'info')" 
+                    label="info" class="ui-button-info">
+                </button>
+                <button type="button" pButton (click)="toast1.dp_showToast( 'header 3', 'text 3' , 'warn' )" 
+                    label="warn" class="ui-button-warning">
+                </button>
+                <button type="button" pButton (click)="toast1.dp_showToast( 'header 4', 'text 4' ,'error'  )" 
+                    label="Error" class="ui-button-danger">
+                </button>
+
+                <br><br>
 
 
-    <dp-toast [definition]=toastDefinition></dp-toast>
+            </fieldset>
+        </div>
+        <div class="p-col-12 p-md-5">
+            <fieldset>
+                <legend>Positions</legend>
 
-    <!-- <app-toast [definition]=toastDefinition (stockValueChange)=changeStockValue($event)></app-toast> -->
 
-    
+                <dp-toast #toast2 [definition]="toastDefinition2"></dp-toast>
+                <dp-toast #toast3 [definition]="toastDefinition3"></dp-toast>
+                <dp-toast #toast4 [definition]="toastDefinition4"></dp-toast>
+                <dp-toast #toast5 [definition]="toastDefinition5"></dp-toast>
+
+                <button type="button" pButton (click)="toast2.dp_showToast(  'header 1', 'text 1', 'success' )" 
+                    label="bottom Center" class="ui-button-success">
+                </button>
+                            
+                <button type="button" pButton (click)="toast3.dp_showToast(  'header 2', 'text 2', 'info' )" 
+                    label="Center" class="ui-button-info">
+                </button>        
+                
+                <button type="button" pButton (click)="toast4.dp_showToast(  'header 2', 'text 2', 'warn' )" 
+                    label="top Left" class="ui-button-warning">
+                </button>
+                            
+                <button type="button" pButton (click)="toast5.dp_showToast( 'header 2', 'text 2', 'error')" 
+                    label="bottom Right" class="ui-button-danger">
+                </button>
+
+            </fieldset>
+
+        </div>
+        <div class="p-col-12 p-md-2">
+            <fieldset>
+                <legend>Severities</legend>
+
+                <dp-toast #toast10 [definition]=toastDefinition10></dp-toast>
+                <button type="button" pButton (click)="ShowgMsg()" label="ShowgMsg" class="ui-button-success"></button>
+
+            </fieldset>
+
+        </div> 
+        
+        <div class="p-col-12 p-md-2">
+            <fieldset>
+                <legend>Time</legend>
+
+                <dp-toast #toast11 [definition]=toastDefinition11></dp-toast>
+                <button type="button" pButton (click)="toast11.dp_showToast(  'header 1', 'text 1', 'success', 500 )"  
+                    label="0.5 second" class="ui-button-info">
+                </button>
+
+                <br><br>
+
+                <dp-toast #toast12 [definition]=toastDefinition12></dp-toast>
+                <button type="button" pButton (click)="toast12.dp_showToast(  'header 1', 'text 1', 'success', 10000 )"  
+                    label="10 second" class="ui-button-warning">
+                </button>
+            </fieldset>
+
+        </div>     
+    </div>
+
+
+
 </div>
 
 
-<!-- <button type="button" pButton (click)="ngMsg()" label="Success" class="ui-button-success"></button>
-<button type="button" pButton (click)="showInfo()" label="Info" class="ui-button-info"></button>
-<button type="button" pButton (click)="showWarn()" label="Warn" class="ui-button-warning"></button>
-<button type="button" pButton (click)="showError()" label="Error" class="ui-button-danger"></button> -->
+
+
+
+

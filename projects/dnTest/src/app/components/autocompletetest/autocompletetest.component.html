@@ -1,15 +1,23 @@
+
+<h2>in autocompletetest.component.html</h2>
 <div>
     <div class="p-grid">
         <div class="p-col-12 p-md-6">
-            <fieldset>
+            <fieldset>            
                 <legend>regular:</legend>
                 <!-- <dp-autocomplete *ngIf="dataForAc1 != undefined"   -->
-                <dp-autocomplete (getSelected)="externalDataSelected1 = $event" [definition]=autocompleteDefinition1 [datasource]=dataForAc1></dp-autocomplete>
+
+                <dp-autocomplete 
+                (getSelected)="externalDataSelected1 = $event" 
+                [definition]="autocompleteDefinition1"
+                    [datasource]="dataForAc1">
+                </dp-autocomplete>
 
                 <br><br>
 
                 <!-- dont show null or empty arr sign: [] if multi select -->
-                <div>externalDataSelected1: <div class='s'>                    
+                <div>externalDataSelected1: <div class='s'>
+                    
                         {{ !externalDataSelected1 ? '' : (externalDataSelected1 | json ) }}
                     </div>
                 </div>
@@ -19,15 +27,15 @@
             <fieldset>
                 <legend>regular with multi select:</legend>
 
-                <dp-autocomplete (getSelected)="externalDataSelected2 = $event" [definition]=autocompleteDefinition2 [datasource]=dataForAc2></dp-autocomplete>
+                <dp-autocomplete (getSelected)="externalDataSelected2 = $event" [definition]=autocompleteDefinition2
+                    [datasource]=dataForAc2></dp-autocomplete>
 
                 <br><br>
-                <div>externalDataSelected2: <div class='s'>                
-                        {{ !externalDataSelected2 || !externalDataSelected2.length ? '' : (externalDataSelected2 | json)  }} 
+                <div>externalDataSelected2: <div class='s'>
+                        {{ !externalDataSelected2 || !externalDataSelected2.length ? '' : (externalDataSelected2 | json)  }}
                     </div>
                 </div>
 
-                <!-- <div>222222222: {{externalDataSelected2[0]}}</div> -->
             </fieldset>
 
         </div>
@@ -37,7 +45,8 @@
             <fieldset>
                 <legend>With Images (default):</legend>
 
-                <dp-autocomplete (getSelected)="externalDataSelected3 = $event" [definition]=autocompleteDefinition3 [datasource]=dataForAc3></dp-autocomplete>
+                <dp-autocomplete (getSelected)="externalDataSelected3 = $event" [definition]=autocompleteDefinition3
+                    [datasource]=dataForAc3></dp-autocomplete>
 
                 <br><br>
                 <div>external 3: <div class='s'>
@@ -49,15 +58,17 @@
         </div>
         <div class="p-col-12 p-md-6">
             <fieldset>
-                <legend>Load on first click / open </legend>
 
-                <dp-autocomplete (getSelected)="externalDataSelected4 = $event" [definition]="autocompleteDefinition4" [datasource]="dataForAc4"></dp-autocomplete>
+                <legend>Data From DB:</legend>
+
+                <dp-autocomplete (getSelected)="externalDataSelected7 = $event" [definition]="autocompleteDefinition7"
+                    [datasource]="dataForAc7"></dp-autocomplete>
 
                 <br><br>
-
-                <div>external 4: <div class='s'>{{ !externalDataSelected4 ? '' : (externalDataSelected4 | json) }}
+                <div>external 7: <div class='s'>{{ !externalDataSelected7 ? '' : (externalDataSelected7 | json) }}
                     </div>
                 </div>
+              
 
             </fieldset>
         </div>
@@ -67,7 +78,8 @@
             <fieldset>
                 <legend>With Table (default):</legend>
 
-                <dp-autocomplete (getSelected)="externalDataSelected5 = $event" [definition]="autocompleteDefinition5" [datasource]="dataForAc5"></dp-autocomplete>
+                <dp-autocomplete (getSelected)="externalDataSelected5 = $event" [definition]="autocompleteDefinition5"
+                    [datasource]="dataForAc5"></dp-autocomplete>
 
                 <br><br>
                 <div>external 5: <div class='s'>{{ !externalDataSelected5 ? '' : (externalDataSelected5 | json) }}
@@ -80,7 +92,8 @@
             <fieldset>
                 <legend>Table with Columns Extra Definitons</legend>
 
-                <dp-autocomplete (getSelected)="externalDataSelected6 = $event" [definition]="autocompleteDefinition6" [datasource]="dataForAc6"></dp-autocomplete>
+                <dp-autocomplete (getSelected)="externalDataSelected6 = $event" [definition]="autocompleteDefinition6"
+                    [datasource]="dataForAc6"></dp-autocomplete>
 
                 <br><br>
 
@@ -92,17 +105,19 @@
         </div>
     </div>
 
-    <div class="p-grid">
+    <div class="p-grid" style="visibility: hidden;">
         <div class="p-col-12 p-md-6">
             <fieldset>
-                <legend>With Table (DB):</legend>
+                <legend>Load on first click / open </legend>
 
-                <dp-autocomplete (getSelected)="externalDataSelected7 = $event" [definition]="autocompleteDefinition7" [datasource]="dataForAc7"></dp-autocomplete>
+                <dp-autocomplete (getSelected)="externalDataSelected4 = $event" [definition]="autocompleteDefinition4"
+                    [datasource]="dataForAc4"></dp-autocomplete>
 
                 <br><br>
-                <div>external 7: <div class='s'>{{ !externalDataSelected7 ? '' : (externalDataSelected7 | json) }}
+
+                <div>external 4: <div class='s'>{{ !externalDataSelected4 ? '' : (externalDataSelected4 | json) }}
                     </div>
-                </div>
+                </div>      
 
             </fieldset>
         </div>

@@ -1,8 +1,7 @@
-
-import { Component, OnInit, Input, ViewEncapsulation, ɵConsole, forwardRef, Output, EventEmitter, Provider } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation, ɵConsole, forwardRef, Output, EventEmitter, Provider} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { AutocompleteDefinitions, AutocompleteProperties } from './Objects/autocomplete-definitions';
-// import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+
 
 export const AC_CONTROL_VALUE_ACCESSOR: Provider = {
   provide: NG_VALUE_ACCESSOR,
@@ -17,11 +16,9 @@ export const AC_CONTROL_VALUE_ACCESSOR: Provider = {
   styleUrls: ['./autocomplete.component.scss'],
   encapsulation: ViewEncapsulation.None,
   providers: [AC_CONTROL_VALUE_ACCESSOR]
-
 })
 
-export class AutocompleteComponent implements OnInit, ControlValueAccessor {
-
+export class AutocompleteComponent implements OnInit, ControlValueAccessor  {
 
   val = ''; /* for ControlValueAccessor*/
 
@@ -55,6 +52,7 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor {
 
   entitySelected: any;
 
+  // ngModelVal: any;
 
   private _innerValue: any;
 
@@ -63,6 +61,7 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor {
 
 
   ngOnInit() {
+
 
     if (this.definition == null) {
       // this.definition = new AutocompleteDefinitions({ isStandAlone: false });
@@ -74,7 +73,7 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor {
 
 
       if (this.columnDefinition.columnParams && this.columnDefinition.columnParams.length > 0) {
-        this.definition = new AutocompleteDefinitions({ isStandAlone: false });
+        this.definition = new AutocompleteDefinitions({ isStandAlone: false});
         // if (this.columnDefinition.columnParams.isKeyExist(AutocompleteProperties.isStandAlone)) {
         //   this.definition.isStandAlone = this.columnDefinition.columnParams.getValueByKey(AutocompleteProperties.isStandAlone);
         // }
@@ -85,7 +84,7 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor {
 
         if (this.columnDefinition.columnParams.isKeyExist(AutocompleteProperties.dp_AutocompleteType)) {
           this.definition.dp_AutocompleteType = this.columnDefinition.columnParams.getValueByKey
-            (AutocompleteProperties.dp_AutocompleteType);
+          (AutocompleteProperties.dp_AutocompleteType);
         }
 
         if (this.columnDefinition.columnParams.isKeyExist(AutocompleteProperties.multiple)) {
@@ -103,7 +102,6 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor {
   }
 
 
-  
   public get innerValue(): any {
     return this._innerValue;
   }
@@ -155,6 +153,7 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor {
   // }
 
   filterEntity(event, Loc_dp_AutocompleteType: number, Loc_dpAutocompleteMaxSuggestionsToShow: number): any[] {
+
 
     if (this.datasource !== undefined) {
       if (this.datasource[0] === ':::') {
@@ -211,6 +210,17 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor {
         }
       }
     }
+
+    // for (let i = 0; i < this.datasource.length && filtered.length <
+    //   Loc_dpAutocompleteMaxSuggestionsToShow; i++) { /* dont want to load more than this number of suggestions*/
+    //   const foundedEntity = this.datasource[i];
+    //   if (foundedEntity !== undefined) {
+    //     if (foundedEntity[this.definition.field].toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
+    //       // filtered.push(foundedEntity[this.definition.field]);
+    //       filtered.push(foundedEntity);
+    //     }
+    //   }
+    // }
     this.filteredData = filtered;
     return filtered;
   }
