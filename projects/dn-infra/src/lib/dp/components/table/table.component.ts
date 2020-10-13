@@ -11,14 +11,15 @@ import { Store } from '@ngrx/store';
 import { addRow, deleteRow, updateTable } from '../../store/actions';
 import { getAppState, getTableStateById } from '../../store/selectors';
 import { debounceTime, distinctUntilChanged, map, take } from 'rxjs/operators';
-
-
+import { DpDialogService, DpDynamicDialogRef } from '../dynamicdialog/Objects/dynamicdialog-definitions';
+import { ColumnSelectionComponent } from './columnSelection/column-selection/column-selection.component';
+import { MessageService } from 'primeng/api'; /* only for showing return value */
 
 @Component({
   selector: 'dp-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
-  providers: [TableStoreService],
+  providers: [TableStoreService, DpDialogService, MessageService],
   changeDetection: ChangeDetectionStrategy.OnPush
 
 })
@@ -44,8 +45,12 @@ export class TableComponent implements OnInit, OnChanges {
   @ViewChild('dt') table: Table;
   @ViewChild('testEl') testEl: ElementRef;
   private inputDebouncer$: Subject<string> = new Subject();
+  ref1: DpDynamicDialogRef;
+  sourceList: any[] = [];
+  //targetList: any[] = [];
 
-  constructor(private store: Store<any>) { }
+  constructor(public dialogService: DpDialogService, public messageService: MessageService, private store: Store<any>) { 
+  }
 
   ngOnInit() {
     this.obj = { background: 'red', color: 'green' };
@@ -62,7 +67,38 @@ export class TableComponent implements OnInit, OnChanges {
 
       // Do the actual search
     });
+    //this.targetList = this.definition.columns;
+  }
 
+  showDynamicdialog1() {
+    debugger
+    const Tlist = this.definition.columns;
+    this.ref1 = this.dialogService.open(ColumnSelectionComponent, {
+      header: 'Choose Columns',
+      width: '70%',
+      data: {
+        sourceList: this.sourceList,
+        //targetList: this.targetList
+        targetList: Tlist
+        //id: '154'
+      },
+    });
+
+    this.ref1.onClose.subscribe((ReturnObj) => {
+
+      debugger;
+      if (ReturnObj) {
+        this.definition.columns = ReturnObj;
+        // this.messageService.add({ severity: 'info', summary: 'Car Selected', detail: 'Vin:' + car.vin });
+      }
+    });
+  }
+
+  // tslint:disable-next-line: use-lifecycle-interface
+  ngOnDestroy() {
+    if (this.ref1) {
+      this.ref1.close();
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {

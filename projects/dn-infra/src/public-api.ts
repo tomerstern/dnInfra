@@ -23,3 +23,4 @@ export * from './lib/dp/components/button/button.component';
 export * from './lib/dp/components/table/table.component';
 export * from './lib/dp/components/table/cell/cell.component';
 export * from './lib/dp/components/inputnumber/inputnumber.component';
+export * from './lib/dp/components/dynamicdialog/dynamicdialog.component';

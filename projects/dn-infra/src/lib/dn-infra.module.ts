@@ -10,7 +10,8 @@ import {
   ToastModule, ConfirmDialogModule, MenubarModule, DialogModule,
   TabViewModule,
   TreeModule,
-  ButtonModule, InputTextModule, InputNumberModule, TableModule, TabMenuModule
+  ButtonModule, InputTextModule, InputNumberModule, TableModule, TabMenuModule, PickListModule
+  ,DynamicDialogModule
 } from 'primeng';
 import { ChartModule } from 'primeng/chart';
 import { AutocompleteComponent } from './dp/components/autocomplete/autocomplete.component';
@@ -33,13 +34,16 @@ import { TabmenuComponent } from './dp/components/tabmenu/tabmenu.component';
 import { StoreModule } from '@ngrx/store';
 import { tableReducer } from './dp/store/reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { PicklistComponent } from './dp/components/picklist/picklist.component';
+import { ColumnSelectionComponent } from './dp/components/table/columnSelection/column-selection/column-selection.component';
+import { DynamicdialogComponent } from './dp/components/dynamicdialog/dynamicdialog.component';
 
 @NgModule({
   declarations: [DnInfraComponent, CalendarComponent, CheckboxComponent, AutocompleteComponent,
     ContextmenuComponent, SplitbuttonComponent, ToastComponent, ConfirmdialogComponent,
     MenubarComponent, DialogComponent, TabviewComponent, TreeComponent
     , InputtextComponent, InputnumberComponent, ButtonComponent, TableComponent, CellComponent
-    , TabmenuComponent],
+    , TabmenuComponent, PicklistComponent, ColumnSelectionComponent, DynamicdialogComponent],
   imports: [
     CalendarModule,
     FormsModule,
@@ -49,10 +53,12 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     AutoCompleteModule, ContextMenuModule, SplitButtonModule, ToastModule, ConfirmDialogModule,
     MenubarModule, DialogModule, TabViewModule, TreeModule, ButtonModule,
     InputTextModule,
+    PickListModule,
     InputNumberModule,
     TableModule,
     ToolbarModule,
     TabMenuModule,
+    DynamicDialogModule,
     StoreModule.forRoot({
       tables: tableReducer
     }),
@@ -66,7 +72,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     , ContextmenuComponent, SplitbuttonComponent, ToastComponent, ConfirmdialogComponent
     , MenubarComponent, DialogComponent, TabviewComponent, TreeComponent, ButtonModule,
     InputnumberComponent, ButtonComponent, TableComponent, CellComponent, ToolbarModule, ButtonModule,
-    InputtextComponent, TabmenuComponent,
+    InputtextComponent, TabmenuComponent, DynamicdialogComponent,
     /* Modules start */
     CalendarModule,
     FormsModule,
@@ -79,7 +85,9 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     InputNumberModule,
     TableModule,
     ToolbarModule,
-    TabMenuModule
+    TabMenuModule,
+    PickListModule,
+    DynamicDialogModule
   ],
   providers: [DatePipe]
 })

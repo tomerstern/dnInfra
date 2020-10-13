@@ -10,6 +10,7 @@ export interface IGridDefinition {
     toolbar?: boolean;
     exportToExcel?: boolean;
     exportToPdf?: boolean;
+    selectColumns?: boolean;
     selectionMode?: string;
     onBeforeDelete?: Function;
     onAfterDelete?: Function;
@@ -65,6 +66,7 @@ export class GridDefinitions implements IGridDefinition {
     toolbar: boolean;
     exportToExcel: boolean;
     exportToPdf: boolean;
+    selectColumns: boolean;
     selectionMode: string;
     onBeforeDelete: Function;
     onAfterDelete: Function;
@@ -87,6 +89,7 @@ export class GridDefinitions implements IGridDefinition {
         this.toolbar = (params.toolbar == null ? false : params.toolbar);
         this.exportToExcel = (params.exportToExcel == null ? true : params.exportToExcel);
         this.exportToPdf = (params.exportToPdf == null ? true : params.exportToPdf);
+        this.selectColumns = (params.selectColumns == null ? true : params.selectColumns);
         this.selectionMode = params.selectionMode;
         this.onBeforeDelete = params.onBeforeDelete;
         this.onAfterDelete = params.onAfterDelete;
