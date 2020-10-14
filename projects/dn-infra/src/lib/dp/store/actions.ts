@@ -10,5 +10,5 @@ const ADD_ROW = 'Add row';
 export const addRow = createAction(ADD_ROW, props<{ data: { tableId: string, rowToAdd: object } }>());
 
 const UPDATE_ROW = 'Update row';
-export const updateRow = createAction(UPDATE_ROW, props<{ data: { tableId: string, rowToAdd: any } }>());
+export const updateRow = createAction(UPDATE_ROW, props<{  row: any, rowIndex: number, tableId: string }>());
 

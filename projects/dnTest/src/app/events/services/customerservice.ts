@@ -9,13 +9,12 @@ export class CustomerService {
     getCustomersLarge() {
         return this.http.get<any>('assets/customers-large.json')
             .toPromise()
-            .then(res => <Customer[]>res.data)
+            .then(res => res.data as Customer[])
             .then(data => data);
     }
 
-
-    //let allUsers = await this.httpclient.get<ISuser[]>(environment.apiBaseUrl + "users").toPromise();
-    //return this.httpClient.get(`https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=${this.API_KEY}`);
+    // let allUsers = await this.httpclient.get<ISuser[]>(environment.apiBaseUrl + "users").toPromise();
+    // return this.httpClient.get(`https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=${this.API_KEY}`);
 
     // async getRealCustomers() {
     //     this.http.get('http://localhost/ExportCustomsWebAPI/Shipment/Get').toPromise().then((data: {Status: string}) => {

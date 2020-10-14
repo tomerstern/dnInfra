@@ -222,6 +222,17 @@ body dp-splitbutton.ui-button-dp .ui-splitbutton.ui-buttonset button
     color: $PrimaryColor;
   }
 }
+
+.ui-table-scrollable-wrapper{
+  // min-height: 100vh;
+}
+.ui-table-scrollable-body{
+  overflow: visible;
+}
+
+input{
+  max-width: 100%;
+}
   
 // body .ui-button:enabled:hover {
 //   background-color: #116fbf;

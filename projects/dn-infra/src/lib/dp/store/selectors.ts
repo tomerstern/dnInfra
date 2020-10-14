@@ -15,4 +15,5 @@ const getTableLengthById = (id) => createSelector(
   (appState): any => appState.tables[id].data.length
 );
 
+
 export { getAppState, getTableStateById, getTableLengthById };

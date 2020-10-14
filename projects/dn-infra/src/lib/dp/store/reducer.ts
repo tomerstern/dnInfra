@@ -19,8 +19,13 @@ const reducer = createReducer(initialState,
         return (newState);
     }),
     on(updateRow, (state, action): any => {
-        console.log(action);
-        return (state);
+        const newData = {
+            data: [...state[action.tableId].data.slice(0, action.rowIndex),
+            action.row, ...state[action.tableId].data.slice(action.rowIndex + 1)],
+            changes: state[action.tableId].changes
+        };
+        const newTableData = { [action.tableId]: newData };
+        return ({ ...state, ...newTableData });
     }),
     on(deleteRow, (state, action): any => {
         const tableData = state[action.data.tableId].data;
@@ -32,14 +37,13 @@ const reducer = createReducer(initialState,
     }),
     on(addRow, (state, action): any => {
         const key = getKey(5);
-        const newRow = {...action.data.rowToAdd, rowKey: key};
-        // console.log(newRow);
+        const newRow = { ...action.data.rowToAdd, refKey: key };
         const tableData = state[action.data.tableId].data;
         const tableLength = state[action.data.tableId].data.length;
         const newData = {
             data: [...tableData.slice(0, tableLength),
                 newRow],
-            changes: {...state[action.data.tableId].changes, [key]: action.data.rowToAdd}
+            changes: { ...state[action.data.tableId].changes, [key]: { ...action.data.rowToAdd, state: 4 } }
         };
         const newTableData = { [action.data.tableId]: newData };
         return ({ ...state, ...newTableData });
@@ -55,8 +59,8 @@ export function getKey(length) {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
     for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;
-  }
+}
 

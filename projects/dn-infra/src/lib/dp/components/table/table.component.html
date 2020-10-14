@@ -1,16 +1,16 @@
 <form #myForm="ngForm">
 
-    <!-- form valid? {{myForm.valid}}
+    form valid? {{myForm.valid}}
         <br>
         <br>
-        form values: {{myForm.value | json}}
+        <!-- form values: {{myForm.value | json}} -->
         <br>
         <br>
-        data Values: {{data$ | async| json}}
+        <!-- data Values: {{data$ | async| json}} -->
 
         <br>
         <br>
-        <br> -->
+        <br>
     <p-table #dt [columns]="scrollableCols" [value]="data$ | async" [dataKey]="definition.dataKey"
         [rowHover]="definition.rowHover" [rows]="definition.rows" [showCurrentPageReport]="true"
         [rowsPerPageOptions]="definition.rowsPerPageOptions" [paginator]="definition.paginator"
@@ -230,7 +230,7 @@
                                 [columnDefinition]="column">
                             </dp-inputtext>
 
-                            <dp-checkbox (keyup)="updateRow(column.fieldname, row, $event.target.value, index)"
+                            <dp-checkbox (input)="updateRow(column.fieldname, row, !row[column.fieldname], index)"
                                 *ngSwitchCase="gridColumnTypeEnum.checkbox" ngModel="{{row[column.fieldname]}}"
                                 name="{{column.fieldname}}">
                             </dp-checkbox>
@@ -241,14 +241,14 @@
                                 *ngSwitchCase="gridColumnTypeEnum.inputnumber">
                             </dp-inputnumber>
 
-                            <dp-calendar (change)="updateRow(column.fieldname, row, $event.target.value, index)"
+                            <dp-calendar (change)="updateRow(column.fieldname, row, $event, index)"
                                 [required]="column.isMandatory" [rowData]="row" [columnDefinition]="column"
                                 ngModel="{{row[column.fieldname]}}" name="{{column.fieldname}}"
                                 *ngSwitchCase="gridColumnTypeEnum.calendar">
                             </dp-calendar>
 
-                            <dp-autocomplete (change)="updateRow(column.fieldname, row, $event.target.value, index)"
-                                ngModel="{{row[column.fieldname].name}}" name="{{column.fieldname}}"
+                            <dp-autocomplete (change)="updateRow(column.fieldname, row, $event, index)"
+                                [ngModel]="row[column.fieldname]" name="{{column.fieldname}}"
                                 *ngSwitchCase="gridColumnTypeEnum.dropdown" [columnDefinition]="column"
                                 [datasource]="column.ColumnDatasource">
                             </dp-autocomplete>

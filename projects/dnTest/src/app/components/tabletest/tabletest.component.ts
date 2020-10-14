@@ -15,6 +15,9 @@ import { CountryService } from '../../events/services/countryservice';
 import { Country } from '../../events/models/customer';
 import { combineLatest, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { getAppState } from 'projects/dn-infra/src/lib/dp/store/selectors';
+
 // import { TableComponent } from 'projects/dn-infra/src/lib/dp/components/table/table.component';
 
 @Component({
@@ -24,6 +27,7 @@ import { map, take } from 'rxjs/operators';
 })
 export class TabletestComponent implements OnInit {
   constructor(
+    private store: Store<any>,
     private customerService: CustomerService,
     private countryService: CountryService
   ) { }
@@ -155,10 +159,10 @@ export class TabletestComponent implements OnInit {
     const columnParams3: GridColumnParams = new GridColumnParams();
     columnParams3.addParam(AutocompleteProperties.dp_AutocompleteType, 0);
     columnParams3.addParam(AutocompleteProperties.multiple, false);
-    columnParams3.addParam(AutocompleteProperties.dropdown, true);
+    columnParams3.addParam(AutocompleteProperties.dropdown, false);
 
     const column3 = new GridColumn({
-      headername: 'Country', fieldname: 'country', type: this.gridColumnTypeEnum.dropdown, columnParams: columnParams3,
+      headername: 'Country', fieldname: 'country', type: this.gridColumnTypeEnum.span, columnParams: columnParams3,
       iseditable: true,
       ColumnDatasource: this.dataForAc3, isMandatory: true
     });
@@ -193,7 +197,7 @@ export class TabletestComponent implements OnInit {
   }
 
   getMandatory($event) {
-    this.SaveCutomers($event);
+    // this.SaveCutomers($event);
   }
 
 
@@ -206,14 +210,18 @@ export class TabletestComponent implements OnInit {
     // }
   }
 
-  SaveCutomers(data: Observable<any>[]) {
-    const combined = data.map(x => x);
-    const c = combineLatest(combined).pipe(
-      take(1),
-      map(y => y)
-    );
-    c.subscribe(x => {
-      // console.log(x);
-    });
+  SaveCutomers() {
+    const changes = [];
+    this.store.select(getAppState).pipe(take(1), map(state => {
+      Object.keys(state.tables).forEach(table => {
+        const tableChanges = state.tables[table].changes;
+        if (tableChanges) {
+          Object.keys(tableChanges).forEach(key => {
+            changes.push(tableChanges[key]);
+          });
+          console.log(changes);
+        }
+      });
+    })).subscribe();
   }
 }

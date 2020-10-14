@@ -61,7 +61,7 @@ export class TableComponent implements OnInit, OnChanges {
   @ViewChild('dt') table: Table;
   @ViewChild('testEl') testEl: ElementRef;
 
-  private inputDebouncer$: Subject<string> = new Subject();
+  private inputDebouncer$: Subject<any> = new Subject();
   ref1: DpDynamicDialogRef;
   sourceList: any[] = [];
 
@@ -77,11 +77,7 @@ export class TableComponent implements OnInit, OnChanges {
     private store: Store<any>
   ) { }
 
-  updateRow(columnField: string, row: object, val: string, rowIndex: number) {
-    const newRow = { ...row, ...{ [columnField]: val } };
-    console.log(newRow);
-    this.inputDebouncer$.next(val);
-  }
+
 
   ngOnInit() {
     this.obj = { background: 'red', color: 'green' };
@@ -93,17 +89,25 @@ export class TableComponent implements OnInit, OnChanges {
     this.inputDebouncer$.pipe(
       debounceTime(1000),
       distinctUntilChanged(),
-    ).subscribe((val: string) => {
+    ).subscribe((val: any) => {
+
       // Remember value after debouncing
 
       // Do the actual search
-      // console.log(val);
-      // this.store.dispatch(updateRow())
+
+      this.store.dispatch(updateRow(val));
+
     });
     this.scrollableCols = this.definition.columns;
     this.dpCreateFooterData();
   }
 
+  updateRow(columnField: string, row: object, val: any, rowIndex: number) {
+    // console.log(val);
+    const newRow = { ...row, ...{ [columnField]: val } };
+    this.inputDebouncer$.next({ row: newRow, rowIndex, tableId: this.tableId });
+    // this.store.dispatch(updateRow({ row: newRow, rowIndex, tableId: this.tableId }));
+  }
 
   showDynamicdialog1() {
     const Tlist = this.definition.columns;
@@ -238,7 +242,7 @@ export class TableComponent implements OnInit, OnChanges {
       const columnName = column.fieldname;
       row[columnName] = '';
     });
-    row.state = 4;
+    // row.state = 4;
     // const maxIndex = Math.max.apply(null, this.datasource.map(item => item.dpIndex));
     return row;
   }
