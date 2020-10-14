@@ -6,9 +6,13 @@ const getAppState = createSelector(
 );
 
 const getTableStateById = (id) => createSelector(
-    getAppState,
-    (appState): any => appState.tables[id].data
-  );
+  getAppState,
+  (appState): any => appState.tables[id].data
+);
 
+const getTableLengthById = (id) => createSelector(
+  getAppState,
+  (appState): any => appState.tables[id].data.length
+);
 
-export { getAppState, getTableStateById };
+export { getAppState, getTableStateById, getTableLengthById };

@@ -11,8 +11,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { InputNumberProperties } from '../inputnumber/objects/inputnumber-definitions';
 import { Store } from '@ngrx/store';
-import { addRow, deleteRow, updateTable } from '../../store/actions';
-import { getAppState, getTableStateById } from '../../store/selectors';
+import { addRow, deleteRow, updateRow, updateTable } from '../../store/actions';
+import { getAppState, getTableStateById, getTableLengthById } from '../../store/selectors';
 import { debounceTime, distinctUntilChanged, map, take } from 'rxjs/operators';
 import { DpDialogService, DpDynamicDialogRef } from '../dynamicdialog/Objects/dynamicdialog-definitions';
 import { ColumnSelectionComponent } from './columnSelection/column-selection/column-selection.component';
@@ -71,40 +71,37 @@ export class TableComponent implements OnInit, OnChanges {
   faFilter = faFilter;
   faPlus = faPlus;
 
-  constructor(public dialogService: DpDialogService, public messageService: MessageService, private store: Store<any>) { }
+  constructor(
+    public dialogService: DpDialogService,
+    public messageService: MessageService,
+    private store: Store<any>
+  ) { }
 
+  updateRow(columnField: string, row: object, val: string, rowIndex: number) {
+    const newRow = { ...row, ...{ [columnField]: val } };
+    console.log(newRow);
+    this.inputDebouncer$.next(val);
+  }
 
   ngOnInit() {
     this.obj = { background: 'red', color: 'green' };
     this.exportColumns = this.definition.columns.map(col => ({ title: col.headername, dataKey: col.fieldname }));
     this.setIsEditable();
     this.setIsFooter();
-
     this.isColumnsWidthDefined = this.ColumnsWidthDefined();
-    // this.sub = this.tableStore.tableState$.subscribe(newState => {
-    //   this.stateChanges.emit(newState);
-    // });
 
     this.inputDebouncer$.pipe(
       debounceTime(1000),
       distinctUntilChanged(),
     ).subscribe((val: string) => {
       // Remember value after debouncing
-      console.log(val);
 
       // Do the actual search
+      // console.log(val);
+      // this.store.dispatch(updateRow())
     });
-    //this.targetList = this.definition.columns;
-
-
     this.scrollableCols = this.definition.columns;
     this.dpCreateFooterData();
-
-
-    /* when on init for frozen columns and header - works*/
-    // this.frozenColsCounter = 1;
-    // this.dpFreezeColumns('400px');
-
   }
 
 
@@ -142,7 +139,6 @@ export class TableComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     // this.dpCreateFooterData();
     if (this.tableId && this.datasource) {
-      console.log(changes);
       this.store.dispatch(updateTable({ data: { tableId: this.tableId, tableData: this.datasource } }));
       this.data$ = this.store.select(getTableStateById(this.tableId));
     } else {
@@ -154,16 +150,7 @@ export class TableComponent implements OnInit, OnChanges {
     console.log(el);
   }
 
-  updateRow(columnField: string, row: object, val: string, rowIndex: number) {
-    // console.log(columnField, row)
-    this.newRow = { ...row, ...{ [columnField]: val } };
-    this.inputDebouncer$.next(val);
-    // console.log();
-    // this.inputDebouncer$.next([rowIndex, newRow]);
-    // if (event.target) {
-    // }
 
-  }
 
 
 
@@ -240,31 +227,34 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   addRow() {
-    // const newRow = this.newEmptyRow();
-    // this.datasource.push(newRow);
     this.store.dispatch(addRow({ data: { tableId: this.tableId, rowToAdd: this.newEmptyRow() } }));
+    this.setLastPage();
   }
 
-
-
   newEmptyRow() {
-    const row = {};
+    const row: any = {};
     row[this.definition.dataKey] = '';
     this.definition.columns.forEach((column) => {
       const columnName = column.fieldname;
       row[columnName] = '';
     });
+    row.state = 4;
     // const maxIndex = Math.max.apply(null, this.datasource.map(item => item.dpIndex));
-
     return row;
   }
 
   setLastPage() {
-    const totalRows = this.datasource.length;
-    const rowsPerPage = this.definition.rows;
-    const pages = totalRows / rowsPerPage;
-    const lastPage = (pages % 1 === 0 ? Math.floor(pages) : Math.floor(pages) + 1);
-    this.first = (lastPage * rowsPerPage) - rowsPerPage;
+    this.store.select(getTableLengthById(this.tableId)).pipe(take(1), map(x => x)).subscribe(len => {
+      const totalRows = len;
+      const rowsPerPage = this.definition.rows;
+      const pages = totalRows / rowsPerPage;
+      const lastPage = (pages % 1 === 0 ? Math.floor(pages) : Math.floor(pages) + 1);
+      this.first = (lastPage * rowsPerPage) - rowsPerPage;
+    });
+  }
+
+  paginate(x) {
+    // console.log(x);
   }
 
   exportPdf() {

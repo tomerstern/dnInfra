@@ -1,6 +1,6 @@
 <form #myForm="ngForm">
 
-        form valid? {{myForm.valid}}
+    <!-- form valid? {{myForm.valid}}
         <br>
         <br>
         form values: {{myForm.value | json}}
@@ -10,61 +10,52 @@
 
         <br>
         <br>
-        <br>
-        <br>
-        <br>
-    <p-table #dt [columns]="scrollableCols" 
-        [value]="data$ | async" [dataKey]="definition.dataKey"
+        <br> -->
+    <p-table #dt [columns]="scrollableCols" [value]="data$ | async" [dataKey]="definition.dataKey"
         [rowHover]="definition.rowHover" [rows]="definition.rows" [showCurrentPageReport]="true"
         [rowsPerPageOptions]="definition.rowsPerPageOptions" [paginator]="definition.paginator"
         [currentPageReportTemplate]="definition.currentPageReportTemplate" [editMode]="definition.editMode"
-        [sortMode]="'multiple'" [(first)]="first" [selectionMode]="definition.selectionMode" [selection]="definition.selectionMode"
-        (onRowSelect)="onRowSelect($event)"
-        [scrollHeight]="definition.FreezeHeaderTableHeight"        
-        [scrollable]="definition.scrollable"
-        frozenWidth="{{frozenWidth}}"
-        [frozenColumns]="frozenCols"    
-        >
+        [sortMode]="'multiple'" [(first)]="first" [selectionMode]="definition.selectionMode"
+        [selection]="definition.selectionMode" (onRowSelect)="onRowSelect($event)"
+        [scrollHeight]="definition.FreezeHeaderTableHeight" [scrollable]="definition.scrollable"
+        frozenWidth="{{frozenWidth}}" [frozenColumns]="frozenCols" (onPage)="paginate($event)">
         <ng-template pTemplate="caption" *ngIf="definition.toolbar">
             <div class="p-toolbar-group-left">
                 <!-- icon="pi pi-plus" -->
-                <button *ngIf="isEditable" pButton type="button"  class="ui-button ui-button-dp p-mr-1" pTooltip="Add"  
-                    tooltipPosition="bottom"
-                    (click)="addRow()" pAddRow>
+                <button *ngIf="isEditable" pButton type="button" class="ui-button ui-button-dp p-mr-1" pTooltip="Add"
+                    tooltipPosition="bottom" (click)="addRow()" pAddRow>
                     <fa-icon [icon]="faPlus"></fa-icon>
                 </button>
-                
+
                 <!-- icon="pi pi-file-excel" -->
-                <button *ngIf="definition.exportToExcel" type="button" pButton pRipple 
-                    (click)="exportExcel()" class="ui-button ui-button-dp p-mr-1" pTooltip="XLS" tooltipPosition="bottom">
+                <button *ngIf="definition.exportToExcel" type="button" pButton pRipple (click)="exportExcel()"
+                    class="ui-button ui-button-dp p-mr-1" pTooltip="XLS" tooltipPosition="bottom">
                     <fa-icon [icon]="faFileExcel"></fa-icon>
                 </button>
 
                 <!-- icon="pi pi-file-pdf" -->
-                <button *ngIf="definition.exportToPdf" type="button" pButton pRipple 
-                    (click)="exportPdf()" class="ui-button ui-button-dp p-mr-1" pTooltip="PDF" tooltipPosition="bottom">
+                <button *ngIf="definition.exportToPdf" type="button" pButton pRipple (click)="exportPdf()"
+                    class="ui-button ui-button-dp p-mr-1" pTooltip="PDF" tooltipPosition="bottom">
                     <fa-icon [icon]="faFilePdf"></fa-icon>
                 </button>
 
-                <button *ngIf="definition.selectColumns" type="button" pButton pRipple icon="" [label]="'Select Columns'"
-                    (click)="showDynamicdialog1()" class="ui-button ui-button-dp p-mr-1"  pTooltip="select Columns" tooltipPosition="bottom" >
+                <button *ngIf="definition.selectColumns" type="button" pButton pRipple icon=""
+                    [label]="'Select Columns'" (click)="showDynamicdialog1()" class="ui-button ui-button-dp p-mr-1"
+                    pTooltip="select Columns" tooltipPosition="bottom">
                 </button>
 
                 <!-- [icon]="toggleFilter?'pi pi-caret-up':'pi pi-caret-down'" -->
                 <!-- icon="pi pi-filter" -->
-                <button pButton type="button" 
-                     class="ui-button ui-button-dp p-mr-1" (click)="toggleFilter=!toggleFilter" pAddRow pTooltip="Filter"
-                    tooltipPosition="bottom">
-                <fa-icon [icon]="faFilter"></fa-icon>
+                <button pButton type="button"   class="ui-button ui-button-dp p-mr-1"
+                     (click)="toggleFilter=!toggleFilter"  pAddRow pTooltip="Filter" tooltipPosition="bottom">
+                    <fa-icon [icon]="faFilter"></fa-icon>
                 </button>
 
                 <!-- gil add if first column have width / id table have hScroll-->
                 <!-- class="ui-button p-mr-1 {{frozenButtonClasses}}"  -->
-                <button *ngIf="definition.isFreezeColumns && definition.HeadersMergeGroupsHtml===''" type="button" pButton                
-                    pTooltip="{{frozenButtonText}}" 
-                    class="ui-button ui-button-dp p-mr-1"
-                    (click)="dpUnFreezeCols()" tooltipPosition="bottom"
-                    pDraggable="abc">
+                <button *ngIf="definition.isFreezeColumns && definition.HeadersMergeGroupsHtml===''" type="button"
+                    pButton pTooltip="{{frozenButtonText}}" class="ui-button ui-button-dp p-mr-1"
+                    (click)="dpUnFreezeCols()" tooltipPosition="bottom" pDraggable="abc">
                     <fa-icon [icon]="faThumbtack"></fa-icon>
                 </button>
 
@@ -83,15 +74,13 @@
 
 
 
-        <ng-template *ngIf="frozenCols !==null " pTemplate="colgroup" 
-                    let-frozenColumns>           
+        <ng-template *ngIf="frozenCols !==null " pTemplate="colgroup" let-frozenColumns>
             <colgroup>
-                <col class="clsColgroup"  *ngFor="let col of frozenColumns; let colIndex=index"  
-                    [style.width]="col.width +'px'"
-                >
+                <col class="clsColgroup" *ngFor="let col of frozenColumns; let colIndex=index"
+                    [style.width]="col.width +'px'">
             </colgroup>
         </ng-template>
-    
+
         <!-- <tr>
             <th *ngFor="let col of columns">
                 {{col.headername}}
@@ -100,7 +89,7 @@
 
 
 
-            <!-- <ng-template pTemplate="frozenheader" >
+        <!-- <ng-template pTemplate="frozenheader" >
                 <tr>
                     <th style="width:200px;height:84px">h1</th>
                 </tr>
@@ -113,18 +102,16 @@
 
 
         <!-- gil start add,  add  let-columns  in <ng-template>   -->
-        <ng-template *ngIf="this.isFreezeColumnActive || true"  pTemplate="header" let-columns >
+        <ng-template *ngIf="this.isFreezeColumnActive || true" pTemplate="header" let-columns>
             <div *ngIf="definition.HeadersMergeGroupsHtml !== ''" [outerHTML]="definition.HeadersMergeGroupsHtml"></div>
             <tr class="clsDpHeadTr">
-                <th #th *ngFor="let column of columns; let columnInd = index" [pSortableColumn]="column.fieldname" 
-                (onDrop)="dpFreezeColumndrop($event, columnInd, dt)"  pDroppable="abc" 
-                [ngClass]="(frozenColsCounter >=columnInd)?'cssFrozenHeader' :''"
-                [style.height]="HeadersHeight"  
-                >                
+                <th #th *ngFor="let column of columns; let columnInd = index" [pSortableColumn]="column.fieldname"
+                    (onDrop)="dpFreezeColumndrop($event, columnInd, dt)" pDroppable="abc"
+                    [ngClass]="(frozenColsCounter >=columnInd)?'cssFrozenHeader' :''" [style.height]="HeadersHeight">
                     {{column.headername}}
                     <p-sortIcon [field]="column.fieldname"></p-sortIcon>
                     <span *ngIf="column.isMandatory" class="mandatory">&bull;</span>
-                
+
                     <fa-icon [icon]="faThumbtack" class="cssFrozenHeaderIcon"></fa-icon>
                 </th>
                 <th *ngIf="!this.definition.HideBtnsCol" class="clsDpFilterCell">
@@ -134,29 +121,30 @@
                 </th>
             </tr>
             <tr class="clsDpHeadFilterTr">
-                <th  *ngFor="let column of columns" [hidden]="!toggleFilter" [ngSwitch]="column.type" class="clsDpFilterHeader">
+                <th *ngFor="let column of columns" [hidden]="!toggleFilter" [ngSwitch]="column.type"
+                    class="clsDpFilterHeader">
                     <span *ngSwitchCase="gridColumnTypeEnum.span" class="p-input-icon-right">
                         <i class="pi pi-search"></i>
                         <!-- <fa-icon [icon]="faPlus" class="cssPrimary cssInputFilter"></fa-icon> -->
-                        <input  pInputText type="text"
-                        (input)="dt.filter($event.target.value, column.fieldname, 'contains')"> 
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, column.fieldname, 'contains')">
                     </span>
                     <!-- <input *ngSwitchCase="gridColumnTypeEnum.span" pInputText type="text"
                         (input)="dt.filter($event.target.value, column.fieldname, 'contains')"> -->
-                        <span *ngSwitchCase="gridColumnTypeEnum.inputnumber" class="p-input-icon-right">
-                            <i class="pi pi-search"></i>
-                            <input pInputText type="text"
+                    <span *ngSwitchCase="gridColumnTypeEnum.inputnumber" class="p-input-icon-right">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text"
                             (input)="dt.filter($event.target.value, column.fieldname, 'contains')">
-                        </span>
+                    </span>
                     <!-- <input *ngSwitchCase="gridColumnTypeEnum.inputnumber" pInputText type="text"
                         (input)="dt.filter($event.target.value, column.fieldname, 'contains')"> -->
                     <p-checkbox *ngSwitchCase="gridColumnTypeEnum.checkbox"
                         (onChange)="dt.filter($event.target.value, column.fieldname, 'equals')">
                     </p-checkbox>
                     <p-calendar *ngSwitchCase="gridColumnTypeEnum.calendar" (onSelect)="onDateSelect($event)"
-                        (onClearClick)="dt.filter('', 'date', 'equals')" [showButtonBar]="true" styleClass="p-column-filter"
-                        placeholder="Registration Date" [readonlyInput]="true" dateFormat="dd/mm/yy"
-                        [style]="{'width':'100%'}" [showIcon]="true" [icon]="'pi pi-calendar'">
+                        (onClearClick)="dt.filter('', 'date', 'equals')" [showButtonBar]="true"
+                        styleClass="p-column-filter" placeholder="Registration Date" [readonlyInput]="true"
+                        dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [showIcon]="true" [icon]="'pi pi-calendar'">
                     </p-calendar>
 
                 </th>
@@ -166,8 +154,8 @@
             </tr>
         </ng-template>
 
-    <!-- gil start remove dont delete -->
-    <!--
+        <!-- gil start remove dont delete -->
+        <!--
         <ng-template *ngIf="!this.isFreezeColumnActive && false" pTemplate="header">
             <div *ngIf="definition.HeadersMergeGroupsHtml !== ''" [outerHTML]="definition.HeadersMergeGroupsHtml"></div>
             <tr class="clsDpHeadTr">
@@ -226,89 +214,94 @@
 
 
         <ng-template [ngModelGroup]="tableId" pTemplate="body" let-index="rowIndex" let-row let-columns="columns"
-        *ngIf="definition.editMode == 'cell'">
-        <tr *ngIf="row" [pSelectableRow]="row">
-          <td  [ngModelGroup]="'row'+index" *ngFor="let column of columns" [pEditableColumn]="row"
-            [pEditableColumnField]="column">
-            <!-- <app-cell [ngModel]="row" [name]="'row'+index" [rowIndex]="index" [row]="row" [column]="column"></app-cell> -->
-  
-            <ng-container *ngIf="column.iseditable else notEditable">
-  
-              <ng-container [ngSwitch]="column.type">
-  
-                <dp-inputtext (keyup)="updateRow(column.fieldname, row, $event.target.value, index)" [required]="column.isMandatory" name="{{column.fieldname}}"
-                  *ngSwitchCase="gridColumnTypeEnum.span" ngModel="{{row[column.fieldname]}}" [columnDefinition]="column">
-                </dp-inputtext>
-  
-                <dp-checkbox (keyup)="updateRow(column.fieldname, row, $event.target.value, index)" *ngSwitchCase="gridColumnTypeEnum.checkbox" ngModel="{{row[column.fieldname]}}"
-                  name="{{column.fieldname}}">
-                </dp-checkbox>
-  
-                <dp-inputnumber (keyup)="updateRow(column.fieldname, row, $event.target.value, index)" [required]="column.isMandatory" ngModel="{{row[column.fieldname]}}"
-                  name="{{column.fieldname}}" [columnDefinition]="column" *ngSwitchCase="gridColumnTypeEnum.inputnumber">
-                </dp-inputnumber>
-  
-                <dp-calendar (ngModelChange)="updateRow(column.fieldname, row, $event, index)" 
-                [required]="column.isMandatory" 
-                [rowData]="row" [columnDefinition]="column"
-                  ngModel="{{row[column.fieldname]}}" name="{{column.fieldname}}"
-                  *ngSwitchCase="gridColumnTypeEnum.calendar">
-                </dp-calendar>
-  
-                <dp-autocomplete (ngModelChange)="updateRow(column.fieldname, row, $event, index)"  ngModel="{{row[column.fieldname].name}}" 
-                name="{{column.fieldname}}" *ngSwitchCase="gridColumnTypeEnum.dropdown" 
-                [columnDefinition]="column"
-                  [datasource]="column.ColumnDatasource">
-                </dp-autocomplete>
-  
-                <img *ngSwitchCase="gridColumnTypeEnum.image" class="my-center-text" src="{{row[column.fieldname]}}"
-                title="{{row[column.fieldname.concat('_tooltip')]}}" width="{{column.width}}"
-                height="{{column.height}}">
-  
-              </ng-container>
-            </ng-container>
-  
-            <ng-template #notEditable>
-              <ng-container [ngSwitch]="column.type">
-                <span *ngSwitchCase="gridColumnTypeEnum.span" [style]="column.style" [class]="column.class">
-                  {{row[column.fieldname]}}
-                </span>
-                <span *ngSwitchCase="gridColumnTypeEnum.calendar">{{row[column.fieldname] | date: 'dd/MM/yyyy'}}</span>
-                <span *ngSwitchCase="gridColumnTypeEnum.inputnumber">
-                  {{column.columnParams.getValueByKey(inputNumberProperties.prefix)}}
-                  {{row[column.fieldname]}}
-                  {{column.columnParams.getValueByKey(inputNumberProperties.suffix)}}
-                </span>
-  
-  
-                <dp-checkbox *ngSwitchCase="gridColumnTypeEnum.checkbox" [(ngModel)]="row[column.fieldname]"
-                  [name]="row[column.fieldname]">
-                </dp-checkbox>
-  
-  
-                <img *ngSwitchCase="gridColumnTypeEnum.image" class="my-center-text" src="{{row[column.fieldname]}}"
-                  title="{{row[column.fieldname.concat('_tooltip')]}}" width="{{column.width}}"
-                  height="{{column.height}}">
-                <span *ngSwitchCase="gridColumnTypeEnum.dropdown">{{row[column.fieldname]}}</span>
-              </ng-container>
-  
-            </ng-template>
-  
-          </td>
-          <!-- <td>
+            *ngIf="definition.editMode == 'cell'">
+            <tr *ngIf="row" [pSelectableRow]="row">
+                <td [ngModelGroup]="'row'+index" *ngFor="let column of columns" [pEditableColumn]="row"
+                    [pEditableColumnField]="column">
+                    <!-- <app-cell [ngModel]="row" [name]="'row'+index" [rowIndex]="index" [row]="row" [column]="column"></app-cell> -->
+
+                    <ng-container *ngIf="column.iseditable else notEditable">
+
+                        <ng-container [ngSwitch]="column.type">
+
+                            <dp-inputtext (keyup)="updateRow(column.fieldname, row, $event.target.value, index)"
+                                [required]="column.isMandatory" name="{{column.fieldname}}"
+                                *ngSwitchCase="gridColumnTypeEnum.span" ngModel="{{row[column.fieldname]}}"
+                                [columnDefinition]="column">
+                            </dp-inputtext>
+
+                            <dp-checkbox (keyup)="updateRow(column.fieldname, row, $event.target.value, index)"
+                                *ngSwitchCase="gridColumnTypeEnum.checkbox" ngModel="{{row[column.fieldname]}}"
+                                name="{{column.fieldname}}">
+                            </dp-checkbox>
+
+                            <dp-inputnumber (keyup)="updateRow(column.fieldname, row, $event.target.value, index)"
+                                [required]="column.isMandatory" ngModel="{{row[column.fieldname]}}"
+                                name="{{column.fieldname}}" [columnDefinition]="column"
+                                *ngSwitchCase="gridColumnTypeEnum.inputnumber">
+                            </dp-inputnumber>
+
+                            <dp-calendar (change)="updateRow(column.fieldname, row, $event.target.value, index)"
+                                [required]="column.isMandatory" [rowData]="row" [columnDefinition]="column"
+                                ngModel="{{row[column.fieldname]}}" name="{{column.fieldname}}"
+                                *ngSwitchCase="gridColumnTypeEnum.calendar">
+                            </dp-calendar>
+
+                            <dp-autocomplete (change)="updateRow(column.fieldname, row, $event.target.value, index)"
+                                ngModel="{{row[column.fieldname].name}}" name="{{column.fieldname}}"
+                                *ngSwitchCase="gridColumnTypeEnum.dropdown" [columnDefinition]="column"
+                                [datasource]="column.ColumnDatasource">
+                            </dp-autocomplete>
+
+                            <img *ngSwitchCase="gridColumnTypeEnum.image" class="my-center-text"
+                                src="{{row[column.fieldname]}}" title="{{row[column.fieldname.concat('_tooltip')]}}"
+                                width="{{column.width}}" height="{{column.height}}">
+
+                        </ng-container>
+                    </ng-container>
+
+                    <ng-template #notEditable>
+                        <ng-container [ngSwitch]="column.type">
+                            <span *ngSwitchCase="gridColumnTypeEnum.span" [style]="column.style" [class]="column.class">
+                                {{row[column.fieldname]}}
+                            </span>
+                            <span
+                                *ngSwitchCase="gridColumnTypeEnum.calendar">{{row[column.fieldname] | date: 'dd/MM/yyyy'}}</span>
+                            <span *ngSwitchCase="gridColumnTypeEnum.inputnumber">
+                                {{column.columnParams.getValueByKey(inputNumberProperties.prefix)}}
+                                {{row[column.fieldname]}}
+                                {{column.columnParams.getValueByKey(inputNumberProperties.suffix)}}
+                            </span>
+
+
+                            <dp-checkbox *ngSwitchCase="gridColumnTypeEnum.checkbox" [(ngModel)]="row[column.fieldname]"
+                                [name]="row[column.fieldname]">
+                            </dp-checkbox>
+
+
+                            <img *ngSwitchCase="gridColumnTypeEnum.image" class="my-center-text"
+                                src="{{row[column.fieldname]}}" title="{{row[column.fieldname.concat('_tooltip')]}}"
+                                width="{{column.width}}" height="{{column.height}}">
+                            <span *ngSwitchCase="gridColumnTypeEnum.dropdown">{{row[column.fieldname]}}</span>
+                        </ng-container>
+
+                    </ng-template>
+
+                </td>
+                <!-- <td>
             <button *ngIf="isEditable" pButton type="button" icon="pi pi-trash" class="ui-button-info"
               (click)="deleteRow(index)">
             </button>
           </td> -->
 
-          <td *ngIf="!this.definition.HideBtnsCol" class="clsDpFilterCell">
-            <button *ngIf="isEditable" pButton type="button" icon="pi pi-trash" class="ui-button ui-button-dp"
-                (click)="deleteRow(index)">
-            </button>                
-        </td>
+                <td *ngIf="!this.definition.HideBtnsCol" class="clsDpFilterCell">
+                    <button *ngIf="isEditable" pButton type="button" icon="pi pi-trash" class="ui-button ui-button-dp"
+                        (click)="deleteRow(index)">
+                    </button>
+                </td>
 
-        </tr>
-      </ng-template>
+            </tr>
+        </ng-template>
 
 
 
@@ -318,20 +311,22 @@
             </tr>
         </ng-template> -->
 
-    <!-- last ok -->
+        <!-- last ok -->
 
         <ng-template pTemplate="footer" *ngIf="isFooter && this.ArrFooterCells" let-columns>
             <tr>
-                <td *ngFor="let column of columns; let i=index;" 
-                class="clsDpFooter{{i}}_frozenColsCounter_{{this.frozenColsCounter}}_{{i + this.frozenColsCounter + 1}}">            
-                    <ng-container *ngIf="frozenColsCounter === -1">aa i={{i}}-fcc={{this.frozenColsCounter}}- {{this.ArrFooterCells[i]}}</ng-container>
+                <td *ngFor="let column of columns; let i=index;"
+                    class="clsDpFooter{{i}}_frozenColsCounter_{{this.frozenColsCounter}}_{{i + this.frozenColsCounter + 1}}">
+                    <ng-container *ngIf="frozenColsCounter === -1">aa i={{i}}-fcc={{this.frozenColsCounter}}-
+                        {{this.ArrFooterCells[i]}}</ng-container>
                     <BR>
-                    <ng-container *ngIf="frozenColsCounter>-1">bb i={{i}}-fcc={{this.frozenColsCounter}}- {{this.ArrFooterCells[i + this.frozenColsCounter + 1]}}</ng-container>
+                    <ng-container *ngIf="frozenColsCounter>-1">bb i={{i}}-fcc={{this.frozenColsCounter}}-
+                        {{this.ArrFooterCells[i + this.frozenColsCounter + 1]}}</ng-container>
                 </td>
-                <td *ngIf="!this.definition.HideBtnsCol" class="clsDpFilterCell"></td> 
+                <td *ngIf="!this.definition.HideBtnsCol" class="clsDpFilterCell"></td>
             </tr>
         </ng-template>
-        
+
         <!-- <ng-template *ngIf="frozenCols !==null " pTemplate="frozencolgroup" 
                     let-frozenColumns>           
             <colgroup>
@@ -366,7 +361,7 @@
             </tr>
         </ng-template> -->
 
-    <!-- הוספתי בגלל שיש את התא של הפעולות-->
+        <!-- הוספתי בגלל שיש את התא של הפעולות-->
 
         <!-- <ng-template pTemplate="frozencolgroup" let-columns>
             <colgroup>
