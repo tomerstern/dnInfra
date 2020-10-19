@@ -26,7 +26,9 @@ export class CustomerService {
     // }
 
     saveCustomers(customers: any) {
-        console.log('The data saved');
-        console.log(customers);
+        // console.log('The data saved');
+        // console.log(customers);
+        // http://10.91.133.115/ExportCustomsWebAPI/Shipment/GetG7
+     //   this.http.post('http://10.91.133.115/ExportCustomsWebAPI/Shipment/GetG7', customers).subscribezzzzzzzzzzzzzzzzzzzzzzzzzzzz
     }
 }

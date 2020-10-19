@@ -53,6 +53,25 @@ export class HeaderComponent implements OnInit {
             label: 'fontawesome',
             routerLink: ['/test4']
           },
+          {
+            label: 'level 1',
+            items: [
+              {
+                label: 'level 2 1',
+              },
+              {
+                label: 'level 2 2',
+                items: [
+                  {
+                    label: 'level 3 1',
+                  },
+                  {
+                    label: 'level 3 2',
+                  },
+                ]
+              },
+            ]
+          },
         ],
       }
       ,
@@ -61,8 +80,7 @@ export class HeaderComponent implements OnInit {
           routerLink: ['/test3']
       },
       {
-        label: 'And Another',
-        routerLink: ['/test3']
+        label: 'And Another'
     },
     ];
 

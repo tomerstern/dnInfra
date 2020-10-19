@@ -37,7 +37,7 @@
 // }
 
 $PrimaryColor: #cb2026; // #007ad9
-$PrimaryColorHover: #880a0e;
+$PrimaryColorHover: #a71419;
 $PrimaryColorShadow: #f36d72; // #8dcdff
 $SecondaryColor:#ffce00;
 $HeaderBG: #212121;
@@ -53,6 +53,16 @@ body .ui-table .ui-editable-column input{
   font-family: Roboto;
 }
 
+body .ui-table .ui-table-tbody > tr.ui-state-highlight {
+  background-color: transparent ;
+}
+// .ui-state-highlight
+// {
+//   background-color:transparent;
+// }
+body .ui-table .ui-table-tbody > tr:nth-child(even).ui-state-highlight {
+  background-color:transparent;
+}
 
 body .ui-tooltip{
     .ui-tooltip-arrow{border-top-color: $PrimaryColor;}
@@ -103,7 +113,9 @@ body .ui-tooltip.ui-tooltip-bottom .ui-tooltip-arrow {border-bottom-color: $Prim
   }
 
 
-
+  .ui-table .ui-table-tfoot > tr > td{
+    height: 36px !important;
+  }
   .ui-table .ui-table-tbody > tr > td{
     height: 60px;
     white-space: nowrap;
@@ -127,10 +139,6 @@ body .ui-tooltip.ui-tooltip-bottom .ui-tooltip-arrow {border-bottom-color: $Prim
     // }
   }
 
-  
-  .ui-table .ui-table-tbody tr:hover{
-    background-color: #dadada;
-  }
 
 
   .ui-table-caption button.ui-button, .clsDpFilterCell button.ui-button{
@@ -222,17 +230,6 @@ body dp-splitbutton.ui-button-dp .ui-splitbutton.ui-buttonset button
     color: $PrimaryColor;
   }
 }
-
-.ui-table-scrollable-wrapper{
-  // min-height: 100vh;
-}
-.ui-table-scrollable-body{
-  overflow: visible;
-}
-
-input{
-  max-width: 100%;
-}
   
 // body .ui-button:enabled:hover {
 //   background-color: #116fbf;
@@ -253,19 +250,7 @@ body p-calendar .ui-calendar button.ui-calendar-button:not(.ui-button-warning):n
   background-color: white;
   color: $PrimaryColor;
 }
-// body p-calendar .ui-calendar button.ui-calendar-button {
-//   border: 1px solid #a6a6a6;
-//   border-left-width:0px;
-// }
 
-// body button.ui-button:enabled:active
-// {
-//   border: 1px solid white;
-//   background-color: $PrimaryColor;
-//   .ui-button-text {
-//     color: white;
-//   }
-// }
 body button.ui-button.ui-button-dp:enabled:active
 {
   border: 1px solid white;
@@ -324,15 +309,6 @@ body p-splitbutton
       font-size: 0.9em;      
     }
  
-    // :hover button.ui-button:not(.ui-button-warning):not(.ui-button-danger):not(.ui-button-primary):not(.ui-button-secondary):not(.ui-button-success):not(.ui-button-info){
-    //   background-color: $PrimaryColor;
-    //   border-color: white;
-    // }
-
-    // gil
-    // :hover button.ui-button:not(.ui-button-warning):not(.ui-button-danger):not(.ui-button-primary):not(.ui-button-secondary):not(.ui-button-success):not(.ui-button-info) span{
-    //   color:white;
-    // }
  }
 
 //  body .ui-button.ui-button-text-only .ui-button-text {
@@ -448,16 +424,13 @@ body .ui-inputtext {
 }
 
 body p-calendar .ui-datepicker table td{padding: 0px;}
-// body dp-table p-table .ui-table .ui-table-tbody > tr > td a{color:$PrimaryColor;}
-// body .ui-datepicker  dp-table p-table td > a.ui-state-active,
-//  body .ui-datepicker table td > span.ui-state-active{
-//   color: white; background-color: $PrimaryColor;
-// }
+
+
 body .ui-datepicker table.ui-datepicker-calendar td > a.ui-state-active,
  body .ui-datepicker table.ui-datepicker-calendar td > span.ui-state-active{
   color: white; background-color: $PrimaryColor;
 }
-// body dp-table p-table .ui-table .ui-table-tbody > tr > td a
+
 body .ui-datepicker table td > a:focus {
   outline: 0 none;
   outline-offset: 0;
@@ -524,6 +497,8 @@ body .ui-tree .ui-tree-container .ui-treenode .ui-treenode-content:focus {
 
   box-shadow: 0 0 0 0.2em $PrimaryColorShadow;
 }
+
+
 /* tabmenu start */
 body dp-tabmenu.dp-css {
   .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem{
@@ -567,13 +542,11 @@ body dp-menubar {
   }
    .ui-menubar 
     {
-      // .ui-menuitem:hover{
-      //   color:$HeaderBG;        
-      // }
+      border-width: 0px;
+      background-color: transparent;
       .ui-menuitem:hover .ui-menuitem-link {
         color:$HeaderBG;
-      }
-      border-width: 0px;
+      }      
       .ui-menuitem-link:focus {
         box-shadow: inset 0 0 0 0.2em $HeaderShadow;
       }
@@ -620,7 +593,23 @@ body .ui-button.ui-autocomplete-dropdown:hover{
 body .ui-autocomplete-panel .ui-autocomplete-items .ui-autocomplete-list-item.ui-state-highlight{
   background-color: $PrimaryColor;
 }
+
+body .ui-autocomplete.ui-autocomplete-multiple .ui-autocomplete-multiple-container {
+  padding: 0.15em 0.429em;
+}
+body .ui-autocomplete.ui-autocomplete-multiple .ui-autocomplete-multiple-container .ui-autocomplete-token {
+
+  background: $PrimaryColor;
+}
+body .ui-autocomplete.ui-autocomplete-multiple .ui-autocomplete-multiple-container:not(.ui-state-disabled).ui-state-focus {
+  box-shadow: 0 0 0 0.2em $PrimaryColorShadow;
+  border-color: $PrimaryColor;
+}
+body dp-autocomplete .ui-button:enabled:focus {
+  box-shadow: 0 0 0 0.2em $PrimaryColorShadow;
+}
 /* autocomplete end */
+
 body .ui-button.ui-state-default.ui-button-secondary:enabled:focus,
  body .ui-buttonset.ui-button-secondary > .ui-button.ui-state-default:enabled:focus {
   box-shadow: 0 0 0 0.2em $PrimaryColorShadow;
@@ -642,7 +631,7 @@ body dp-splitbutton.ui-button-dp  .ui-splitbutton.ui-buttonset .ui-button:enable
     color:  white;
   }
 }
-
+// gil start last 
 body dp-splitbutton.ui-button-dp .ui-splitbutton.ui-buttonset  .ui-button:enabled:focus {
   box-shadow: 0 0 0 0.2em $PrimaryColorShadow;
 }
@@ -662,6 +651,220 @@ body dp-calendar .ui-button:enabled:focus {
   box-shadow: 0 0 0 0.2em $PrimaryColorShadow;
 }
 
-table{
-  table-layout: fixed;
+
+dp-table .ui-table .ui-table-tbody > tr:focus > td {
+  box-shadow: 0 -0.2em 0 0 $PrimaryColorShadow, 0 0.2em 0 0 $PrimaryColorShadow;
 }
+dp-table  .ui-table .ui-table-tbody > tr:focus > td:first-child {
+  box-shadow: 0 -0.2em 0 0 $PrimaryColorShadow, 0 0.2em 0 0 $PrimaryColorShadow, -0.1em -0.1em 0 0.1em $PrimaryColorShadow;
+}
+dp-table  .ui-table .ui-table-tbody > tr:focus > td {
+  box-shadow: 0 -0.2em 0 0 $PrimaryColorShadow, 0 0.2em 0 0 $PrimaryColorShadow;
+}
+
+dp-table .ui-table .ui-table-tbody > tr:focus + tr > td {
+  box-shadow: 0 -0.2em 0 0 $PrimaryColorShadow;
+}
+dp-table .ui-table .ui-table-tbody > tr:focus > td {
+  box-shadow: 0 -0.2em 0 0 $PrimaryColorShadow, 0 0.2em 0 0 $PrimaryColorShadow;
+}
+dp-table .ui-table .ui-table-tbody > tr:focus > td:first-child {
+  box-shadow: 0 -0.2em 0 0 $PrimaryColorShadow, 0 0.2em 0 0 $PrimaryColorShadow, -0.1em -0.1em 0 0.1em $PrimaryColorShadow;
+}
+dp-table .ui-table .ui-table-tbody > tr:focus > td:last-child {
+  box-shadow: 0 -0.2em 0 0 $PrimaryColorShadow, 0 0.2em 0 0 $PrimaryColorShadow, 0.1em -0.1em 0 0.1em $PrimaryColorShadow;
+}
+
+dp-table .ui-table .ui-table-tbody tr:hover{
+  background-color: #dadada;
+}
+
+body .ui-table .ui-sortable-column:focus {
+  box-shadow: inset 0 0 0 0.2em  $PrimaryColorShadow;
+}
+
+body dp-table p-table.cssSquareInputs {
+  input[type=text], .ui-inputnumber-input, .ui-inputnumber-text,  p-calendar .ui-calendar.ui-calendar-w-btn .ui-inputtext,  p-calendar .ui-calendar.ui-calendar-w-btn .ui-calendar-button
+    {border-radius: 0px ;}
+}
+
+body .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-icon:focus {
+  box-shadow: 0 0 0 0.2em $PrimaryColorShadow;
+}
+
+body .ui-paginator .ui-paginator-pages .ui-paginator-page.ui-state-active {
+  background-color: $PrimaryColor;
+}
+body .ui-inputtext:enabled:hover:not(.ui-state-error) {
+  border-color: $PrimaryColor;
+}
+body .ui-autocomplete.ui-autocomplete-multiple .ui-autocomplete-multiple-container:not(.ui-state-disabled):hover {
+  border-color:  $PrimaryColor;
+}
+
+body .ui-button.ui-button-dp:enabled:focus {
+  box-shadow: 0 0 0 0.2em $PrimaryColorShadow;
+}
+
+// body dp-calendar .ui-datepicker table td > a{
+//   width: 31px;
+// }
+
+body dp-calendar .ui-datepicker .ui-datepicker-group  tbody > tr > td a {color: #333333; }
+
+dp-picklist {
+  button.ui-button 
+  {
+    background-color: white; 
+    border: 1px solid $PrimaryColor;
+    .ui-button-icon-left{
+      color: $PrimaryColor;
+    }
+  }
+  button.ui-button:enabled:hover
+  {
+  background-color: $PrimaryColor; 
+  border: 1px solid $PrimaryColor;
+  .ui-button-icon-left{
+    color: white;
+    }
+  }
+  button.ui-button:enabled:focus
+  {
+    box-shadow: 0 0 0 0.2em $PrimaryColorShadow;
+  }
+  .ui-picklist .ui-picklist-filter-container .ui-picklist-filter-icon{
+    color: $PrimaryColor;
+  }
+  .ui-picklist .ui-picklist-list .ui-picklist-item.ui-state-highlight {
+    background-color: $PrimaryColor;
+  }
+  .ui-picklist .ui-picklist-list .ui-picklist-item:focus {
+    box-shadow: inset 0 0 0 0.2em $PrimaryColorShadow;
+  }
+}
+
+#dpHeaderContainer {
+  background-color: $PrimaryColor;
+  border:1px solid red;
+  height: 100px; 
+  margin-bottom: 0.5rem;
+  background-image: url('projects/dn-infra/src/assets/Images/HeaderBG.png'); 
+  background-position:  100%; 
+  background-repeat: no-repeat;
+  dp-menubar ul li{ 
+    border-radius: 0px;
+    background-color: $PrimaryColor;
+    color:white;
+    border-width: 0px;
+    // border-bottom-width: 1px;
+    border-color: $PrimaryColorShadow;
+  }
+  // dp-menubar ul li:hover{ 
+  //   background-color:white;
+  //   color:$PrimaryColor ;
+  // }
+  #dpSelectLang
+  {
+    padding: 0.5rem 0.5rem;
+    font-family: 'Roboto';
+    font-size: 14px;
+  }
+  .ui-menubar .ui-menuitem.ui-menuitem-active > .ui-menuitem-link {
+    background-color:white;
+    color: $PrimaryColor;
+  }
+  .ui-menubar .ui-menuitem.ui-menuitem-active > .ui-menuitem-link .ui-menuitem-text {
+    color: $PrimaryColor;
+  }
+  .ui-menubar .ui-menuitem-link.ui-menuitem-link-active .ui-menuitem-text {
+    color: #ffce00;
+  }
+  .ui-menubar .ui-menuitem-link:focus {
+    box-shadow: none; //inset 0 0 0 0.2em #6E6D6D;
+  }
+  .ui-menubar .ui-menuitem-link:hover {
+    background-color: white !important;    
+  }
+  // .ui-menubar .ui-menuitem:hover .ui-menuitem-link{
+  //   color: $PrimaryColor;
+  // }
+  .ui-menubar .ui-menuitem .ui-menuitem-link .ui-submenu-icon {
+    color: white;
+  }
+
+  .ui-menubar .ui-menuitem:hover > .ui-menuitem-link .ui-submenu-icon {
+    color:  $PrimaryColor;
+  }
+
+  .ui-menubar .ui-menuitem.ui-menuitem-active > .ui-menuitem-link .ui-menuitem-icon, .ui-menubar .ui-menuitem.ui-menuitem-active > .ui-menuitem-link .ui-submenu-icon{
+    color: $PrimaryColor !important;    
+  }
+  .ui-menubar .ui-menuitem-link:hover .ui-menuitem-text {
+    color: $PrimaryColor;
+  }
+  body .ui-menubar .ui-submenu-list{
+    border: 1px solid white;
+  }
+}
+
+ 
+
+@media screen and (max-width: 991px) {
+  #dpHeaderContainer {height :200px;}
+}
+@media screen and (min-width: 992px) {
+  #dpHeaderContainer {
+    padding-left: 2em;
+  }
+  #dpHeaderContainer > div {padding-top:30px;}
+}
+#dpHeaderContainer {
+  #dpSelectLang
+  {
+    background-color: $PrimaryColor;
+    color: white;
+    border-width: 0px;
+    cursor: pointer;
+  }
+  #dpSelectLang:hover
+  {
+    background-color: white;
+    color:  $PrimaryColor;
+  } 
+  #dpSelectLang option{
+    border-bottom: 1px solid $PrimaryColor;
+    margin:4px;
+  }
+}
+
+body .ui-contextmenu .ui-menuitem-link {color: $PrimaryColor;}
+body .ui-contextmenu .ui-menuitem.ui-menuitem-active > .ui-menuitem-link .ui-menuitem-icon,
+ body .ui-contextmenu .ui-menuitem.ui-menuitem-active > .ui-menuitem-link .ui-submenu-icon,
+ body .ui-contextmenu .ui-menuitem.ui-menuitem-active > .ui-menuitem-link .ui-menuitem-text
+ {
+  color: $PrimaryColor;
+}
+body .ui-contextmenu .ui-menuitem-link .ui-menuitem-icon{
+    color: $PrimaryColor;
+  }
+body .ui-contextmenu .ui-menuitem-link .ui-menuitem-text{
+  color: $PrimaryColor;
+}
+
+body .ui-contextmenu .ui-menuitem-link:focus {
+
+  box-shadow: inset 0 0 0 0.2em $PrimaryColorShadow;
+}
+// ziv start
+// .ui-table-scrollable-wrapper{
+//   min-height: 100vh;
+// }
+// .ui-table-scrollable-body{
+//   overflow: visible;
+// }
+
+input{
+  max-width: 100%;
+}
+// ziv end

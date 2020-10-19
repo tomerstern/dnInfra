@@ -220,6 +220,7 @@ export class TabletestComponent implements OnInit {
             changes.push(tableChanges[key]);
           });
           console.log(changes);
+          this.customerService.saveCustomers(changes);
         }
       });
     })).subscribe();

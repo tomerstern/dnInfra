@@ -54,7 +54,8 @@ export class Test3Component implements OnInit {
       '<th colspan="4">Finance Data</th></tr>' ,
         /*'<th rowspan="2">Actions</th>' +  בשביל עמודת Actions */
       HideBtnsCol: true,
-      toolbar: true
+      toolbar: true,
+      scrollable: true
     });
 
 

@@ -1,13 +1,14 @@
 import {
   Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges, ViewEncapsulation,
-  ChangeDetectionStrategy, SimpleChanges
+  ChangeDetectionStrategy, SimpleChanges, AfterViewInit
 } from '@angular/core';
 import { GridDefinitions, GridColumnType } from './objects/grid-definitions';
 import { TableStoreService, TableState } from '../../services/table-store.service';
 import { Subscription, Observable, fromEvent, Subject } from 'rxjs';
 import { Table } from 'primeng/table';
 import {
-  faThumbtack, faFileExcel, faFilePdf, faFilter, faPlus
+          faThumbtack, faFileExcel, faFilePdf, faFilter, faPlus,
+          faColumns
 } from '@fortawesome/free-solid-svg-icons';
 import { InputNumberProperties } from '../inputnumber/objects/inputnumber-definitions';
 import { Store } from '@ngrx/store';
@@ -17,6 +18,7 @@ import { debounceTime, distinctUntilChanged, map, take } from 'rxjs/operators';
 import { DpDialogService, DpDynamicDialogRef } from '../dynamicdialog/Objects/dynamicdialog-definitions';
 import { ColumnSelectionComponent } from './columnSelection/column-selection/column-selection.component';
 import { MessageService } from 'primeng/api'; /* only for showing return value */
+import { NgForm, ValidationErrors } from '@angular/forms';
 
 
 @Component({
@@ -25,9 +27,9 @@ import { MessageService } from 'primeng/api'; /* only for showing return value *
   styleUrls: ['./table.component.scss'],
   providers: [TableStoreService, DpDialogService, MessageService],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush  /* dont remove - fixes "Expression has changed after it was checked."*/
 })
-export class TableComponent implements OnInit, OnChanges {
+export class TableComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Input() definition: GridDefinitions;
   @Input() datasource: Array<any> = [];
@@ -51,8 +53,12 @@ export class TableComponent implements OnInit, OnChanges {
   HeadersHeight = '74px';
   isColumnsWidthDefined = false;
   isFreezeColumnActive = false;
+  IsTableHScroll = false;
   ArrFooterCells: string[];
+  // jsonFooterArr = [];
+  FooterArrObj = {};
   ArrDatasourceKeys: string[] = [];
+  ngForm: any;
   obj = {};
   sub: Subscription;
   newRow = {};
@@ -70,13 +76,17 @@ export class TableComponent implements OnInit, OnChanges {
   faFilePdf = faFilePdf;
   faFilter = faFilter;
   faPlus = faPlus;
-
+  faColumns = faColumns;
   constructor(
     public dialogService: DpDialogService,
     public messageService: MessageService,
     private store: Store<any>
   ) { }
 
+  ngAfterViewInit() {
+    this.IsTableHScroll = this.dpIsHScroll(this.table);
+    // changeDetection: ChangeDetectionStrategy.OnPush  that exixst fixes "Expression has changed after it was checked."
+ }
 
 
   ngOnInit() {
@@ -100,6 +110,11 @@ export class TableComponent implements OnInit, OnChanges {
     });
     this.scrollableCols = this.definition.columns;
     this.dpCreateFooterData();
+
+    if (this.definition.isFreezeColumns === true) {
+      this.definition.scrollable = true;
+    }
+
   }
 
   updateRow(columnField: string, row: object, val: any, rowIndex: number) {
@@ -155,9 +170,6 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
 
-
-
-
   // if at least one of the columns is editable then the grid is editable and we add add and delete buttons
 
   // setIsEditable() {
@@ -187,7 +199,6 @@ export class TableComponent implements OnInit, OnChanges {
     console.log(x);
   }
 
-
   setIsFooter() {
     for (const column of this.definition.columns) {
       if (column.ColumnSum || column.ColumnTotal) {
@@ -196,7 +207,6 @@ export class TableComponent implements OnInit, OnChanges {
       }
     }
   }
-
 
   loopRows(rows, mandatoryFieldNames, emptyMandatoryFieldNames) {
     for (const row of rows) {
@@ -226,6 +236,7 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   deleteRow(id) {
+    debugger
     // delete this.datasource[id];
     this.store.dispatch(deleteRow({ data: { tableId: this.tableId, rowIndex: id } }));
   }
@@ -313,6 +324,17 @@ export class TableComponent implements OnInit, OnChanges {
     }
   }
 
+  getFormValidationErrors(myForm: any) {
+    const form = myForm.form.controls[this.tableId].controls;
+    Object.keys(form).forEach(key => {
+      if (form[key].status === 'INVALID') {
+        console.log(form[key]);
+      }
+    });
+  }
+
+
+
   dpCreateFooterData() {
 
     if (!this.ArrDatasourceKeys.length) {
@@ -336,10 +358,21 @@ export class TableComponent implements OnInit, OnChanges {
         if (tmpStr2 !== '') { tmpStr2 = 'Total:' + tmpStr2; }
         if (tmpStr1 !== '') { tmpStr2 = '  ' + tmpStr2; }
       }
+
       this.ArrFooterCells.push(tmpStr1 + tmpStr2);
+
+      this.FooterArrObj[column.fieldname] = tmpStr1 + tmpStr2;
+
+      // this.jsonFooterArr.push({
+      //   id: column.fieldname,
+      //   optionValue: tmpStr1 + tmpStr2
+      // });
 
       i++;
     });
+
+    // console.log(this.ArrFooterCells);
+    // console.log(this.jsonFooterArr);
 
   }
 
@@ -422,9 +455,32 @@ export class TableComponent implements OnInit, OnChanges {
   // {{log('repeat')}}
 
 
+
   dpIsHScroll(dt): boolean {
     try {
-      return this.definition.isFreezeColumns;
+      if (dt === undefined) {
+        return false;
+      }
+      const header = dt.el.nativeElement.querySelectorAll('thead');
+      if (header !== undefined && header.length) {
+        const tableScrollWidth = header[0].scrollWidth;
+
+        const tableContainerForm = dt.el.nativeElement.parentElement;
+        if (tableContainerForm !== undefined && tableContainerForm.length) {
+          // const formScrollWidth = tableContainerForm.clientWidth;
+          const formScrollWidth = tableContainerForm.offsetWidth;
+          if (tableScrollWidth > formScrollWidth) {
+            // this.definition.scrollable = 'true';
+            return true;
+          } else {
+            return false;
+          }
+        }
+
+      }
+      // return this.definition.isFreezeColumns;
+
+      return false;
 
       // const header = dt.el.nativeElement.querySelectorAll('thead');
       // const scrollWidth = header[0].scrollWidth;
@@ -443,6 +499,7 @@ export class TableComponent implements OnInit, OnChanges {
       //   return true;
       // }
     } catch (error) {
+      return false;
       console.log(error);
     }
   }
@@ -471,6 +528,8 @@ export class TableComponent implements OnInit, OnChanges {
     LocWidth = this.dpCalcFreezeColumnsWidth(dt);
 
     this.dpFreezeColumns(dt, LocWidth + 'px');
+
+    // this.dpCreateFooterData();
   }
 
 

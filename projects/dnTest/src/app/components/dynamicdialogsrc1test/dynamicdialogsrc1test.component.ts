@@ -25,7 +25,7 @@ import {DynamicDialogConfig} from 'primeng/dynamicdialog';
                     <td><span class="ui-column-title">Brand</span>{{car.brand}}</td>
                     <td><span class="ui-column-title">Color</span>{{car.color}}</td>
                     <td>
-                        <button pButton icon="pi pi-search" (click)="selectCar(car)"></button>
+                        <button class="ui-button ui-button-dp" pButton icon="pi pi-search" (click)="selectCar(car)"></button>
                     </td>
                 </tr>
             </ng-template>

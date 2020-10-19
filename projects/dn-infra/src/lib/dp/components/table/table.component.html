@@ -1,16 +1,18 @@
 <form #myForm="ngForm">
+    <!-- form valid? {{myForm.valid}}
+    <br>
+    <br>
+    form values: {{myForm.value | json}}
+    <br>
+    <br>
+    data Values: {{data$ | async| json}}
 
-    form valid? {{myForm.valid}}
-        <br>
-        <br>
-        <!-- form values: {{myForm.value | json}} -->
-        <br>
-        <br>
-        <!-- data Values: {{data$ | async| json}} -->
-
         <br>
         <br>
         <br>
+        <button (click)="getFormValidationErrors(myForm)">
+            GET ERROR
+        </button> -->
     <p-table #dt [columns]="scrollableCols" [value]="data$ | async" [dataKey]="definition.dataKey"
         [rowHover]="definition.rowHover" [rows]="definition.rows" [showCurrentPageReport]="true"
         [rowsPerPageOptions]="definition.rowsPerPageOptions" [paginator]="definition.paginator"
@@ -18,7 +20,9 @@
         [sortMode]="'multiple'" [(first)]="first" [selectionMode]="definition.selectionMode"
         [selection]="definition.selectionMode" (onRowSelect)="onRowSelect($event)"
         [scrollHeight]="definition.FreezeHeaderTableHeight" [scrollable]="definition.scrollable"
-        frozenWidth="{{frozenWidth}}" [frozenColumns]="frozenCols" (onPage)="paginate($event)">
+        frozenWidth="{{frozenWidth}}" [frozenColumns]="frozenCols" (onPage)="paginate($event)"
+        [ngClass]="(definition.isRoundedInputs === false )?'cssSquareInputs' :''"
+        >
         <ng-template pTemplate="caption" *ngIf="definition.toolbar">
             <div class="p-toolbar-group-left">
                 <!-- icon="pi pi-plus" -->
@@ -39,20 +43,17 @@
                     <fa-icon [icon]="faFilePdf"></fa-icon>
                 </button>
 
-                <button *ngIf="definition.selectColumns" type="button" pButton pRipple icon=""
-                    [label]="'Select Columns'" (click)="showDynamicdialog1()" class="ui-button ui-button-dp p-mr-1"
-                    pTooltip="select Columns" tooltipPosition="bottom">
+                <button *ngIf="definition.selectColumns" type="button" pButton pRipple
+                    (click)="showDynamicdialog1()" class="ui-button ui-button-dp p-mr-1"  pTooltip="select Columns" tooltipPosition="bottom" 
+                    >
+                    <fa-icon [icon]="faColumns"></fa-icon>
                 </button>
 
-                <!-- [icon]="toggleFilter?'pi pi-caret-up':'pi pi-caret-down'" -->
-                <!-- icon="pi pi-filter" -->
-                <button pButton type="button"   class="ui-button ui-button-dp p-mr-1"
+                <button pButton type="button"  class="ui-button ui-button-dp p-mr-1"
                      (click)="toggleFilter=!toggleFilter"  pAddRow pTooltip="Filter" tooltipPosition="bottom">
                     <fa-icon [icon]="faFilter"></fa-icon>
                 </button>
 
-                <!-- gil add if first column have width / id table have hScroll-->
-                <!-- class="ui-button p-mr-1 {{frozenButtonClasses}}"  -->
                 <button *ngIf="definition.isFreezeColumns && definition.HeadersMergeGroupsHtml===''" type="button"
                     pButton pTooltip="{{frozenButtonText}}" class="ui-button ui-button-dp p-mr-1"
                     (click)="dpUnFreezeCols()" tooltipPosition="bottom" pDraggable="abc">
@@ -303,79 +304,27 @@
             </tr>
         </ng-template>
 
-
-
         <!-- <ng-template pTemplate="emptymessage">
             <tr>
                 <td colspan="8" style="text-align:left">No results found.</td>
             </tr>
         </ng-template> -->
 
-        <!-- last ok -->
-
-        <ng-template pTemplate="footer" *ngIf="isFooter && this.ArrFooterCells" let-columns>
+        <ng-template pTemplate="footer" *ngIf="isFooter" let-columns let-frozenColumns let-scrollableCols>
             <tr>
-                <td *ngFor="let column of columns; let i=index;"
-                    class="clsDpFooter{{i}}_frozenColsCounter_{{this.frozenColsCounter}}_{{i + this.frozenColsCounter + 1}}">
-                    <ng-container *ngIf="frozenColsCounter === -1">aa i={{i}}-fcc={{this.frozenColsCounter}}-
-                        {{this.ArrFooterCells[i]}}</ng-container>
-                    <BR>
-                    <ng-container *ngIf="frozenColsCounter>-1">bb i={{i}}-fcc={{this.frozenColsCounter}}-
-                        {{this.ArrFooterCells[i + this.frozenColsCounter + 1]}}</ng-container>
-                </td>
-                <td *ngIf="!this.definition.HideBtnsCol" class="clsDpFilterCell"></td>
-            </tr>
-        </ng-template>
-
-        <!-- <ng-template *ngIf="frozenCols !==null " pTemplate="frozencolgroup" 
-                    let-frozenColumns>           
-            <colgroup>
-                <col class="clsColgroup"  *ngFor="let col of frozenColumns; let colIndex=index"  
-                    [style.width]="col.width +'px'"
-                >
-            </colgroup>
-        </ng-template> -->
-
-        <!-- <ng-template pTemplate="footer" let-rowData let-columns="columns" let-index="rowIndex" let frozenCols="frozenCols" let scrollableCols="scrollableCols">
-            <tr> 
-            <ng-container *ngFor="let frozenColumn of frozenCols"> 
-                    <td  class="frozenColBody1"
-                        >aaaaaaaaa                 
-                    </td>
-                </ng-container>  
-                <ng-container  *ngFor="let col of scrollableCols" >
-                    <td class="unFrozenColBody2"  >bbbbbbb       </td>
-                </ng-container>
-            </tr>
-        </ng-template> -->
-
-        <!-- <ng-template pTemplate="footer" *ngIf="isFooter && this.ArrFooterCells">
-            <tr>
-                <td *ngFor="let column of definition.columns; let i=index;" 
-                class="clsDpFooter{{i}}_{{column.width}}  frozenColsCounter_{{this.frozenColsCounter}}_{{i + this.frozenColsCounter + 1}}">            
-                    <ng-container *ngIf="frozenColsCounter === -1">aa i={{i}}-fcc={{this.frozenColsCounter}}- {{this.ArrFooterCells[i]}}</ng-container>
-                    <BR>
-                    <ng-container *ngIf="frozenColsCounter>-1">bb i={{i}}-fcc={{this.frozenColsCounter}}- {{this.ArrFooterCells[i + this.frozenColsCounter + 1]}}</ng-container>
-                </td>
-                <td *ngIf="!this.definition.HideBtnsCol" class="clsDpFilterCell"></td> 
-            </tr>
-        </ng-template> -->
-
-        <!-- הוספתי בגלל שיש את התא של הפעולות-->
-
-        <!-- <ng-template pTemplate="frozencolgroup" let-columns>
-            <colgroup>
-                <col *ngFor="let col of columns" class="colgroupfooter">
-            </colgroup>
-        </ng-template> -->
-        <!-- <ng-template *ngIf="frozenCols !==null " pTemplate="colgroup" 
-                    let-frozenColumns>           
-            <colgroup>
-                <col class="clsColgroup"  *ngFor="let col of frozenColumns; let colIndex=index"  
-                    [style.width]="col.width +'px'"
-                >
-            </colgroup>
-        </ng-template> -->
+                <td *ngFor="let col of columns; let colIndex=index">
+                    <ng-container>
+                        {{this.FooterArrObj[col.fieldname]}}
+                    </ng-container>
+                </td>                
+            <td *ngIf="!this.definition.HideBtnsCol" class="clsDpFilterCell"></td>
+        </tr>
+    </ng-template>
+       
 
     </p-table>
+
+    <!-- <br>
+    {{myForm.value | json}} -->
+
 </form>

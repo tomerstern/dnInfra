@@ -20,7 +20,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LOCATION_INITIALIZED } from '@angular/common';
 /* for Translate end */
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { CustomLoader } from './classes/custom-loader';
+// import { CustomLoader } from './classes/custom-loader';
 import { LanguageComponent } from './components/language/language.component';
 import { LoginComponent } from './components/login/login.component';
 import { FormsModule } from '@angular/forms';

@@ -1,6 +1,6 @@
 <ng-container *ngIf="definition.mode == inputTextModeEnum.basic">
   <input [ngModelOptions]="{standalone: true}"
-    [(ngModel)]="innerValue" [size]="definition.size">
+    [(ngModel)]="innerValue" [size]="definition.size" type="text" pInputText>
 </ng-container>
 
 <span *ngIf="definition.mode == inputTextModeEnum.float" class="ui-float-label">

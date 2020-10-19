@@ -1,0 +1,30 @@
+{
+    "username" : "username",
+    "email": "Email address",
+    "phoneNo": "Phone",
+    "password": "Password",
+    "welcomeMessage": "Thanks for joining, ! It's great to have you!",
+    "login": {
+        "login": "Login",
+        "username": "Enter your user name",
+        "password": "Password here",
+        "email": "Email here",
+        "city": "rosh haain",
+        "street" : "hagefen 1"
+    },
+    "tableCustom" : {
+        "header1" : "Product Name",
+        "header2" : "This Year Amount",
+        "header3" : "Last Year Amount",
+        "header4" : "This Year Profit",
+        "header5" : "Last Year Profit"
+    },
+    "generalTable" : {
+        "tabledata" : "Table Data"
+
+    },
+    "home": {
+        "title": "Hello Angular with ngx-translate!",
+        "select": "Change language"
+      }
+}

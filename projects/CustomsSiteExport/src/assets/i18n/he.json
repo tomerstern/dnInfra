@@ -1,0 +1,29 @@
+{
+    "username" : "שם משתמש",
+    "email": "כתובת מייל",
+    "phoneNo": "טלפון",
+    "password": "סיסמה",
+    "welcomeMessage": "תודה שהצטרפת, ! ממש סבבה!",
+    "login": {
+        "login": "התחבר",
+        "username": "הזן שם משתמש",
+        "password": "הזן סיסמה",
+        "email": "הזן כתובת מייל",
+        "city": "ראש העין",
+        "street" : "1 הגפן"
+    },
+    "tableCustom" : {
+        "header1" : "שם המוצר",
+        "header2" : "כמות השנה",
+        "header3" : "כמות בשנה שעברה",
+        "header4" : "רווח השנה",
+        "header5" : "רווח בשנה שעברה"
+    },
+    "generalTable" : {
+        "tabledata" : "נתוני הטבלה"
+    },
+    "home": {
+        "title": "שלום אנגולר",
+        "select": "החלף שפה"
+      }
+}

@@ -34,7 +34,7 @@ export class Table2testComponent implements OnInit {
 
     this.gridDefinition1 = new GridDefinitions({
       dataKey: 'id', columns: columns1,
-      FreezeHeaderTableHeight: '200px',  /* for example */
+      FreezeHeaderTableHeight: '200px',  scrollable: true, /* for example */
       toolbar: true
     });
 
@@ -125,7 +125,8 @@ export class Table2testComponent implements OnInit {
     const columnParams1: GridColumnParams = new GridColumnParams();
     const column1 = new GridColumn({
       headername: 'header name 1', fieldname: 'header1', columnParams: columnParams1
-      , width: 250 /* for example */
+      , width: 450 /* for example */
+      // , width: 1250 
     });
     columns.push(column1);
 
@@ -314,7 +315,8 @@ export class Table2testComponent implements OnInit {
     const columnParams1: GridColumnParams = new GridColumnParams();
     const column1 = new GridColumn({
       headername: 'header name 1', fieldname: 'header1', columnParams: columnParams1
-      , width: 250 /* for example */
+      , width: 450 /* for example */
+      // , width: 1250
     });
     columns.push(column1);
 
@@ -387,7 +389,7 @@ export class Table2testComponent implements OnInit {
 
   getData() {
     this.gridData1 = [
-      { product: 'Bamboo Watch', lastYearSale: 51, thisYearSale: 40, lastYearProfit: 54406, thisYearProfit: 43342 },
+      { product: 'Bamboo Watch טקסט בעברית', lastYearSale: 51, thisYearSale: 40, lastYearProfit: 54406, thisYearProfit: 43342 },
       { product: 'Black Watch', lastYearSale: 83, thisYearSale: 9, lastYearProfit: 423132, thisYearProfit: 312122 },
       { product: 'Blue Band', lastYearSale: 38, thisYearSale: 5, lastYearProfit: 12321, thisYearProfit: 8500 },
       { product: 'Blue T-Shirt', lastYearSale: 49, thisYearSale: 22, lastYearProfit: 745232, thisYearProfit: 65323 },

@@ -19,12 +19,13 @@ export interface IGridDefinition {
     // isFooter?: boolean;
     // FreezeHeader?: boolean;
     FreezeHeaderTableHeight?: string;
-    scrollable?: string;
+    scrollable?: boolean;
     HeadersMergeGroupsHtml?: string;
     isFreezeColumns?: boolean;
     // isFreezeColumnActive?: boolean;
     HideBtnsCol?: boolean;
     HeaderColGroup?: string;
+    isRoundedInputs?: boolean;
 }
 
 export interface IGridColumn {
@@ -80,12 +81,13 @@ export class GridDefinitions implements IGridDefinition {
     checkMandatory: Function;
     // isFooter: boolean;
     FreezeHeaderTableHeight: string;
-    scrollable: string;
+    scrollable: boolean;
     HeadersMergeGroupsHtml: string;
     // isFreezeColumnActive: boolean;
     isFreezeColumns: boolean;
     HideBtnsCol: boolean;
     HeaderColGroup: string;
+    isRoundedInputs: boolean;
     constructor(params: IGridDefinition) {
         this.dataKey = params.dataKey;
         this.columns = params.columns;
@@ -109,8 +111,10 @@ export class GridDefinitions implements IGridDefinition {
         this.FreezeHeaderTableHeight = (params.FreezeHeaderTableHeight == null
             || params.FreezeHeaderTableHeight === undefined ? '' : params.FreezeHeaderTableHeight);
         // this.scrollable = (this.FreezeHeaderTableHeight === '' ? '' : 'true');
-        this.scrollable = (params.scrollable == null
-            || params.scrollable === undefined ? 'true' : params.scrollable);
+        this.scrollable = ((params.scrollable == null
+            || params.scrollable === undefined ) &&
+            (params.isFreezeColumns  == null   || params.isFreezeColumns === undefined  || params.isFreezeColumns === false)
+            ? false : params.scrollable);
         this.HeadersMergeGroupsHtml = (params.HeadersMergeGroupsHtml == null
             || params.HeadersMergeGroupsHtml === undefined ? '' : params.HeadersMergeGroupsHtml);
         // this.isFreezeColumnActive = (params.isFreezeColumnActive == null
@@ -121,6 +125,8 @@ export class GridDefinitions implements IGridDefinition {
             || params.isFreezeColumns === undefined ? false : params.isFreezeColumns);
         this.HeaderColGroup = (params.HeaderColGroup == null
             || params.HeaderColGroup === undefined ? '' : params.HeaderColGroup);
+        this.isRoundedInputs = (params.isRoundedInputs == null
+            || params.isRoundedInputs === undefined ? false : params.isRoundedInputs);
     }
 }
 

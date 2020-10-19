@@ -13,6 +13,9 @@ import { AutocompleteDefinitions, AutocompleteProperties } from 'projects/dn-inf
 
 import { ShipmentG7 } from '../../../models/shipment';
 import { ShipmentService } from '../../../services/shipment.service';
+import { Store } from '@ngrx/store';
+import { getAppState } from 'projects/dn-infra/src/lib/dp/store/selectors';
+import { map, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-g7',
@@ -21,7 +24,7 @@ import { ShipmentService } from '../../../services/shipment.service';
 })
 export class G7Component implements OnInit {
 
-  constructor(private shipmentService: ShipmentService) { }
+  constructor(private shipmentService: ShipmentService, private store: Store<any>) { }
 
   gridDefinition: GridDefinitions;
   listShipmentG7: ShipmentG7[];
@@ -42,6 +45,22 @@ export class G7Component implements OnInit {
     //   this.dataForAutocomplete = dataForAutocomplete;
     // });
 
+  }
+
+  SaveCutomers() {
+    const changes = [];
+    this.store.select(getAppState).pipe(take(1), map(state => {
+      Object.keys(state.tables).forEach(table => {
+        const tableChanges = state.tables[table].changes;
+        if (tableChanges) {
+          Object.keys(tableChanges).forEach(key => {
+            changes.push(tableChanges[key]);
+          });
+          console.log(changes);
+          this.shipmentService.save(changes);
+        }
+      });
+    })).subscribe();
   }
 
   createNewColumns() {
