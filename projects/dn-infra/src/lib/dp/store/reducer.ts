@@ -19,19 +19,37 @@ const reducer = createReducer(initialState,
         return (newState);
     }),
     on(updateRow, (state, action): any => {
+        let newChanges = {};
+        let key;
+        action.row.refKey ? key = action.row.refKey : key = getKey(5);
+        const newRow = { ...action.row, refKey: key };
+        newChanges = { ...state[action.tableId].changes, [key]: { ...newRow, state: 16 } };
         const newData = {
             data: [...state[action.tableId].data.slice(0, action.rowIndex),
-            action.row, ...state[action.tableId].data.slice(action.rowIndex + 1)],
-            changes: state[action.tableId].changes
+                newRow, ...state[action.tableId].data.slice(action.rowIndex + 1)],
+            changes: newChanges
         };
         const newTableData = { [action.tableId]: newData };
         return ({ ...state, ...newTableData });
     }),
     on(deleteRow, (state, action): any => {
         const tableData = state[action.data.tableId].data;
+        const changes = {...state[action.data.tableId].changes};
+        let newChanges;
+        const key = state[action.data.tableId].data[action.data.rowIndex].refKey;
+
+        if (key) {
+            delete changes[key];
+            newChanges = changes;
+        } else {
+            newChanges = state[action.data.tableId].changes;
+        }
         const newTableData = {
             [action.data.tableId]:
-                { data: [...tableData.slice(0, action.data.rowIndex), ...tableData.slice(action.data.rowIndex + 1)] }
+            {
+                data: [...tableData.slice(0, action.data.rowIndex),
+                ...tableData.slice(action.data.rowIndex + 1)], changes: newChanges
+            }
         };
         return ({ ...state, ...newTableData });
     }),
@@ -64,3 +82,7 @@ export function getKey(length) {
     return result;
 }
 
+export const removeFromObject = (obj, prop) => {
+    const { [prop]: omit, ...res } = obj;
+    return res;
+};

@@ -225,30 +225,30 @@
 
                         <ng-container [ngSwitch]="column.type">
 
-                            <dp-inputtext (keyup)="updateRow(column.fieldname, row, $event.target.value, index)"
+                            <dp-inputtext (change)="updateRow(column.fieldname, row, $event.target.value, index)"
                                 [required]="column.isMandatory" name="{{column.fieldname}}"
                                 *ngSwitchCase="gridColumnTypeEnum.span" ngModel="{{row[column.fieldname]}}"
                                 [columnDefinition]="column">
                             </dp-inputtext>
 
-                            <dp-checkbox (input)="updateRow(column.fieldname, row, !row[column.fieldname], index)"
-                                *ngSwitchCase="gridColumnTypeEnum.checkbox" ngModel="{{row[column.fieldname]}}"
+                            <dp-checkbox (blurEvent)="updateRow(column.fieldname, row, $event, index)"
+                                *ngSwitchCase="gridColumnTypeEnum.checkbox" [ngModel]="row[column.fieldname]"
                                 name="{{column.fieldname}}">
                             </dp-checkbox>
 
-                            <dp-inputnumber (keyup)="updateRow(column.fieldname, row, $event.target.value, index)"
+                            <dp-inputnumber (blurEvent)="updateRow(column.fieldname, row, $event, index)"
                                 [required]="column.isMandatory" ngModel="{{row[column.fieldname]}}"
                                 name="{{column.fieldname}}" [columnDefinition]="column"
                                 *ngSwitchCase="gridColumnTypeEnum.inputnumber">
                             </dp-inputnumber>
 
-                            <dp-calendar (change)="updateRow(column.fieldname, row, $event, index)"
-                                [required]="column.isMandatory" [rowData]="row" [columnDefinition]="column"
+                            <dp-calendar (selectEvent)="updateRow(column.fieldname, row, $event, index)"
+                                [required]="column.isMandatory"
                                 ngModel="{{row[column.fieldname]}}" name="{{column.fieldname}}"
                                 *ngSwitchCase="gridColumnTypeEnum.calendar">
                             </dp-calendar>
 
-                            <dp-autocomplete (change)="updateRow(column.fieldname, row, $event, index)"
+                            <dp-autocomplete
                                 [ngModel]="row[column.fieldname]" name="{{column.fieldname}}"
                                 *ngSwitchCase="gridColumnTypeEnum.dropdown" [columnDefinition]="column"
                                 [datasource]="column.ColumnDatasource">

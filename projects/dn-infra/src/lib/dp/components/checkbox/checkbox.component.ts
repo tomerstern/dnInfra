@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, forwardRef, Provider } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, Provider, EventEmitter, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {CheckboxDefinitions} from './objects/checkbox-definitions';
 
@@ -18,9 +18,9 @@ export const CB_CONTROL_VALUE_ACCESSOR: Provider = {
 export class CheckboxComponent implements OnInit, ControlValueAccessor  {
 
   @Input() definition: CheckboxDefinitions = null;
-  @Input() ngModelDP: any;
-  @Input() rowData: any;
   @Input() columnDefinition: any;
+  @Output() blurEvent: EventEmitter<number> = new EventEmitter();
+
 
   constructor() { }
   private _innerValue: any;
@@ -30,19 +30,7 @@ export class CheckboxComponent implements OnInit, ControlValueAccessor  {
 
 
   ngOnInit(): void {
-    // if (this.definition === null) {
-    //   this.definition = new CheckboxDefinitions({ isStandAlone: false});
-    //   if (this.columnDefinition.columnParams.length > 0) {
-
-    //     if (this.columnDefinition.columnParams.isKeyExist('binary')) {
-    //       this.definition.binary = this.columnDefinition.columnParams.getValueByKey('binary');
-    //     }
-
-    //     if (this.columnDefinition.columnParams.isKeyExist('disabled')) {
-    //       this.definition.disabled = this.columnDefinition.columnParams.getValueByKey('disabled');
-    //     }
-    //   }
-    // }
+ 
   }
 
   public get innerValue(): any {

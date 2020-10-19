@@ -118,10 +118,8 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   updateRow(columnField: string, row: object, val: any, rowIndex: number) {
-    // console.log(val);
-    const newRow = { ...row, ...{ [columnField]: val } };
-    this.inputDebouncer$.next({ row: newRow, rowIndex, tableId: this.tableId });
-    // this.store.dispatch(updateRow({ row: newRow, rowIndex, tableId: this.tableId }));
+    const newRow = { ...row, ...{ [columnField]: val }};
+    this.store.dispatch(updateRow({ row: newRow, rowIndex, tableId: this.tableId }));
   }
 
   showDynamicdialog1() {
@@ -236,7 +234,6 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   deleteRow(id) {
-    debugger
     // delete this.datasource[id];
     this.store.dispatch(deleteRow({ data: { tableId: this.tableId, rowIndex: id } }));
   }

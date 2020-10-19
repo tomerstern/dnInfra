@@ -1,4 +1,4 @@
-<p-calendar (onBlur)="onInputBlur($event)" (onSelect)="onSelectedDate($event)"
+<p-calendar (onSelect)="selectEvent.emit(innerValue)"
     [(ngModel)]="innerValue" [ngModelOptions]="{standalone: true}"
     [selectionMode]="definition.selectionMode" [readonlyInput]="definition.readonlyInput"
     [showTime]="definition.showTime" dateFormat="dd/mm/yy" [minDate]="definition.minDate" [maxDate]="definition.maxDate"

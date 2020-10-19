@@ -15,7 +15,7 @@
       "id": 1001,
       "name": "Josephine Darakjy",
       "name_click": "name",
-      "IsActive": true,
+      "IsActive": false,
       "remarksImg": "https://images.assetsdelivery.com/compings_v2/pxlprostudio/pxlprostudio1901/pxlprostudio190106172.jpg",
       "remarksImg_tooltip": "The best image 02",
       "NumOrderInMonth": 300,

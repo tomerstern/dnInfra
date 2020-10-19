@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewEncapsulation, forwardRef, Provider } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation, forwardRef, Provider, EventEmitter, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CalendarDefinitions, SelectionMode } from './objects/calendar-definitions';
 
@@ -21,9 +21,8 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
   lastInputDate: Date;
   isInputByUser: boolean;
   @Input() definition: CalendarDefinitions;
-  @Input() ngModelDP: Date;
-  @Input() rowData: any;
-  @Input() columnDefinition: any;
+  @Output() selectEvent: EventEmitter<number> = new EventEmitter();
+
   private _innerValue: Date;
   constructor() { }
 
@@ -34,29 +33,7 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
 
   ngOnInit(): void {
     if (this.definition == null) {
-      // this.rowData[this.columnDefinition.fieldname] = new Date(this.rowData[this.columnDefinition.fieldname]);
       this.definition = new CalendarDefinitions({ isStandAlone: false });
-      // if (this.columnDefinition.columnParams.length > 0) {
-      //   let i = 0;
-      //   while (i < this.columnDefinition.columnParams.length) {
-      //     if (this.columnDefinition.columnParams[i].key === 'showTime') {
-      //       this.definition.showTime = this.columnDefinition.columnParams[i].value;
-      //     }
-
-      //     if (this.columnDefinition.columnParams[i].key === 'minDate') {
-      //       this.definition.minDate = this.columnDefinition.columnParams[i].value;
-      //     }
-
-      //     if (this.columnDefinition.columnParams[i].key === 'maxDate') {
-      //       this.definition.maxDate = this.columnDefinition.columnParams[i].value;
-      //     }
-
-      //     if (this.columnDefinition.columnParams[i].key === 'selectionMode') {
-      //       this.definition.selectionMode = this.columnDefinition.columnParams[i].value;
-      //     }
-      //     i++;
-      //   }
-      // }
     }
   }
 
@@ -65,7 +42,7 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
   }
 
   public set innerValue(newValue: Date) {
-    if(newValue){
+    if (newValue) {
       this._innerValue = new Date(newValue);
     }
     this.onChangeCallback(newValue);
@@ -89,70 +66,6 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
 
   public registerOnTouched(callback: () => void) {
     this.onTouchedCallback = callback;
-  }
-
-  onSelectedDate(selectedDate: Date) {
-    this.isInputByUser = false;
-  }
-
-  onInputDate(event: Event) {
-    this.isInputByUser = true;
-  }
-
-  onInputBlur(event: Event) {
-
-    if (this.isInputByUser) {
-      this.isInputByUser = false;
-    } else {
-      return;
-    }
-
-    if (this.definition.selectionMode === SelectionMode.range) {
-      return;
-    }
-
-    let hour: string;
-    let minute: string;
-    let input = (<HTMLInputElement>event.target).value;
-
-    if (input === '') {
-      return;
-    }
-
-    if (this.definition.showTime) {
-      const time = input.split(' ')[1];
-      if (time !== undefined) {
-        hour = time.split(':')[0];
-        minute = time.split(':')[1];
-        if (!this.validateTime(hour, minute)) {
-          return;
-        }
-      }
-    }
-
-    input = input.split(' ')[0];
-    input = this.setCorrectFormat(input, '/');
-    input = this.setCorrectFormat(input, '.');
-
-    if (isNaN(+input)) {
-      return;
-    }
-
-    let date = new Date();
-
-    if (input.length === 6 || input.length === 8) {
-      date = this.getValidDateMonth(input.substr(0, 2), input.substr(2, 2), input.substr(4, 4), 2500, 1900);
-    } else {
-      // user wrote a number and expects to get the date. e.g. he wrote -30 and expects to get the date from a month ago.
-      date.setDate(date.getDate() + +input);
-    }
-
-    if (this.definition.showTime && minute !== undefined) {
-      date.setHours(+hour, +minute);
-    }
-
-    this.rowData[this.columnDefinition.fieldname] = date;
-    this.ngModelDP = date;
   }
 
   validateTime(aHouers, aMinute) {

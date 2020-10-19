@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, forwardRef, Provider } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, Provider, Output, EventEmitter } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+
 import { InputNumberDefinitions, InputNumberProperties } from './objects/inputnumber-definitions';
-//import { GridColumn } from '../dp-grid/objects/grid-definitions';
 
 export const NUMINPUT_CONTROL_VALUE_ACCESSOR: Provider = {
   provide: NG_VALUE_ACCESSOR,
@@ -22,12 +22,10 @@ export class InputnumberComponent implements OnInit, ControlValueAccessor {
 
   @Input() definition: InputNumberDefinitions;
 
-  @Input() ngModelDP: any;
-
-  @Input() rowData: any;
 
   @Input() columnDefinition: any;
-  //@Input() columnDefinition: GridColumn;
+  @Output() blurEvent: EventEmitter<number> = new EventEmitter();
+
   private innerVal: number;
 
   private onChangeCallback: (_: number) => void = () => { };
