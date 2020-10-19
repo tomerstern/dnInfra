@@ -13,13 +13,11 @@ import {
 import { InputNumberProperties } from '../inputnumber/objects/inputnumber-definitions';
 import { Store } from '@ngrx/store';
 import { addRow, deleteRow, updateRow, updateTable } from '../../store/actions';
-import { getAppState, getTableStateById, getTableLengthById } from '../../store/selectors';
+import { getTableStateById, getTableLengthById } from '../../store/selectors';
 import { debounceTime, distinctUntilChanged, map, take } from 'rxjs/operators';
 import { DpDialogService, DpDynamicDialogRef } from '../dynamicdialog/Objects/dynamicdialog-definitions';
 import { ColumnSelectionComponent } from './columnSelection/column-selection/column-selection.component';
 import { MessageService } from 'primeng/api'; /* only for showing return value */
-import { NgForm, ValidationErrors } from '@angular/forms';
-
 
 @Component({
   selector: 'dp-table',
@@ -27,7 +25,6 @@ import { NgForm, ValidationErrors } from '@angular/forms';
   styleUrls: ['./table.component.scss'],
   providers: [TableStoreService, DpDialogService, MessageService],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush  /* dont remove - fixes "Expression has changed after it was checked."*/
 })
 export class TableComponent implements OnInit, OnChanges, AfterViewInit {
 
