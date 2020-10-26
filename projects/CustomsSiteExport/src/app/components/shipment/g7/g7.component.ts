@@ -9,7 +9,10 @@ import {
 import { InputNumberProperties } from 'projects/dn-infra/src/lib/dp/components/inputnumber/objects/inputnumber-definitions';
 import { InputTextProperties } from 'projects/dn-infra/src/lib/dp/components/inputtext/objects/inputtext-definitions';
 import { CalendarProperties } from 'projects/dn-infra/src/lib/dp/components/calendar/objects/calendar-definitions';
-import { AutocompleteDefinitions, AutocompleteProperties } from 'projects/dn-infra/src/lib/dp/components/autocomplete/Objects/autocomplete-definitions';
+import {
+  AutocompleteDefinitions,
+  AutocompleteProperties,
+} from 'projects/dn-infra/src/lib/dp/components/autocomplete/Objects/autocomplete-definitions';
 
 import { ShipmentG7 } from '../../../models/shipment';
 import { ShipmentService } from '../../../services/shipment.service';
@@ -20,11 +23,13 @@ import { map, take } from 'rxjs/operators';
 @Component({
   selector: 'app-g7',
   templateUrl: './g7.component.html',
-  styleUrls: ['./g7.component.scss']
+  styleUrls: ['./g7.component.scss'],
 })
 export class G7Component implements OnInit {
-
-  constructor(private shipmentService: ShipmentService, private store: Store<any>) { }
+  constructor(
+    private shipmentService: ShipmentService,
+    private store: Store<any>
+  ) {}
 
   gridDefinition: GridDefinitions;
   listShipmentG7: ShipmentG7[];
@@ -37,31 +42,40 @@ export class G7Component implements OnInit {
       dataKey: 'G7_LineNumber',
       columns,
       toolbar: true,
-      selectionMode: 'single'
+      selectionMode: 'single',
     });
     this.GetG7Data();
 
     // this.shipmentService.get_data('assets/activityTypes.json').then(dataForAutocomplete => {
     //   this.dataForAutocomplete = dataForAutocomplete;
     // });
-
   }
 
-  SaveCutomers() {
-    const changes = [];
-    this.store.select(getAppState).pipe(take(1), map(state => {
-      Object.keys(state.tables).forEach(table => {
-        const tableChanges = state.tables[table].changes;
-        if (tableChanges) {
-          Object.keys(tableChanges).forEach(key => {
-            changes.push(tableChanges[key]);
-          });
-          console.log(changes);
-          this.shipmentService.save(changes);
-        }
-      });
-    })).subscribe();
-  }
+  // SaveG7() {
+  //   const changes = [];
+  //   this.store
+  //     .select(getAppState)
+  //     .pipe(
+  //       take(1),
+  //       map((state) => {
+  //         Object.keys(state.tables).forEach((table) => {
+  //           const tableChanges = state.tables[table].changes;
+  //           if (tableChanges) {
+  //             Object.keys(tableChanges).forEach((key) => {
+  //               const copy = { ...tableChanges[key] };
+  //               changes.push(copy);
+  //             });
+  //             changes.forEach((value) => {
+  //               delete value.State;
+  //               });
+  //             this.shipmentService.updateG7(changes);
+  //             //this.shipmentService.updateG7(this.listShipmentG7);
+  //           }
+  //         });
+  //       })
+  //     )
+  //     .subscribe();
+  // }
 
   createNewColumns() {
     const columns: GridColumn[] = [];
@@ -69,28 +83,28 @@ export class G7Component implements OnInit {
     const column1 = new GridColumn({
       headername: 'Shipment',
       fieldname: 'ShipmentNumber',
-      iseditable: false
+      iseditable: false,
     });
     columns.push(column1);
 
     const column2 = new GridColumn({
       headername: 'Dept',
       fieldname: 'Dept_Code',
-      iseditable: false
+      iseditable: false,
     });
     columns.push(column2);
 
     const column3 = new GridColumn({
       headername: 'Order',
       fieldname: 'Shlifa_Order',
-      iseditable: false
+      iseditable: false,
     });
     columns.push(column3);
 
     const column4 = new GridColumn({
       headername: 'Line',
       fieldname: 'G7_LineNumber',
-      iseditable: false
+      iseditable: false,
     });
     columns.push(column4);
 

@@ -1,9 +1,19 @@
+export class BaseObject{
+    State: string;
+
+    constructor(State: string) {
+        this.State = State;
+    }
+}
+
+//export class ShipmentKeys extends BaseObject{
 export class ShipmentKeys{
     ShipmentNumber: number;
     Dept_Code : string;
     Shlifa_Order : number;
 
     constructor(ShipmentNumber: number, Dept_Code : string, Shlifa_Order: number) {
+        //super(State);
         this.ShipmentNumber = ShipmentNumber;
         this.Dept_Code = Dept_Code;
         this.Shlifa_Order = Shlifa_Order;
@@ -15,15 +25,17 @@ export class ShipmentDetail extends ShipmentKeys {
     ActivityId: string;
     IsOld: string;
     e_commerce_y_n : number;
+    State: number;
 
-    constructor(ShipmentNumber: number, Dept_Code: string, Shlifa_Order: number,
-        OpenDate: string, EntityId: string, ActivityId: string, IsOld: string, e_commerce_y_n: number) {
+    constructor(ShipmentNumber: number, Dept_Code: string, Shlifa_Order: number, 
+        OpenDate: string, EntityId: string, ActivityId: string, IsOld: string, e_commerce_y_n: number, State: number) {
         super(ShipmentNumber, Dept_Code, Shlifa_Order);
         this.OpenDate = OpenDate;
         this.EntityId = EntityId;
         this.ActivityId = ActivityId;
         this.IsOld = IsOld;
         this.e_commerce_y_n = e_commerce_y_n;
+        this.State = State;
     }
 }
 
@@ -38,7 +50,7 @@ export class ShipmentGP extends ShipmentKeys {
     GP_SIMANIM: string;
 
     // tslint:disable-next-line: variable-name
-    constructor(ShipmentNumber: number, Dept_Code: string, Shlifa_Order: number,
+    constructor(ShipmentNumber: number, Dept_Code: string, Shlifa_Order: number, State: string,
         // tslint:disable-next-line: variable-name
         GP_LineNumber: number, GP_MIS_SIDURI: number, GP_KAMUT_ARIZOT: number, GP_SUG_ARIZA: string,
         GP_MISHKAL_BRUTO: number, GP_NEFACH_BRUTO: number, GP_SIMANIM: string) {
@@ -62,7 +74,7 @@ export class ShipmentG7 extends ShipmentKeys {
     G7_MECHIR_YECHIDA: number;
     G7_ERECH_SCHORA: number;
 
-    constructor(ShipmentNumber: number, Dept_Code: string, Shlifa_Order: number,
+    constructor(ShipmentNumber: number, Dept_Code: string, Shlifa_Order: number, State: string,
         G7_LineNumber: number, G7_MIS_SIDURI: number, G7_PRAT_MECHES: string, 
         G7_YECHIDAT_MIDA: number, G7_KAMUT: number, G7_MECHIR_YECHIDA: number, G7_ERECH_SCHORA: number) {
         super(ShipmentNumber, Dept_Code, Shlifa_Order);
@@ -77,15 +89,14 @@ export class ShipmentG7 extends ShipmentKeys {
 }
 
 export class Shipment extends ShipmentKeys {
-    detail: ShipmentDetail;
-    gpList: ShipmentGP[];
-    g7List: ShipmentG7[];
+    Details: ShipmentDetail;
+    GPLines: ShipmentGP[];
+    G7Lines: ShipmentG7[];
 
-    constructor(ShipmentNumber: number, Dept_Code: string, Shlifa_Order: number,
-        detail: ShipmentDetail, gpList: ShipmentGP[], g7List: ShipmentG7[]) {
-        super(ShipmentNumber, Dept_Code, Shlifa_Order);
-        this.detail = detail;
-        this.gpList = gpList;
-        this.g7List = g7List;
+    constructor() {
+        super(0, '', 0);
+        this.Details = new ShipmentDetail(0, '', 0, '', '', '', '', 0, 0);
+        this.GPLines = [];
+        this.G7Lines = [];
     }
 }

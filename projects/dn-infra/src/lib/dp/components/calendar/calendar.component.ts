@@ -23,7 +23,7 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
   @Input() definition: CalendarDefinitions;
   @Output() selectEvent: EventEmitter<number> = new EventEmitter();
 
-  private _innerValue: Date;
+  private _innerValue: any;
   constructor() { }
 
 
@@ -37,11 +37,11 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  public get innerValue(): Date {
+  public get innerValue(): number {
     return this._innerValue;
   }
 
-  public set innerValue(newValue: Date) {
+  public set innerValue(newValue: number) {
     if (newValue) {
       this._innerValue = new Date(newValue);
     }
@@ -52,12 +52,11 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
     this.onTouchedCallback();
   }
 
-  public writeValue(value: Date) {
+  public writeValue(value: number) {
     if (value !== this.innerValue) {
       this.innerValue = value;
     }
   }
-
 
   public registerOnChange(callback: (_: Date) => void) {
     this.onChangeCallback = callback;
@@ -67,6 +66,71 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
   public registerOnTouched(callback: () => void) {
     this.onTouchedCallback = callback;
   }
+
+  // onSelectedDate(selectedDate: Date) {
+  //   this.isInputByUser = false;
+  // }
+
+  // onInputDate(event: Event) {
+  //   this.isInputByUser = true;
+  // }
+
+  // onInputBlur(event: Event) {
+
+  //   if (this.isInputByUser) {
+  //     this.isInputByUser = false;
+  //   } else {
+  //     return;
+  //   }
+
+  //   if (this.definition.selectionMode === SelectionMode.range) {
+  //     return;
+  //   }
+
+  //   let hour: string;
+  //   let minute: string;
+  //   let input = (<HTMLInputElement>event.target).value;
+
+  //   if (input === '') {
+  //     return;
+  //   }
+
+  //   if (this.definition.showTime) {
+  //     const time = input.split(' ')[1];
+  //     if (time !== undefined) {
+  //       hour = time.split(':')[0];
+  //       minute = time.split(':')[1];
+  //       if (!this.validateTime(hour, minute)) {
+  //         return;
+  //       }
+  //     }
+  //   }
+
+  //   input = input.split(' ')[0];
+  //   input = this.setCorrectFormat(input, '/');
+  //   input = this.setCorrectFormat(input, '.');
+
+  //   if (isNaN(+input)) {
+  //     return;
+  //   }
+
+  //   let date = new Date();
+
+  //   if (input.length === 6 || input.length === 8) {
+  //     date = this.getValidDateMonth(input.substr(0, 2), input.substr(2, 2), input.substr(4, 4), 2500, 1900);
+  //   } else {
+  //     // user wrote a number and expects to get the date. e.g. he wrote -30 and expects to get the date from a month ago.
+  //     date.setDate(date.getDate() + +input);
+  //   }
+
+  //   if (this.definition.showTime && minute !== undefined) {
+  //     date.setHours(+hour, +minute);
+  //   }
+
+  //   this.rowData[this.columnDefinition.fieldname] = date;
+  //   this.ngModelDP = date;
+  // }
+
 
   validateTime(aHouers, aMinute) {
     if (aHouers.trim() === '' || isNaN(aHouers)) { return false; }

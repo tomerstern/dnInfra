@@ -3,6 +3,9 @@ import {RouterModule} from '@angular/router';
 import { ExportassistService } from '../../../services/exportassist.service';
 import { ShipmentService } from '../../../services/shipment.service';
 import { TabmenuDefinitions, DpMenuItem } from 'projects/dn-infra/src/lib/dp/components/tabmenu/Objects/tabmenu-definitions';
+import { Store } from '@ngrx/store';
+import { getAppState } from 'projects/dn-infra/src/lib/dp/store/selectors';
+import { map, take } from 'rxjs/operators';
 
 
 @Component({
@@ -12,7 +15,10 @@ import { TabmenuDefinitions, DpMenuItem } from 'projects/dn-infra/src/lib/dp/com
 })
 export class MaintabComponent implements OnInit {
 
-  constructor(private shipmentService: ShipmentService, private exportassistService: ExportassistService ) { }
+  constructor(
+    private shipmentService: ShipmentService,
+    private exportassistService: ExportassistService,
+    private store: Store<any> ) { }
 
   tabItems: DpMenuItem[];
   tabMenuDefinition: TabmenuDefinitions;
@@ -26,16 +32,12 @@ export class MaintabComponent implements OnInit {
     this.tabMenuDefinition = new TabmenuDefinitions({ activeItem: this.tabItems[1] });
     // this.shipmentService.getCountries().then(countries => {
     //   this.data_for_ac1 = countries;
-    // });    
+    // });
     // this.exportassistService.getExportAssistByKey('1234');
     this.GetShipment();
   }
 
   async GetShipment() {
-    // const response: any = await this.shipmentService.getShipmentFromServer();
-    // if (response.Status === 'OK')
-    // {
-    //   this.shipments = response.result;
-    // }
+    const response: any = await this.shipmentService.getShipmentFromServer();
   }
 }

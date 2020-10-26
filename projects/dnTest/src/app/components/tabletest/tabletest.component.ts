@@ -17,6 +17,7 @@ import { combineLatest, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { getAppState } from 'projects/dn-infra/src/lib/dp/store/selectors';
+import { addRow, deleteRow, updateRow, updateTable, addValidationError } from 'projects/dn-infra/src/lib/dp/store/actions';
 
 // import { TableComponent } from 'projects/dn-infra/src/lib/dp/components/table/table.component';
 
@@ -36,6 +37,7 @@ export class TabletestComponent implements OnInit {
   customers: Customer[];
   gridColumnTypeEnum = GridColumnType;
   myList = [];
+  validationErrors1: string;
   // dataForAc3: Country[]; // Country
 
   dataForAc3: any[] = [{ name: 'Afghanistan', code: 'AF' }, { name: 'Albania', code: 'AL' }, { name: 'Angola', code: 'AO' },
@@ -133,9 +135,10 @@ export class TabletestComponent implements OnInit {
       headername: 'Customer Name',
       fieldname: 'name',
       columnParams: columnParams1,
-      iseditable: false,
+      iseditable: true,
       clickColumnName: 'id',
       class: 'clsSpanLink',
+      isMandatory: true,
       onClick: (param) => {
         this.onCustomerNameClick(param);
       },
@@ -211,10 +214,12 @@ export class TabletestComponent implements OnInit {
   }
 
   SaveCutomers() {
+    debugger
     const changes = [];
     this.store.select(getAppState).pipe(take(1), map(state => {
       Object.keys(state.tables).forEach(table => {
         const tableChanges = state.tables[table].changes;
+        this.validationErrors1 = JSON.stringify(state.tables[table].validationErrors);
         if (tableChanges) {
           Object.keys(tableChanges).forEach(key => {
             changes.push(tableChanges[key]);
@@ -224,5 +229,6 @@ export class TabletestComponent implements OnInit {
         }
       });
     })).subscribe();
+     //this.store.dispatch(deleteRow({ data: { tableId: this.tableId, rowIndex: id } }));
   }
 }

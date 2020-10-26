@@ -15,10 +15,12 @@ export class ExportassistService {
 
     this.http.get('http://localhost/ExportCustomsWebAPI/Assist/Get/' + tableId).
     toPromise().then((data: {Status: string, result: any}) => {
+      
         if (data.Status === 'OK')
         {
           listAssists = data.result.Items;
         }
+        console.log(listAssists);
     });
   }
 }

@@ -1,9 +1,4 @@
-
- <dp-inputtext ngModel="{{test}}"></dp-inputtext>
-
-
-
-<!-- <div><h4>Shipment:</h4></div>
+<div><h4>Shipment:</h4></div>
 <div>
     <div style="float: left;">Shipment Number</div>
     <div style="float: left; padding-right: 45px; border: white solid 3px;"></div>
@@ -11,27 +6,24 @@
     <div style="float: left; padding-right: 95px; border: white solid 3px;"></div>
     <div style="float: left;">Shlifa Order</div>
 </div>
+    <!-- {{ testDate | date:'dd/MM/yyyy' }} -->
 <div style="clear: both;">
-    <dp-inputtext  style="float: left;" ng-disabled="all" [definition]="InputTextDefDis" [ngModel]="detail.ShipmentNumber"></dp-inputtext>
+    <dp-inputtext style="float: left;" ng-disabled="all" [definition]="InputTextDefDis" [ngModel]="detail.ShipmentNumber"></dp-inputtext>
     <div style="float: left; padding-right: 25px; border: white solid 3px;"></div>
     <dp-inputtext style="float: left;" [definition]="InputTextDefDis" [ngModel]="detail.Dept_Code"></dp-inputtext>
     <div style="float: left; padding-right: 25px; border: white solid 3px;"></div>
     <dp-inputtext style="float: left;" [definition]="InputTextDefDis" [ngModel]="detail.Shlifa_Order"></dp-inputtext>
-</div>  -->
-<!-- <div style="clear: both; padding-top: 15px;">OpenDate:</div>
-<dp-inputtext  [definition]="InputTextDef" [ngModel]="detail.OpenDate"></dp-inputtext>
-<dp-calendar [definition]="calendarDef" [ngModel]="detail.OpenDate" ></dp-calendar>
+</div>
+<div style="clear: both; padding-top: 15px;" >OpenDate:</div>
+<dp-calendar [definition]="calendarDef" [(ngModel)]="openDateStr" (ngModelChange)="updateDetails()"></dp-calendar>
 <div style="padding-top: 15px;">Entity Id:</div>
-<dp-inputtext  [definition]="InputTextDef" [ngModel]="detail.EntityId"></dp-inputtext>
+<div ><dp-inputtext [definition]="InputTextDef" [(ngModel)]="detail.EntityId" (ngModelChange)="updateDetails()"></dp-inputtext></div>
 <div style="padding-top: 15px;">Activity:</div>
-<dp-inputtext  [definition]="InputTextDef" [ngzzModel]="detail.ActivityId"></dp-inputtext>
-<dp-autocomplete (getSelected)="selectedItemAutocomplete = $event" [definition]="autocompleteDef" [datasource]="dataForAutocomplete"></dp-autocomplete>
+<dp-autocomplete [definition]="autocompleteDef" [datasource]="dataForAutocomplete"></dp-autocomplete>
 <div style="padding-top: 15px;">Is Old:</div>
-<dp-checkbox  [definition]="checkboxDef" [ngModel]="detail.IsOld"></dp-checkbox>
+<dp-checkbox  [definition]="checkboxDef" [(ngModel)]="isOldChk" (ngModelChange)="updateDetails()"></dp-checkbox>
 <div style="padding-top: 15px;">E commerce:</div>
-<dp-inputnumber  [definition]="InputNumberDef" [ngModzzzel]="detail.e_commerce_y_n"></dp-inputnumber> -->
-   
-
+<dp-inputnumber [definition]="InputNumberDef" [(ngModel)]="detail.e_commerce_y_n" (ngModelChange)="updateDetails()"></dp-inputnumber>
 <!-- <div class=""><h4>ShipmentNumber:</h4></div>
 <div class=""><input type="text" #shipmentNumber (keyup)="detail.ShipmentNumber=shipmentNumber.value" value="{{detail.ShipmentNumber}}" class=""/></div>
 <div class=""><h4>Dept_Code:</h4></div>
@@ -47,5 +39,5 @@
 <div class=""><h5>IsOld:</h5></div>
 <div class=""><input type="text" #isOld (keyup)="detai\l.IsOld=isOld.value" value="{{detail.IsOld}}" class=""/></div>
 <div class=""><h5>E_commerce_y_n:</h5></div>
-<div class=""><input type="text" #eCommerce (keyup)="detail.e_commerce_y_n=eCommerce.value" value="{{detail.e_commerce_y_n}}" class=""/></div> -->
- 
+<div class=""><input type="text" #eCommerce (keyup)="detail.e_commerce_y_n=eCommerce.value" value="{{detail.e_commerce_y_n}}" class=""/></div>
+<!-- <dp-inputtext ngModel="{{test}}"></dp-inputtext> -->

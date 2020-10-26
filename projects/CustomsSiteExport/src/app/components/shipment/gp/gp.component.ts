@@ -27,7 +27,6 @@ export class GpComponent implements OnInit {
   listShipmentGP: ShipmentGP[];
   gridColumnTypeEnum = GridColumnType;
   dataForAutocomplete: any[];
-
   ngOnInit(): void {
 
     const columns: GridColumn[] = this.createNewColumns();
@@ -133,7 +132,7 @@ export class GpComponent implements OnInit {
     return columns;
   }
 
-  //async SetData() {
+  // async SetData() {
   GetGPData() {
     // this.shipmentService.get_data('assets/GPData.json').then(listShipmentGP => {
     //   this.listShipmentGP = listShipmentGP;

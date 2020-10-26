@@ -1,9 +1,15 @@
+
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { ButtonDefinitions } from 'projects/dn-infra/src/lib/dp/components/button/objects/button-definitions';
+import { UserService } from '../../services/user.service';
 // import { appInitializerFactory } from '../../app.module';
 // import { Injector, APP_INITIALIZER } from '@angular/core';
 // import { TranslateService } from '@ngx-translate/core';
+
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -11,9 +17,13 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class LoginComponent implements OnInit {
   // , translate: TranslateService, injector: Injector
-  constructor(private router: Router, public translate: TranslateService) { }
+
+  constructor(private router: Router, public translate: TranslateService, private userService: UserService, private http: HttpClient) { }
+
   loginUsername = '';
+  btnLoginDef: ButtonDefinitions;
   ngOnInit(): void {
+    this.btnLoginDef = new ButtonDefinitions({ label: 'LOGIN' });
   }
 
   login() {
@@ -39,6 +49,29 @@ export class LoginComponent implements OnInit {
     });
 
   }
+
+
+
+  // test4() {
+
+  //   const xhr = new XMLHttpRequest();
+  //   xhr.onreadystatechange = () => {
+  //     if (xhr.readyState === 4) {
+  //       if (xhr.status === 200) {
+  //         console.log(xhr.responseText);
+  //       } else {
+  //          console.log(xhr.statusText);
+  //          console.log(xhr.responseText);
+  //       }
+  //     }
+  //   };
+  //   const params = {sUserName : 'test', sPassword : 'test', sDomain: 'flying-cargo.fco'};
+  //   xhr.open('POST', 'http://import-iis-dev:8087/FCServices/WebServices/ActiveDirectory.asmx/IsUserValid', true);
+  //   xhr.setRequestHeader('Content-type', 'application/json;');
+  //   xhr.send(JSON.stringify(params));
+  // }
+
+
 
 
 

@@ -44,7 +44,18 @@ $HeaderBG: #212121;
 $HeaderShadow: #6E6D6D;
 fa-icon.cssPrimary { color: $PrimaryColor}
 
-body .ui-widget {
+html, body {
+  height:99%;
+}
+// html {
+//   min-height: 100%;
+// }
+
+// body {
+//   min-height: 100vh;
+// }
+
+body ,body .ui-widget {
   font-family: Roboto;
   // font-size: 14px;
   // text-decoration: none;
@@ -807,12 +818,14 @@ dp-picklist {
     border: 1px solid white;
   }
 }
-
+#dpHeaderContainer.clsNoMargin{
+  margin-bottom:0px;
+}
  
 
-@media screen and (max-width: 991px) {
-  #dpHeaderContainer {height :200px;}
-}
+// @media screen and (max-width: 991px) {
+//   #dpHeaderContainer {height :200px;}
+// }
 @media screen and (min-width: 992px) {
   #dpHeaderContainer {
     padding-left: 2em;
@@ -868,3 +881,61 @@ input{
   max-width: 100%;
 }
 // ziv end
+dp-table td .ui-inputnumber,dp-table td .ui-inputtext, dp-table td .ui-autocomplete{
+  max-width: 100%;
+}
+dp-table td > span{
+  overflow: hidden;
+  display: block;
+}
+.dpCssTabContainer{
+  border:1px solid #c8c8c8;border-top-width:0px;min-height:73%;padding: 0.5em; margin-bottom: 1em;
+}
+
+#dpLoginBody{
+  height: 85%;
+  background-image: url('projects/dn-infra/src/assets/Images/LoginBG.png');
+  label{color:#424242;} 
+  #username, #password{color:#8b8b8b;}
+  // background-repeat: no-repeat;
+}
+#dpLoginContainer{
+  padding: 2em;
+  border-radius: 2px;
+  box-shadow: 0 2px 60px 0 rgba(0, 0, 0, 0.4), 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  background-color: #ffffff;
+  opacity: 0.90;
+  filter: alpha(opacity=90);
+  h2{
+    text-align: center;
+    font-size: 24px;
+    color: $PrimaryColor;
+    padding-top: 1em;
+    padding-bottom: 2em;
+  }
+  #dpLoginBtnContainer{
+    padding-top: 1.5em;
+  }
+  #dpLoginForgotContainer{
+    padding-top: 1em;
+  }
+}
+
+ @media screen and (min-width: 992px) {
+  #dpLoginContainer{
+    width: 385px;
+    height: 459px;
+    left:60%;
+    top: 150px;
+    position: absolute;
+  }
+}
+@media screen and (max-width: 991px) {
+  #dpLoginContainer{
+    width: 80%;
+    height: 450px;
+    left:10%;
+    top: 120px;
+    position: absolute;
+  }
+}

@@ -1,5 +1,5 @@
 <ng-container *ngIf="definition.mode == inputTextModeEnum.basic">
-  <input (blur)="onBlur()"
+  <input (blur)="onBlur()" [disabled]="definition.disabled"
     [(ngModel)]="innerValue" [size]="definition.size" type="text" pInputText>
 </ng-container>
 

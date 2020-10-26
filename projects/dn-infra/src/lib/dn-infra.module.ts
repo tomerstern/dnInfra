@@ -27,7 +27,7 @@ import { InputtextComponent } from './dp/components/inputtext/inputtext.componen
 import { InputnumberComponent } from './dp/components/inputnumber/inputnumber.component';
 import { ButtonComponent } from './dp/components/button/button.component';
 import { TableComponent } from './dp/components/table/table.component';
-import { CellComponent } from './dp/components/table/cell/cell.component';
+// import { CellComponent } from './dp/components/table/cell/cell.component';
 import { ToolbarModule } from 'primeng/toolbar';
 import { DatePipe } from '@angular/common';
 import { TabmenuComponent } from './dp/components/tabmenu/tabmenu.component';
@@ -45,7 +45,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   declarations: [DnInfraComponent, CalendarComponent, CheckboxComponent, AutocompleteComponent,
     ContextmenuComponent, SplitbuttonComponent, ToastComponent, ConfirmdialogComponent,
     MenubarComponent, DialogComponent, TabviewComponent, TreeComponent
-    , InputtextComponent, InputnumberComponent, ButtonComponent, TableComponent, CellComponent
+    , InputtextComponent, InputnumberComponent, ButtonComponent, TableComponent
+    // CellComponent
     , TabmenuComponent, PicklistComponent, ColumnSelectionComponent, DynamicdialogComponent],
   imports: [
     CalendarModule,
@@ -76,8 +77,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     DnInfraComponent, CalendarComponent, CheckboxComponent, AutocompleteComponent
     , ContextmenuComponent, SplitbuttonComponent, ToastComponent, ConfirmdialogComponent
     , MenubarComponent, DialogComponent, TabviewComponent, TreeComponent, ButtonModule,
-    InputnumberComponent, ButtonComponent, TableComponent, CellComponent, ToolbarModule, ButtonModule,
+    InputnumberComponent, ButtonComponent, TableComponent, ToolbarModule, ButtonModule,
     InputtextComponent, TabmenuComponent, DynamicdialogComponent,
+    // CellComponent,
     /* Modules start */
     CalendarModule,
     FormsModule,

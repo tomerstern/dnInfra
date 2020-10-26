@@ -10,5 +10,8 @@ const ADD_ROW = 'Add row';
 export const addRow = createAction(ADD_ROW, props<{ data: { tableId: string, rowToAdd: object } }>());
 
 const UPDATE_ROW = 'Update row';
-export const updateRow = createAction(UPDATE_ROW, props<{  row: any, rowIndex: number, tableId: string }>());
+export const updateRow = createAction(UPDATE_ROW, props<{ row: any, rowIndex: number, tableId: string }>());
 
+const ADD_VALIDATION_ERROR = 'Add Validation Error';
+export const addValidationError = createAction(ADD_VALIDATION_ERROR,
+    props<{ data: { tableId: string, controlName: string, control: any } }>());

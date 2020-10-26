@@ -7,17 +7,18 @@ import { TableStoreService, TableState } from '../../services/table-store.servic
 import { Subscription, Observable, fromEvent, Subject } from 'rxjs';
 import { Table } from 'primeng/table';
 import {
-          faThumbtack, faFileExcel, faFilePdf, faFilter, faPlus,
-          faColumns
+  faThumbtack, faFileExcel, faFilePdf, faFilter, faPlus,
+  faColumns
 } from '@fortawesome/free-solid-svg-icons';
 import { InputNumberProperties } from '../inputnumber/objects/inputnumber-definitions';
 import { Store } from '@ngrx/store';
-import { addRow, deleteRow, updateRow, updateTable } from '../../store/actions';
+import { addRow, deleteRow, updateRow, updateTable, addValidationError } from '../../store/actions';
 import { getTableStateById, getTableLengthById } from '../../store/selectors';
 import { debounceTime, distinctUntilChanged, map, take } from 'rxjs/operators';
 import { DpDialogService, DpDynamicDialogRef } from '../dynamicdialog/Objects/dynamicdialog-definitions';
 import { ColumnSelectionComponent } from './columnSelection/column-selection/column-selection.component';
 import { MessageService } from 'primeng/api'; /* only for showing return value */
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'dp-table',
@@ -83,7 +84,7 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
   ngAfterViewInit() {
     this.IsTableHScroll = this.dpIsHScroll(this.table);
     // changeDetection: ChangeDetectionStrategy.OnPush  that exixst fixes "Expression has changed after it was checked."
- }
+  }
 
 
   ngOnInit() {
@@ -114,9 +115,10 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
 
   }
 
-  updateRow(columnField: string, row: object, val: any, rowIndex: number) {
-    const newRow = { ...row, ...{ [columnField]: val }};
-    this.store.dispatch(updateRow({ row: newRow, rowIndex, tableId: this.tableId }));
+  updateRow(columnField: string, row: object, val: any, rowIndex: number, myForm: any) {
+    const newRow = { ...row, ...{ [columnField]: val } };
+    this.store.dispatch(updateRow({ row: newRow, rowIndex, tableId: this.tableId })); 
+    //this.getFormValidationErrors(myForm);
   }
 
   showDynamicdialog1() {
@@ -322,15 +324,17 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     const form = myForm.form.controls[this.tableId].controls;
     Object.keys(form).forEach(key => {
       if (form[key].status === 'INVALID') {
-        console.log(form[key]);
+        Object.keys(form[key].controls).forEach(c => {
+          const control = form[key].get(c);
+          if (control.errors != null) {
+            this.store.dispatch(addValidationError({ data: { tableId: this.tableId, controlName: c, control } }));
+          }
+        });
       }
     });
   }
 
-
-
   dpCreateFooterData() {
-
     if (!this.ArrDatasourceKeys.length) {
       this.dpInitArrDatasourceKeys();
     }

@@ -81,7 +81,7 @@ export class HeaderComponent implements OnInit {
       },
       {
         label: 'And Another'
-    },
+      },
     ];
 
   }

@@ -1,6 +1,11 @@
-
 import { Component, OnInit } from '@angular/core';
 import { CalendarDefinitions } from 'projects/dn-infra/src/lib/dp/components/calendar/objects/calendar-definitions';
+import { ShipmentService } from '../app/services/shipment.service';
+import { Store } from '@ngrx/store';
+import { getAppState } from 'projects/dn-infra/src/lib/dp/store/selectors';
+import { map, take } from 'rxjs/operators';
+import { Shipment } from '../app/models/shipment';
+
 
 @Component({
   selector: 'app-root',
@@ -10,16 +15,70 @@ import { CalendarDefinitions } from 'projects/dn-infra/src/lib/dp/components/cal
 export class AppComponent implements OnInit {
   title = 'CustomsSiteExport';
 
-  calendarData1: Date;
-  calendarDefinitions: CalendarDefinitions;
+  constructor(
+    private shipmentService: ShipmentService,
+    private store: Store<any> ) { }
+
+  // calendarData1: Date;
+  // calendarDefinitions: CalendarDefinitions;
 
   ngOnInit(): void {
 
-    this.calendarDefinitions = new CalendarDefinitions({
-      minDate: new Date(2019, 6, 12), showTime: false
-    });
-    this.calendarData1 = new Date();
+    // this.calendarDefinitions = new CalendarDefinitions({
+    //   minDate: new Date(2019, 6, 12), showTime: false
+    // });
+    // this.calendarData1 = new Date();
   }
 
+  updateShipment() {
+    let shipment: any;
+    if (sessionStorage.getItem('currentUpdShipment') != null)
+    {
+      shipment = JSON.parse(sessionStorage.getItem('currentUpdShipment'));
+      shipment.G7Lines = [];
+      shipment.GPLines = [];
+    }
+    else
+    {
+      shipment = new Shipment();
+    }
 
+    const changes = [];
+    this.store
+      .select(getAppState)
+      .pipe(
+        take(1),
+        map((state) => {
+          Object.keys(state.tables).forEach((table) => {
+            if (table === 'gpTableId')
+            {
+              const tableChangesGP = state.tables[table].changes;
+              if (tableChangesGP) {
+                Object.keys(tableChangesGP).forEach((key) => {
+                  const copyGP = { ...tableChangesGP[key] };
+                  delete copyGP.State;
+                  shipment.GPLines.push(copyGP);
+                });
+              }
+            }
+
+            if (table === 'g7TableId')
+            {
+              const tableChangesG7 = state.tables[table].changes;
+              if (tableChangesG7) {
+                Object.keys(tableChangesG7).forEach((key) => {
+                  const copyG7 = { ...tableChangesG7[key] };
+                  delete copyG7.State;
+                  shipment.G7Lines.push(copyG7);
+                });
+              }
+            }
+          });
+        })
+      )
+      .subscribe();
+    sessionStorage.setItem('currentUpdShipment', JSON.stringify(shipment));
+    this.shipmentService.updateShipment(shipment);
+
+  }
 }
