@@ -8,7 +8,7 @@
     definition.dpAutocompleteMaxSuggestionsToShow
   )
 " (onSelect)="getSelected.emit(autoComplete.value)" (onClear)="getSelected.emit('')"  (onUnselect)="getSelected.emit(autoComplete.value)" 
-[(ngModel)]="innerValue" [ngModelOptions]="{standalone:true}"
+[ngModel]="innerValue" [ngModelOptions]="{standalone:true}"
 [scrollHeight]="definition.scrollHeight" [style]="definition.style" [field]="definition.field"
 [dropdown]="definition.dropdown" [multiple]="definition.multiple" [dropdownIcon]="definition.dropdownIcon"
 [minLength]="definition.minLength" [delay]="definition.delay" [completeOnFocus]="definition.completeOnFocus"

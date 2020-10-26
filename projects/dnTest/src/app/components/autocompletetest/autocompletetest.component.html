@@ -1,23 +1,17 @@
-
 <h2>in autocompletetest.component.html</h2>
 <div>
     <div class="p-grid">
         <div class="p-col-12 p-md-6">
-            <fieldset>            
+            <fieldset>
                 <legend>regular:</legend>
-                <!-- <dp-autocomplete *ngIf="dataForAc1 != undefined"   -->
 
-                <dp-autocomplete 
-                (getSelected)="externalDataSelected1 = $event" 
-                [definition]="autocompleteDefinition1"
-                    [datasource]="dataForAc1">
+                <dp-autocomplete *ngIf="dataForAc1" [initVal]="'Albania'" (getSelected)="externalDataSelected1 = $event"
+                    [definition]="autocompleteDefinition1" [datasource]="dataForAc1">
                 </dp-autocomplete>
-
                 <br><br>
 
-                <!-- dont show null or empty arr sign: [] if multi select -->
                 <div>externalDataSelected1: <div class='s'>
-                    
+
                         {{ !externalDataSelected1 ? '' : (externalDataSelected1 | json ) }}
                     </div>
                 </div>
@@ -27,8 +21,9 @@
             <fieldset>
                 <legend>regular with multi select:</legend>
 
-                <dp-autocomplete (getSelected)="externalDataSelected2 = $event" [definition]=autocompleteDefinition2
-                    [datasource]=dataForAc2></dp-autocomplete>
+                <dp-autocomplete *ngIf="dataForAc2" [initVal]="['newapie', 'new cess']"
+                    (getSelected)="externalDataSelected2 = $event" [definition]="autocompleteDefinition2"
+                    [datasource]="dataForAc2"></dp-autocomplete>
 
                 <br><br>
                 <div>externalDataSelected2: <div class='s'>
@@ -40,15 +35,24 @@
 
         </div>
     </div>
+
+
     <div class="p-grid">
+
+
+
+
+
         <div class="p-col-12 p-md-6">
             <fieldset>
                 <legend>With Images (default):</legend>
 
-                <dp-autocomplete (getSelected)="externalDataSelected3 = $event" [definition]=autocompleteDefinition3
-                    [datasource]=dataForAc3></dp-autocomplete>
+                <dp-autocomplete *ngIf="dataForAc3" [initVal]="'bulgaria'"
+                    (getSelected)="externalDataSelected3 = $event" [definition]="autocompleteDefinition3"
+                    [datasource]="dataForAc3"></dp-autocomplete>
 
                 <br><br>
+
                 <div>external 3: <div class='s'>
                         {{ !externalDataSelected3 || !externalDataSelected3.length ? '' : (externalDataSelected3 | json)  }}
                     </div>
@@ -56,12 +60,16 @@
 
             </fieldset>
         </div>
-        <div class="p-col-12 p-md-6">
+
+
+
+
+        <!-- <div class="p-col-12 p-md-6">
             <fieldset>
 
                 <legend>Data From DB:</legend>
 
-                <dp-autocomplete (getSelected)="externalDataSelected7 = $event" [definition]="autocompleteDefinition7"
+                <dp-autocomplete *ngIf="dataForAc7" (getSelected)="externalDataSelected7 = $event" [definition]="autocompleteDefinition7"
                     [datasource]="dataForAc7"></dp-autocomplete>
 
                 <br><br>
@@ -71,9 +79,16 @@
               
 
             </fieldset>
-        </div>
+        </div> -->
+
+
     </div>
-    <div class="p-grid">
+
+
+
+
+
+    <!-- <div class="p-grid">
         <div class="p-col-12 p-md-6">
             <fieldset>
                 <legend>With Table (default):</legend>
@@ -103,9 +118,12 @@
 
             </fieldset>
         </div>
-    </div>
+    </div> -->
 
-    <div class="p-grid" style="visibility: hidden;">
+
+
+
+    <!-- <div class="p-grid" style="visibility: hidden;">
         <div class="p-col-12 p-md-6">
             <fieldset>
                 <legend>Load on first click / open </legend>
@@ -128,6 +146,6 @@
 
             </fieldset>
         </div>
-    </div>
+    </div> -->
 
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewEncapsulation, ɵConsole, forwardRef, Output, EventEmitter, Provider} from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation, ɵConsole, forwardRef, Output, EventEmitter, Provider } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { AutocompleteDefinitions, AutocompleteProperties } from './Objects/autocomplete-definitions';
 
@@ -18,7 +18,7 @@ export const AC_CONTROL_VALUE_ACCESSOR: Provider = {
   providers: [AC_CONTROL_VALUE_ACCESSOR]
 })
 
-export class AutocompleteComponent implements OnInit, ControlValueAccessor  {
+export class AutocompleteComponent implements OnInit, ControlValueAccessor {
 
   val = ''; /* for ControlValueAccessor*/
 
@@ -26,6 +26,7 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor  {
   @Input() datasource: any = [];
   ngModelDP: any;
   @Input() rowData: any = [];
+  @Input() initVal: any;
   @Input() columnDefinition: any = [];
   @Output() getSelected: EventEmitter<any> = new EventEmitter();
 
@@ -60,10 +61,50 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor  {
   private onTouchedCallback: () => void = () => { };
 
 
+
+  setInitVal() {
+    const typeOfData = typeof this.datasource[0];
+    console.log(this.initVal);
+
+    if (!this.definition.multiple) {
+      if (typeOfData === 'string') {
+        this.datasource.forEach(item => {
+          if (item === this.initVal) {
+            this.innerValue = item;
+          }
+        });
+        if (!this.innerValue) {
+          this.innerValue =  this.initVal;
+        }
+      }
+      if (typeOfData === 'object') {
+        Object.keys(this.datasource).forEach(key => {
+          if (this.datasource[key][this.definition.field] === this.initVal) {
+            this.innerValue = this.datasource[key];
+          }
+        });
+        if (!this.innerValue) {
+          this.innerValue = { [this.definition.field]: this.initVal };
+        }
+      }
+    } else if (this.definition.multiple && Array.isArray(this.initVal)) {
+      const arr = [];
+      Object.keys(this.datasource).forEach(key => {
+        if (this.initVal.includes(this.datasource[key][this.definition.field])) {
+          arr.push(this.datasource[key]);
+        }
+        this.innerValue = arr;
+      });
+    } else if (this.definition.multiple && !Array.isArray(this.initVal)) {
+      throw new Error('Autocomplete.ts: @input [initVal] for multi select must be an array');
+    }
+
+  }
+
   ngOnInit() {
 
 
-    if (this.definition == null) {
+    if (this.definition == null || this.definition === undefined) {
       // this.definition = new AutocompleteDefinitions({ isStandAlone: false });
 
       // this.definition = new AutocompleteDefinitions(false, 'elem_table', 'Event Code', 1, false, 1, 'ph text 3', true,
@@ -73,7 +114,7 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor  {
 
 
       if (this.columnDefinition.columnParams && this.columnDefinition.columnParams.length > 0) {
-        this.definition = new AutocompleteDefinitions({ isStandAlone: false});
+        this.definition = new AutocompleteDefinitions({ isStandAlone: false });
         // if (this.columnDefinition.columnParams.isKeyExist(AutocompleteProperties.isStandAlone)) {
         //   this.definition.isStandAlone = this.columnDefinition.columnParams.getValueByKey(AutocompleteProperties.isStandAlone);
         // }
@@ -84,7 +125,7 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor  {
 
         if (this.columnDefinition.columnParams.isKeyExist(AutocompleteProperties.dp_AutocompleteType)) {
           this.definition.dp_AutocompleteType = this.columnDefinition.columnParams.getValueByKey
-          (AutocompleteProperties.dp_AutocompleteType);
+            (AutocompleteProperties.dp_AutocompleteType);
         }
 
         if (this.columnDefinition.columnParams.isKeyExist(AutocompleteProperties.multiple)) {
@@ -95,9 +136,11 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor  {
           this.definition.dropdown = this.columnDefinition.columnParams.getValueByKey(AutocompleteProperties.dropdown);
         }
 
-
       }
     }
+
+    this.setInitVal();
+
     // console.log(this.datasource);
   }
 
@@ -204,6 +247,10 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor  {
       Loc_dpAutocompleteMaxSuggestionsToShow; i++) { /* dont want to load more than this number of suggestions*/
       const foundedEntity = this.datasource[i];
       // this.entitySelected = foundedEntity;
+      // console.log(this.datasource[i]);
+      // console.log(this.definition.field);
+
+
       if (foundedEntity.name !== undefined) {
         if (foundedEntity.name.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
           filtered.push(foundedEntity);
@@ -340,12 +387,14 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor  {
     } else { /* else -  put all indexes in ArrTable_fieldsToSearch arr */
       for (let ind = 0; ind < this.ArrTable_Keys.length; ind++) {
         this.ArrTable_fieldsToSearch.push(ind);
+
       }
     }
 
     if (this.ArrTable_Keys.length) {
       this.ArrTable_Keys.forEach((item, index) => {
         // console.log(item);
+
         if (index > 0) {
           strPsik = ',';
         }

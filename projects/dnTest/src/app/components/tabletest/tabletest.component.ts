@@ -45,7 +45,6 @@ export class TabletestComponent implements OnInit {
 
   ngOnInit(): void {
     const columns: GridColumn[] = this.getColumns();
-    // console.log(columns);
     this.gridDefinition = new GridDefinitions({
       dataKey: 'id',
       columns,
@@ -162,10 +161,11 @@ export class TabletestComponent implements OnInit {
     const columnParams3: GridColumnParams = new GridColumnParams();
     columnParams3.addParam(AutocompleteProperties.dp_AutocompleteType, 0);
     columnParams3.addParam(AutocompleteProperties.multiple, false);
-    columnParams3.addParam(AutocompleteProperties.dropdown, false);
+    columnParams3.addParam(AutocompleteProperties.dropdown, true);
+
 
     const column3 = new GridColumn({
-      headername: 'Country', fieldname: 'country', type: this.gridColumnTypeEnum.span, columnParams: columnParams3,
+      headername: 'Country', fieldname: 'country', type: this.gridColumnTypeEnum.dropdown, columnParams: columnParams3,
       iseditable: true,
       ColumnDatasource: this.dataForAc3, isMandatory: true
     });
@@ -229,6 +229,6 @@ export class TabletestComponent implements OnInit {
         }
       });
     })).subscribe();
-     //this.store.dispatch(deleteRow({ data: { tableId: this.tableId, rowIndex: id } }));
+    //this.store.dispatch(deleteRow({ data: { tableId: this.tableId, rowIndex: id } }));
   }
 }

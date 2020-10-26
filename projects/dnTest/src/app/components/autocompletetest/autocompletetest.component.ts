@@ -66,6 +66,7 @@ export class AutocompletetestComponent implements OnInit {
       // name: [{ name: 'Afghanistan', code: 'AF' }]
     });
 
+
     // 2 regular
     // this.autocompleteDefinition2 = new AutocompleteDefinitions(false, 'elem_2222', 'name', 0, true,
     // 1, 'ph text 2', true);

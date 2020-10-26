@@ -235,10 +235,11 @@
                            *ngSwitchCase="gridColumnTypeEnum.calendar">
               </dp-calendar>
 
-              <dp-autocomplete [ngModel]="row[column.fieldname]" name="{{column.fieldname}}"
-                               *ngSwitchCase="gridColumnTypeEnum.dropdown" [columnDefinition]="column"
+              <dp-autocomplete [initVal]="row[column.fieldname]" 
+                               *ngSwitchCase="gridColumnTypeEnum.dropdown"
                                [datasource]="column.ColumnDatasource">
               </dp-autocomplete>
+
 
               <img *ngSwitchCase="gridColumnTypeEnum.image" class="my-center-text"
                    src="{{row[column.fieldname]}}" title="{{row[column.fieldname.concat('_tooltip')]}}"
