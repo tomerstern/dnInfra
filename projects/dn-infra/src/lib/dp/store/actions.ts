@@ -15,3 +15,6 @@ export const updateRow = createAction(UPDATE_ROW, props<{ row: any, rowIndex: nu
 const ADD_VALIDATION_ERROR = 'Add Validation Error';
 export const addValidationError = createAction(ADD_VALIDATION_ERROR,
     props<{ data: { tableId: string, controlName: string, control: any } }>());
+
+const CLEAR_STATE = 'Clear State';
+export const clearStateChanges = createAction(CLEAR_STATE, props<{ data: { tableIds: string[] } }>());

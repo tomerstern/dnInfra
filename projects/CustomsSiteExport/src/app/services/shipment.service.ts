@@ -1,3 +1,4 @@
+import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Shipment, ShipmentDetail } from '../models/shipment';
@@ -22,7 +23,7 @@ export class ShipmentService {
     let shipment: any;
     // this.http.get('http://localhost/ExportCustomsWebAPI/Shipment/GetShipmentByKey').toPromise().then((data: {Status: string}) => {
     this.http
-      .get('http://import-iis-dev:8090/Shipment/GetShipmentByKey')
+      .get(environment.apiBaseUrl + 'Shipment/GetShipmentByKey')
       .toPromise()
       .then((data: { Status: string; result: any }) => {
         if (data.Status === 'OK') {
@@ -78,14 +79,14 @@ export class ShipmentService {
       if (xhr.readyState === 4) {
         if (xhr.status === 200) {
           console.log(xhr.responseText);
-          // this.getShipmentFromServer();
+          this.getShipmentFromServer();
         } else {
            console.log(xhr.statusText);
            console.log(xhr.responseText);
         }
       }
     };
-    xhr.open('POST', 'http://import-iis-dev:8090/Shipment/UpdateShipment', true);
+    xhr.open('POST', environment.apiBaseUrl + '/Shipment/UpdateShipment', true);
     xhr.setRequestHeader('Content-type', 'application/json;');
     xhr.send(JSON.stringify(shipment));
   }
@@ -172,7 +173,7 @@ export class ShipmentService {
       }
     };
     // xhr.open('POST', 'http://10.91.133.115/ExportCustomsWebAPI/Shipment/UpdateOneG7', true);
-    xhr.open('POST', 'http://import-iis-dev:8090/Shipment/UpdateG7', true);
+    xhr.open('POST', environment.apiBaseUrl + 'Shipment/UpdateG7', true);
     xhr.setRequestHeader('Content-type', 'application/json;');
     xhr.send(JSON.stringify(changes));
     // xhr.send(JSON.stringify(changes[0]));

@@ -9,7 +9,8 @@
       "remarksImg_tooltip": "The best image",
       "NumOrderInMonth": -200,
       "Date": "2020-06-15T18:25:00.000Z",
-      "country": "AF"
+      "country_name": "Angola",
+      "country_id": "AN"
     },
     {
       "id": 1001,
@@ -20,7 +21,8 @@
       "remarksImg_tooltip": "The best image 02",
       "NumOrderInMonth": 300,
       "Date": "",
-      "country": "asf"
+      "country_name": "Afganistan",
+      "country_id": "AF"
     }      
   ]
 }

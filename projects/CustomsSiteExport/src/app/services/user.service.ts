@@ -1,3 +1,4 @@
+import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../models/user';
@@ -30,7 +31,7 @@ export class UserService {
       }
       //return user;
     };
-    xhr.open('POST', 'http://import-iis-dev:8090/User/GetUser', true);
+    xhr.open('POST', environment.apiBaseUrl + 'User/GetUser', true);
     xhr.setRequestHeader('Content-type', 'application/json;');
     xhr.send(JSON.stringify(requestData));
   }
@@ -38,7 +39,7 @@ export class UserService {
   async getUserByQueryString(userName: string, userPassword: string) {
     let user: User;
     this.http
-      .get('http://import-iis-dev:8090/User/GetUser?username=' + userName + '&password=' + userPassword)
+      .get(environment.apiBaseUrl + 'User/GetUser?username=' + userName + '&password=' + userPassword)
       .toPromise()
       .then((data: { Status: string; result: any }) => {
         if (data.Status === 'OK') {

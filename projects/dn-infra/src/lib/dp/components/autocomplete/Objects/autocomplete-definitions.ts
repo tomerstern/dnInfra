@@ -44,8 +44,9 @@ export enum AutocompleteProperties {
     dp_AutocompleteImageTextStyle = 'dp_AutocompleteImageTextStyle',
     dp_AutocompleteImageStyle = 'dp_AutocompleteImageStyle',
     dp_AutocompleteTableFields = 'dp_AutocompleteTableFields',
-    dpAutocompleteLazyDataFunc = 'dpAutocompleteLazyDataFunc',
-    initialValues = 'initialValues'
+    dpAutocompleteLateDataLoadFunc = 'dpAutocompleteLateDataLoadFunc',
+    initialValues = 'initialValues',
+    LateDataSource = 'LateDataSource'
 }
 
 
@@ -94,8 +95,9 @@ export interface iAutocompleteDefinitions {
     dp_AutocompleteImageTextStyle?: string;
     dp_AutocompleteImageStyle?: string;
     dp_AutocompleteTableFields?: any;
-    dpAutocompleteLazyDataFunc?: Function;
+    dpAutocompleteLateDataLoadFunc?: Function;
     initialValues?: any;
+    LateDataSource?: any[];
     // dpColumnDatasource: any = [];
 }
 // export interface IAutocompleteDefinition {
@@ -213,8 +215,9 @@ export class AutocompleteDefinitions implements iAutocompleteDefinitions {
     dp_AutocompleteImageContainerStyle: string;
     dp_AutocompleteImageTextStyle: string;
     dp_AutocompleteImageStyle: string;
-    dpAutocompleteLazyDataFunc: Function;
+    dpAutocompleteLateDataLoadFunc: Function;
     initialValues: any;
+    LateDataSource: any[];
     /*
     dataKey: string;
     rowHover: boolean;
@@ -304,7 +307,7 @@ export class AutocompleteDefinitions implements iAutocompleteDefinitions {
 
         // this.name = (name == null ? this.inputId : name);
 
-        this.dpAutocompleteLazyDataFunc = params.dpAutocompleteLazyDataFunc;
+        this.dpAutocompleteLateDataLoadFunc = params.dpAutocompleteLateDataLoadFunc;
 
         /*this.autocomplete = (autocomplete == null ? 'off' : autocomplete);*/
         /*

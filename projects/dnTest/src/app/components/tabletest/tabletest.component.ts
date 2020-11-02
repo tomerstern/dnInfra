@@ -17,7 +17,7 @@ import { combineLatest, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { getAppState } from 'projects/dn-infra/src/lib/dp/store/selectors';
-import { addRow, deleteRow, updateRow, updateTable, addValidationError } from 'projects/dn-infra/src/lib/dp/store/actions';
+import { addRow, deleteRow, updateRow, updateTable, addValidationError, clearStateChanges } from 'projects/dn-infra/src/lib/dp/store/actions';
 
 // import { TableComponent } from 'projects/dn-infra/src/lib/dp/components/table/table.component';
 
@@ -33,6 +33,7 @@ export class TabletestComponent implements OnInit {
     private countryService: CountryService
   ) { }
   gridDefinition: GridDefinitions;
+  gridDefinition2: GridDefinitions;
   gridShipmentDefinition: GridDefinitions;
   customers: Customer[];
   gridColumnTypeEnum = GridColumnType;
@@ -45,6 +46,7 @@ export class TabletestComponent implements OnInit {
 
   ngOnInit(): void {
     const columns: GridColumn[] = this.getColumns();
+    const columns2: GridColumn[] = this.getColumns();
     this.gridDefinition = new GridDefinitions({
       dataKey: 'id',
       columns,
@@ -57,7 +59,24 @@ export class TabletestComponent implements OnInit {
         this.onAfterAdd(param);
       },
     });
+
+
+    this.gridDefinition2 = new GridDefinitions({
+      dataKey: 'id',
+      columns:columns2,
+      toolbar: true,
+      selectionMode: 'single',
+      onAfterDelete: (param) => {
+        this.onAfter(param);
+      },
+      onAfterAdd: (param) => {
+        this.onAfterAdd(param);
+      },
+    });
+
     this.SetData();
+
+
 
     const shipmentcolumns: GridColumn[] = this.getShipmentColumns();
     this.gridShipmentDefinition = new GridDefinitions({
@@ -165,7 +184,8 @@ export class TabletestComponent implements OnInit {
 
 
     const column3 = new GridColumn({
-      headername: 'Country', fieldname: 'country', type: this.gridColumnTypeEnum.dropdown, columnParams: columnParams3,
+      headername: 'Country', fieldname: 'country_name', fieldId: 'country_id', 
+      type: this.gridColumnTypeEnum.autocomplete, columnParams: columnParams3,
       iseditable: true,
       ColumnDatasource: this.dataForAc3, isMandatory: true
     });
@@ -214,11 +234,12 @@ export class TabletestComponent implements OnInit {
   }
 
   SaveCutomers() {
-    debugger
+    
     const changes = [];
     this.store.select(getAppState).pipe(take(1), map(state => {
       Object.keys(state.tables).forEach(table => {
         const tableChanges = state.tables[table].changes;
+        debugger
         this.validationErrors1 = JSON.stringify(state.tables[table].validationErrors);
         if (tableChanges) {
           Object.keys(tableChanges).forEach(key => {
@@ -229,6 +250,8 @@ export class TabletestComponent implements OnInit {
         }
       });
     })).subscribe();
-    //this.store.dispatch(deleteRow({ data: { tableId: this.tableId, rowIndex: id } }));
+    // this.store.dispatch(deleteRow({ data: { tableId: this.tableId, rowIndex: id } }));
+    const tables: string[] = ['table1', 'table2'];
+    this.store.dispatch(clearStateChanges({ data: { tableIds: tables} }));
   }
 }

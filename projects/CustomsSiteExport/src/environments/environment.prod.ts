@@ -1,3 +1,6 @@
 export const environment = {
-  production: true
+  production: true,
+  name : '',
+  //  Update HERE after first release !
+  apiBaseUrl : ''
 };

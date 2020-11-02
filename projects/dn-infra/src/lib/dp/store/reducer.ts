@@ -1,18 +1,26 @@
 import { createReducer, on } from '@ngrx/store';
-import { addRow, deleteRow, updateRow, updateTable, addValidationError } from './actions';
+import { addRow, deleteRow, updateRow, updateTable, addValidationError, clearStateChanges } from './actions';
 export const initialState: any = {};
 
 const reducer = createReducer(initialState,
     on(updateTable, (state, action): any => {
-        const newTableState = {
-            [action.data.tableId]: {
-                data: action.data.tableData
-            }
-        };
-        const newState = { ...state, ...newTableState };
-        return (newState);
+        if ( state[action.data.tableId] === undefined)
+        {
+            const newTableState = {
+                [action.data.tableId]: {
+                    data: action.data.tableData
+                }
+            };
+            const newState = { ...state, ...newTableState };
+            return (newState);
+        }
+        else
+        {
+            return state;
+        }
     }),
     on(updateRow, (state, action): any => {
+        // debugger
         let newChanges = {};
         let key;
         let stateToSet;
@@ -90,6 +98,24 @@ const reducer = createReducer(initialState,
         const newTableData = { [action.data.tableId]: newData };
         return ({ ...state, ...newTableData });
     }),
+    on(clearStateChanges, (state, action): any => {
+        for (const tableId of action.data.tableIds) {
+            const newDataArray = [];
+            // ziv - Maybe use a filter which removed all refKey elements?
+            for (const row of state[tableId].data) {
+                const newRow = { ...row };
+                delete newRow.refKey;
+                newDataArray.push(newRow);
+            }
+            const newNewData = {
+                data: newDataArray
+            };
+            const newTableData = { [tableId]: newNewData };
+            state = { ...state, ...newTableData };
+        }
+
+        return state;
+    })
 );
 
 export function tableReducer(state: any | undefined, action: any) {

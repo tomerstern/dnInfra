@@ -1,6 +1,6 @@
 import {
   Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges, ViewEncapsulation,
-  ChangeDetectionStrategy, SimpleChanges, AfterViewInit
+  ChangeDetectionStrategy, SimpleChanges, AfterViewInit, ChangeDetectorRef
 } from '@angular/core';
 import { GridDefinitions, GridColumnType } from './objects/grid-definitions';
 import { TableStoreService, TableState } from '../../services/table-store.service';
@@ -115,10 +115,26 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
 
   }
 
-  updateRow(columnField: string, row: object, val: any, rowIndex: number, myForm: any) {
-    const newRow = { ...row, ...{ [columnField]: val } };
-    this.store.dispatch(updateRow({ row: newRow, rowIndex, tableId: this.tableId })); 
+  updateRow(columnField: string, row: object, val: any, rowIndex: number, myForm: any,
+    columnFieldId?: string) {
+    // debugger
+    if (val === undefined) {
+      return;
+    }
+    // tslint:disable-next-line: no-debugger
+    // debugger;
+    let newRow;
+    if (val === null || val.code === undefined) {
+      newRow = { ...row, ...{ [columnField]: val } };
+    }
+    else {
+      // autocomplete
+      newRow = { ...row, ...{ [columnFieldId]: val.code, [columnField]: val.name } };
+    }
+    // const newRow = { ...row, ...{ [columnField]: val } };
+    this.store.dispatch(updateRow({ row: newRow, rowIndex, tableId: this.tableId }));
     //this.getFormValidationErrors(myForm);
+    console.log(newRow);
   }
 
   showDynamicdialog1() {
@@ -309,7 +325,6 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   dpInitArrDatasourceKeys() {
-
     if (this.datasource !== undefined) {
       const jsonData = this.datasource[0];
       // tslint:disable-next-line: forin

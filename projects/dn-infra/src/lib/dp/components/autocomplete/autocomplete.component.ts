@@ -1,5 +1,9 @@
-import { Component, OnInit, Input, ViewEncapsulation, ɵConsole, forwardRef, Output, EventEmitter, Provider } from '@angular/core';
+import {
+  Component, OnInit, Input, ViewEncapsulation, ɵConsole, forwardRef,
+  Output, EventEmitter, Provider, OnChanges, SimpleChanges
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AutoComplete } from 'primeng';
 import { AutocompleteDefinitions, AutocompleteProperties } from './Objects/autocomplete-definitions';
 
 
@@ -18,16 +22,21 @@ export const AC_CONTROL_VALUE_ACCESSOR: Provider = {
   providers: [AC_CONTROL_VALUE_ACCESSOR]
 })
 
-export class AutocompleteComponent implements OnInit, ControlValueAccessor {
+export class AutocompleteComponent implements OnInit, OnChanges, ControlValueAccessor {
 
   val = ''; /* for ControlValueAccessor*/
 
   @Input() definition: AutocompleteDefinitions;
   @Input() datasource: any = [];
   ngModelDP: any;
+  hasTouched = false;
+
+  isDynamicDataLoad = false;
+
   @Input() rowData: any = [];
   @Input() initVal: any;
   @Input() columnDefinition: any = [];
+  @Output() firstInteraction: EventEmitter<boolean> = new EventEmitter();
   @Output() getSelected: EventEmitter<any> = new EventEmitter();
 
   // @Input('datasource') datasource123: any = [];
@@ -61,10 +70,32 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor {
   private onTouchedCallback: () => void = () => { };
 
 
+  ngOnChanges(changes: SimpleChanges) {
 
-  setInitVal() {
+    // if (changes.initVal && changes.initVal.previousValue === undefined) {
+    //   this.setInitVal();
+    // } else if (changes.initVal.previousValue !== undefined &&
+    //   changes.initVal.previousValue !== changes.initVal.previousValue) {
+    //   this.setInitVal(true);
+    // }
+
+
+    if (this.isDynamicDataLoad) { /* if data was loades on key press / start writingthen load suggestions*/
+      this.isDynamicDataLoad = false;
+      this.filteredData = this.datasource;
+    }
+  }
+
+  setInitVal(newVal?: boolean) {
+    if (this.datasource === undefined || this.datasource.length === 0) {
+      if (this.initVal !== undefined) {
+        this.innerValue = this.initVal;
+        this.getSelected.emit(this.innerValue);
+      }
+      return;
+    }
+
     const typeOfData = typeof this.datasource[0];
-    console.log(this.initVal);
 
     if (!this.definition.multiple) {
       if (typeOfData === 'string') {
@@ -73,9 +104,11 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor {
             this.innerValue = item;
           }
         });
-        if (!this.innerValue) {
-          this.innerValue =  this.initVal;
-        }
+        // uncomment this if you want set init val which does not exist in 'suggestions'
+        // if (!this.innerValue) {
+        //   this.innerValue =  this.initVal;
+        // }
+        // console.log(this.innerValue);
       }
       if (typeOfData === 'object') {
         Object.keys(this.datasource).forEach(key => {
@@ -83,9 +116,10 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor {
             this.innerValue = this.datasource[key];
           }
         });
-        if (!this.innerValue) {
-          this.innerValue = { [this.definition.field]: this.initVal };
-        }
+        // uncomment this if you want set init val which does not exist in 'suggestions'
+        // if (!this.innerValue) {
+        //   this.innerValue = { [this.definition.field]: this.initVal };
+        // }
       }
     } else if (this.definition.multiple && Array.isArray(this.initVal)) {
       const arr = [];
@@ -98,11 +132,10 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor {
     } else if (this.definition.multiple && !Array.isArray(this.initVal)) {
       throw new Error('Autocomplete.ts: @input [initVal] for multi select must be an array');
     }
-
+    this.getSelected.emit(this.innerValue);
   }
 
   ngOnInit() {
-
 
     if (this.definition == null || this.definition === undefined) {
       // this.definition = new AutocompleteDefinitions({ isStandAlone: false });
@@ -136,6 +169,9 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor {
           this.definition.dropdown = this.columnDefinition.columnParams.getValueByKey(AutocompleteProperties.dropdown);
         }
 
+        if (this.columnDefinition.columnParams.isKeyExist(AutocompleteProperties.initialValues)) {
+          this.definition.initialValues = this.columnDefinition.columnParams.getValueByKey(AutocompleteProperties.initialValues);
+        }
       }
     }
 
@@ -163,7 +199,6 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor {
       this.innerValue = value;
     }
   }
-
 
   public registerOnChange(callback: (_: any) => void) {
     this.onChangeCallback = callback;
@@ -195,15 +230,28 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor {
   //   console.log($event);
   // }
 
-  filterEntity(event, Loc_dp_AutocompleteType: number, Loc_dpAutocompleteMaxSuggestionsToShow: number): any[] {
+  filterEntity(el, event, Loc_dp_AutocompleteType: number, Loc_dpAutocompleteMaxSuggestionsToShow: number): any[] {
 
+    // if (!this.hasTouched2) {
+    //   debugger
+    //   this.hasTouched2 = true;
+    //   this.firstInteraction.emit(true);
+    //   this.datasource = this.definition.LateDataSource;
+    // }
 
+    if (!this.hasTouched && (this.datasource === undefined || this.datasource.length === 0)) {
+      // console.log(event);
+      this.hasTouched = true;
+      this.datasource = this.dpAutocompleteLateDataLoadFunc();
+    }
+
+    /*
     if (this.datasource !== undefined) {
+
       if (this.datasource[0] === ':::') {
+        this.datasource = this.dpAutocompleteLateDataLoadFunc();
 
-        this.datasource = this.dpAutocompleteLazyDataFunc();
-
-        // this.datasource = this.getDynamicData(); /* working */
+        // this.datasource = this.getDynamicData(); // working
 
         // this.countryService.getData_iis(`http://import-iis-dev:8090/Assist/GetCountriesCode`)
         // .subscribe((data: []) => {
@@ -211,7 +259,7 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor {
         // });
 
       }
-    }
+    }*/
 
     if (this.datasource === undefined) {
       return;
@@ -453,13 +501,14 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor {
   // }
 
 
-  dpAutocompleteLazyDataFunc() {
-
-    console.log('');
-    console.log(this.definition.dpAutocompleteLazyDataFunc);
-
-    return this.definition.dpAutocompleteLazyDataFunc();
+  dpAutocompleteLateDataLoadFunc() {
+    // console.log('');
+    // console.log(this.definition.dpAutocompleteLateDataLoadFunc);
+    this.isDynamicDataLoad = true;
+    return this.definition.dpAutocompleteLateDataLoadFunc();
   }
+
+
 
 }
 

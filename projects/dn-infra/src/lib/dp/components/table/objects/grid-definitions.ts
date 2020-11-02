@@ -47,6 +47,7 @@ export interface IGridColumn {
     ColumnTotal?: boolean;
     LocaleString?: boolean;
     HeaderClassNames?: string; /*for frozen columns*/
+    fieldId?: string;
 }
 
 
@@ -55,7 +56,7 @@ export enum GridColumnType {
     checkbox = 11,
     button = 12,
     autocomplete = 13,
-    dropdown = 14,
+    
     image = 15,
     inputnumber = 16,
     calendar = 17
@@ -194,6 +195,7 @@ export class GridColumn implements IGridColumn {
     ColumnTotal: boolean;
     LocaleString: boolean;
     HeaderClassNames: string; /*for Frozen Cols*/
+    fieldId: string;
     constructor(params: IGridColumn) {
         this.headername = params.headername;
         this.fieldname = params.fieldname;

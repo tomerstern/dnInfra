@@ -131,7 +131,7 @@
           <!-- <input *ngSwitchCase="gridColumnTypeEnum.inputnumber" pInputText type="text"
               (input)="dt.filter($event.target.value, column.fieldname, 'contains')"> -->
           <p-checkbox *ngSwitchCase="gridColumnTypeEnum.checkbox"
-                      (onChange)="dt.filter($event.target.value, column.fieldname, 'equals')">
+                      (onChange)="dt.filter($event.checked, column.fieldname,'equals')">
           </p-checkbox>
           <p-calendar *ngSwitchCase="gridColumnTypeEnum.calendar" (onSelect)="onDateSelect($event)"
                       (onClearClick)="dt.filter('', 'date', 'equals')" [showButtonBar]="true"
@@ -235,8 +235,14 @@
                            *ngSwitchCase="gridColumnTypeEnum.calendar">
               </dp-calendar>
 
-              <dp-autocomplete [initVal]="row[column.fieldname]" 
-                               *ngSwitchCase="gridColumnTypeEnum.dropdown"
+
+          <!-- (getSelected)="updateRow(column.fieldname, row, $event, index, myForm, column.fieldId)" -->
+
+
+              <dp-autocomplete 
+               
+              [initVal]="row[column.fieldname]" 
+                               *ngSwitchCase="gridColumnTypeEnum.autocomplete"
                                [datasource]="column.ColumnDatasource">
               </dp-autocomplete>
 
@@ -269,7 +275,7 @@
               <img *ngSwitchCase="gridColumnTypeEnum.image" class="my-center-text"
                    src="{{row[column.fieldname]}}" title="{{row[column.fieldname.concat('_tooltip')]}}"
                    width="{{column.width}}" height="{{column.height}}">
-              <span *ngSwitchCase="gridColumnTypeEnum.dropdown">{{row[column.fieldname]}}</span>
+              <span *ngSwitchCase="gridColumnTypeEnum.autocomplete">{{row[column.fieldname]}}</span>
             </ng-container>
 
           </ng-template>

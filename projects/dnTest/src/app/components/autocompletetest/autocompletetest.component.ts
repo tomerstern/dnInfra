@@ -1,5 +1,5 @@
 
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
 /*import { Customer, Representative } from '../../../events/models/customer';*/
 // import { Country } from '../../../events/models/customer';
 /*import { CustomerService } from '../../../events/services/customerservice';*/
@@ -16,7 +16,9 @@ import { Country } from '../../events/models/customer';
 })
 export class AutocompletetestComponent implements OnInit {
 
-  constructor(private countryService: CountryService) { }
+  someVar = 'bulgaria';
+
+  constructor(private countryService: CountryService, private cdref: ChangeDetectorRef) { }
 
   // ----------- 1    Autocomplete Definition
   autocompleteDefinition1: AutocompleteDefinitions;
@@ -26,9 +28,10 @@ export class AutocompletetestComponent implements OnInit {
   autocompleteDefinition5: AutocompleteDefinitions;
   autocompleteDefinition6: AutocompleteDefinitions;
   autocompleteDefinition7: AutocompleteDefinitions;
+  autocompleteDefinition8: AutocompleteDefinitions;
 
   // ----------- 2  Data To send Property
-  dataForAc1: Country[]; // Country
+  dataForAc1: any[]; // Country
   dataForAc2: Country[]; // Cities_100k
   dataForAc3: string[] = ['argentina', 'brazil', 'bulgaria', 'canada', 'cuba', 'finland', 'germany', 'hungary',
     'india', 'ireland', 'israel', 'russia', 'usa']; // fo Flags
@@ -43,11 +46,56 @@ export class AutocompletetestComponent implements OnInit {
   // ----------- 3 get selected data
   externalDataSelected1: any;
   externalDataSelected2: any;
-  externalDataSelected3: any;
+  externalDataSelected3: any = null;
   externalDataSelected4: any;
   externalDataSelected5: any;
   externalDataSelected6: any;
   externalDataSelected7: any;
+  externalDataSelected8: any;
+
+  changeInitVal() {
+    this.someVar = 'brazil1';
+  }
+
+  handleResult(res: any, id: number) {
+    debugger;
+    if (res === undefined || id === undefined) {
+      return;
+    }
+
+    switch (id) {
+      case 1:
+        this.externalDataSelected1 = res;
+        break;
+      case 2:
+        this.externalDataSelected2 = res;
+        break;
+      case 3:
+        this.externalDataSelected3 = res;
+        break;
+      case 4:
+        this.externalDataSelected4 = res;
+        break;
+      case 5:
+        this.externalDataSelected5 = res;
+        break;
+      case 6:
+        this.externalDataSelected6 = res;
+        break;
+      case 7:
+        this.externalDataSelected7 = res;
+        break;
+      case 8:
+        this.externalDataSelected8 = res;
+        break;
+    }
+
+    // if (id === 'data3' && res !== undefined) {
+    //   this.externalDataSelected3 = res;
+    // }
+
+    this.cdref.detectChanges();
+  }
 
   ngOnInit(): void {
 
@@ -62,10 +110,20 @@ export class AutocompletetestComponent implements OnInit {
       dp_AutocompleteType: 0, multiple: false, minLength: 1, placeholder: 'ph text 1'
       , dropdown: true
       // name: 'Afghanistan'
-      , initialValues: [{ name: 'Afghanistan', code: 'AF' }]
+      // , initialValues: '[{ name: 'Afghanistan', code: 'AF' }]'
       // name: [{ name: 'Afghanistan', code: 'AF' }]
     });
 
+    // 4 load on click / open
+
+    this.autocompleteDefinition4 = new AutocompleteDefinitions({
+      inputId: 'elem_444', field: 'name',
+      dp_AutocompleteType: 0, multiple: false, minLength: 1, placeholder: 'ph text 4'
+      , dropdown: true
+      , dpAutocompleteLateDataLoadFunc: () => {
+          this.getDynamicData();
+      }
+    });
 
     // 2 regular
     // this.autocompleteDefinition2 = new AutocompleteDefinitions(false, 'elem_2222', 'name', 0, true,
@@ -88,23 +146,7 @@ export class AutocompletetestComponent implements OnInit {
       dp_AutocompleteImageExtension: 'png'
     });
 
-    // 4 load on click / open
 
-    this.autocompleteDefinition4 = new AutocompleteDefinitions({
-      inputId: 'elem_4', field: 'name',
-      dp_AutocompleteType: 0, multiple: false, minLength: 1, placeholder: 'ph text 4'
-      , dropdown: true
-      , dpAutocompleteLazyDataFunc: () => {
-        this.countryService.getData_iis(`http://import-iis-dev:8090/Assist/GetCountriesCode`)
-        .subscribe((data: []) => {
-          this.dataForAc4 = data;
-          // return this.dataForAc4;
-          console.log('get data autocompleteDefinition4');
-          console.log(this.dataForAc4);
-        });
-      }
-
-    });
 
     // 5 table
     // this.autocompleteDefinition5 = new AutocompleteDefinitions(false, 'elem_table', 'Event Code', 1, false, 1, 'ph text 5', true);
@@ -144,9 +186,6 @@ export class AutocompletetestComponent implements OnInit {
 
     // -----------    6 Section Get Data
 
-    this.dataForAc4 = [':::'];
-
-
     this.countryService.getCountries().then(countries => {
       this.dataForAc1 = countries;
       // console.log(countries);
@@ -165,6 +204,20 @@ export class AutocompletetestComponent implements OnInit {
     });
 
 
+    this.dataForAc4 = [];
+
+    // this.countryService.getCountries().then(countries => {
+    //   this.dataForAc4 = countries;
+    // });
+
+    // this.countryService.getData_iis(`http://import-iis-dev:8090/Assist/GetCountriesCode`)
+    // .subscribe((data: []) => {
+    //   this.dataForAc4 = data;
+    //   console.log('gil this.dataForAc4 =');
+    //   console.log(this.dataForAc4 );
+    // });
+
+
     // // jsonplaceholder working
     // this.countryService.getUsers2()
     //   .subscribe((data: []) => {
@@ -176,15 +229,45 @@ export class AutocompletetestComponent implements OnInit {
         this.dataForAc7 = data;
       });
 
+
+    // this.countryService.get_data('assets/EventCodes.json').then(dataForAc7 => {
+    //   this.dataForAc7 = dataForAc7;
+    // });
+
+
     // this.countryService.getUsers2().then(dataForAc8 => {
     //   this.dataForAc8 = dataForAc8;
     // });
 
   }
 
-  // getData(event) {
+  getDbSataForAc8(event) {
+    // alert('first user interaction!');
 
-  // }
+    this.countryService.getData_iis(`http://import-iis-dev:8090/Assist/GetCountriesCode`)
+      .subscribe((data: []) => {
+        this.dataForAc8 = data;
+        // this.cdref.detectChanges();
+        console.log(this.dataForAc8);
+        this.autocompleteDefinition8.LateDataSource = this.dataForAc8;
+      });
+  }
+
+  getDynamicData() {
+  // // use A - working
+  // this.countryService.getData_iis(`http://import-iis-dev:8090/Assist/GetCountriesCode`)
+  //   .subscribe((data: []) => {
+  //     this.dataForAc4 = data;
+  //   });
+
+  // // use B - working
+    this.countryService.getCountries().then(countries => {
+      this.dataForAc4 = countries;
+    });
+  }
+
+
+
 
 }
 

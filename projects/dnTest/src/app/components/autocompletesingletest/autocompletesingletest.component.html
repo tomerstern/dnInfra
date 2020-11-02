@@ -10,7 +10,22 @@
         [datasource]="dataForAc6">
         </dp-autocomplete> -->
 
-        <br><br><div>Selected:<div class='s'> {{ !externalDataSelected6 ? '' : (externalDataSelected6 | json)  }}</div></div>
+        <dp-autocomplete *ngIf="dataForAc6" 
+            (getSelected)="handleResult($event, 6)"
+            [definition]="autocompleteDefinition6"
+            [datasource]="dataForAc6"
+            [initVal]="'ACCUPD'"
+        ></dp-autocomplete>
+
+        <div>external 6: <div class='s'>
+            <ng-container *ngIf="externalDataSelected6">
+                {{externalDataSelected6 | json}}
+            </ng-container>
+            </div>
+        </div>
+        <!-- <br><br><div>Selected:<div class='s'> {{ !externalDataSelected6 ? '' : (externalDataSelected6 | json)  }}</div></div> -->
+
+
     </div>
 
 

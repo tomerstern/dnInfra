@@ -1,3 +1,4 @@
+import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 // import { Assist } from '../models/assist';
@@ -13,9 +14,9 @@ export class ExportassistService {
     let listAssists: any[];
     // let listAssists: Assist[];
 
-    this.http.get('http://localhost/ExportCustomsWebAPI/Assist/Get/' + tableId).
+    this.http.get(environment.apiBaseUrl + 'Assist/Get/' + tableId).
     toPromise().then((data: {Status: string, result: any}) => {
-      
+
         if (data.Status === 'OK')
         {
           listAssists = data.result.Items;
