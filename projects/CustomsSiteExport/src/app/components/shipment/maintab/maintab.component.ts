@@ -27,7 +27,8 @@ export class MaintabComponent implements OnInit {
     this.tabItems = [
       { label: 'Details', id: 'details', routerLink: 'details' },
       { label: 'GP', id: 'gp', routerLink: 'gp' },
-      { label: 'G7', id: 'p7', routerLink: 'p7' }];
+      { label: 'G7', id: 'p7', routerLink: 'p7' },
+      { label: 'GT', id: 'gt', routerLink: 'gt' }];
 
     this.tabMenuDefinition = new TabmenuDefinitions({ activeItem: this.tabItems[1] });
     // this.shipmentService.getCountries().then(countries => {

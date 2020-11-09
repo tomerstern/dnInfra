@@ -1,4 +1,4 @@
-<form #myForm="ngForm">
+<form [class.reveal-error]="revealErrs" #myForm="ngForm">
   form valid? {{myForm.valid}}
   <br>
   <br>
@@ -97,9 +97,10 @@
     <!-- gil start add,  add  let-columns  in <ng-template>   -->
     <ng-template *ngIf="this.isFreezeColumnActive || true" pTemplate="header" let-columns>
       <div *ngIf="definition.HeadersMergeGroupsHtml !== ''" [outerHTML]="definition.HeadersMergeGroupsHtml"></div>
+      <!-- HEADER -->
       <tr class="clsDpHeadTr">
         <th #th *ngFor="let column of columns; let columnInd = index" [pSortableColumn]="column.fieldname"
-            (onDrop)="dpFreezeColumndrop($event, columnInd, dt)" pDroppable="abc"
+            (onDrop)="dpFreezeColumndrop($event, columnInd, dt)" (onDragStart)="definition.scrollable = false" pDroppable="abc"
             [ngClass]="(frozenColsCounter >=columnInd)?'cssFrozenHeader' :''" [style.height]="HeadersHeight">
           {{column.headername}}
           <p-sortIcon [field]="column.fieldname"></p-sortIcon>
@@ -112,31 +113,52 @@
                   class="ui-button ui-button-dp" (click)="toggleFilter = !toggleFilter" pAddRow></button>
         </th>
       </tr>
+      <!-- FILTER -->
       <tr class="clsDpHeadFilterTr">
         <th *ngFor="let column of columns" [hidden]="!toggleFilter" [ngSwitch]="column.type"
             class="clsDpFilterHeader">
           <span *ngSwitchCase="gridColumnTypeEnum.span" class="p-input-icon-right">
-            <i class="pi pi-search"></i>
-            <!-- <fa-icon [icon]="faPlus" class="cssPrimary cssInputFilter"></fa-icon> -->
-            <input pInputText type="text"
-                   (input)="dt.filter($event.target.value, column.fieldname, 'contains')">
+            <ng-container *ngIf="column.filterMatchMode !== 'in'">
+              <i class="pi pi-search"></i>  
+              <input pInputText type="text"
+                     (input)="dt.filter($event.target.value, column.fieldname, column.filterMatchMode)">
+            </ng-container>     
+            <p-multiSelect *ngIf="column.filterMatchMode == 'in'"
+            [options]="multiselectOptions" optionLabel="value"
+            (onChange)="filterMultiselect($event, column)"
+            (onFocus)="setOptions(column)">
+          </p-multiSelect>          
           </span>
           <!-- <input *ngSwitchCase="gridColumnTypeEnum.span" pInputText type="text"
               (input)="dt.filter($event.target.value, column.fieldname, 'contains')"> -->
           <span *ngSwitchCase="gridColumnTypeEnum.inputnumber" class="p-input-icon-right">
             <i class="pi pi-search"></i>
             <input pInputText type="text"
-                   (input)="dt.filter($event.target.value, column.fieldname, 'contains')">
+                   (input)="dt.filter($event.target.value, column.fieldname, 'equals')">
           </span>
           <!-- <input *ngSwitchCase="gridColumnTypeEnum.inputnumber" pInputText type="text"
               (input)="dt.filter($event.target.value, column.fieldname, 'contains')"> -->
-          <p-checkbox *ngSwitchCase="gridColumnTypeEnum.checkbox"
-                      (onChange)="dt.filter($event.checked, column.fieldname,'equals')">
-          </p-checkbox>
-          <p-calendar *ngSwitchCase="gridColumnTypeEnum.calendar" (onSelect)="onDateSelect($event)"
-                      (onClearClick)="dt.filter('', 'date', 'equals')" [showButtonBar]="true"
-                      styleClass="p-column-filter" placeholder="Registration Date" [readonlyInput]="true"
-                      dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [showIcon]="true" [icon]="'pi pi-calendar'">
+          <!-- <p-checkbox *ngSwitchCase="gridColumnTypeEnum.checkbox"
+                      (onChange)="dt.filter($event.checked, column.fieldname, 'equals')">
+          </p-checkbox> -->
+          <p-triStateCheckbox *ngSwitchCase="gridColumnTypeEnum.checkbox" 
+                              (onChange)="onFilterCheckbox($event.value, column.fieldname)"
+                              [(ngModel)]="filterCheckboxInitialValue">
+          </p-triStateCheckbox>
+          <span *ngSwitchCase="gridColumnTypeEnum.autocomplete">
+                <p-multiSelect  
+                [options]="multiselectOptions" optionLabel="value"
+                (onChange)="filterMultiselect($event, column)"
+                (onFocus)="setOptions(column)">
+              </p-multiSelect>
+          </span>
+
+          <p-calendar *ngSwitchCase="gridColumnTypeEnum.calendar" 
+                      (onSelect)="onDateSelect($event, column.fieldname)"
+                      (onClearClick)="dt.filter('', column.fieldname, 'equals')" [showButtonBar]="true"
+                      styleClass="p-column-filter" [readonlyInput]="true"
+                      dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [showIcon]="true" 
+                      [icon]="'pi pi-calendar'">
           </p-calendar>
 
         </th>
@@ -200,13 +222,12 @@
     </ng-template> -->
 
 
-
+    <!-- BODY -->
     <ng-template [ngModelGroup]="tableId" pTemplate="body" let-index="rowIndex" let-row let-columns="columns"
                  *ngIf="definition.editMode == 'cell'">
       <tr *ngIf="row" [pSelectableRow]="row">
         <td [ngModelGroup]="'row'+index" *ngFor="let column of columns" [pEditableColumn]="row"
             [pEditableColumnField]="column">
-          <!-- <app-cell [ngModel]="row" [name]="'row'+index" [rowIndex]="index" [row]="row" [column]="column"></app-cell> -->
 
           <ng-container *ngIf="column.iseditable else notEditable">
 
@@ -230,20 +251,19 @@
               </dp-inputnumber>
 
               <dp-calendar (selectEvent)="updateRow(column.fieldname, row, $event, index, myForm)"
-                           [required]="column.isMandatory"
+                           [required]="column.isMandatory" [columnDefinition]="column"
                            ngModel="{{row[column.fieldname]}}" name="{{column.fieldname}}"
                            *ngSwitchCase="gridColumnTypeEnum.calendar">
               </dp-calendar>
 
 
-          <!-- (getSelected)="updateRow(column.fieldname, row, $event, index, myForm, column.fieldId)" -->
+          <!-- (getSelected)="updateRow(column.fieldname, row, $event, index, myForm, column.fieldCode)" -->
 
 
-              <dp-autocomplete 
-               
-              [initVal]="row[column.fieldname]" 
-                               *ngSwitchCase="gridColumnTypeEnum.autocomplete"
-                               [datasource]="column.ColumnDatasource">
+              <dp-autocomplete        
+                [initVal]="row[column.fieldname]" 
+                *ngSwitchCase="gridColumnTypeEnum.autocomplete"
+                [datasource]="column.ColumnDatasource">
               </dp-autocomplete>
 
 
@@ -266,11 +286,11 @@
                 {{column.columnParams.getValueByKey(inputNumberProperties.suffix)}}
               </span>
 
-
-              <dp-checkbox *ngSwitchCase="gridColumnTypeEnum.checkbox" [(ngModel)]="row[column.fieldname]"
-                           [name]="row[column.fieldname]">
+              <dp-checkbox *ngSwitchCase="gridColumnTypeEnum.checkbox" 
+                            [(ngModel)]="row[column.fieldname]"
+                           [name]="row[column.fieldname]"
+                           [columnDefinition]="column">
               </dp-checkbox>
-
 
               <img *ngSwitchCase="gridColumnTypeEnum.image" class="my-center-text"
                    src="{{row[column.fieldname]}}" title="{{row[column.fieldname.concat('_tooltip')]}}"
@@ -281,15 +301,12 @@
           </ng-template>
 
         </td>
-        <!-- <td>
-          <button *ngIf="isEditable" pButton type="button" icon="pi pi-trash" class="ui-button-info"
-            (click)="deleteRow(index)">
-          </button>
-        </td> -->
 
         <td *ngIf="!this.definition.HideBtnsCol" class="clsDpFilterCell">
+          <dp-confirmdialog #cd [definition]="confirmdialogDef"></dp-confirmdialog>
           <button *ngIf="isEditable" pButton type="button" icon="pi pi-trash" class="ui-button ui-button-dp"
-                  (click)="deleteRow(index)"></button>
+            (click)="delete(index, cd);">
+          </button>
         </td>
 
       </tr>

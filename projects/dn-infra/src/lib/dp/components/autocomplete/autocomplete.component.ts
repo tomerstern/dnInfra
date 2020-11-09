@@ -146,8 +146,9 @@ export class AutocompleteComponent implements OnInit, OnChanges, ControlValueAcc
       this.definition = new AutocompleteDefinitions({});
 
 
-      if (this.columnDefinition.columnParams && this.columnDefinition.columnParams.length > 0) {
+      if (this.columnDefinition.columnParams && this.columnDefinition.columnParams.params.length > 0) {
         this.definition = new AutocompleteDefinitions({ isStandAlone: false });
+
         // if (this.columnDefinition.columnParams.isKeyExist(AutocompleteProperties.isStandAlone)) {
         //   this.definition.isStandAlone = this.columnDefinition.columnParams.getValueByKey(AutocompleteProperties.isStandAlone);
         // }

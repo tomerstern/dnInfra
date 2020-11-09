@@ -55,6 +55,11 @@ html, body {
 //   min-height: 100vh;
 // }
 
+// .ui-table-wrapper{
+//   overflow: scroll;
+//   max-height: 204px;
+// }
+
 body ,body .ui-widget {
   font-family: Roboto;
   // font-size: 14px;
@@ -111,6 +116,7 @@ body .ui-tooltip.ui-tooltip-bottom .ui-tooltip-arrow {border-bottom-color: $Prim
     //   color: #dadada;
     // }
   }
+
 
   .ui-table .ui-table-thead > tr:not(.clsDpHeadTr) > th{
     background-color: $SecondaryColor;
@@ -756,6 +762,7 @@ dp-picklist {
 }
 
 #dpHeaderContainer {
+  
   background-color: $PrimaryColor;
   border:1px solid red;
   height: 100px; 
@@ -764,12 +771,21 @@ dp-picklist {
   background-position:  100%; 
   background-repeat: no-repeat;
   dp-menubar ul li{ 
+    // border-radius: 0px;
+    // background-color: $PrimaryColor;
+    // color:white;
+    // border-width: 0px;    
+    // border-color: $PrimaryColorShadow;
     border-radius: 0px;
     background-color: $PrimaryColor;
-    color:white;
-    border-width: 0px;
-    // border-bottom-width: 1px;
-    border-color: $PrimaryColorShadow;
+    color: white;
+    border-width: 1px;
+    border-color: $PrimaryColor;
+    
+  }
+  dp-menubar ul li.ui-menuitem-active{ 
+    cursor: pointer;
+    // border-color: $PrimaryColor;
   }
   // dp-menubar ul li:hover{ 
   //   background-color:white;
@@ -821,7 +837,9 @@ dp-picklist {
 #dpHeaderContainer.clsNoMargin{
   margin-bottom:0px;
 }
- 
+#dpHeaderContainer .ui-menubar .ui-submenu-list{
+  border-width: 0px;
+}
 
 // @media screen and (max-width: 991px) {
 //   #dpHeaderContainer {height :200px;}
@@ -893,8 +911,8 @@ dp-table td > span{
 }
 
 #dpLoginBody{
-  height: 85%;
-  background-image: url('projects/dn-infra/src/assets/Images/LoginBG.png');
+  // height: 85%;
+  // background-image: url('projects/dn-infra/src/assets/Images/LoginBG.png');
   label{color:#424242;} 
   #dpLoginForgotContainer{color:#424242;}
   #username, #password{color:#8b8b8b;}
@@ -940,3 +958,4 @@ dp-table td > span{
     position: absolute;
   }
 }
+

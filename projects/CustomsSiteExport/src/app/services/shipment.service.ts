@@ -1,15 +1,17 @@
 import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 import { Shipment, ShipmentDetail } from '../models/shipment';
 import { ShipmentGP } from '../models/shipment';
 import { ShipmentG7 } from '../models/shipment';
+import { ShipmentTemp } from '../models/shipment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ShipmentService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,  public datepipe: DatePipe) {}
 
   get_data(url) {
     return this.http
@@ -22,6 +24,8 @@ export class ShipmentService {
   async getShipmentFromServer() {
     let shipment: any;
     // this.http.get('http://localhost/ExportCustomsWebAPI/Shipment/GetShipmentByKey').toPromise().then((data: {Status: string}) => {
+      // .get(environment.apiBaseUrl + 'Shipment/GetDefaultShipment')
+      // .get(environment.apiBaseUrl + 'Shipment/GetDefaultShipmentWithBigData')
     this.http
       .get(environment.apiBaseUrl + 'Shipment/GetShipmentByKey')
       .toPromise()
@@ -73,6 +77,53 @@ export class ShipmentService {
     return listG7;
   }
 
+  getGTList() {
+    let GTLines: ShipmentTemp[];
+    if (sessionStorage.getItem('currentShipment') != null) {
+      GTLines = JSON.parse(sessionStorage.getItem('currentShipment')).GTLines;
+    }
+    //  element.TM_Date = this.datepipe.transform(new Date(parseInt(elemen/t.TM_Date.substr(6))), 'dd/MM/yyyy');
+    GTLines.forEach( element => {
+      // tslint:disable-next-line: radix
+      element.TM_Date = new Date(parseInt(element.TM_Date.toString().substr(6)));
+      // element.TM_State = JSON.parse("{ name: 'BBB', code: 'T2' }");
+    });
+    return GTLines;
+  }
+
+  updateShipment(shipment: any) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      // const requestData = { username: userName, password: userPassword };
+      xhr.open('POST', environment.apiBaseUrl + '/Shipment/UpdateShipment', true);
+      xhr.setRequestHeader('Content-type', 'application/json;');
+      xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          // resolve(xhr.response);
+          if (JSON.parse(xhr.response).Status === 'OK') {
+            resolve('OK');
+          }
+          else{
+            resolve(xhr.response);
+          }
+        } else {
+          reject({
+            status: xhr.status,
+            statusText: xhr.statusText
+          });
+        }
+      };
+      xhr.onerror = () => {
+        reject({
+          status: xhr.status,
+          statusText: xhr.statusText
+        });
+      };
+      xhr.send(JSON.stringify(shipment));
+    });
+  }
+
+  /*
   updateShipment(shipment: any) {
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = () => {
@@ -90,6 +141,7 @@ export class ShipmentService {
     xhr.setRequestHeader('Content-type', 'application/json;');
     xhr.send(JSON.stringify(shipment));
   }
+  */
 
   updateG7(changes: ShipmentG7[]) {
     // const headers = new Headers();

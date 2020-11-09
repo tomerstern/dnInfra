@@ -46,8 +46,13 @@ body
   color: inherit !important;
 }
 .ng-invalid {
-  border: 2px solid red;
+  // border: 2px solid red;
+  // border-color: transparent;
   // border:inherit;
 }
 
-
+// .reveal-error{
+//   .ng-invalid{
+//     border-color:red;
+//   }
+// }

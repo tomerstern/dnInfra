@@ -25,7 +25,7 @@ export class DetailsComponent implements OnInit {
   InputNumberDef: InputNumberDefinitions;
   calendarDef: CalendarDefinitions;
   checkboxDef: CheckboxDefinitions;
-  selectedItemAutocomplete: string;
+  selectedItemAutocomplete: any;
   autocompleteDef: AutocompleteDefinitions;
   dataForAutocomplete: any[];
   openDateStr: Date;
@@ -49,14 +49,14 @@ export class DetailsComponent implements OnInit {
     this.InputNumberDef = new InputNumberDefinitions({});
     this.calendarDef = new CalendarDefinitions({minDate: new Date(2019, 6, 12), showTime: false});
     this.checkboxDef = new CheckboxDefinitions({});
-    this.selectedItemAutocomplete = this.detail.ActivityId;
+    this.selectedItemAutocomplete = JSON.parse('{ "name": "Type 3", "code": "T3" }');
     this.autocompleteDef = new AutocompleteDefinitions({
       isStandAlone: true, inputId: 'autoCompHTMLId', field : 'code',
       dp_AutocompleteType: 1, multiple: false, minLength: 1, placeholder : 'Activity Type', dropdown : true});
 
-    // this.shipmentService.get_data('assets/activityTypes.json').then(dataForAutocomplete => {
-    //   this.dataForAutocomplete = dataForAutocomplete;
-    // });
+    this.shipmentService.get_data('assets/activityTypes.json').then(dataForAutocomplete => {
+      this.dataForAutocomplete = dataForAutocomplete;
+    });
   }
 
   updateDetails()

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, forwardRef, Provider, EventEmitter, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import {CheckboxDefinitions} from './objects/checkbox-definitions';
+import { CheckboxDefinitions, CheckboxProperties } from './objects/checkbox-definitions';
 
 export const CB_CONTROL_VALUE_ACCESSOR: Provider = {
   provide: NG_VALUE_ACCESSOR,
@@ -15,7 +15,7 @@ export const CB_CONTROL_VALUE_ACCESSOR: Provider = {
   providers: [CB_CONTROL_VALUE_ACCESSOR]
 
 })
-export class CheckboxComponent implements OnInit, ControlValueAccessor  {
+export class CheckboxComponent implements OnInit, ControlValueAccessor {
 
   @Input() definition: CheckboxDefinitions = null;
   @Input() columnDefinition: any;
@@ -30,7 +30,17 @@ export class CheckboxComponent implements OnInit, ControlValueAccessor  {
 
 
   ngOnInit(): void {
- 
+    if (this.definition == null) {
+      this.definition = new CheckboxDefinitions({ isStandAlone: false });
+      if (this.columnDefinition.columnParams.params.length > 0) {
+        if (this.columnDefinition.columnParams.isKeyExist(CheckboxProperties.binary)) {
+          this.definition.binary = this.columnDefinition.columnParams.getValueByKey(CheckboxProperties.binary);
+        }
+        if (this.columnDefinition.columnParams.isKeyExist(CheckboxProperties.disabled)) {
+          this.definition.disabled = this.columnDefinition.columnParams.getValueByKey(CheckboxProperties.disabled);
+        }
+      }
+    }
   }
 
   public get innerValue(): any {

@@ -99,7 +99,7 @@ export class GpComponent implements OnInit {
     const column7 = new GridColumn({
       headername: 'Type',
       fieldname: 'GP_SUG_ARIZA',
-      type: this.gridColumnTypeEnum.dropdown,
+      type: this.gridColumnTypeEnum.autocomplete,
       columnParams: columnParams7,
       iseditable: true,
       ColumnDatasource: this.dataForAutocomplete,

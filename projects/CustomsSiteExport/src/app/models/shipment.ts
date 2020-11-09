@@ -50,7 +50,7 @@ export class ShipmentGP extends ShipmentKeys {
     GP_SIMANIM: string;
 
     // tslint:disable-next-line: variable-name
-    constructor(ShipmentNumber: number, Dept_Code: string, Shlifa_Order: number, State: string,
+    constructor(ShipmentNumber: number, Dept_Code: string, Shlifa_Order: number,
         // tslint:disable-next-line: variable-name
         GP_LineNumber: number, GP_MIS_SIDURI: number, GP_KAMUT_ARIZOT: number, GP_SUG_ARIZA: string,
         GP_MISHKAL_BRUTO: number, GP_NEFACH_BRUTO: number, GP_SIMANIM: string) {
@@ -74,7 +74,7 @@ export class ShipmentG7 extends ShipmentKeys {
     G7_MECHIR_YECHIDA: number;
     G7_ERECH_SCHORA: number;
 
-    constructor(ShipmentNumber: number, Dept_Code: string, Shlifa_Order: number, State: string,
+    constructor(ShipmentNumber: number, Dept_Code: string, Shlifa_Order: number,
         G7_LineNumber: number, G7_MIS_SIDURI: number, G7_PRAT_MECHES: string, 
         G7_YECHIDAT_MIDA: number, G7_KAMUT: number, G7_MECHIR_YECHIDA: number, G7_ERECH_SCHORA: number) {
         super(ShipmentNumber, Dept_Code, Shlifa_Order);
@@ -88,15 +88,40 @@ export class ShipmentG7 extends ShipmentKeys {
     }
 }
 
+export class ShipmentTemp extends ShipmentKeys {
+    TM_LineNumber: number;
+    TM_Date: Date;
+    TM_IsActive: boolean;
+    TM_Name: string;
+    TM_Num: number;
+    TM_State: string;
+    TM_State_Name: string;
+
+    constructor(ShipmentNumber: number, Dept_Code: string, Shlifa_Order: number,
+        TM_LineNumber: number, TM_Date: Date, TM_IsActive: boolean,
+        TM_Name: string, TM_Num: number, TM_State: string, TM_State_Name: string) {
+        super(ShipmentNumber, Dept_Code, Shlifa_Order);
+        this.TM_LineNumber = TM_LineNumber;
+        this.TM_Date = TM_Date;
+        this.TM_IsActive = TM_IsActive;
+        this.TM_Name = TM_Name;
+        this.TM_Num = TM_Num;
+        this.TM_State = TM_State;
+        this.TM_State_Name = TM_State_Name;
+    }
+}
+
 export class Shipment extends ShipmentKeys {
     Details: ShipmentDetail;
     GPLines: ShipmentGP[];
     G7Lines: ShipmentG7[];
+    GTLines: ShipmentTemp[];
 
     constructor() {
         super(0, '', 0);
         this.Details = new ShipmentDetail(0, '', 0, '', '', '', '', 0, 0);
         this.GPLines = [];
         this.G7Lines = [];
+        this.GTLines = [];
     }
 }

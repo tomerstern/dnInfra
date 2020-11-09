@@ -3,6 +3,12 @@ import { CalendarDefinitions } from 'projects/dn-infra/src/lib/dp/components/cal
 import { ShipmentService } from '../app/services/shipment.service';
 import { Store } from '@ngrx/store';
 import { getAppState } from 'projects/dn-infra/src/lib/dp/store/selectors';
+import { addRow,
+  deleteRow,
+  updateRow,
+  updateTable,
+  addValidationError,
+  clearStateChanges } from 'projects/dn-infra/src/lib/dp/store/actions';
 import { map, take } from 'rxjs/operators';
 import { Shipment } from '../app/models/shipment';
 
@@ -37,6 +43,7 @@ export class AppComponent implements OnInit {
       shipment = JSON.parse(sessionStorage.getItem('currentUpdShipment'));
       shipment.G7Lines = [];
       shipment.GPLines = [];
+      shipment.GTLines = [];
     }
     else
     {
@@ -73,12 +80,33 @@ export class AppComponent implements OnInit {
                 });
               }
             }
+
+            if (table === 'gtTableId')
+            {
+              const tableChangesGT = state.tables[table].changes;
+              if (tableChangesGT) {
+                Object.keys(tableChangesGT).forEach((key) => {
+                  const copyGT = { ...tableChangesGT[key] };
+                  delete copyGT.State;
+                  shipment.GTLines.push(copyGT);
+                });
+              }
+            }
           });
         })
       )
       .subscribe();
     sessionStorage.setItem('currentUpdShipment', JSON.stringify(shipment));
-    this.shipmentService.updateShipment(shipment);
-
+    this.shipmentService.updateShipment(shipment).then(data => {
+      if (data === 'OK')
+      {
+        const tables: string[] = ['gpTableId', 'g7TableId', 'gtTableId'];
+        this.store.dispatch(clearStateChanges({ data: { tableIds: tables} }));
+      }
+      else{
+        // errMes = errMes.replace('\u00277', '"');
+        alert('Fail on Save:' + data);
+      }
+    });
   }
 }

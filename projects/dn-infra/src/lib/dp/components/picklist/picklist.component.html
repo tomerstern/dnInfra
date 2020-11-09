@@ -1,4 +1,5 @@
-<p-pickList [source]="sourceList" [target]="targetList" sourceHeader="Available" targetHeader="Selected" dragdrop="true"
+<p-pickList [title]="tableId"  [source]="sourceList" [target]="targetList" sourceHeader="Available" targetHeader="Selected" dragdrop="true"
+(onMoveToSource)="saveInLocalStorage($event)" (onMoveToTarget)="saveInLocalStorage($event)"
     [responsive]="true" [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}" filterBy="name"
     sourceFilterPlaceholder="Search by name" targetFilterPlaceholder="Search by name">
     <ng-template let-listItem pTemplate="item">

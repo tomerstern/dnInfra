@@ -58,7 +58,6 @@ export class AutocompletetestComponent implements OnInit {
   }
 
   handleResult(res: any, id: number) {
-    debugger;
     if (res === undefined || id === undefined) {
       return;
     }

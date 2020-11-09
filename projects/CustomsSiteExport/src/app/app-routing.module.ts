@@ -9,6 +9,7 @@ import { Test4Component } from './components/test/test4/test4.component';
 import { DetailsComponent } from './components/shipment/details/details.component';
 import { GpComponent } from './components/shipment/gp/gp.component';
 import { G7Component } from './components/shipment/g7/g7.component';
+import { GtComponent } from './components/shipment/gt/gt.component';
 const routes: Routes = [
   // // {path: '',  component: AppComponent},
   // { path: '', component: LoginComponent },
@@ -18,7 +19,8 @@ const routes: Routes = [
   { path: 'test4', component: Test4Component },
   { path: 'details', component: DetailsComponent },
   { path: 'gp', component: GpComponent },
-  { path: 'p7', component: G7Component }
+  { path: 'p7', component: G7Component },
+  { path: 'gt', component: GtComponent }
 ];
 
 @NgModule({

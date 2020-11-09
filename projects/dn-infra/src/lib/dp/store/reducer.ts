@@ -20,7 +20,6 @@ const reducer = createReducer(initialState,
         }
     }),
     on(updateRow, (state, action): any => {
-        // debugger
         let newChanges = {};
         let key;
         let stateToSet;
@@ -101,7 +100,11 @@ const reducer = createReducer(initialState,
     on(clearStateChanges, (state, action): any => {
         for (const tableId of action.data.tableIds) {
             const newDataArray = [];
-            // ziv - Maybe use a filter which removed all refKey elements?
+            // ziv - Maybe use a filter which removes all refKey elements?
+            if (state[tableId] === undefined)
+            {
+                continue;
+            }
             for (const row of state[tableId].data) {
                 const newRow = { ...row };
                 delete newRow.refKey;

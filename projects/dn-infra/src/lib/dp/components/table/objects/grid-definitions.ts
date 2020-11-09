@@ -47,7 +47,8 @@ export interface IGridColumn {
     ColumnTotal?: boolean;
     LocaleString?: boolean;
     HeaderClassNames?: string; /*for frozen columns*/
-    fieldId?: string;
+    fieldCode?: string;
+    filterMatchMode?: string;
 }
 
 
@@ -56,7 +57,7 @@ export enum GridColumnType {
     checkbox = 11,
     button = 12,
     autocomplete = 13,
-    
+    dropdown = 14,
     image = 15,
     inputnumber = 16,
     calendar = 17
@@ -195,7 +196,8 @@ export class GridColumn implements IGridColumn {
     ColumnTotal: boolean;
     LocaleString: boolean;
     HeaderClassNames: string; /*for Frozen Cols*/
-    fieldId: string;
+    fieldCode: string;
+    filterMatchMode: string;
     constructor(params: IGridColumn) {
         this.headername = params.headername;
         this.fieldname = params.fieldname;
@@ -217,5 +219,6 @@ export class GridColumn implements IGridColumn {
         this.ColumnTotal = (params.ColumnTotal == null || params.ColumnTotal === undefined ? false : params.ColumnTotal);
         this.LocaleString = (params.LocaleString == null || params.LocaleString === undefined ? false : params.LocaleString);
         this.HeaderClassNames = (params.HeaderClassNames == null || params.HeaderClassNames === undefined ? '' : params.HeaderClassNames);
+        this.filterMatchMode = (params.filterMatchMode == null ? 'contains' : params.filterMatchMode);
     }
 }

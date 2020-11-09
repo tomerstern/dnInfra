@@ -6,9 +6,9 @@ import { AppComponent } from './app.component';
 import { DnInfraModule } from 'projects/dn-infra/src/public-api'; /* before build */
 
 // import ngx-translate and the http loader
-import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './components/header/header.component';
 import { Test1Component } from './components/test/test1/test1.component';
 import { Test2Component } from './components/test/test2/test2.component';
@@ -29,6 +29,8 @@ import { G7Component } from './components/shipment/g7/g7.component';
 import { GpComponent } from './components/shipment/gp/gp.component';
 import { MaintabComponent } from './components/shipment/maintab/maintab.component';
 import { DetailsComponent } from './components/shipment/details/details.component';
+import { GtComponent } from './components/shipment/gt/gt.component';
+import { DeclarationComponent } from './components/declaration/declaration.component';
 
 // export function configService(configService: ConfigService) {
 //   return () => configService.load();
@@ -47,7 +49,9 @@ import { DetailsComponent } from './components/shipment/details/details.componen
     G7Component,
     GpComponent,
     MaintabComponent,
-    DetailsComponent
+    DetailsComponent,
+    GtComponent,
+    DeclarationComponent
   ],
 
   imports: [
@@ -61,14 +65,14 @@ import { DetailsComponent } from './components/shipment/details/details.componen
     //    loader: {provide: TranslateLoader, useClass: CustomLoader}
     // })
     TranslateModule.forRoot({
-        loader: {
-            provide: TranslateLoader,
-            useFactory: HttpLoaderFactory,
-            deps: [HttpClient],
-        }
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      }
     })
     // ,FontAwesomeModule
-    ],
+  ],
 
   providers: [
     {
@@ -95,7 +99,8 @@ import { DetailsComponent } from './components/shipment/details/details.componen
 export class AppModule { }
 
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http);
+  // return new TranslateHttpLoader(http);
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json'); /* fix bulid / publish */
 }
 export function appInitializerFactory(translate: TranslateService, injector: Injector) {
   return () => new Promise<any>((resolve: any) => {

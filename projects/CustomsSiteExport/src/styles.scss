@@ -1,1 +1,33 @@
 /* You can add global styles to this file, and also import other style files */
+
+.HeaderTable1
+{
+	border-right: #b9b76c 1px solid;
+	border-top: #b9b76c 1px solid;
+	font-weight: normal;
+	font-size: 16px;
+	border-left: #b9b76c 1px solid;
+	border-bottom: #b9b76c 1px solid;
+	font-family: 'Arial';
+    background-color: rgb(255,204,0);    
+    padding: 3px;   
+}
+
+.HeaderBG1
+{
+	font-weight: bold;
+	font-size: 16px;
+	color: white;
+	font-family: 'Arial';
+	background-color: rgb(202,3,0);
+}
+
+.HeaderBG2
+{
+	font-weight: bold;
+	font-size: 16px;
+	color: black;
+	font-family: 'Arial';
+}
+
+.HeaderTableDelimiter1 { BACKGROUND-COLOR: #b9b76c;}

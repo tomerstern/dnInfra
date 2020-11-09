@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  name : 'Dev',  
+  name : 'Dev',
+  // apiBaseUrl : 'http://localhost/ExportCustomsWebAPI/'
+  // apiBaseUrl : 'http://import-iis-dev:8090/'
   apiBaseUrl : 'http://import-iis-dev:8090/'
 };
 

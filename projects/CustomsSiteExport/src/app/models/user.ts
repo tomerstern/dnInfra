@@ -7,7 +7,17 @@ export class User {
     EMail: string;
     Phone: string;
 
-//   constructor(UserId: string) {
-//     this.UserId = UserId;
-//   }
+    //   constructor(UserId: string) {
+    //     this.UserId = UserId;
+    //   }
+}
+
+
+export class UserMenu {
+    Id: number;
+    Name: string;
+    URL: string;
+    TreeLevel: number;
+    TreePath: string;
+    TreePathNumber: number;
 }

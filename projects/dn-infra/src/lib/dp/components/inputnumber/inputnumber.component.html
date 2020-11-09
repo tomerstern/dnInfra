@@ -1,4 +1,4 @@
-<p-inputNumber (onBlur)="blurEvent.emit(innerValue)" [(ngModel)]="innerValue"
+<p-inputNumber (onFocus)="$event.target.select()" (onBlur)="blurEvent.emit(innerValue)" [(ngModel)]="innerValue"
 [mode]="definition.mode" [min]="definition.min" [max]="definition.max" [maxlength]="definition.maxlength" 
 [maxFractionDigits]="definition.maxFractionDigits" [minFractionDigits]="definition.minFractionDigits"
 [currency]="definition.currency" [step]="definition.step" [prefix]="definition.prefix" [suffix]="definition.suffix" 

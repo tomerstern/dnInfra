@@ -11,7 +11,7 @@ import {
   faColumns
 } from '@fortawesome/free-solid-svg-icons';
 import { InputNumberProperties } from '../inputnumber/objects/inputnumber-definitions';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { addRow, deleteRow, updateRow, updateTable, addValidationError } from '../../store/actions';
 import { getTableStateById, getTableLengthById } from '../../store/selectors';
 import { debounceTime, distinctUntilChanged, map, take } from 'rxjs/operators';
@@ -19,12 +19,19 @@ import { DpDialogService, DpDynamicDialogRef } from '../dynamicdialog/Objects/dy
 import { ColumnSelectionComponent } from './columnSelection/column-selection/column-selection.component';
 import { MessageService } from 'primeng/api'; /* only for showing return value */
 import { NgForm } from '@angular/forms';
+import { getAppState } from 'projects/dn-infra/src/lib/dp/store/selectors';
+import { ConfirmdialogDefinitions, positionDpConfirmdialog } from 'projects/dn-infra/src/lib/dp/components/confirmdialog/Objects/confirmdialog-definitions';
+import { ConfirmationService } from 'primeng/api';
+
+interface MultiselectOptions {
+  value?: string;
+}
 
 @Component({
   selector: 'dp-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
-  providers: [TableStoreService, DpDialogService, MessageService],
+  providers: [TableStoreService, DpDialogService, MessageService, ConfirmationService],
   encapsulation: ViewEncapsulation.None,
 })
 export class TableComponent implements OnInit, OnChanges, AfterViewInit {
@@ -39,6 +46,7 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
   toggleFilter: boolean;
   isEditable: boolean;
   isFooter = false;
+  revealErrs = false;
   isfrozenCols = false;
   frozenColsIndex = 0;
   frozenCols: any[];
@@ -62,6 +70,7 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
   newRow = {};
   inputNumberProperties = InputNumberProperties;
   gridColumnTypeEnum = GridColumnType;
+  filterCheckboxInitialValue = false;
   @ViewChild('dt') table: Table;
   @ViewChild('testEl') testEl: ElementRef;
 
@@ -75,21 +84,52 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
   faFilter = faFilter;
   faPlus = faPlus;
   faColumns = faColumns;
+  multiselectOptions: MultiselectOptions[];
+  selectedOptions: string[] = [];
+  index: any;
+
   constructor(
     public dialogService: DpDialogService,
     public messageService: MessageService,
-    private store: Store<any>
+    private store: Store<any>,
+    private confirmationService: ConfirmationService
   ) { }
+
+  confirmdialogDef: ConfirmdialogDefinitions = new ConfirmdialogDefinitions({
+    header: 'מחיקת שורה', message: '?האם אתה בטוח',
+    accept: () => {
+      this.deleteRow(this.index);
+    },
+    reject: () => {
+      return;
+    }
+  });
+
+  delete(ind, cd) {
+    this.index = ind;
+    cd.dp_confirm();
+  }
 
   ngAfterViewInit() {
     this.IsTableHScroll = this.dpIsHScroll(this.table);
     // changeDetection: ChangeDetectionStrategy.OnPush  that exixst fixes "Expression has changed after it was checked."
+
+    // this.table.native
+    // document.querySelectorAll('.')
+    // debugger
+    // const tableEl: HTMLElement = this.table.el.nativeElement;
+    // tableEl.querySelectorAll('.ui-table-wrapper')[0].setAttribute('max-height', '200px');
+    // tableEl.querySelectorAll('.ui-table-wrapper')[0].setAttribute('style', 'max-height:199px;');
+    // wrap.;
+
   }
 
 
   ngOnInit() {
     this.obj = { background: 'red', color: 'green' };
     this.exportColumns = this.definition.columns.map(col => ({ title: col.headername, dataKey: col.fieldname }));
+    this.checkLocalStorage();
+
     this.setIsEditable();
     this.setIsFooter();
     this.isColumnsWidthDefined = this.ColumnsWidthDefined();
@@ -114,9 +154,19 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
   }
+  checkLocalStorage() {
+    // check if Table's selected Columns are in Local Storage
+    if ((this.tableId + '_trgt' in localStorage) && (this.tableId + '_src' in localStorage)) {
+      const lsColumns: any[] = JSON.parse(localStorage.getItem(this.tableId + '_src'));
+      for (const column of lsColumns) {
+        const columnName = column.fieldname; // Item to remove
+        this.definition.columns = this.definition.columns.filter(obj => obj.fieldname !== columnName);
+      }
+    }
+  }
 
   updateRow(columnField: string, row: object, val: any, rowIndex: number, myForm: any,
-    columnFieldId?: string) {
+    columnFieldCode?: string) {
     // debugger
     if (val === undefined) {
       return;
@@ -129,11 +179,11 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     }
     else {
       // autocomplete
-      newRow = { ...row, ...{ [columnFieldId]: val.code, [columnField]: val.name } };
+      newRow = { ...row, ...{ [columnFieldCode]: val.code, [columnField]: val.name } };
     }
     // const newRow = { ...row, ...{ [columnField]: val } };
     this.store.dispatch(updateRow({ row: newRow, rowIndex, tableId: this.tableId }));
-    //this.getFormValidationErrors(myForm);
+    // this.getFormValidationErrors(myForm);
     console.log(newRow);
   }
 
@@ -143,6 +193,7 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
       header: 'Choose Columns',
       width: '70%',
       data: {
+        tableId: this.tableId,
         sourceList: this.sourceList,
         // targetList: this.targetList
         targetList: Tlist
@@ -181,23 +232,6 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
   toggleFn(el: HTMLElement) {
     console.log(el);
   }
-
-
-  // if at least one of the columns is editable then the grid is editable and we add add and delete buttons
-
-  // setIsEditable() {
-  //   this.isEditable = false;
-  //   let isColumnEditable = false;
-  //   this.definition.columns.forEach((column) => {
-
-  //     if (column.iseditable) {
-  //       isColumnEditable = true;
-  //     }
-  //   });
-  //   if (isColumnEditable) {
-  //     this.isEditable = true;
-  //   }
-  // }
 
   setIsEditable() {
     for (const column of this.definition.columns) {
@@ -249,7 +283,6 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   deleteRow(id) {
-    // delete this.datasource[id];
     this.store.dispatch(deleteRow({ data: { tableId: this.tableId, rowIndex: id } }));
   }
 
@@ -265,8 +298,7 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
       const columnName = column.fieldname;
       row[columnName] = '';
     });
-    // row.state = 4;
-    // const maxIndex = Math.max.apply(null, this.datasource.map(item => item.dpIndex));
+
     return row;
   }
 
@@ -294,7 +326,6 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
         });
       });
     });
-
   }
 
   exportExcel() {
@@ -320,8 +351,43 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     const boo = this.selectedEntity;
   }
 
-  onDateSelect(value) {
-    this.table.filter(value, 'date', 'equals');
+  onDateSelect(value, fieldname) {
+    this.table.filter(value, fieldname, 'equals');
+  }
+
+  filterMultiselect(event, column) {
+    event.value.forEach(function (x) {
+      this.selectedOptions.push(x.value);
+    }, this);
+
+    this.table.filter(this.selectedOptions, column.fieldname, 'in');
+    this.selectedOptions = [];
+  }
+
+  setOptions(column) {
+    this.multiselectOptions = [];
+    this.store.select(getAppState).pipe(take(1), map(state => {
+      Object.keys(state.tables).forEach(table => {
+        if (table === this.tableId) {
+          const tableData = state.tables[table].data;
+          tableData.forEach(function (x) {
+            const newOption = { value: x[column.fieldname] };
+            this.multiselectOptions.push(newOption);
+          }, this);
+        }
+      });
+    })).subscribe();
+  }
+  onFilterCheckbox(value, fieldname) {
+    let filter = 'true';
+    if (value == null) {
+      filter = 'false';
+    }
+    else if (!value) {
+      filter = '';
+    }
+
+    this.table.filter(filter, fieldname, 'equals');
   }
 
   dpInitArrDatasourceKeys() {
@@ -373,7 +439,6 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
       }
 
       this.ArrFooterCells.push(tmpStr1 + tmpStr2);
-
       this.FooterArrObj[column.fieldname] = tmpStr1 + tmpStr2;
 
       // this.jsonFooterArr.push({
@@ -389,7 +454,38 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
 
   }
 
+  dpCalculateTotalRows(ind, column, table, LocaleString): string {
+    let strSum = '';
+    this.store.pipe(select(getTableStateById(this.tableId)), take(1), map(data => data)).subscribe(tableData => {
+      strSum = (LocaleString ? tableData.length.toLocaleString() : tableData.length.toString());
+    });
+    return strSum;
+  }
+
   dpCalculateColumnSum(index, column, table, LocaleString): string {
+    let sum = 0;
+    let strSum = '0';
+    let i = 0;
+    this.store.pipe(select(getTableStateById(this.tableId)), take(1), map(data => data)).subscribe(tableData => {
+      for (i = 0; i < tableData.length; i++) {
+        if (tableData[i][this.ArrDatasourceKeys[index]] !== undefined) {
+          if (typeof tableData[i][this.ArrDatasourceKeys[index]] === 'number') {
+            sum += tableData[i][this.ArrDatasourceKeys[index]];
+          }
+        }
+      }
+      if (this.isInteger(sum)) { /* dont format .00*/
+        strSum = (LocaleString ? sum.toLocaleString() : sum.toString());
+      } else {
+        strSum = (LocaleString ? (Math.round(sum * 100) / 100).toFixed(2).toLocaleString() : (Math.round(sum * 100) / 100).toFixed(2));
+      }
+    });
+
+    return strSum;
+  }
+
+  dpCalculateColumnSum_ByDataSource(index, column, table, LocaleString): string {
+
     let sum = 0;
     let strSum = '0';
     let i = 0;
@@ -437,7 +533,7 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
 
-  dpCalculateTotalRows(ind, column, table, LocaleString): string {
+  dpCalculateTotalRows_ByDataSource(ind, column, table, LocaleString): string {
     let strSum = '';
     if (this.datasource !== undefined) {
       strSum = (LocaleString ? this.datasource.length.toLocaleString() : this.datasource.length.toString());
@@ -445,12 +541,10 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     return strSum;
   }
 
-
   isInteger(n) {
     // tslint:disable-next-line: no-bitwise
     return n === +n && n === (n | 0);
   }
-
 
   dpFreezeColumns(dt, LocFrozenWidth) {
     // console.log('frozenColsCounter=' + this.frozenColsCounter);
@@ -459,15 +553,18 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     this.isFreezeColumnActive = true;
     this.frozenWidth = LocFrozenWidth;
 
-    const Elems = dt.el.nativeElement.querySelectorAll('.ui-table-scrollable-view');
-    const Elem = Elems[1];
+    // const Elems = dt.el.nativeElement.querySelectorAll('.ui-table-scrollable-view');
+    // const Elem = Elems[1];
+    // Elem.setAttribute('style', 'max-height:199px;');
+
+    // const wrappers = dt.table.el.nativeElement.querySelectorAll('.ui-table-wrapper');
+    // tableEl.querySelectorAll('.ui-table-wrapper')[0].setAttribute('max-height', '200px');
+    // tableEl.querySelectorAll('.ui-table-wrapper')[0].setAttribute('style', 'max-height:199px;');
 
   }
 
   log(val) { console.log(val); }
   // {{log('repeat')}}
-
-
 
   dpIsHScroll(dt): boolean {
     try {
@@ -517,34 +614,34 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     }
   }
 
-
   dpFreezeColumndrop(event, columnInd, dt) {
 
     if (this.frozenColsCounter >= 0) {
       return;
     }
 
-
     this.frozenButtonClasses = 'clsBtnFreezeCols clsBtnFreezeColsSelected';
     this.frozenButtonText = 'לחץ עלי לבטל נעילה';
     this.frozenColsCounter = columnInd;
-
 
     if (this.dpIsHScroll(dt) === false) {
       return;
     }
 
-
     let LocWidth = 0;
     this.HeadersHeight = this.dpCalcHeadersHeight(dt);
 
-    LocWidth = this.dpCalcFreezeColumnsWidth(dt);
+    // make sure table is scrollable:true before freezing columns
+    // if (this.definition.isFreezeColumns === true) {
+    //    this.definition.scrollable = true;
+    // }
+    // this.definition.scrollable = true;
 
+    LocWidth = this.dpCalcFreezeColumnsWidth(dt);
     this.dpFreezeColumns(dt, LocWidth + 'px');
 
     // this.dpCreateFooterData();
   }
-
 
   dpUnFreezeCols() {
     this.frozenColsCounter = -1;
@@ -555,7 +652,6 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     this.isFreezeColumnActive = false;
     this.frozenWidth = '0px';
   }
-
 
   dpCalcFreezeColumnsWidth(dt) {
     let LocWidth = 0;
@@ -583,7 +679,6 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     return LocHeight;
   }
 
-
   ColumnsWidthDefined() {
     return true;
   }
@@ -596,7 +691,9 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     const Elem = Elems[1];
     Elem.classList.add('ui-table-unfrozen-view');
     // ui-table-scrollable-view -> ui-table-unfrozen-view
-
   }
 
+  isChecked(e) {
+    alert("On Change:" + e.checked);
+  }
 }

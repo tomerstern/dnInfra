@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ButtonDefinitions } from 'projects/dn-infra/src/lib/dp/components/button/objects/button-definitions';
@@ -13,7 +13,8 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class LoginComponent implements OnInit {
   // , translate: TranslateService, injector: Injector
@@ -26,7 +27,23 @@ export class LoginComponent implements OnInit {
     this.btnLoginDef = new ButtonDefinitions({ label: 'LOGIN' });
   }
 
+
+
+
+
   login() {
+    // debugger;
+    // const res = this.userService.getLoginUser('gil', 'pass');
+    this.userService.getLoginUser('FEDEX', 'FEDEX').then(data => {
+      console.log('gil');
+      console.log(data);
+    });
+
+    // if (LoginUser === undefined) {
+    //   alert('No Permission');
+    //   return;
+    // }
+ 
     let Currentlang = 'en';
     if (this.loginUsername === 'user_ru') {
       localStorage.setItem('dpGLang', 'ru');
@@ -51,6 +68,7 @@ export class LoginComponent implements OnInit {
   }
 
 
+}
 
   // test4() {
 
@@ -75,5 +93,3 @@ export class LoginComponent implements OnInit {
 
 
 
-
-}

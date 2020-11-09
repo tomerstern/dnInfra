@@ -11,15 +11,22 @@ export class ColumnSelectionComponent implements OnInit {
 
   constructor(public ref: DynamicDialogRef, public config: DynamicDialogConfig) { }
 
-  //@Input() 
+  //@Input()
+  tableId:string; 
   DialogSourceList: any[] = [];
   DialogTargetList: any[] = [];
 
   ngOnInit(): void {
-
+    this.tableId=this.config.data.tableId
+    //alert("This Table ID:"+this.tableId);
+    //console.log("started");
     //debugger
-    this.DialogSourceList = this.config.data.sourceList;
-    this.DialogTargetList = this.config.data.targetList;
+    
+
+      this.DialogSourceList = this.config.data.sourceList;
+      this.DialogTargetList = this.config.data.targetList;
+
+ 
     //let a = this.config.data;
 
     // let b =3

@@ -18,6 +18,7 @@ import { map, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { getAppState } from 'projects/dn-infra/src/lib/dp/store/selectors';
 import { addRow, deleteRow, updateRow, updateTable, addValidationError, clearStateChanges } from 'projects/dn-infra/src/lib/dp/store/actions';
+import { CheckboxProperties } from 'projects/dn-infra/src/lib/dp/components/checkbox/objects/checkbox-definitions';
 
 // import { TableComponent } from 'projects/dn-infra/src/lib/dp/components/table/table.component';
 
@@ -41,7 +42,7 @@ export class TabletestComponent implements OnInit {
   validationErrors1: string;
   // dataForAc3: Country[]; // Country
 
-  dataForAc3: any[] = [{ name: 'Afghanistan', code: 'AF' }, { name: 'Albania', code: 'AL' }, { name: 'Angola', code: 'AO' },
+  dataForAc3: any[] = [{ name: 'Afganistan', code: 'AF' }, { name: 'Albania', code: 'AL' }, { name: 'Angola', code: 'AO' },
   { name: 'Anguilla', code: 'AI' }, { name: 'brazil', code: 'BR' }];
 
   ngOnInit(): void {
@@ -63,7 +64,7 @@ export class TabletestComponent implements OnInit {
 
     this.gridDefinition2 = new GridDefinitions({
       dataKey: 'id',
-      columns:columns2,
+      columns: columns2,
       toolbar: true,
       selectionMode: 'single',
       onAfterDelete: (param) => {
@@ -114,7 +115,7 @@ export class TabletestComponent implements OnInit {
 
     const column1 = new GridColumn({
       headername: 'Shipment',
-      fieldname: 'ShipmentNumber',
+      fieldname: 'ShipmentNumber'
     });
     columns.push(column1);
 
@@ -163,11 +164,14 @@ export class TabletestComponent implements OnInit {
     });
     columns.push(column1);
 
+    const columnParams2: GridColumnParams = new GridColumnParams();
+    columnParams2.addParam(CheckboxProperties.disabled, 'true');
     const column2 = new GridColumn({
       headername: 'Is Active',
       fieldname: 'IsActive',
+      columnParams: columnParams2,
       type: this.gridColumnTypeEnum.checkbox,
-      iseditable: true,
+      iseditable: false
     });
     columns.push(column2);
 
@@ -182,9 +186,8 @@ export class TabletestComponent implements OnInit {
     columnParams3.addParam(AutocompleteProperties.multiple, false);
     columnParams3.addParam(AutocompleteProperties.dropdown, true);
 
-
     const column3 = new GridColumn({
-      headername: 'Country', fieldname: 'country_name', fieldId: 'country_id', 
+      headername: 'Country', fieldname: 'country_name', fieldCode: 'country_id',
       type: this.gridColumnTypeEnum.autocomplete, columnParams: columnParams3,
       iseditable: true,
       ColumnDatasource: this.dataForAc3, isMandatory: true
@@ -234,12 +237,11 @@ export class TabletestComponent implements OnInit {
   }
 
   SaveCutomers() {
-    
+    debugger
     const changes = [];
     this.store.select(getAppState).pipe(take(1), map(state => {
       Object.keys(state.tables).forEach(table => {
         const tableChanges = state.tables[table].changes;
-        debugger
         this.validationErrors1 = JSON.stringify(state.tables[table].validationErrors);
         if (tableChanges) {
           Object.keys(tableChanges).forEach(key => {
@@ -250,8 +252,12 @@ export class TabletestComponent implements OnInit {
         }
       });
     })).subscribe();
-    // this.store.dispatch(deleteRow({ data: { tableId: this.tableId, rowIndex: id } }));
+    // this.store.dispatch(deleteRow({ data: { tableId: '1000', rowIndex: id } }));
     const tables: string[] = ['table1', 'table2'];
-    this.store.dispatch(clearStateChanges({ data: { tableIds: tables} }));
+    this.store.dispatch(clearStateChanges({ data: { tableIds: tables } }));
+  }
+
+  deleteRow() {
+
   }
 }

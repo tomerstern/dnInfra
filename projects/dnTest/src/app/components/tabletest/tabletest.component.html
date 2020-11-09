@@ -2,13 +2,13 @@
     <div class="p-toolbar-group-left">
         <!-- <button pButton pRipple label="Save" icon="pi pi-save" class="p-button-success p-mr-2"
             (click)="SaveCutomers([table1.dataState$])"></button> -->
-            <button pButton pRipple label="Save" (click)="SaveCutomers()" icon="pi pi-save" class="ui-button ui-button-dp p-mr-2"
+            <button pButton pRipple label="Save" (click)="SaveCutomers(); table1.revealErrs = true" icon="pi pi-save" class="ui-button ui-button-dp p-mr-2"
             ></button>
     </div>
 </p-toolbar>
 Validation Error: {{validationErrors1}}
-<dp-table tableId="table1" [definition]="gridDefinition" [datasource]="customers"></dp-table>
-<dp-table tableId="table2" [definition]="gridDefinition" [datasource]="customers"></dp-table>
+<dp-table tableId="table1" #table1 [definition]="gridDefinition" [datasource]="customers"></dp-table>
+<dp-table tableId="table2" [definition]="gridDefinition2" [datasource]="customers"></dp-table>
     <!-- <br>
     <br>
     <br>

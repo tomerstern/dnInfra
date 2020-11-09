@@ -4,7 +4,7 @@ export interface ICheckboxDefinitions {
     disabled?: boolean;
 }
 
-export class CheckboxDefinitions implements ICheckboxDefinitions {
+export class CheckboxDefinitions implements ICheckboxDefinitions {    
     isStandAlone: boolean;
     binary: boolean;
     disabled: boolean;
@@ -15,3 +15,7 @@ export class CheckboxDefinitions implements ICheckboxDefinitions {
     }
 }
 
+export enum CheckboxProperties {
+    disabled = 'disabled',
+    binary = 'binary'
+  }

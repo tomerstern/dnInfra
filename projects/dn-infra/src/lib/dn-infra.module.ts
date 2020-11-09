@@ -11,7 +11,7 @@ import {
   TabViewModule,
   TreeModule,
   ButtonModule, InputTextModule, InputNumberModule, TableModule, TabMenuModule, PickListModule, DragDropModule,
-  DynamicDialogModule, TooltipModule,
+  DynamicDialogModule, TooltipModule, TriStateCheckboxModule, MultiSelectModule
 } from 'primeng';
 import { ChartModule } from 'primeng/chart';
 import { AutocompleteComponent } from './dp/components/autocomplete/autocomplete.component';
@@ -54,6 +54,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     ChartModule,
     BrowserAnimationsModule,
     CheckboxModule,
+    TriStateCheckboxModule,
+    MultiSelectModule,
     AutoCompleteModule, ContextMenuModule, SplitButtonModule, ToastModule, ConfirmDialogModule,
     MenubarModule, DialogModule, TabViewModule, TreeModule, ButtonModule,
     InputTextModule,
@@ -86,6 +88,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     ChartModule,
     BrowserAnimationsModule,
     CheckboxModule,
+    TriStateCheckboxModule,
+    MultiSelectModule,
     AutoCompleteModule, ContextMenuModule, SplitButtonModule, ToastModule, ConfirmDialogModule,
     MenubarModule, DialogModule, TabViewModule, TreeModule, ButtonModule,
     InputTextModule,
