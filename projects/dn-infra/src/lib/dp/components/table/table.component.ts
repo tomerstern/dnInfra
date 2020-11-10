@@ -105,7 +105,6 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     header: 'מחיקת שורה', message: '?האם אתה בטוח',
     accept: () => {
       this.deleteRow(this.index);
-      this.getFormValidationErrors();
     },
     reject: () => {
       return;
@@ -290,6 +289,8 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
 
   deleteRow(id) {
     this.store.dispatch(deleteRow({ data: { tableId: this.tableId, rowIndex: id } }));
+    delete this.errors[this.tableId][`row${id}`];
+    this.getFormValidationErrors();
   }
 
   addRow() {
@@ -415,13 +416,13 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     setTimeout(() => {
       const form = (this.tableForm.form.controls[this.tableId] as FormArray).controls;
       // we can check what the form status is before looping over it
-
       if (this.tableForm.form.controls[this.tableId].status === 'INVALID') {
         if (!this.errors[this.tableId]) {
           this.errors[this.tableId] = {};
         }
         Object.keys(form).forEach(key => {
           if (form[key].status === 'INVALID') {
+
             if (!this.errors[this.tableId][key]) {
               this.errors[this.tableId][key] = {};
             }
