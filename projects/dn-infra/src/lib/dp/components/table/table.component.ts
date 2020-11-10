@@ -189,7 +189,7 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     }
     // const newRow = { ...row, ...{ [columnField]: val } };
     this.store.dispatch(updateRow({ row: newRow, rowIndex, tableId: this.tableId }));
-    // this.getFormValidationErrors(myForm);
+    this.getFormValidationErrors();
   }
 
   showDynamicdialog1() {
@@ -426,7 +426,6 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
         });
       }
       this.getErrors.emit(this.errors);
-      console.log(this.errors);
     }, 0);
     return;
 
