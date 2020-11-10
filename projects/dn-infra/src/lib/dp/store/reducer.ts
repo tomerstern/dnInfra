@@ -86,16 +86,19 @@ const reducer = createReducer(initialState,
         return ({ ...state, ...newTableData });
     }),
     on(addValidationError, (state, action): any => {
-        const newData = {
-            data: state[action.data.tableId].data,
-            changes: state[action.data.tableId].changes,
-            validationErrors: {
-                ...state[action.data.tableId].validationErrors,
-                [action.data.controlName]: action.data.control.errors
-            }
-        };
-        const newTableData = { [action.data.tableId]: newData };
-        return ({ ...state, ...newTableData });
+
+        // PLEASE REMOVE THIS REDUCER FUNCTION LATER
+
+        // const newData = {
+        //     data: state[action.data.tableId].data,
+        //     changes: state[action.data.tableId].changes,
+        //     validationErrors: {
+        //         ...state[action.data.tableId].validationErrors,
+        //         [action.data.controlName]: action.data.control.errors
+        //     }
+        // };
+        // const newTableData = { [action.data.tableId]: newData };
+        return (state);
     }),
     on(clearStateChanges, (state, action): any => {
         for (const tableId of action.data.tableIds) {

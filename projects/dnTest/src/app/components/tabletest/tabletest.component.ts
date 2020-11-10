@@ -40,8 +40,9 @@ export class TabletestComponent implements OnInit {
   gridColumnTypeEnum = GridColumnType;
   myList = [];
   validationErrors1: string;
+  validationErrors2: string;
   // dataForAc3: Country[]; // Country
-
+  showDirtyInputs = false;
   dataForAc3: any[] = [{ name: 'Afganistan', code: 'AF' }, { name: 'Albania', code: 'AL' }, { name: 'Angola', code: 'AO' },
   { name: 'Anguilla', code: 'AI' }, { name: 'brazil', code: 'BR' }];
 

@@ -1,15 +1,42 @@
 <p-toolbar styleClass="p-mb-4">
-    <div class="p-toolbar-group-left">
-        <!-- <button pButton pRipple label="Save" icon="pi pi-save" class="p-button-success p-mr-2"
+  <div class="p-toolbar-group-left">
+    <!-- <button pButton pRipple label="Save" icon="pi pi-save" class="p-button-success p-mr-2"
             (click)="SaveCutomers([table1.dataState$])"></button> -->
-            <button pButton pRipple label="Save" (click)="SaveCutomers(); table1.revealErrs = true" icon="pi pi-save" class="ui-button ui-button-dp p-mr-2"
-            ></button>
-    </div>
+    <button pButton pRipple label="Save" (click)="SaveCutomers(); table1.revealErrs = true" icon="pi pi-save"
+      class="ui-button ui-button-dp p-mr-2"></button>
+  </div>
 </p-toolbar>
-Validation Error: {{validationErrors1}}
-<dp-table tableId="table1" #table1 [definition]="gridDefinition" [datasource]="customers"></dp-table>
-<dp-table tableId="table2" [definition]="gridDefinition2" [datasource]="customers"></dp-table>
-    <!-- <br>
+
+<!-- you can move revealErrs inside definition -->
+<dp-table tableId="table1" (getErrors)="validationErrors1 = $event" [showDirty]="showDirtyInputs" [definition]="gridDefinition"
+  [datasource]="customers"></dp-table>
+<br>
+<br>
+<br>
+<dp-table tableId="table2" (getErrors)="validationErrors2 = $event" [showDirty]="showDirtyInputs" [definition]="gridDefinition2"
+  [datasource]="customers"></dp-table>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<strong>
+    Get validation errors for both tables from outside
+    <br>
+    <br>
+    {{validationErrors1 | json}}
+    {{validationErrors2 | json}}
+</strong>
+
+<br>
+<br>
+<br>
+
+<button (click)="showDirtyInputs = !showDirtyInputs">SHOW DIRTY INPUTS FROM OUTSIDE</button>
+<!-- <br>
     <br>
     <br>
     <br>

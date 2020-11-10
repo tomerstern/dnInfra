@@ -41,6 +41,9 @@ body
 .ui-table .ui-table-tbody > tr > td {
   padding: 0.571em 0.857em !important;
 }
+.ui-table p-autocomplete.ng-dirty.ng-invalid > .ui-autocomplete > .ui-inputtext {
+  border: 2px solid red;
+}
 
 .ui-table tr.ui-state-highlight a {
   color: inherit !important;
@@ -51,8 +54,10 @@ body
   // border:inherit;
 }
 
-// .reveal-error{
-//   .ng-invalid{
-//     border-color:red;
-//   }
-// }
+.show-dirty {
+  .ng-invalid:not(td) {
+    input {
+      border: 2px solid red;
+    }
+  }
+}
