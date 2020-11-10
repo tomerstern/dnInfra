@@ -62,6 +62,7 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
   isFreezeColumnActive = false;
   IsTableHScroll = false;
   ArrFooterCells: string[];
+  currentPage = 1;
   errors = {
   };
   @ViewChild('myForm') public tableForm: NgForm;
@@ -294,6 +295,7 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
   addRow() {
     this.store.dispatch(addRow({ data: { tableId: this.tableId, rowToAdd: this.newEmptyRow() } }));
     this.setLastPage();
+    this.getFormValidationErrors();
   }
 
   newEmptyRow() {
@@ -314,11 +316,13 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
       const pages = totalRows / rowsPerPage;
       const lastPage = (pages % 1 === 0 ? Math.floor(pages) : Math.floor(pages) + 1);
       this.first = (lastPage * rowsPerPage) - rowsPerPage;
+      this.currentPage = lastPage;
     });
   }
 
-  paginate(x) {
-    // console.log(x);
+  paginate(page) {
+    this.currentPage = page.first / page.rows + 1;
+    // console.log(this.currentPage);
   }
 
   exportPdf() {
@@ -375,7 +379,7 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
       Object.keys(state.tables).forEach(table => {
         if (table === this.tableId) {
           const tableData = state.tables[table].data;
-          tableData.forEach(function(x) {
+          tableData.forEach(function (x) {
             const newOption = { value: x[column.fieldname] };
             this.multiselectOptions.push(newOption);
           }, this);
@@ -408,22 +412,32 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   getFormValidationErrors(): void {
-    this.errors = {};
     setTimeout(() => {
       const form = (this.tableForm.form.controls[this.tableId] as FormArray).controls;
       // we can check what the form status is before looping over it
+
       if (this.tableForm.form.controls[this.tableId].status === 'INVALID') {
-        this.errors[this.tableId] = {};
+        if (!this.errors[this.tableId]) {
+          this.errors[this.tableId] = {};
+        }
         Object.keys(form).forEach(key => {
           if (form[key].status === 'INVALID') {
-            this.errors[this.tableId][key] = {};
+            if (!this.errors[this.tableId][key]) {
+              this.errors[this.tableId][key] = {};
+            }
             Object.keys(form[key].controls).forEach(columName => {
               if (form[key].controls[columName].status === 'INVALID') {
                 this.errors[this.tableId][key][columName] = form[key].controls[columName].errors;
+              } else {
+                delete this.errors[this.tableId][key][columName];
               }
             });
+          } else {
+            delete this.errors[this.tableId][key];
           }
         });
+      } else {
+        delete this.errors[this.tableId];
       }
       this.getErrors.emit(this.errors);
     }, 0);

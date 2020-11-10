@@ -1,7 +1,7 @@
 <form [class.show-dirty]="showDirty" #myForm="ngForm">
 
 
-Get {{tableId}} errors from within
+  Get {{tableId}} errors from within
   {{errors | json}}
   <br>
   <br>
@@ -17,7 +17,7 @@ Get {{tableId}} errors from within
       <div class="p-toolbar-group-left">
         <!-- icon="pi pi-plus" -->
         <button *ngIf="isEditable" pButton type="button" class="ui-button ui-button-dp p-mr-1" pTooltip="Add"
-          tooltipPosition="bottom" (click)="addRow(); getFormValidationErrors()" pAddRow>
+          tooltipPosition="bottom" (click)="addRow()" pAddRow>
           <fa-icon [icon]="faPlus"></fa-icon>
         </button>
 
@@ -244,8 +244,8 @@ Get {{tableId}} errors from within
 
 
               <dp-autocomplete (getSelected)="updateRow(column.fieldname, row, $event, index, column.fieldCode)"
-                [initVal]="row[column.fieldname]" [required]="column.isMandatory" *ngSwitchCase="gridColumnTypeEnum.autocomplete" 
-                [datasource]="column.ColumnDatasource">
+                [initVal]="row[column.fieldname]" [required]="column.isMandatory"
+                *ngSwitchCase="gridColumnTypeEnum.autocomplete" [datasource]="column.ColumnDatasource">
               </dp-autocomplete>
 
 
