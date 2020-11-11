@@ -31,6 +31,7 @@ import { MaintabComponent } from './components/shipment/maintab/maintab.componen
 import { DetailsComponent } from './components/shipment/details/details.component';
 import { GtComponent } from './components/shipment/gt/gt.component';
 import { DeclarationComponent } from './components/declaration/declaration.component';
+import { HomeComponent } from './components/home/home.component';
 
 // export function configService(configService: ConfigService) {
 //   return () => configService.load();
@@ -51,7 +52,8 @@ import { DeclarationComponent } from './components/declaration/declaration.compo
     MaintabComponent,
     DetailsComponent,
     GtComponent,
-    DeclarationComponent
+    DeclarationComponent,
+    HomeComponent
   ],
 
   imports: [

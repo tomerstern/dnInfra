@@ -10,9 +10,12 @@ import { DetailsComponent } from './components/shipment/details/details.componen
 import { GpComponent } from './components/shipment/gp/gp.component';
 import { G7Component } from './components/shipment/g7/g7.component';
 import { GtComponent } from './components/shipment/gt/gt.component';
+import { HomeComponent } from './components/home/home.component';
+
 const routes: Routes = [
   // // {path: '',  component: AppComponent},
   // { path: '', component: LoginComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'test1', component: Test1Component },
   { path: 'test2', component: Test2Component },
   { path: 'test3', component: Test3Component },

@@ -25,5 +25,21 @@
     "home": {
         "title": "שלום אנגולר",
         "select": "החלף שפה"
-      }
+      },
+      "declaration" : {
+        "shipmentNumber": "מספר תיק",
+        "processCode": "קוד תהליך",
+        "customerName": "לקוח",
+        "team": "צוות",
+        "declarationId": "מספר הצהרה",
+        "version": "גרסה",
+        "declarationStatus": "סטטוס הצהרה",
+        "logisticStatus": "סטטוס לוגיסטי",
+        "isFileInProcess": "תיק בתהליך",
+        "isApprovedExporter": "יצואן מאושר",
+        "processTime": "זמן בתהליך",
+        "isAuthorized": "יפוי כח",
+        "isExporterDeposition": "תצהיר יצואן",
+        "isDigitallyArchived": "מאורכב דיגיטלית"
+    }
 }

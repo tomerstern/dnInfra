@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CalendarDefinitions } from 'projects/dn-infra/src/lib/dp/components/calendar/objects/calendar-definitions';
-import { ShipmentService } from '../app/services/shipment.service';
+import { ShipmentService } from '../../services/shipment.service';
 import { Store } from '@ngrx/store';
 import { getAppState } from 'projects/dn-infra/src/lib/dp/store/selectors';
 import { addRow,
@@ -10,17 +10,17 @@ import { addRow,
   addValidationError,
   clearStateChanges } from 'projects/dn-infra/src/lib/dp/store/actions';
 import { map, take } from 'rxjs/operators';
-import { Shipment } from '../app/models/shipment';
+import { Shipment } from '../../models/shipment';
 
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
 })
-export class AppComponent implements OnInit {
+export class HomeComponent implements OnInit {
   title = 'CustomsSiteExport';
-  isLoggedIn = false;
+
   constructor(
     private shipmentService: ShipmentService,
     private store: Store<any> ) { }
@@ -29,14 +29,7 @@ export class AppComponent implements OnInit {
   // calendarDefinitions: CalendarDefinitions;
 
   ngOnInit(): void {
-     console.log('gil12');
-     console.log();
-     if (sessionStorage.getItem('dpUserID') !== undefined && sessionStorage.getItem('dpUserID') !== '') {
-      this.isLoggedIn = true;
-     }
-     console.log(sessionStorage.getItem('dpUserID'));
-     console.log('this.isLoggedIn');
-     console.log(this.isLoggedIn);
+
     // this.calendarDefinitions = new CalendarDefinitions({
     //   minDate: new Date(2019, 6, 12), showTime: false
     // });

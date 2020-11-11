@@ -41,37 +41,22 @@ export class HeaderComponent implements OnInit {
     ];
 
 
-    // this.userService.getLoginUser('FEDEX', 'FEDEX').then(data => {
-    //   console.log('gil');
-    //   console.log(data);
-    // });
-
-    try{
-
+    try {
 
 
       this.userService.GetUserMenus(895, '9')
         .then((data: { Status: string; result: any }) => {
-        if (data.Status === 'OK') {
-          debugger;
-          this.buildTree(data.result);
-        }
+          if (data.Status === 'OK') {
+            this.buildTree(data.result);
+          }
           else {
             throw new Error(data.Status + ' : ' + data.result);
           }
-      });
+        });
     }
     catch (error) {
       throw new Error(error);
     }
-
-      // this.itemsTemp = data;
-      // this.tree = this.buildTree(this.itemsTemp);
-
-    // console.log(JSON.stringify(this.tree, null, ' '));
-
-    // console.log(JSON.stringify(tree));
-    // document.body.innerHTML = "<pre>" + (JSON.stringify(tree, null, " "))
 
   }
 
@@ -144,12 +129,35 @@ export class HeaderComponent implements OnInit {
     const mappedArr = {};
     let arrElem;
     let mappedElem;
+    let LocTreepath;
+    let LocParentTreepath;
     try {
-      //  array to object
+
+      for (let i = 0, len = arr.length; i < len; i++) {
+        arr[i].label = arr[i].Name;
+        LocTreepath = arr[i].TreePath;
+
+        if (arr[i].URL !== undefined && arr[i].URL !== '') {
+          arr[i].routerLink = arr[i].URL ;
+        }
+
+        if (LocTreepath.indexOf('.') >= 0) {
+          LocParentTreepath = LocTreepath.substr(0, LocTreepath.lastIndexOf('.'));
+          for (let j = 0; j < arr.length; j++) {
+            if (arr[j].TreePath === LocParentTreepath) {
+              arr[i].parentid = arr[j].Id;
+              break;
+            }
+          }
+        }
+        else {
+          arr[i].parentid = 0;
+        }
+      }
       for (let i = 0, len = arr.length; i < len; i++) {
         arrElem = arr[i];
-        mappedArr[arrElem.id] = arrElem;
-        mappedArr[arrElem.id]['items'] = [];
+        mappedArr[arrElem.Id] = arrElem;
+        mappedArr[arrElem.Id]['items'] = [];
       }
 
       console.log('mappedArr');
@@ -158,19 +166,9 @@ export class HeaderComponent implements OnInit {
       for (const id in mappedArr) {
         if (mappedArr.hasOwnProperty(id)) {
           mappedElem = mappedArr[id];
-          // remove empty items (children)
-          // if (mappedElem.items.length === 0) {
-          //   delete mappedElem.items;
-          // }
-
           // If the element is not at the root level, add it to its parent array of children.
           if (mappedElem.parentid) {
             mappedArr[mappedElem['parentid']]['items'].push(mappedElem);
-            // mappedArr[mappedElem['parentid']].push(mappedElem);
-            // if ( mappedArr[mappedElem['parentid']].items.length === 0) {
-            //   // mappedElem.items
-            //   delete mappedArr[mappedElem['parentid']].items;
-            // }
           }
           // If the element is at the root level, add it to first level elements array.
           else {
@@ -179,22 +177,12 @@ export class HeaderComponent implements OnInit {
         }
       }
 
-      console.log('treeTemp');
-      console.log(treeTemp);
-
       const tree2 = JSON.stringify(treeTemp);
-      const newstr = tree2.split(',"items":[]').join( '');
+      const newstr = tree2.split(',"items":[]').join('');
 
-      console.log('treeTemp');
-      console.log(treeTemp);
 
       this.tree = JSON.parse(newstr);
 
-      // console.log('tree');
-      // console.log(this.tree);
-
-      // return  this.tree;
-      // return JSON.stringify();
     } catch (error) {
       throw new Error(error);
       return [];

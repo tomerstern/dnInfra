@@ -12,11 +12,13 @@
                     <input id="username" 
                     type="text"
                     pInputText placeholder="type user_ru or user_he"
-                    [(ngModel)]="loginUsername"> 
+                    [(ngModel)]="username"> 
                 </div>
                 <div class="p-field">
                     <label for="password">Password</label>
-                    <input id="password" type="password" pInputText> 
+                    <input id="password" type="password" pInputText
+                    [(ngModel)]="password"
+                    > 
                 </div>  
             </div>
             <!-- (click)="" -->
