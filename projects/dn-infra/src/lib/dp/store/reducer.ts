@@ -1,11 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
-import { addRow, deleteRow, updateRow, updateTable, addValidationError, clearStateChanges } from './actions';
+import { addRow, deleteRow, updateRow, updateTable, clearStateChanges, sortColumn } from './actions';
 export const initialState: any = {};
 
 const reducer = createReducer(initialState,
     on(updateTable, (state, action): any => {
-        if ( state[action.data.tableId] === undefined)
-        {
+        if (state[action.data.tableId] === undefined) {
             const newTableState = {
                 [action.data.tableId]: {
                     data: action.data.tableData
@@ -14,8 +13,7 @@ const reducer = createReducer(initialState,
             const newState = { ...state, ...newTableState };
             return (newState);
         }
-        else
-        {
+        else {
             return state;
         }
     }),
@@ -85,24 +83,11 @@ const reducer = createReducer(initialState,
         const newTableData = { [action.data.tableId]: newData };
         return ({ ...state, ...newTableData });
     }),
-    on(addValidationError, (state, action): any => {
-        const newData = {
-            data: state[action.data.tableId].data,
-            changes: state[action.data.tableId].changes,
-            validationErrors: {
-                ...state[action.data.tableId].validationErrors,
-                [action.data.controlName]: action.data.control.errors
-            }
-        };
-        const newTableData = { [action.data.tableId]: newData };
-        return ({ ...state, ...newTableData });
-    }),
     on(clearStateChanges, (state, action): any => {
         for (const tableId of action.data.tableIds) {
             const newDataArray = [];
             // ziv - Maybe use a filter which removes all refKey elements?
-            if (state[tableId] === undefined)
-            {
+            if (state[tableId] === undefined) {
                 continue;
             }
             for (const row of state[tableId].data) {
@@ -118,8 +103,80 @@ const reducer = createReducer(initialState,
         }
 
         return state;
+    }),
+    on(sortColumn, (state, action): any => {
+        debugger
+        let newChanges = {};
+        let key;
+        let stateToSet;
+
+
+        // state[action.tableId].data.sort((a, b) => a[action.fieldname] > b[action.fieldname] ? 1 :
+        //                                         (a[action.fieldname] < b[action.fieldname] ? -1 : 0));
+        
+
+        // var sortedArray: Test[] = unsortedArray.sort((obj1, obj2) => {
+        //     if (obj1.cognome > obj2.cognome) {
+        //         return 1;
+        //     }
+        
+        //     if (obj1.cognome < obj2.cognome) {
+        //         return -1;
+        //     }
+        
+        //     return 0;
+        // });
+
+        
+        // return state;
+
+
+        // [...state[action.tableId].data.slice(0, action.rowIndex),
+        // newRow, ...state[action.tableId].data.slice(action.rowIndex + 1)]
+
+        const firstRow = state[action.tableId].data.slice(0, 1);
+        let newData1 = [{...state[action.tableId].data.slice(1, state[action.tableId].data.length), ...firstRow}];
+         const tableData = newData1;
+        // let tempData = [];
+        // tempData =  state[action.tableId].data;
+        // let tempData1 = [];
+        // tempData1 = tempData.reverse();
+        // const tableData = tempData1;
+        //const tableData = state[action.tableId].data.sort((obj1, obj2) => {
+        //    mySort(obj1, obj2);
+            // if (obj1[action.fieldname] > obj2[action.fieldname]) {
+            //     return 1;
+            // }
+        
+            // if (obj1[action.fieldname] < obj2[action.fieldname]) {
+            //     return -1;
+            // }
+        
+            // return 0;
+        //});
+
+
+        // const newData = {
+        //     data: [...state[action.tableId].data.slice(0, action.rowIndex),
+        //         newRow, ...state[action.tableId].data.slice(action.rowIndex + 1)],
+        //     changes: newChanges
+        // };
+        
+
+
+        const newData = {
+            data: tableData,
+            changes: state[action.tableId].changes
+        };
+        const newTableData = { [action.tableId]: newData };
+        return ({ ...state, ...newTableData });
     })
 );
+
+export function mySort(obj1: any, obj2: any)
+{
+    return obj1;
+}
 
 export function tableReducer(state: any | undefined, action: any) {
     return reducer(state, action);

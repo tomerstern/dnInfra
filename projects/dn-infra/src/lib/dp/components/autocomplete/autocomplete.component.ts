@@ -28,6 +28,7 @@ export class AutocompleteComponent implements OnInit, OnChanges, ControlValueAcc
 
   @Input() definition: AutocompleteDefinitions;
   @Input() datasource: any = [];
+  @Input() required: boolean;
   ngModelDP: any;
   hasTouched = false;
 
@@ -79,6 +80,10 @@ export class AutocompleteComponent implements OnInit, OnChanges, ControlValueAcc
     //   this.setInitVal(true);
     // }
 
+    // if (changes.initVal && changes.initVal.previousValue === undefined) {
+    //   // this.setInitVal();
+    //   console.log('hey');
+    // }
 
     if (this.isDynamicDataLoad) { /* if data was loades on key press / start writingthen load suggestions*/
       this.isDynamicDataLoad = false;
@@ -132,7 +137,23 @@ export class AutocompleteComponent implements OnInit, OnChanges, ControlValueAcc
     } else if (this.definition.multiple && !Array.isArray(this.initVal)) {
       throw new Error('Autocomplete.ts: @input [initVal] for multi select must be an array');
     }
-    this.getSelected.emit(this.innerValue);
+    // this.getSelected.emit(this.innerValue);
+  }
+
+  clear(val) {
+    if (val !== null) {
+      this.getSelected.emit('');
+    }
+  }
+  emit(val) {
+    if (val !== null && val !== undefined) {
+      this.getSelected.emit(val);
+    }
+  }
+  blurEmit(val) {
+    // if (val === null && this.innerValue) {
+    //   this.getSelected.emit(this.innerValue);
+    // }
   }
 
   ngOnInit() {
@@ -173,12 +194,10 @@ export class AutocompleteComponent implements OnInit, OnChanges, ControlValueAcc
         if (this.columnDefinition.columnParams.isKeyExist(AutocompleteProperties.initialValues)) {
           this.definition.initialValues = this.columnDefinition.columnParams.getValueByKey(AutocompleteProperties.initialValues);
         }
+
       }
     }
-
     this.setInitVal();
-
-    // console.log(this.datasource);
   }
 
 
@@ -392,7 +411,7 @@ export class AutocompleteComponent implements OnInit, OnChanges, ControlValueAcc
   InitDatasourceKeys(tmp_dp_AutocompleteType: number) {
     /* for the first time put the datasource keys in arr */
 
-    console.log('in InitDatasourceKeys, isInited =  ' + this.isInited);
+    // console.log('in InitDatasourceKeys, isInited =  ' + this.isInited);
 
     if (this.isInited === true || tmp_dp_AutocompleteType !== 1) {
       return;

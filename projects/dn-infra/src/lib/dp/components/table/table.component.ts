@@ -12,13 +12,13 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { InputNumberProperties } from '../inputnumber/objects/inputnumber-definitions';
 import { select, Store } from '@ngrx/store';
-import { addRow, deleteRow, updateRow, updateTable, addValidationError } from '../../store/actions';
+import { addRow, deleteRow, updateRow, updateTable, sortColumn } from '../../store/actions';
 import { getTableStateById, getTableLengthById } from '../../store/selectors';
 import { debounceTime, distinctUntilChanged, map, take } from 'rxjs/operators';
 import { DpDialogService, DpDynamicDialogRef } from '../dynamicdialog/Objects/dynamicdialog-definitions';
 import { ColumnSelectionComponent } from './columnSelection/column-selection/column-selection.component';
 import { MessageService } from 'primeng/api'; /* only for showing return value */
-import { NgForm } from '@angular/forms';
+import { FormArray, NgForm } from '@angular/forms';
 import { getAppState } from 'projects/dn-infra/src/lib/dp/store/selectors';
 import { ConfirmdialogDefinitions, positionDpConfirmdialog } from 'projects/dn-infra/src/lib/dp/components/confirmdialog/Objects/confirmdialog-definitions';
 import { ConfirmationService } from 'primeng/api';
@@ -39,14 +39,15 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() definition: GridDefinitions;
   @Input() datasource: Array<any> = [];
   @Input() tableId: string;
+  @Input() showDirty = false;
   @Output() stateChanges: EventEmitter<TableState> = new EventEmitter();
+  @Output() getErrors: EventEmitter<any> = new EventEmitter();
   data$: Observable<any>;
   exportColumns: any[];
   first = 0;
   toggleFilter: boolean;
   isEditable: boolean;
   isFooter = false;
-  revealErrs = false;
   isfrozenCols = false;
   frozenColsIndex = 0;
   frozenCols: any[];
@@ -61,6 +62,10 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
   isFreezeColumnActive = false;
   IsTableHScroll = false;
   ArrFooterCells: string[];
+  errors = {
+  };
+  @ViewChild('myForm') public tableForm: NgForm;
+
   // jsonFooterArr = [];
   FooterArrObj = {};
   ArrDatasourceKeys: string[] = [];
@@ -99,14 +104,16 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     header: 'מחיקת שורה', message: '?האם אתה בטוח',
     accept: () => {
       this.deleteRow(this.index);
+      this.getFormValidationErrors();
     },
     reject: () => {
       return;
     }
   });
 
-  delete(ind, cd) {
+  delete(ind, cd, myForm) {
     this.index = ind;
+    this.tableForm = myForm;
     cd.dp_confirm();
   }
 
@@ -165,9 +172,8 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     }
   }
 
-  updateRow(columnField: string, row: object, val: any, rowIndex: number, myForm: any,
-    columnFieldCode?: string) {
-    // debugger
+  updateRow(columnField: string, row: object, val: any, rowIndex: number, columnFieldCode?: string) {
+
     if (val === undefined) {
       return;
     }
@@ -183,8 +189,7 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     }
     // const newRow = { ...row, ...{ [columnField]: val } };
     this.store.dispatch(updateRow({ row: newRow, rowIndex, tableId: this.tableId }));
-    // this.getFormValidationErrors(myForm);
-    console.log(newRow);
+    this.getFormValidationErrors();
   }
 
   showDynamicdialog1() {
@@ -378,6 +383,7 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
       });
     })).subscribe();
   }
+
   onFilterCheckbox(value, fieldname) {
     let filter = 'true';
     if (value == null) {
@@ -401,18 +407,41 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     }
   }
 
-  getFormValidationErrors(myForm: any) {
-    const form = myForm.form.controls[this.tableId].controls;
-    Object.keys(form).forEach(key => {
-      if (form[key].status === 'INVALID') {
-        Object.keys(form[key].controls).forEach(c => {
-          const control = form[key].get(c);
-          if (control.errors != null) {
-            this.store.dispatch(addValidationError({ data: { tableId: this.tableId, controlName: c, control } }));
+  getFormValidationErrors(): void {
+    this.errors = {};
+    setTimeout(() => {
+      const form = (this.tableForm.form.controls[this.tableId] as FormArray).controls;
+      debugger
+      // we can check what the form status is before looping over it
+      if (this.tableForm.form.controls[this.tableId].status === 'INVALID') {
+        this.errors[this.tableId] = {};
+        Object.keys(form).forEach(key => {
+          if (form[key].status === 'INVALID') {
+            this.errors[this.tableId][key] = {};
+            Object.keys(form[key].controls).forEach(columName => {
+              if (form[key].controls[columName].status === 'INVALID') {
+                this.errors[this.tableId][key][columName] = form[key].controls[columName].errors;
+              }
+            });
           }
         });
       }
-    });
+      this.getErrors.emit(this.errors);
+    }, 0);
+    return;
+
+  }
+
+  isValid(tableId, ngm, index, column) {
+    // if (ngm.control.status === 'INVALID') {
+    //   const obj = { [index]: 'INVALID' };
+    //   this.errors.columns[column] = { ...this.errors.columns[column], ...obj };
+    //   console.log(this.errors);
+    // } else {
+    //   const obj = { [index]: null };
+    //   this.errors.columns[column] = { ...this.errors.columns[column], ...obj };
+    //   console.log(this.errors);
+    // }
   }
 
   dpCreateFooterData() {
@@ -612,6 +641,10 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
       return false;
       console.log(error);
     }
+  }
+
+  sortColumn(fieldname: string) {
+    this.store.dispatch(sortColumn({ tableId: this.tableId, fieldname }));
   }
 
   dpFreezeColumndrop(event, columnInd, dt) {

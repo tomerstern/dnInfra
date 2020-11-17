@@ -1,38 +1,4 @@
-<p-toolbar styleClass="p-mb-4">
-    <div class="p-toolbar-group-left">
-            <button pButton pRipple label="שמור" 
-                
-                icon="pi pi-save" 
-                class="ui-button ui-button-dp p-mr-2"
-            ></button>
-            <button pButton pRipple label="aaaaaa" 
-                
-            icon="pi pi-save" 
-            class="ui-button ui-button-dp p-mr-2"
-            ></button>
-            <button pButton pRipple label="bbbbbb" 
-                
-                icon="pi pi-save" 
-                class="ui-button ui-button-dp p-mr-2"
-            ></button>
-            <button pButton pRipple label="cccccc" 
-                
-            icon="pi pi-save" 
-            class="ui-button ui-button-dp p-mr-2"
-            ></button>
-            <button pButton pRipple label="dddddd" 
-                
-                icon="pi pi-save" 
-                class="ui-button ui-button-dp p-mr-2"
-            ></button>
-            <button pButton pRipple label="eeeeee" 
-                
-            icon="pi pi-save" 
-            class="ui-button ui-button-dp p-mr-2"
-            ></button>                        
-    </div>
-</p-toolbar>
-<table class="HeaderTable1" cellspacing="5">
+<table class="HeaderTable1" cellspacing="5" dir={{direction}}>
     <tr>
         <td class="HeaderBG1">
             {{ 'declaration.shipmentNumber' | translate  }}
@@ -78,7 +44,9 @@
             {{ 'declaration.isFileInProcess' | translate  }}:
         </td>
         <td>
-            <dp-checkbox></dp-checkbox>
+            <dp-checkbox [definition]="chkIsFileInProcessDefinition" 
+                         [(ngModel)]="chkIsFileInProcessChecked">
+            </dp-checkbox>
         </td>    
         <td>
             {{processTime}}
@@ -87,7 +55,7 @@
             {{ 'declaration.isExporterDeposition' | translate  }}:
         </td>
         <td>
-            <!-- <dp-checkbox></dp-checkbox> -->
+            <dp-checkbox [definition]="chkIsExporterDefinition"></dp-checkbox>
         </td>                                
     </tr>
     <tr>
@@ -131,19 +99,19 @@
             {{ 'declaration.isApprovedExporter' | translate  }}:
         </td>
         <td>
-            <dp-checkbox></dp-checkbox>
+            <dp-checkbox [definition]="chkIsApprovedExporterDefinition"></dp-checkbox>
         </td>  
         <td>
             {{ 'declaration.isAuthorized' | translate  }}:
         </td>
         <td>
-            <dp-checkbox></dp-checkbox>
+            <dp-checkbox [definition]="chkIsAuthorizedDefinition"></dp-checkbox>
         </td>         
         <td>
             {{ 'declaration.isDigitallyArchived' | translate  }}:
         </td>
         <td>
-            <dp-checkbox></dp-checkbox>
+            <dp-checkbox [definition]="chkIsDigitallyArchivedDefinition"></dp-checkbox>
         </td>                                             
     </tr>    
 </table>

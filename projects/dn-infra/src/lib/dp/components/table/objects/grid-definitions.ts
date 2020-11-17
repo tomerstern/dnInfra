@@ -201,6 +201,7 @@ export class GridColumn implements IGridColumn {
     constructor(params: IGridColumn) {
         this.headername = params.headername;
         this.fieldname = params.fieldname;
+        this.fieldCode = params.fieldCode;
         this.type = (params.type == null ? GridColumnType.span : params.type);
         this.iseditable = (params.iseditable == null ? false : params.iseditable);
         this.isMandatory = (params.isMandatory == null ? false : params.isMandatory);

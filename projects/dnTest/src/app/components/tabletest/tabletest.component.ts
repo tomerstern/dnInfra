@@ -17,7 +17,7 @@ import { combineLatest, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { getAppState } from 'projects/dn-infra/src/lib/dp/store/selectors';
-import { addRow, deleteRow, updateRow, updateTable, addValidationError, clearStateChanges } from 'projects/dn-infra/src/lib/dp/store/actions';
+import { addRow, deleteRow, updateRow, updateTable, clearStateChanges } from 'projects/dn-infra/src/lib/dp/store/actions';
 import { CheckboxProperties } from 'projects/dn-infra/src/lib/dp/components/checkbox/objects/checkbox-definitions';
 
 // import { TableComponent } from 'projects/dn-infra/src/lib/dp/components/table/table.component';
@@ -40,8 +40,9 @@ export class TabletestComponent implements OnInit {
   gridColumnTypeEnum = GridColumnType;
   myList = [];
   validationErrors1: string;
+  validationErrors2: string;
   // dataForAc3: Country[]; // Country
-
+  showDirtyInputs = false;
   dataForAc3: any[] = [{ name: 'Afganistan', code: 'AF' }, { name: 'Albania', code: 'AL' }, { name: 'Angola', code: 'AO' },
   { name: 'Anguilla', code: 'AI' }, { name: 'brazil', code: 'BR' }];
 
@@ -237,12 +238,11 @@ export class TabletestComponent implements OnInit {
   }
 
   SaveCutomers() {
-    debugger
+    // debugger
     const changes = [];
     this.store.select(getAppState).pipe(take(1), map(state => {
       Object.keys(state.tables).forEach(table => {
         const tableChanges = state.tables[table].changes;
-        this.validationErrors1 = JSON.stringify(state.tables[table].validationErrors);
         if (tableChanges) {
           Object.keys(tableChanges).forEach(key => {
             changes.push(tableChanges[key]);

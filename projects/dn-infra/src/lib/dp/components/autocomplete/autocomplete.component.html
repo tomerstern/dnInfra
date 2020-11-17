@@ -1,58 +1,54 @@
-
 <!-- innerValue={{innerValue | json}}<br> -->
 <!-- datasource={{datasource | json}} -->
-<p-autoComplete *ngIf="definition"  #autoComplete [id]="definition.inputId"
-[suggestions]="filteredData"
-(completeMethod)="
+<br>
+<p-autoComplete *ngIf="definition" #autoComplete [id]="definition.inputId" [suggestions]="filteredData"
+  (completeMethod)="
   filterEntity(
     autoComplete,
     $event,
     definition.dp_AutocompleteType,
     definition.dpAutocompleteMaxSuggestionsToShow
   )
-" (onSelect)="getSelected.emit(autoComplete.value)" (onClear)="getSelected.emit('')" 
- (onUnselect)="getSelected.emit(autoComplete.value)" 
-[ngModel]="innerValue" [ngModelOptions]="{standalone:true}"
-[scrollHeight]="definition.scrollHeight" [style]="definition.style" [field]="definition.field"
-[dropdown]="definition.dropdown" [multiple]="definition.multiple" [dropdownIcon]="definition.dropdownIcon"
-[minLength]="definition.minLength" [delay]="definition.delay" [completeOnFocus]="definition.completeOnFocus"
-[inputStyle]="definition.inputStyle" [panelStyle]="definition.panelStyle" [styleClass]="definition.styleClass"
-[inputStyleClass]="definition.inputStyleClass" [panelStyleClass]="definition.panelStyleClass"
-[inputId]="definition.inputId" [placeholder]="definition.placeholder" [readonly]="definition.readonly"
-[disabled]="definition.disabled" [maxlength]="definition.maxlength" [size]="definition.size"
-[appendTo]="definition.appendTo" [tabindex]="definition.tabindex" [dataKey]="definition.dataKey"
-[autoHighlight]="definition.autoHighlight" [type]="definition.type" [emptyMessage]="definition.emptyMessage"
-[required]="definition.required" [autofocus]="definition.autofocus" [forceSelection]="definition.forceSelection"
-[dropdownMode]="definition.dropdownMode" [baseZIndex]="definition.baseZIndex" [autoZIndex]="definition.autoZIndex"
-[ariaLabel]="definition.ariaLabel" [ariaLabelledBy]="definition.ariaLabelledBy" 
-[autocomplete]="'off'"
->
+" (onBlur)="blurEmit(autoComplete.value)" (onSelect)="emit(autoComplete.value)" (onClear)="clear(autoComplete.value)"
+  (onUnselect)="emit(autoComplete.value)" [ngModel]="innerValue" [ngModelOptions]="{standalone:true}"
+  [scrollHeight]="definition.scrollHeight" [style]="definition.style" [field]="definition.field"
+  [dropdown]="definition.dropdown" [multiple]="definition.multiple" [dropdownIcon]="definition.dropdownIcon"
+  [minLength]="definition.minLength" [delay]="definition.delay" [completeOnFocus]="definition.completeOnFocus"
+  [inputStyle]="definition.inputStyle" [panelStyle]="definition.panelStyle" [styleClass]="definition.styleClass"
+  [inputStyleClass]="definition.inputStyleClass" [panelStyleClass]="definition.panelStyleClass"
+  [inputId]="definition.inputId" [placeholder]="definition.placeholder" [readonly]="definition.readonly"
+  [disabled]="definition.disabled" [maxlength]="definition.maxlength" [size]="definition.size"
+  [appendTo]="definition.appendTo" [tabindex]="definition.tabindex" [dataKey]="definition.dataKey"
+  [autoHighlight]="definition.autoHighlight" [type]="definition.type" [emptyMessage]="definition.emptyMessage"
+  [required]="definition.required? definition.required : required" [autofocus]="definition.autofocus" [forceSelection]="definition.forceSelection"
+  [dropdownMode]="definition.dropdownMode" [baseZIndex]="definition.baseZIndex" [autoZIndex]="definition.autoZIndex"
+  [ariaLabel]="definition.ariaLabel" [ariaLabelledBy]="definition.ariaLabelledBy" [autocomplete]="'off'">
 
-<ng-container *ngIf="definition.dp_AutocompleteType === 1">
-  <!-- datasource is shadowed, use res instead -->
-  <ng-template let-res let-i="index" pTemplate="item">
-    <div  class="cls-t-row" style="display:flex; width:auto">
-      <ng-container *ngFor="let a of ArrTable_Keys; let j=index">
-        <div class="cls-t-cell" [style]="ArrTable_ColumnsStyle[j]">{{ res[a] }}</div>
-      </ng-container>
-    </div>
-  </ng-template>
-</ng-container>
+  <ng-container *ngIf="definition.dp_AutocompleteType === 1">
+    <!-- datasource is shadowed, use res instead -->
+    <ng-template let-res let-i="index" pTemplate="item">
+      <div class="cls-t-row" style="display:flex; width:auto">
+        <ng-container *ngFor="let a of ArrTable_Keys; let j=index">
+          <div class="cls-t-cell" [style]="ArrTable_ColumnsStyle[j]">{{ res[a] }}</div>
+        </ng-container>
+      </div>
+    </ng-template>
+  </ng-container>
 
-<ng-container *ngIf="definition.dp_AutocompleteType === 2">
-  <ng-template let-res pTemplate="item">
-    <div class="ui-helper-clearfix" [style]="definition.dp_AutocompleteImageContainerStyle">
-      <img src="{{
+  <ng-container *ngIf="definition.dp_AutocompleteType === 2">
+    <ng-template let-res pTemplate="item">
+      <div class="ui-helper-clearfix" [style]="definition.dp_AutocompleteImageContainerStyle">
+        <img src="{{
           definition.dp_AutocompleteImagesPath +
             res +
             '.' +
             definition.dp_AutocompleteImageExtension
         }}" [style]="definition.dp_AutocompleteImageStyle" />
-      <div [style]="definition.dp_AutocompleteImageTextStyle">
-        {{ res }}
+        <div [style]="definition.dp_AutocompleteImageTextStyle">
+          {{ res }}
+        </div>
       </div>
-    </div>
-  </ng-template>
-</ng-container>
+    </ng-template>
+  </ng-container>
 
 </p-autoComplete>

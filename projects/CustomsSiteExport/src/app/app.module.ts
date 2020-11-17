@@ -30,8 +30,16 @@ import { GpComponent } from './components/shipment/gp/gp.component';
 import { MaintabComponent } from './components/shipment/maintab/maintab.component';
 import { DetailsComponent } from './components/shipment/details/details.component';
 import { GtComponent } from './components/shipment/gt/gt.component';
-import { DeclarationComponent } from './components/declaration/declaration.component';
+import { MainDeclarationComponent } from './components/declaration/main-declaration/main-declaration.component';
 import { HomeComponent } from './components/home/home.component';
+import { DeclarationHeaderComponent } from './components/declaration/declaration-header/declaration-header.component';
+import { DeclarationTabComponent } from './components/declaration/declaration-tab/declaration-tab.component';
+import { DeclarationToolbarComponent } from './components/declaration/declaration-toolbar/declaration-toolbar.component';
+import { OpenComponent } from './components/declaration/tabs/open/open.component';
+import { Declaration2Component } from './components/declaration/tabs/declaration2/declaration2.component';
+import { DeclarationComponent } from './components/declaration/tabs/declaration/declaration.component';
+import { ShipmentDetailsComponent } from './components/declaration/tabs/open/shipment-details/shipment-details.component';
+import {FieldsetModule} from 'primeng/fieldset';
 
 // export function configService(configService: ConfigService) {
 //   return () => configService.load();
@@ -52,11 +60,19 @@ import { HomeComponent } from './components/home/home.component';
     MaintabComponent,
     DetailsComponent,
     GtComponent,
+    MainDeclarationComponent,
+    HomeComponent,
+    DeclarationHeaderComponent,
+    DeclarationTabComponent,
+    OpenComponent,
     DeclarationComponent,
-    HomeComponent
+    Declaration2Component,
+    DeclarationToolbarComponent,
+    ShipmentDetailsComponent
   ],
 
   imports: [
+    FieldsetModule,
     BrowserModule,
     FormsModule,
     AppRoutingModule,
@@ -75,7 +91,7 @@ import { HomeComponent } from './components/home/home.component';
     })
     // ,FontAwesomeModule
   ],
-
+  exports: [FieldsetModule],
   providers: [
     {
       provide: APP_INITIALIZER,

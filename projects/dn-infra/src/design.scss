@@ -198,7 +198,7 @@ body .ui-tooltip.ui-tooltip-bottom .ui-tooltip-arrow {border-bottom-color: $Prim
 // :enabled:active
 body button.ui-button{
   // height: 25px;
-  border-radius: 12.5px;
+  border-radius: 8px;
 
   .ui-button-text {
     // height: 13px;
@@ -295,7 +295,7 @@ body button.ui-button.ui-button-dp
 .ui-button-icon-left {
   color: $PrimaryColor;  
 }
-body button.ui-button.ui-button-dp:hover
+body button.ui-button.border-radius:hover
 .ui-button-icon-left{  
   color: white;
 }
