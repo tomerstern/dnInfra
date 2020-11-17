@@ -43,7 +43,7 @@ export class DetailsComponent implements OnInit {
     // this.testDate = parseInt(this.detail.OpenDate.substr(6));
     // tslint:disable-next-line: radix
     // this.openDateStr = this.datepipe.transform(new Date(parseInt(this.detail.OpenDate.substr(6))), 'dd/MM/yyyy');
-    this.openDateStr = new Date(parseInt(this.detail.OpenDate.substr(6)))
+    this.openDateStr = new Date(Number(this.detail.OpenDate.substr(6)));
     this.InputTextDef = new InputtextDefinitions({ size: 15 });
     this.InputTextDefDis = new InputtextDefinitions({ size: 15, disabled: true});
     this.InputNumberDef = new InputNumberDefinitions({});

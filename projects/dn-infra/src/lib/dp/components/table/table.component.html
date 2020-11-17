@@ -89,7 +89,7 @@ Get {{tableId}} errors from within
       <div *ngIf="definition.HeadersMergeGroupsHtml !== ''" [outerHTML]="definition.HeadersMergeGroupsHtml"></div>
       <!-- HEADER -->
       <tr class="clsDpHeadTr">
-        <th #th *ngFor="let column of columns; let columnInd = index" [pSortableColumn]="column.fieldname"
+        <th #th *ngFor="let column of columns; let columnInd = index" 
           (onDrop)="dpFreezeColumndrop($event, columnInd, dt)" (onDragStart)="definition.scrollable = false"
           (click)="sortColumn(column.fieldname)"
           pDroppable="abc" [ngClass]="(frozenColsCounter >=columnInd)?'cssFrozenHeader' :''"

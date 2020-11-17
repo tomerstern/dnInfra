@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
     this.userService.getLoginUser(this.username, this.password)
       // .then(data => {
       .then((data: { Status: string; result: any }) => {
-        debugger
+        // debugger
         if (data.Status !== 'OK') {
           return;
         }

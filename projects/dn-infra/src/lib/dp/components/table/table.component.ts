@@ -411,7 +411,7 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     this.errors = {};
     setTimeout(() => {
       const form = (this.tableForm.form.controls[this.tableId] as FormArray).controls;
-      debugger
+      // debugger
       // we can check what the form status is before looping over it
       if (this.tableForm.form.controls[this.tableId].status === 'INVALID') {
         this.errors[this.tableId] = {};
