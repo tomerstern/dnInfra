@@ -44,10 +44,8 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
     return this._innerValue;
   }
 
-  public set innerValue(newValue: number)
-  {
-    if (newValue)
-    {
+  public set innerValue(newValue: number) {
+    if (newValue) {
       var d = new Date(newValue);
       d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()))
       // d.setMinutes( d.getMinutes() - d.getTimezoneOffset() );
@@ -76,54 +74,75 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
 
   onInputClickOutside(input) {
 
-    if (this.definition.selectionMode === SelectionMode.range) {
-      return;
-    }
+    console.log('hey from click outside:', input);
 
-    let hour: string;
-    let minute: string;
+    // this.format(this.tempVal);
+  }
 
-    if (input === '') {
-      return;
-    }
+  format(input) {
 
-    if (this.definition.showTime) {
-      const time = input.split(' ')[1];
-      if (time !== undefined) {
-        hour = time.split(':')[0];
-        minute = time.split(':')[1];
-        if (!this.validateTime(hour, minute)) {
-          return;
-        }
-      }
-    }
+    // if (this.definition.selectionMode === SelectionMode.range) {
+    //   return;
+    // }
 
-    input = input.split(' ')[0];
-    input = this.setCorrectFormat(input, '/');
-    input = this.setCorrectFormat(input, '.');
+    // let hour: string;
+    // let minute: string;
 
-    if (isNaN(+input)) {
-      return;
-    }
+    // if (input === '') {
+    //   return;
+    // }
 
-    let date = new Date();
+    // if (this.definition.showTime) {
+    //   const time = input.split(' ')[1];
+    //   if (time !== undefined) {
+    //     hour = time.split(':')[0];
+    //     minute = time.split(':')[1];
+    //     if (!this.validateTime(hour, minute)) {
+    //       return;
+    //     }
+    //   }
+    // }
 
-    if (input.length === 6 || input.length === 8) {
-      date = this.getValidDateMonth(input.substr(0, 2), input.substr(2, 2), input.substr(4, 4), 2500, 1900);
-    } else {
-      // user wrote a number and expects to get the date. e.g. he wrote -30 and expects to get the date from a month ago.
-      date.setDate(date.getDate() + +input);
-    }
+    // input = input.split(' ')[0];
+    // input = this.setCorrectFormat(input, '/');
+    // input = this.setCorrectFormat(input, '.');
 
-    if (this.definition.showTime && minute !== undefined) {
-      date.setHours(+hour, +minute);
-    }
+    // if (isNaN(+input)) {
+    //   return;
+    // }
 
-    this.innerValue = Number(date);
+    // let date = new Date();
+
+    // if (input.length === 6 || input.length === 8) {
+    //   date = this.getValidDateMonth(input.substr(0, 2), input.substr(2, 2), input.substr(4, 4), 2500, 1900);
+    // } else {
+    //   // user wrote a number and expects to get the date. e.g. he wrote -30 and expects to get the date from a month ago.
+    //   date.setDate(date.getDate() + +input);
+    // }
+
+    // if (this.definition.showTime && minute !== undefined) {
+    //   date.setHours(+hour, +minute);
+    // }
+
+
+    // this.innerValue = Number(date);
+
+    // console.log(input);
+
+
+    // this.selectEvent.emit(this.innerValue);
   }
 
   setTempVal(event) {
     this.tempVal = event;
+    console.log(event);
+  }
+
+  onClose(event) {
+    console.log('hey from close event:', event);
+    if(event !== null){
+      this.onInputClickOutside(event);
+    }
   }
 
   validateTime(aHouers, aMinute) {
