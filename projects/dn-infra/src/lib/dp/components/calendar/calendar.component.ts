@@ -46,10 +46,11 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
 
   public set innerValue(newValue: number)
   {
+    debugger
     if (newValue)
     {
-      var d = new Date(newValue);
-      d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()))
+      let d = new Date(newValue);
+      // d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()))
       // d.setMinutes( d.getMinutes() - d.getTimezoneOffset() );
       this._innerValue = d;
     }

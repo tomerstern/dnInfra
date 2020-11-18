@@ -209,7 +209,7 @@ export class TabletestComponent implements OnInit {
     columns.push(column4);
 
     const columnParams5: GridColumnParams = new GridColumnParams();
-    columnParams5.addParam(CalendarProperties.showTime, true);
+    columnParams5.addParam(CalendarProperties.showTime, false);
     const column5 = new GridColumn({
       headername: 'Date', fieldname: 'Date', type: this.gridColumnTypeEnum.calendar,
       columnParams: columnParams5, iseditable: true
