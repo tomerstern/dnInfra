@@ -41,5 +41,18 @@
     "isAuthorized": "Authorized",
     "isExporterDeposition": "Exporter Deposition",
     "isDigitallyArchived": "Digitally Archived"
+  },
+  "coo": {
+    "entityNo": "Entity No.",
+    "cooStatus": "Coo Status",
+    "cooType": "Coo Type",
+    "cooNo": "Coo No.",
+    "CUSDECFile": "CUSDEC  File",
+    "destination": "Destination",
+    "shipper": "Shipper",
+    "CNEE": "CNEE",
+    "ETD": "ETD",
+    "ATD": "ATD",
+    "CUSGTW": "CUSGTW"
   }
 }

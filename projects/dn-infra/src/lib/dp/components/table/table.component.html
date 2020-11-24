@@ -245,7 +245,7 @@ Get {{tableId}} errors from within
 
               <dp-autocomplete (getSelected)="updateRow(column.fieldname, row, $event, index, column.fieldCode)"
                 [initVal]="row[column.fieldname]" [required]="column.isMandatory" *ngSwitchCase="gridColumnTypeEnum.autocomplete" 
-                [datasource]="column.ColumnDatasource">
+                [datasource]="column.ColumnDatasource" [columnDefinition]="column">
               </dp-autocomplete>
 
 

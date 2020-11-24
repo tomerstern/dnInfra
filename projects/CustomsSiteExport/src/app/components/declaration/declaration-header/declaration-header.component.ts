@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CheckboxDefinitions } from 'projects/dn-infra/src/lib/dp/components/checkbox/objects/checkbox-definitions';
-
+import { DeclarationDetails, ExportCustom } from '../../../models/declaration/container';
+import { DeclarationService } from '../../../services/declaration.service';
 @Component({
   selector: 'app-declaration-header',
   templateUrl: './declaration-header.component.html',
@@ -8,6 +9,8 @@ import { CheckboxDefinitions } from 'projects/dn-infra/src/lib/dp/components/che
 })
 export class DeclarationHeaderComponent implements OnInit {
 
+  declarationDetails: DeclarationDetails;
+  exportCustom: ExportCustom;
   direction: string;
   shipmentNumber: number;
   processCode: string;
@@ -29,11 +32,16 @@ export class DeclarationHeaderComponent implements OnInit {
   chkIsAuthorizedDefinition: CheckboxDefinitions;
   chkIsDigitallyArchivedDefinition: CheckboxDefinitions;
   chkIsExporterDefinition: CheckboxDefinitions;
+e
+  constructor(private declarationService: DeclarationService) { }
 
-  constructor() { }
 
   ngOnInit(): void {
     this.direction = localStorage.getItem('dDirection');
+    debugger;
+
+    this.declarationDetails = this.declarationService.getDeclarationDetails();
+    // this.exportCustom = this.declarationService.getExportCustom();
     // this.direction = 'rtl';
     this.shipmentNumber = 111222;
     this.processCode = 'יצור מסחרי';

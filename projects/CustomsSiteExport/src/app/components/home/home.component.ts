@@ -19,6 +19,7 @@ import { Shipment } from '../../models/shipment';
 })
 export class HomeComponent implements OnInit {
   title = 'CustomsSiteExport';
+  isRtl = false;
 
   constructor(
     private shipmentService: ShipmentService,
@@ -28,6 +29,11 @@ export class HomeComponent implements OnInit {
   // calendarDefinitions: CalendarDefinitions;
 
   ngOnInit(): void {
+
+    if (localStorage.getItem('dDirection') !== null && localStorage.getItem('dDirection').toLowerCase() === 'rtl') {
+      this.isRtl = true;
+    }
+
 
     // this.calendarDefinitions = new CalendarDefinitions({
     //   minDate: new Date(2019, 6, 12), showTime: false

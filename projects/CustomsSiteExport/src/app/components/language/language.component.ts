@@ -21,7 +21,7 @@ export class LanguageComponent implements OnInit {
     else {
       localStorage.setItem('dDirection', 'ltr');
     }
-    localStorage.setItem('dpGLang', langSelect);
+    localStorage.setItem('dGLang', langSelect);
     window.location.reload();
   }
 }

@@ -43,7 +43,6 @@ export class LoginComponent implements OnInit {
     this.userService.getLoginUser(this.username, this.password)
       // .then(data => {
       .then((data: { Status: string; result: any }) => {
-        // debugger
         if (data.Status !== 'OK') {
           return;
         }
@@ -67,15 +66,15 @@ export class LoginComponent implements OnInit {
 
     // let Currentlang = 'en';
     // if (this.loginUsername === 'user_ru') {
-    //   localStorage.setItem('dpGLang', 'ru');
+    //   localStorage.setItem('dGLang', 'ru');
     //   Currentlang = 'ru';
     // }
     // else if (this.loginUsername === 'user_he') {
-    //   localStorage.setItem('dpGLang', 'he');
+    //   localStorage.setItem('dGLang', 'he');
     //   Currentlang = 'he';
     // }
     // else {
-    //   localStorage.setItem('dpGLang', 'en');
+    //   localStorage.setItem('dGLang', 'en');
     // }
 
     // this.translate.use(Currentlang).subscribe(() => {
@@ -96,19 +95,23 @@ export class LoginComponent implements OnInit {
       TempLanguage = TempLanguage.toLowerCase();
     }
     if (TempLanguage === undefined || TempLanguage === '' || TempLanguage === 'he' || TempLanguage === 'he-il') {
-      localStorage.setItem('dpGLang', 'he');
+      localStorage.setItem('dGLang', 'he');
+      localStorage.setItem('dDirection', 'rtl');
       Currentlang = 'he';
     }
     else if (TempLanguage === 'en' || TempLanguage === 'en-us') {
-      localStorage.setItem('dpGLang', 'en');
+      localStorage.setItem('dGLang', 'en');
+      localStorage.setItem('dDirection', 'ltr');
       Currentlang = 'en';
     }
     else if (TempLanguage === 'ru') {
-      localStorage.setItem('dpGLang', 'ru');
+      localStorage.setItem('dGLang', 'ru');
+      localStorage.setItem('dDirection', 'ltr');
       Currentlang = 'ru';
     }
     else {
-      localStorage.setItem('dpGLang', 'he');
+      localStorage.setItem('dGLang', 'he');
+      localStorage.setItem('dDirection', 'ltr');
       Currentlang = 'he';
     }
     return Currentlang;

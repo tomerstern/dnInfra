@@ -2,7 +2,7 @@
 
 <app-maintab></app-maintab>
 
-<div id="dpMainPageBody" class="dpCssTabContainer">
+<div id="dpMainPageBody" class="dpCssTabContainer" [ngClass]="(this.isRtl )?'clsDpRtl dpCssTabContainer' : 'dpCssTabContainer'">
     <router-outlet></router-outlet>
 </div>
 

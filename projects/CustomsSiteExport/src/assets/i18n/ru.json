@@ -26,5 +26,18 @@
     "home": {
         "title": "Привет, Angular с ngx-translate!",
         "select": "изменение языка"
-      }
+      },
+    "coo": {
+        "entityNo": "Entity No.",
+        "cooStatus": "Coo Status",
+        "cooType": "Coo Type",
+        "cooNo": "Coo No.",
+        "CUSDECFile": "CUSDEC  File",
+        "destination": "Destination",
+        "shipper": "Shipper",
+        "CNEE": "CNEE",
+        "ETD": "ETD",
+        "ATD": "ATD",
+        "CUSGTW": "CUSGTW"
+    }
 }

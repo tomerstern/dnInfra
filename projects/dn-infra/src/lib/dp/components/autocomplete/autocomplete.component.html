@@ -1,6 +1,8 @@
 <!-- innerValue={{innerValue | json}}<br> -->
 <!-- datasource={{datasource | json}} -->
-<br>
+
+<!-- (onClear)="clear(autoComplete.value)" -->
+
 <p-autoComplete *ngIf="definition" #autoComplete [id]="definition.inputId" [suggestions]="filteredData"
   (completeMethod)="
   filterEntity(
@@ -9,7 +11,7 @@
     definition.dp_AutocompleteType,
     definition.dpAutocompleteMaxSuggestionsToShow
   )
-" (onBlur)="blurEmit(autoComplete.value)" (onSelect)="emit(autoComplete.value)" (onClear)="clear(autoComplete.value)"
+" (onBlur)="blurEmit(autoComplete.value)" (onSelect)="emit(autoComplete.value)" (onClear)="getSelected.emit('')" 
   (onUnselect)="emit(autoComplete.value)" [ngModel]="innerValue" [ngModelOptions]="{standalone:true}"
   [scrollHeight]="definition.scrollHeight" [style]="definition.style" [field]="definition.field"
   [dropdown]="definition.dropdown" [multiple]="definition.multiple" [dropdownIcon]="definition.dropdownIcon"

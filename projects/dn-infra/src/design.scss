@@ -958,4 +958,15 @@ dp-table td > span{
     position: absolute;
   }
 }
-
+/* direction start*/
+// confuirmdialog, contextmenu, dialog, dynamicdialog, toast, tabview?
+dp-calendar, dp-autocomplete, 
+dp-button, dp-checkbox, dp-inputnumber, dp-inputtext, dp-menubar ,dp-picklist, dp-splitbutton, 
+dp-table, dp-tabmenu, dp-tree{
+  direction: ltr;
+}
+.clsDpRtl {direction: rtl;}
+.clsDpRtl .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem{
+  float: right;
+}
+/* direction end*/

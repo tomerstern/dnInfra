@@ -40,6 +40,16 @@ import { Declaration2Component } from './components/declaration/tabs/declaration
 import { DeclarationComponent } from './components/declaration/tabs/declaration/declaration.component';
 import { ShipmentDetailsComponent } from './components/declaration/tabs/open/shipment-details/shipment-details.component';
 import {FieldsetModule} from 'primeng/fieldset';
+import { PageNotFoundComponent } from './components/shared/components/pagenotfound/pagenotfound.component';
+
+import { CooHeaderComponent } from './components/coo/coo-header/coo-header.component';
+import { CooTabComponent } from './components/coo/coo-tab/coo-tab.component';
+import { CooToolbarComponent } from './components/coo/coo-toolbar/coo-toolbar.component';
+import { MainCooComponent } from './components/coo/main-coo/main-coo.component';
+import { GeneralComponent } from './components/coo/tabs/general/general.component';
+import { CooRoutingModule } from './components/coo/coo-routing.module';
+
+
 
 // export function configService(configService: ConfigService) {
 //   return () => configService.load();
@@ -68,7 +78,14 @@ import {FieldsetModule} from 'primeng/fieldset';
     DeclarationComponent,
     Declaration2Component,
     DeclarationToolbarComponent,
-    ShipmentDetailsComponent
+    ShipmentDetailsComponent,
+    PageNotFoundComponent,
+    CooHeaderComponent,
+    CooTabComponent,
+    CooToolbarComponent,
+    MainCooComponent,
+    GeneralComponent
+    // ,CooRoutingModule
   ],
 
   imports: [
@@ -127,7 +144,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
 
       // const Currentlang = 'en';
 
-      let Currentlang = localStorage.getItem('dpGLang');
+      let Currentlang = localStorage.getItem('dGLang');
       if (Currentlang == null) {
         Currentlang = 'en';
       }

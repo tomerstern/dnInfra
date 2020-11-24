@@ -1,7 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { addRow, deleteRow, updateRow, updateTable, clearStateChanges, sortColumn } from './actions';
 export const initialState: any = {};
-export let isDesc = false;
 
 const reducer = createReducer(initialState,
     on(updateTable, (state, action): any => {
@@ -35,7 +34,8 @@ const reducer = createReducer(initialState,
         const newData = {
             data: [...state[action.tableId].data.slice(0, action.rowIndex),
                 newRow, ...state[action.tableId].data.slice(action.rowIndex + 1)],
-            changes: newChanges
+            changes: newChanges,
+            sortOrder: state[action.tableId].sortOrder
         };
         const newTableData = { [action.tableId]: newData };
         return ({ ...state, ...newTableData });
@@ -66,7 +66,9 @@ const reducer = createReducer(initialState,
             [action.data.tableId]:
             {
                 data: [...tableData.slice(0, action.data.rowIndex),
-                ...tableData.slice(action.data.rowIndex + 1)], changes: newChanges
+                ...tableData.slice(action.data.rowIndex + 1)],
+                changes: newChanges,
+                sortOrder: state[action.data.tableId].sortOrder
             }
         };
         return ({ ...state, ...newTableData });
@@ -79,7 +81,11 @@ const reducer = createReducer(initialState,
         const newData = {
             data: [...tableData.slice(0, tableLength),
                 newRow],
-            changes: { ...state[action.data.tableId].changes, [key]: { ...action.data.rowToAdd, state: 4 } }
+            changes: {
+                ...state[action.data.tableId].changes,
+                [key]: { ...action.data.rowToAdd, state: 4 },
+            sortOrder: state[action.data.tableId].sortOrder
+            }
         };
         const newTableData = { [action.data.tableId]: newData };
         return ({ ...state, ...newTableData });
@@ -106,19 +112,17 @@ const reducer = createReducer(initialState,
         return state;
     }),
     on(sortColumn, (state, action): any => {
-
+        const fieldSortOrder = getSortOrder(state, action);
         const dataCopy = state[action.tableId].data.slice();
-
-        isDesc = !isDesc;
-        const direction = isDesc ? 1 : -1;
+        const direction = (fieldSortOrder === 'asc') ? -1 : 1;
         const field = action.fieldname;
 
         dataCopy.sort((a, b) => {
             if (a[field] < b[field]) {
-                return -1 * direction;
+                return 1 * direction;
             }
             else if (a[field] > b[field]) {
-                return 1 * direction;
+                return -1 * direction;
             }
             else {
                 return 0;
@@ -128,13 +132,24 @@ const reducer = createReducer(initialState,
         const newTableData = {
             [action.tableId]:
             {
-                data: dataCopy
+                data: dataCopy,
+                changes: state[action.tableId].changes,
+                sortOrder: { [action.fieldname]: fieldSortOrder }
             }
         };
 
         return ({ ...state, ...newTableData });
     })
 );
+
+export function getSortOrder(state, action) {
+    if (state[action.tableId].sortOrder === undefined ||
+        state[action.tableId].sortOrder[action.fieldname] === undefined) {
+        return 'asc';
+    }
+
+    return (state[action.tableId].sortOrder[action.fieldname] === 'asc' ? 'desc' : 'asc');
+}
 
 export function mySort(obj1: any, obj2: any) {
     return obj1;

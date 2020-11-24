@@ -125,6 +125,10 @@ export class UserService {
 
 
   GetUserMenus(userId: number, InitPath: string) {
+
+    if (userId === null ){
+      userId = 0;
+    }
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       const requestData = { userid: userId, initpaths: InitPath };

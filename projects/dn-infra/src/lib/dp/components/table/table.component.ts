@@ -22,6 +22,8 @@ import { FormArray, NgForm } from '@angular/forms';
 import { getAppState } from 'projects/dn-infra/src/lib/dp/store/selectors';
 import { ConfirmdialogDefinitions, positionDpConfirmdialog } from 'projects/dn-infra/src/lib/dp/components/confirmdialog/Objects/confirmdialog-definitions';
 import { ConfirmationService } from 'primeng/api';
+import { environment } from 'projects/CustomsSiteExport/src/environments/environment';
+import { HttpClient } from '@angular/common/http';
 
 interface MultiselectOptions {
   value?: string;
@@ -97,7 +99,8 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     public dialogService: DpDialogService,
     public messageService: MessageService,
     private store: Store<any>,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private http: HttpClient
   ) { }
 
   confirmdialogDef: ConfirmdialogDefinitions = new ConfirmdialogDefinitions({
@@ -149,7 +152,7 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
       // Remember value after debouncing
 
       // Do the actual search
-
+      
       this.store.dispatch(updateRow(val));
 
     });
@@ -192,9 +195,9 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     this.getFormValidationErrors();
   }
 
-  updateCalendar(columnField: string, row: object, val: any, columnFieldCode?: string){
-    // this.updateRow()
-  }
+  // updateCalendar(columnField: string, row: object, val: any, columnFieldCode?: string){
+  //   // this.updateRow()
+  // }
 
   showDynamicdialog1() {
     const Tlist = this.definition.columns;
@@ -326,23 +329,228 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   exportPdf() {
+    this.http.get('assets/Files/Arimo.txt', {responseType: 'text'})
+    .subscribe(data =>
+      this.exportPdfMain(data)
+      );
+  }
+
+  exportPdfMain(Arimo) {
+
     this.data$.pipe(take(1), map(x => x)).subscribe(data => {
       import('jspdf').then((jspdf: any) => {
         import('jspdf-autotable').then(x => {
-          const doc = new jspdf.default('l', 'mm', [305, 250]);
-          doc.autoTable(this.exportColumns, data);
-          doc.save('products.pdf');
+          const doc = new jspdf.default('l', 'mm', [305, 250]);  // [wide , high]
+
+          // doc.addFileToVFS('Arimo.ttf', environment.Arimo);
+          doc.addFileToVFS('Arimo.ttf', Arimo);
+          doc.addFont('Arimo.ttf', 'Arimo', 'normal');
+          doc.setFont('Arimo');
+
+
+          /* for first page  */
+          // add Image start
+          // const img = new Image();
+          // img.src = '/assets/Images/collection_png_32x32/flags/flag_israel.png';
+          // addImage(image, format, xPosition, yPosition, width, height).
+          // doc.addImage(img, 'png', 12, 1, 12, 15);
+          // add Image end
+          // doc.text('This is First Page Header', 30, 10); // add header
+
+          doc.autoTable(this.exportColumns, data, {
+            margin: { top: 25, bottom: 35 },
+            // styles: { fillColor: [255, 0, 0] },
+            /*  styles, headStyles, bodyStyles , footStyles, alternateRowStyles, columnStyles */
+            styles: {
+              font: 'Arimo',
+              fontStyle: 'normal',
+              lineWidth: 0.2 },
+            headStyles: { fillColor: [33, 33, 33], textColor: [255, 255, 255], fontSize: 11, lineWidth: 0.5 },
+          });
+
+          doc.setFontSize(10);
+          // doc.autoTable(this.exportColumns, data, { margin: { top: 25, bottom: 35 } }); /* working */
+
+          const imgHeader = new Image();
+          // imgHeader.src = '/assets/Images/collection_png_32x32/flags/flag_israel.png';
+          imgHeader.src = '/assets/Images/Logos/LogoExcel.png';
+          const pages = doc.internal.getNumberOfPages();
+          const pageWidth = doc.internal.pageSize.width;
+          const pageHeight = doc.internal.pageSize.height;
+
+          const HeaderText =  this.definition.pdfHeaderText;
+          const FooterText =  this.definition.pdfFooterText;
+
+          // const HeaderText = 'This is כותרת פנימית / Inner Page Header';
+          // doc.setTextColor(44, 222, 0);
+
+          for (let j = 1; j < pages + 1; j++) {
+
+            // addImage(imageData, format, x, y, width, height, alias, compression, rotation)
+            doc.addImage(imgHeader, 'png', 14, 3, 66, 19);
+
+            if (HeaderText !== '') {
+              doc.setFontSize(14);
+              doc.text(HeaderText, 110, 16); // add header
+            }
+
+            const horizontalPos = pageWidth / 2;
+            const verticalPos = pageHeight - 10;
+
+            if (FooterText !== '') {
+              doc.text(FooterText, 10, verticalPos - 15, { textColor: [33, 33, 33] }); // add footer
+            }
+
+            doc.setPage(j);
+            doc.setFontSize(10);
+            doc.text(`${j} of ${pages}`, horizontalPos, verticalPos, { align: 'center' });
+          }
+
+          doc.save('table.pdf');
         });
       });
     });
   }
+
 
   exportExcel() {
     import('xlsx').then(xlsx => {
       const worksheet = xlsx.utils.json_to_sheet(this.datasource);
       const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
       const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
-      this.saveAsExcelFile(excelBuffer, 'products');
+      this.saveAsExcelFile(excelBuffer, 'table');
+    });
+  }
+
+
+  // exportExcel() {
+  //     import('xlsx').then(xlsx => {
+  //   // Using same variables as the above answer
+  //     var Heading = [
+  //       ["FirstName", "Last Name", "Email"],
+  //     ];
+  //     var Footer = [
+  //       ["Footer Text", "More Text"],
+  //     ];
+
+  //     var Data = [
+  //       {firstName:"Jack", lastName: "Sparrow", email: "abc@example.com"},
+  //       {firstName:"Harry", lastName: "Potter", email: "abc@example.com"},
+  //     ];
+
+  //     //Had to create a new workbook and then add the header
+  //     const ws = xlsx.utils.book_new();
+  //     xlsx.utils.sheet_add_aoa(ws, Heading);
+
+  //     //Starting in the second row to avoid overriding and skipping headers
+  //     const worksheet = xlsx.utils.sheet_add_json(ws, Data, { origin: 'A2', skipHeader: true });
+
+
+  //     // xlsx.utils.sheet_add_aoa(ws, Footer);
+
+  //     // const worksheet = xlsx.utils.json_to_sheet(this.datasource);
+  //     const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+  //     const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+  //     this.saveAsExcelFile(excelBuffer, 'table');
+  //   });
+  // }
+
+
+  exportExcel99() {
+    import('xlsx').then(xlsx => {
+
+      const ws_data = [
+        ['very long text... very long text... very long text... very long text... very long text... very long text... ']
+        , ['A2', 'B2', 'C2']
+      ];
+
+      var merge = { s: { r: 0, c: 0 }, e: { r: 0, c: 1 } };
+
+
+      // const ws = xlsx.utils.aoa_to_sheet(ws_data);
+
+      const ws = xlsx.utils.book_new();
+      xlsx.utils.sheet_add_aoa(ws, ws_data);
+
+      // const ws =  xlsx.utils.sheet_add_aoa(ws_data, );
+
+      if (!ws['!merges']) {
+        ws['!merges'] = [];
+      }
+      ws['!merges'].push(merge);
+
+
+      const worksheet = xlsx.utils.json_to_sheet(this.datasource);
+      const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+      this.saveAsExcelFile(excelBuffer, 'table');
+    });
+  }
+
+  // exportExcel_ok() {
+  //   import('xlsx').then(xlsx => {
+
+
+
+  //     var wb = xlsx.utils.book_new();
+
+  //     const ws_name = "SheetJS";
+
+
+  //     const ws_data = [
+  //       ['very long text... very long text... very long text... very long text... very long text... very long text... '],
+  //       [1, 2, 3, 4]
+  //     ];
+
+  //     var merge = { s: { r: 0, c: 0 }, e: { r: 0, c: 1 } };
+
+  //     const ws = xlsx.utils.aoa_to_sheet(ws_data);
+
+  //     if(!ws['!merges']) ws['!merges'] = [];
+  //     ws['!merges'].push(merge);
+
+  //     /* Add the worksheet to the workbook */
+  //     xlsx.utils.book_append_sheet(wb, ws, ws_name);
+
+  //     const excelBuffer: any = xlsx.write(wb, { bookType: 'xlsx', type: 'array' });
+  //     this.saveAsExcelFile(excelBuffer, 'table');
+  //   });
+  // }
+
+  exportExcel_ok() {
+    import('xlsx').then(xlsx => {
+
+
+      // const wsdata = [['hello' , 'world']];
+      // const ws = xlsx.utils.aoa_to_sheet(wsdata);
+
+      // // const worksheet = xlsx.utils.table_to_sheet(dt.el.nativeElement);
+      // const worksheet = xlsx.utils.json_to_sheet(this.datasource);
+      // const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+
+
+      var wb = xlsx.utils.book_new();
+
+      const ws_name = "SheetJS";
+
+
+      const ws_data = [
+        ['very long text... very long text... very long text... very long text... very long text... very long text... '],
+        [1, 2, 3, 4]
+      ];
+
+      var merge = { s: { r: 0, c: 0 }, e: { r: 0, c: 1 } };
+
+      const ws = xlsx.utils.aoa_to_sheet(ws_data);
+
+      if (!ws['!merges']) ws['!merges'] = [];
+      ws['!merges'].push(merge);
+
+      /* Add the worksheet to the workbook */
+      xlsx.utils.book_append_sheet(wb, ws, ws_name);
+
+      const excelBuffer: any = xlsx.write(wb, { bookType: 'xlsx', type: 'array' });
+      this.saveAsExcelFile(excelBuffer, 'table');
     });
   }
 
@@ -356,6 +564,41 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
       FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
     });
   }
+
+
+
+  // exportPdf() {
+  //   this.data$.pipe(take(1), map(x => x)).subscribe(data => {
+  //     import('jspdf').then((jspdf: any) => {
+  //       import('jspdf-autotable').then(x => {
+  //         const doc = new jspdf.default('l', 'mm', [305, 250]);
+  //         doc.autoTable(this.exportColumns, data);
+  //         doc.save('products.pdf');
+  //       });
+  //     });
+  //   });
+  // }
+
+  // exportExcel() {
+  //   import('xlsx').then(xlsx => {
+  //     const worksheet = xlsx.utils.json_to_sheet(this.datasource);
+  //     const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+  //     const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+  //     this.saveAsExcelFile(excelBuffer, 'products');
+  //   });
+  // }
+
+  // saveAsExcelFile(buffer: any, fileName: string): void {
+  //   import('file-saver').then(FileSaver => {
+  //     const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+  //     const EXCEL_EXTENSION = '.xlsx';
+  //     const data: Blob = new Blob([buffer], {
+  //       type: EXCEL_TYPE
+  //     });
+  //     FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+  //   });
+  // }
+
   onRowSelect(event) {
     const boo = this.selectedEntity;
   }
@@ -415,7 +658,6 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     this.errors = {};
     setTimeout(() => {
       const form = (this.tableForm.form.controls[this.tableId] as FormArray).controls;
-      // debugger
       // we can check what the form status is before looping over it
       if (this.tableForm.form.controls[this.tableId].status === 'INVALID') {
         this.errors[this.tableId] = {};

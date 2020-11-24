@@ -20,6 +20,12 @@
 .text-right {
   text-align: right;
 }
+.dir-left {
+  direction: ltr;
+}
+.dir-right {
+  direction: rtl;
+}
 .ui-menu-list {
   text-align: left;
 } /*fix menu-item li text if container have another text-align*/

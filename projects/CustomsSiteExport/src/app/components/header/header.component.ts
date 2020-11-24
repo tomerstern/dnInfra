@@ -23,7 +23,13 @@ export class HeaderComponent implements OnInit {
   strStreet: string;
   res: any;
   tree: any;
+  isRtl = false;
   ngOnInit(): void {
+
+    if (localStorage.getItem('dDirection') !== null && localStorage.getItem('dDirection').toLowerCase() === 'rtl') {
+      this.isRtl = true;
+    }
+
 
     this.getDefinitions();
     this.getTestData();
@@ -47,7 +53,9 @@ export class HeaderComponent implements OnInit {
       this.userService.GetUserMenus(895, '9')
         .then((data: { Status: string; result: any }) => {
           if (data.Status === 'OK') {
-            this.buildTree(data.result);
+            if (data.result !== undefined) {
+              this.buildTree(data.result);
+            }
           }
           else {
             throw new Error(data.Status + ' : ' + data.result);
@@ -134,7 +142,14 @@ export class HeaderComponent implements OnInit {
     try {
 
       for (let i = 0, len = arr.length; i < len; i++) {
-        arr[i].label = arr[i].Name;
+        if( arr[i].Name.toLowerCase() === 'cus gte' ) {
+          arr[i].label = 'Menu';
+        }
+        else
+        {
+          arr[i].label = arr[i].Name;
+        }
+
         LocTreepath = arr[i].TreePath;
 
         if (arr[i].URL !== undefined && arr[i].URL !== '') {

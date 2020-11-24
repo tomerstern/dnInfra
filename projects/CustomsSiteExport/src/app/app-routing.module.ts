@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { AppComponent } from './app.component';
-import { LoginComponent } from './components/login/login.component';
+import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { Test1Component } from './components/test/test1/test1.component';
 import { Test2Component } from './components/test/test2/test2.component';
 import { Test3Component } from './components/test/test3/test3.component';
@@ -15,9 +13,16 @@ import {  OpenComponent } from './components/declaration/tabs/open/open.componen
 import { DeclarationComponent } from './components/declaration/tabs/declaration/declaration.component';
 import { Declaration2Component } from './components/declaration/tabs/declaration2/declaration2.component';
 
+import { GeneralComponent } from './components/coo/tabs/general/general.component';
+import { HeaderComponent } from './components/coo/tabs/header/header.component';
+
+import { PageNotFoundComponent } from './components/shared/components/pagenotfound/pagenotfound.component';
+
 const routes: Routes = [
   // // {path: '',  component: AppComponent},
   // { path: '', component: LoginComponent },
+  { path: '', component: HomeComponent },
+  // { path: '**', component: PageNotFoundComponent},
   { path: 'home', component: HomeComponent },
   { path: 'test1', component: Test1Component },
   { path: 'test2', component: Test2Component },
@@ -29,11 +34,16 @@ const routes: Routes = [
   { path: 'gt', component: GtComponent },
   { path: 'decTabOpen', component: OpenComponent },
   { path: 'decTabDeclaration', component: DeclarationComponent },
-  { path: 'decTabDeclaration2', component: Declaration2Component }
+  { path: 'decTabDeclaration2', component: Declaration2Component },
+
+  { path: 'general', component: GeneralComponent },
+  { path: 'header', component: HeaderComponent },
+
+  // { path: 'coo', loadChildren: () => import('./components/coo/coo.module').then(m => m.CooModule)}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
