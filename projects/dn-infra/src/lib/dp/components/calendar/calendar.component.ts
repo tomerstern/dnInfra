@@ -22,7 +22,7 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
   isInputByUser: boolean;
   @Input() definition: CalendarDefinitions;
   @Output() selectEvent: EventEmitter<number> = new EventEmitter();
-  tempVal = 0;
+  tempVal = null;
   private _innerValue: any;
   constructor() { }
   @Input() columnDefinition: any;
@@ -44,11 +44,8 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
     return this._innerValue;
   }
 
-  public set innerValue(newValue: number)
-  {
-    debugger
-    if (newValue)
-    {
+  public set innerValue(newValue: number) {
+    if (newValue) {
       let d = new Date(newValue);
       // d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()))
       // d.setMinutes( d.getMinutes() - d.getTimezoneOffset() );
@@ -76,17 +73,28 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
   }
 
   onInputClickOutside(input) {
+    console.log('hey from click outside:', input);
+
+    if (this.tempVal == null) {
+      // user selected a date from the date picker
+      this.selectEvent.emit(input);
+      return;
+    }
+
+    this.tempVal = null;
 
     if (this.definition.selectionMode === SelectionMode.range) {
       return;
     }
 
+    // user typed a date - format if neccessary
+    this.format(input);
+  }
+
+  format(input) {
+
     let hour: string;
     let minute: string;
-
-    if (input === '') {
-      return;
-    }
 
     if (this.definition.showTime) {
       const time = input.split(' ')[1];
@@ -121,10 +129,22 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
     }
 
     this.innerValue = Number(date);
+
+    console.log(input);
+
+    this.selectEvent.emit(this.innerValue);
   }
 
   setTempVal(event) {
     this.tempVal = event;
+    console.log(event);
+  }
+
+  onClose(event) {
+    console.log('hey from close event:', event);
+    if (event !== null) {
+      this.onInputClickOutside(event);
+    }
   }
 
   validateTime(aHouers, aMinute) {

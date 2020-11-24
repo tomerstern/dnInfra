@@ -173,7 +173,6 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   updateRow(columnField: string, row: object, val: any, rowIndex: number, columnFieldCode?: string) {
-
     if (val === undefined) {
       return;
     }
@@ -188,8 +187,13 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
       newRow = { ...row, ...{ [columnFieldCode]: val.code, [columnField]: val.name } };
     }
     // const newRow = { ...row, ...{ [columnField]: val } };
+
     this.store.dispatch(updateRow({ row: newRow, rowIndex, tableId: this.tableId }));
     this.getFormValidationErrors();
+  }
+
+  updateCalendar(columnField: string, row: object, val: any, columnFieldCode?: string){
+    // this.updateRow()
   }
 
   showDynamicdialog1() {
