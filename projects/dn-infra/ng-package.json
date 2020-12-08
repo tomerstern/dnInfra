@@ -3,5 +3,24 @@
   "dest": "../../dist/dn-infra",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "whitelistedNonPeerDependencies": [
+    "chart.js",
+    "chart.js",
+    "file-saver",
+    "jsondata",
+    "jspdf",
+    "jspdf-autotable",
+    "primeflex",
+    "primeicons",
+    "primeng",
+    "quill",
+    "rxjs",
+    "xlsx",
+    "zone.js",
+    "@fortawesome/angular-fontawesome",
+    "@fortawesome/fontawesome-svg-core",
+    "@fortawesome/free-solid-svg-icons",
+    "@fullcalendar/core"
+  ]
 }

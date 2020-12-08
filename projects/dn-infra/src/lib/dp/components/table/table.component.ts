@@ -22,7 +22,6 @@ import { FormArray, NgForm } from '@angular/forms';
 import { getAppState } from 'projects/dn-infra/src/lib/dp/store/selectors';
 import { ConfirmdialogDefinitions, positionDpConfirmdialog } from 'projects/dn-infra/src/lib/dp/components/confirmdialog/Objects/confirmdialog-definitions';
 import { ConfirmationService } from 'primeng/api';
-import { environment } from 'projects/CustomsSiteExport/src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 
 interface MultiselectOptions {
@@ -272,7 +271,7 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     // } else {
     //   // alert('you must supply an ID for each table');
     // }
-    
+
   }
 
   toggleFn(el: HTMLElement) {
