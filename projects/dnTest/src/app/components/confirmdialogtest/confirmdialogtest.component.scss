@@ -1,0 +1,19 @@
+// .fieldset-ConfirmDialog-center [class^="p-md-"]  {
+//     text-align: center;
+//   }
+
+.clsConfirmdialog5 {
+    .ui-dialog{padding: 4px !important; background-color:green !important;}	//Container element
+    .ui-confirmdialog	{background-color: red !important;} //Container element
+    .ui-dialog-titlebar{background-color: yellow !important;} // Container of header.
+    .ui-dialog-title {background-color: orange !important;} // 	Header element.
+    .ui-dialog-titlebar-icon  {background-color: pink !important;} // 	Icon container inside header.
+    .ui-dialog-titlebar-close  {background-color: brown !important;} // 	Close icon element.
+    .ui-dialog-content {background-color: black !important; color: white !important;} // 	Content element.
+    .ui-dialog-footer {background-color: silver !important;} // footer
+}
+
+
+@media(min-width:1200px){
+    .clsWidth120 button{width: 120px;}
+}

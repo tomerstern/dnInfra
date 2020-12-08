@@ -1,0 +1,54 @@
+<!-- <ng-container *ngIf="column.iseditable">
+
+  <ng-container [ngSwitch]="column.type">
+
+    <dp-inputtext [required]="column.isMandatory" [name]="row[column.fieldname]" *ngSwitchCase="gridColumnTypeEnum.span"
+      [(ngModel)]="row[column.fieldname]" [columnDefinition]="column"></dp-inputtext>
+
+
+    <dp-checkbox *ngSwitchCase="gridColumnTypeEnum.checkbox" [(ngModel)]="row[column.fieldname]"
+      [name]="row[column.fieldname]">
+    </dp-checkbox>
+
+    <dp-inputnumber [required]="column.isMandatory" [(ngModel)]="row[column.fieldname]" [name]="row[column.fieldname]" [columnDefinition]="column"
+      *ngSwitchCase="gridColumnTypeEnum.inputnumber">
+    </dp-inputnumber>
+
+    <img *ngSwitchCase="gridColumnTypeEnum.image" class="my-center-text" src="{{row[column.fieldname]}}"
+      title="{{row[column.fieldname.concat('_tooltip')]}}" width="{{column.width}}" height="{{column.height}}">
+
+    <dp-calendar [required]="column.isMandatory" [rowData]="row" 
+    [columnDefinition]="column" [(ngModel)]="row[column.fieldname]" [name]="row[column.fieldname]" 
+    *ngSwitchCase="gridColumnTypeEnum.calendar">
+    </dp-calendar>
+
+    <dp-autocomplete *ngSwitchCase="gridColumnTypeEnum.dropdown" [columnDefinition]="column"
+        [datasource]="column.ColumnDatasource">
+      </dp-autocomplete>
+
+
+  </ng-container>
+</ng-container>
+<div *ngIf="column.iseditable == false" [ngSwitch]="column.type">
+  <span *ngSwitchCase="gridColumnTypeEnum.span"
+    (click)="column.clickColumnName !== undefined ? clickEvent(row[column.clickColumnName]) : ''" [style]="column.style"
+    [class]="column.class">
+    {{row[column.fieldname]}}
+  </span>
+  <span *ngSwitchCase="gridColumnTypeEnum.calendar">{{row[column.fieldname] | date: 'dd/MM/yyyy'}}</span>
+  <span
+    *ngSwitchCase="gridColumnTypeEnum.inputnumber">{{column.columnParams.getValueByKey(inputNumberProperties.prefix)}}
+    {{row[column.fieldname]}}
+    {{column.columnParams.getValueByKey(inputNumberProperties.suffix)}}
+  </span>
+  
+  
+  <dp-checkbox *ngSwitchCase="gridColumnTypeEnum.checkbox" [(ngModel)]="row[column.fieldname]"
+  [name]="row[column.fieldname]">
+</dp-checkbox>
+
+
+  <img *ngSwitchCase="gridColumnTypeEnum.image" class="my-center-text" src="{{row[column.fieldname]}}"
+    title="{{row[column.fieldname.concat('_tooltip')]}}" width="{{column.width}}" height="{{column.height}}">
+  <span *ngSwitchCase="gridColumnTypeEnum.dropdown">{{row[column.fieldname]}}</span>
+</div> -->

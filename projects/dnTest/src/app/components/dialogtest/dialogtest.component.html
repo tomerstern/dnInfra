@@ -1,0 +1,153 @@
+
+<div class="clsEelementContainer">
+    <h2>in dialogtest.component.html</h2>
+    <div class="p-grid"> 
+        <div class="p-col-12 p-md-1">
+            <fieldset>
+                <legend>click Image / Button</legend>  
+
+                <!-- [position]="definition.dp_positionDpConfirmdialog" -->
+
+                <!-- [baseZIndex]="10000" -->
+                <!-- [(visible)]="displayBasic" -->
+
+                <img (click)="dialog1.dp_showDialog()" class="cssImgDialog1" src="/assets/Images/collection_png_32x32/plain/airplane.png">
+                <br>
+                <p-button (click)="dialog1.dp_showDialog()" icon="pi pi-external-link" label="Show"></p-button>
+
+                <dp-dialog #dialog1 [definition]="dialogDefinition1"></dp-dialog>
+
+                <!-- <ng-template pTemplate="footer">
+                    <p-button icon="pi pi-check" (click)="displayBasic=false" label="Yes" styleClass="p-button-text"></p-button>
+                    <p-button icon="pi pi-times" (click)="displayBasic=false" label="No"></p-button>
+                </ng-template> -->
+                
+                <br><br>
+            </fieldset>
+        </div>
+
+
+        
+        <div class="p-col-12 p-md-4">
+            <fieldset class="clsWidth120">
+                
+                <legend>position</legend>  
+                <div class="p-grid">                    
+                    <div class="p-col-12 p-md-4">
+
+                        <button (click)="dialog2.dp_showDialog()" pButton icon="pi pi-arrow-left" label="Left"
+                            class="ui-button-primary"
+                        ></button>
+
+                        <dp-dialog #dialog2 [definition]="dialogDefinition2"></dp-dialog>
+                        
+                    </div>
+
+                    <div class="p-col-12 p-md-4">
+
+                        <button (click)="dialog3.dp_showDialog()" pButton icon="pi pi-arrow-down" label="Bottom"
+                            class="ui-button-secondary"
+                        ></button>
+
+                        <dp-dialog #dialog3 [definition]="dialogDefinition3"></dp-dialog>       
+
+                    </div>
+        
+                    <div class="p-col-12 p-md-4">
+                        
+                        <button (click)="dialog4.dp_showDialog()" pButton icon="pi pi-arrow-right" label="Top Right"
+                            class="ui-button-danger"
+                        ></button>
+
+                        <dp-dialog #dialog4 [definition]="dialogDefinition4"></dp-dialog>       
+                    
+                    </div>
+
+
+                <br><br>
+                </div>
+            </fieldset>
+            
+        </div>
+
+        <div class="p-col-12 p-md-5">
+            <fieldset class="clsWidth120">
+                
+                <legend>more</legend>  
+                <div class="p-grid">                    
+                    <div class="p-col-12 p-md-3">
+
+                        <button (click)="dialog5.dp_showDialog()" pButton label="Modal"
+                            class="ui-button-success"
+                        ></button>
+
+                        <dp-dialog #dialog5 [definition]="dialogDefinition5"></dp-dialog>
+
+ 
+                    </div>
+
+                    <div class="p-col-12 p-md-3">
+
+                        <button (click)="dialog6.dp_showDialog()" pButton label="Maximizable"
+                            class="ui-button-warning"
+                        ></button>
+
+                        <dp-dialog #dialog6 [definition]="dialogDefinition6"></dp-dialog>       
+
+                    </div>
+        
+                    <div class="p-col-12 p-md-3">
+                        
+                        <button (click)="dialog7.dp_showDialog()" pButton label="No Header"
+                            class="ui-button-info"
+                        ></button>
+
+                        <dp-dialog #dialog7 [definition]="dialogDefinition7"></dp-dialog>       
+                     
+
+                    </div>
+
+                    <div class="p-col-12 p-md-3">
+                        
+                        <button (click)="dialog8.dp_showDialog()" pButton label="no closable"
+                            class="ui-button-danger"
+                        ></button>
+
+                        <dp-dialog #dialog8 [definition]="dialogDefinition8"></dp-dialog>       
+                                            
+
+                    </div>                    
+                    
+
+                    <br><br>
+                </div>
+            </fieldset>
+        </div>
+
+        <div class="p-col-12 p-md-2">
+            <fieldset>
+                
+                <legend>Content + Long Text</legend>
+          
+                    <button (click)="dialog9.dp_showDialog()" pButton label="Content"
+                        class="clsBtnCustom"
+                    ></button>
+                    
+                    <dp-dialog #dialog9 [definition]="dialogDefinition9"></dp-dialog>                        
+
+                    <br><br>
+                    <button (click)="dialog10.dp_showDialog()" pButton label="Custom buttons"
+                        class="clsBtnCustom"
+                    ></button>
+                    
+                    <dp-dialog  #dialog10 [definition]="dialogDefinition10"></dp-dialog>                        
+
+                <br><br>
+            </fieldset>
+        </div>
+    </div>
+
+    
+
+</div>
+

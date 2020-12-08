@@ -1,0 +1,14 @@
+<ng-container *ngIf="definition.mode == inputTextModeEnum.basic">
+  <input (blur)="onBlur()" [disabled]="definition.disabled"
+    [(ngModel)]="innerValue" [size]="definition.size" type="text" pInputText>
+</ng-container>
+
+<span *ngIf="definition.mode == inputTextModeEnum.float" class="ui-float-label">
+    <input minlength="10"
+    [(ngModel)]="innerValue" (blur)="onBlur()"
+        type="text" [size]="definition.size" pInputText>
+    <label [for]="definition.id">{{definition.floatMessage}}</label>
+</span>
+
+
+<!-- {{definition.mode}} -->

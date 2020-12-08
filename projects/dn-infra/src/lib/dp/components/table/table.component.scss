@@ -1,0 +1,90 @@
+.my-center-text {
+    text-align: center;
+    width: 100%;
+}
+
+.mandatory{
+    float: right; 
+    color: red;
+    font-size:20px;
+}
+
+
+dp-table {
+    .clsDpFilterCell{width:60px;}
+    .clsDpFilterHeader input, .clsDpFilterHeader p-calendar{max-width: 100%;}
+        // th{ max-height: 55px !important ;
+        //  height: 55px !important;} 
+         /* frozen cols - fix height - scrollable cells have content with varying height*/
+    // .clsBtnFreezeCols {
+    //     background-image: url('projects/dn-infra/src/assets/Buttons/BtnRect_Freeze.gif');     
+    //     background-repeat: no-repeat;
+    //     background-position:center center;
+    //     .ui-button-text{
+    //         visibility: hidden !important;
+    //     }
+    //     width: 33px;
+    //     height: 33px;
+    // }
+    // .clsBtnFreezeCols.clsBtnFreezeColsSelected { 
+    //     background-image: url('projects/dn-infra/src/assets/Buttons/BtnRect_FreezeH.gif');       
+    // }
+}
+// .ui-table-scrollable-wrapper .ui-table-scrollable-view:nth-child(1) .cssFrozenHeader {
+//      /* fix duplicate index on 2 elements for frozen cols */
+//     background-image: url('projects/dn-infra/src/assets/Buttons/BtnRect_Freeze.gif');     
+//     background-repeat: no-repeat;
+//     background-size: 1.5em;
+//     border-bottom-style: dashed !important;
+//     border-bottom-width :2px !important;        
+// }
+
+// .ui-table-scrollable-wrapper .ui-table-scrollable-view:nth-child(1) .cssFrozenHeader:before{
+//     content: "\f08d";  /* this is your text. You can also use UTF-8 character codes as I do here */
+//     font-family: FontAwesome;
+//     // left:-5px;
+//     position:absolute;
+//     top:0;
+//     color:red;
+//     left: 0;
+// }
+
+th {position: relative;}
+
+.cssFrozenHeaderIcon{
+    visibility: hidden;
+    position:absolute;
+    top:-2px;
+    color:white;
+    left: 0;
+    font-size: 10px;
+}
+
+.ui-table-frozen-view{
+    .clsDpFilterCell{
+        display:none;
+    }
+}
+
+// .ui-table-scrollable-header-table, .ui-table-scrollable-body{
+   
+// }
+body .ui-table .ui-sortable-column:focus fa-icon{
+    color: black;
+}
+body .ui-table .ui-sortable-column:not(.ui-state-highlight):hover fa-icon{
+    color: black;
+}
+// .ui-table-scrollable-wrapper .ui-table-scrollable-view:nth-child(1) .cssFrozenHeader .cssFrozenHeaderIcon{
+//     visibility: visible;
+// }
+
+
+// .ui-table-scrollable-wrapper .ui-table-scrollable-view:nth-child(2) { /* fix frozen cols */
+//     position: absolute !important;
+//     top: 0 !important;
+//   }
+// .ui-table-unfrozen-view {
+//     position: absolute;
+//     top: 0;
+// }

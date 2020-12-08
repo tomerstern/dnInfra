@@ -1,0 +1,170 @@
+
+<h2>הקפאת כותרת</h2>
+
+    <p-table [value]="sales" [scrollable]="true" scrollHeight="200px">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>header 1</th>
+                <th>header 2</th>
+                <th>header 3</th>
+                <th>header 4</th>
+                <th>header 5</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-sale>
+            <tr>
+                <td>{{sale.product}}</td>
+                <td>{{sale.lastYearSale}}%</td>
+                <td>{{sale.thisYearSale}}%</td>
+                <td>{{sale.lastYearProfit | currency: 'USD'}}</td>
+                <td>{{sale.thisYearProfit | currency: 'USD'}}</td>       
+            </tr>
+        </ng-template>
+    </p-table>
+
+
+<h2>הקפאת עמודות</h2>
+
+    <p-table [value]="sales2" [scrollable]="true" frozenWidth="250px">
+        <ng-template pTemplate="caption">
+            <div class="ui-helper-clearfix" style="text-align: left">
+                <button type="button"
+                    pButton icon="pi pi-file-o" iconPos="left" 
+                    style="margin-right: 0.5em;">
+                </button>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>header 1</th>
+                <th>header 2</th>
+                <th>header 3</th>
+                <th>header 4</th>
+                <th>header 5</th>
+                <th>header 6</th>
+                <th>header 7</th>
+                <th>header 8</th>
+                <th>header 9</th>                
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="frozencolgroup" let-columns>
+            <colgroup>
+                <col style="width:200px">
+                <col style="width:50px">
+            </colgroup>
+        </ng-template>   
+        <ng-template pTemplate="colgroup" let-columns>
+            <colgroup>
+                <col style="width:100px">
+                <col style="width:100px">
+                <col style="width:100px">
+                <col style="width:100px">
+            </colgroup>
+        </ng-template>     
+        <ng-template pTemplate="body" let-sale>
+            <tr>
+                <td>{{sale.product}}</td>
+                <td>{{sale.lastYearSale}}%</td>
+                <td>{{sale.thisYearSale}}%</td>
+                <td>{{sale.lastYearProfit | currency: 'USD'}}</td>
+                <td>{{sale.thisYearProfit | currency: 'USD'}}</td>
+                <td>{{sale.lastYearSale1}}%</td>
+                <td>{{sale.thisYearSale1}}%</td>
+                <td>{{sale.lastYearProfit1 | currency: 'USD'}}</td>
+                <td>{{sale.thisYearProfit1 | currency: 'USD'}}</td>                
+            </tr>
+        </ng-template>
+
+    </p-table>
+
+<h2>מיזוג עמודות</h2>
+
+
+    <p-table [value]="sales" >
+
+        <ng-template pTemplate="header">
+                <tr>
+                    <th rowspan="3">Product</th>
+                    <th colspan="4">Sale Rate</th>
+                </tr>
+                <tr>
+                    <th colspan="2">Sales</th>
+                    <th colspan="2">Profits</th>
+                </tr>
+                <tr>
+                    <th>Last Year</th>
+                    <th>This Year</th>
+                    <th>Last Year</th>
+                    <th>This Year</th>
+                </tr>
+            </ng-template>
+        <ng-template pTemplate="body" let-sale>
+            <tr>
+                <td>{{sale.product}}</td>
+                <td>{{sale.lastYearSale}}%</td>
+                <td>{{sale.thisYearSale}}%</td>
+                <td>{{sale.lastYearProfit | currency: 'USD'}}</td>
+                <td>{{sale.thisYearProfit | currency: 'USD'}}</td>
+            </tr>
+        </ng-template>
+
+    </p-table>
+    
+    <h2>עמודה מחושבת + SUM+TOTAL</h2>
+
+
+    <p-table [value]="sales" >
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th>header 1</th>
+                <th>header 2</th>
+                <th>header 3</th>
+                <th>header 4</th>
+                <th>header 5</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-sale>
+            <tr>
+                <td>{{sale.product}}</td>
+                <td>{{sale.lastYearSale}}%</td>
+                <td>{{sale.thisYearSale}}%</td>
+                <td>{{sale.lastYearProfit | currency: 'USD'}}</td>
+                <td>{{sale.thisYearProfit | currency: 'USD'}}</td>     
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <tr>
+                <!-- <td *ngFor = "let column of definition.columns"> -->
+                <td *ngFor="let col of sales; let i=index" >                    
+                    <ng-container *ngIf="i === 0"> 
+                                Total: {{dpCalculateTotalRows(i, sales)}}
+                    </ng-container>
+                    <ng-container *ngIf="i === 3"> 
+                        {{dpCalculateColumnSum(i, sales)}}
+                    </ng-container>                 
+                </td>
+            </tr>  
+        </ng-template>  
+
+        <!-- <ng-template pTemplate="footer">
+             <tr> 
+                 <td>aaaaaaa</td>
+                <ng-template let-i="index">
+                    <td>
+                        <ng-container *ngIf="i === 0"> 
+                            
+                        </ng-container>
+                        <ng-container *ngIf="i === 3 || i === 4"> 
+                            
+                        </ng-container>   
+                        i={{i}}                 
+                    </td>
+                </ng-template>
+            </tr>
+        </ng-template> -->
+
+    </p-table>
+        
+<br><br>

@@ -1,0 +1,40 @@
+<!-- <table border=1>
+    <tr>
+        <td>Line No.</td>
+        <td>Form Type</td>
+        <td>Entity</td>
+        <td>Shipper</td>
+        <td>CNEE</td>
+        <td>Open Date</td>
+        <td>Opened By</td>
+        <td>COO Status</td>
+        <td>Doc Status</td>
+        <td>Date</td>
+        <td>DHL Status</td>
+        <td>Update By</td>			
+    </tr>
+    <tr *ngFor ="let FromDetails of gridData">
+        <td (click)="RowClick(FromDetails.LineNo)">{{FromDetails.LineNo}}</td>
+        <td (click)="RowClick(FromDetails.LineNo)">{{FromDetails.FormType}}</td>
+        <td (click)="RowClick(FromDetails.LineNo)">{{FromDetails.Entity}}</td>
+        <td (click)="RowClick(FromDetails.LineNo)">{{FromDetails.Shipper}}</td>
+        <td (click)="RowClick(FromDetails.LineNo)">{{FromDetails.CNEE}}</td>
+        <td (click)="RowClick(FromDetails.LineNo)">{{FromDetails.OpenDate}}</td>
+        <td (click)="RowClick(FromDetails.LineNo)">{{FromDetails.OpenBy}}</td>
+        <td (click)="RowClick(FromDetails.LineNo)">{{FromDetails.COOStatus}}</td>
+        <td (click)="RowClick(FromDetails.LineNo)">{{FromDetails.DocStatus}}</td>
+        <td (click)="RowClick(FromDetails.LineNo)">{{FromDetails.date}}</td>
+        <td (click)="RowClick(FromDetails.LineNo)">{{FromDetails.DHLStatus}}</td>
+        <td (click)="RowClick(FromDetails.LineNo)">{{FromDetails.UpdateBy}}</td>
+    </tr>
+</table> -->
+
+<dp-table *ngIf="gridData"
+    tableId="tableFormDetails"
+    [definition]="gridDefinition" 
+    [datasource]="gridData"
+   >
+</dp-table> 
+
+
+

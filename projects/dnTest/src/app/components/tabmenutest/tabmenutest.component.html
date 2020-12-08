@@ -1,0 +1,76 @@
+<div>
+    <h2>in tabmenutest.component.html</h2>
+    <div class="p-grid">
+        <div class="p-col-12 p-md-6">
+            <fieldset>
+                <legend>tabmenu 1:</legend>
+             
+                <dp-tabmenu
+                    [definition]="tabmenuDefinition1"
+                    [datasource]="items1"
+                ></dp-tabmenu>
+
+
+                <br><br>
+
+            </fieldset>
+        </div>
+        <div class="p-col-12 p-md-6">
+            <fieldset>
+                <legend>tabmenu 2:</legend>
+             
+                <dp-tabmenu id="Tabmenu2"
+                    [definition]="tabmenuDefinition2"
+                    [datasource]="items2"
+                ></dp-tabmenu>
+
+                <br>
+                
+                <a [routerLink]="[{ outlets: { third: ['tabmenulink4'] } }]">Inner to page 4</a>
+                <br>
+                <!-- <router-outlet name="third"></router-outlet> -->
+
+            </fieldset>
+
+        </div>
+
+    </div>
+
+    <div class="p-grid">
+        <div class="p-col-12 p-md-6">
+            <fieldset>
+                <legend>tabmenu 3 with design:</legend>
+             
+                <dp-tabmenu 
+                    class="dp-css"
+                    [definition]="tabmenuDefinition1"
+                    [datasource]="items1"
+                ></dp-tabmenu>
+
+
+                <br><br>
+
+            </fieldset>
+        </div>
+        <div class="p-col-12 p-md-6">
+            <fieldset>
+                <legend>tabmenu 4 with design:</legend>
+             
+                <dp-tabmenu id="Tabmenu2"
+                    class="dp-css"
+                    [definition]="tabmenuDefinition2"
+                    [datasource]="items2"
+                ></dp-tabmenu>
+
+                <br>
+                
+                <a [routerLink]="[{ outlets: { third: ['tabmenulink4'] } }]">Inner to page 4</a>
+                <br>
+                <!-- <router-outlet name="third"></router-outlet> -->
+
+            </fieldset>
+
+        </div>
+
+    </div>
+</div>

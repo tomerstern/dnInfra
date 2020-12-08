@@ -1,0 +1,97 @@
+<!-- {{(declarationService.declarationDataSubject$ | async) | json}} -->
+
+<ng-container *ngIf="(declarationService.declarationDataSubject$ | async) as d">
+
+    <!-- {{d}} -->
+   
+    
+    <div class="p-grid" dir={{direction}}> 
+        <div class="p-col-12 p-md-1"></div>
+        <div class="p-col-12 p-md-10 HeaderTable1">
+    
+            <div class="p-grid"> 
+                <div class="p-col HeaderBG1">
+                    shipmentNumber: <!--  {{ 'declaration.shipmentNumber' | translate  }} -->
+                    <br><br>
+                    processCode: <!-- {{ 'declaration.processCode' | translate  }} -->
+                </div>
+                <div class="p-col HeaderBG1">
+                    {{d.dataDeclaration.ShipmentNumber}}
+                    <br><br>
+                    {{d.dataDeclaration.DeclarationDetails.DeclarationCurrentCode}}
+                </div>
+                <div class="p-col">
+                    customerName: <!-- {{ 'declaration.customerName' | translate  }}: -->
+                    <br><br>
+                    team:<!-- {{ 'declaration.team' | translate  }}: -->
+                </div>
+                <div class="p-col HeaderBG2">
+                    {{d.dataDeclaration.ExportCustoms.CustomerName}}
+                    <br><br>
+                    {{d.dataDeclaration.ExportCustoms.OperationTeamName}}
+                </div>
+                <div class="p-col">
+                    declarationId:<!-- {{ 'declaration.declarationId' | translate  }}: -->
+                    <br><br>
+                    version:                <!-- {{ 'declaration.version' | translate  }}: -->
+                </div>    
+                <div class="p-col HeaderBG2">
+                    {{d.dataDeclaration.DeclarationDetails.DeclarationID}}
+                    <br><br>
+                    {{d.dataDeclaration.DeclarationDetails.VersionID}}
+                </div>      
+                <div class="p-col">
+                    declarationStatus:<!-- {{ 'declaration.declarationStatus' | translate  }}: -->
+                    <br><br>
+                    logisticStatus:  <!-- {{ 'declaration.logisticStatus' | translate  }}: -->
+                </div>    
+                <div class="p-col HeaderBG2">
+                    {{d.dataDeclaration.DeclarationDetails.DeclarationStatusName}}
+                    <br><br>
+                    {{d.dataDeclaration.DeclarationDetails.LogisticStatusName}}
+                </div>    
+                <div class="p-col">
+                    isFileInProcess:<!-- {{ 'declaration.isFileInProcess' | translate  }}: -->
+                    <br><br>
+                    isApprovedExporter:<!-- {{ 'declaration.isApprovedExporter' | translate  }}: -->
+                </div>    
+                <div class="p-col">
+                    <dp-checkbox [definition]="chkIsFileInProcessDefinition" [(ngModel)]="chkIsFileInProcessChecked"></dp-checkbox>
+                    <br><br>
+                    <dp-checkbox [definition]="chkIsApprovedExporterDefinition"></dp-checkbox>
+                </div>   
+                <div class="p-col HeaderBG2">
+                    {{processTime}}
+                </div> 
+                <div class="p-col">
+                    <br><br>
+                    isAuthorized:<!-- {{ 'declaration.isAuthorized' | translate  }}: -->
+                </div>    
+                <div class="p-col">
+                    <br><br>
+                    <dp-checkbox [definition]="chkIsAuthorizedDefinition"></dp-checkbox>
+                </div>     
+                <div class="p-col">
+                    isExporterDeposition:<!-- {{ 'declaration.isExporterDeposition' | translate  }}: -->
+                    <br><br>
+                    isDigitallyArchived:<!-- {{ 'declaration.isDigitallyArchived' | translate  }}: -->
+                </div>    
+                <div class="p-col">
+                    <dp-checkbox [definition]="chkIsExporterDefinition"></dp-checkbox>
+                    <br><br>
+                    <dp-checkbox [definition]="chkIsDigitallyArchivedDefinition"></dp-checkbox>
+                </div>                                                                                     
+            </div>
+        </div>
+        <div class="p-col-12 p-md-1"></div>
+    </div>
+
+</ng-container>
+
+
+<br/>
+<br/>
+
+
+
+

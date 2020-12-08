@@ -1,0 +1,27 @@
+<div class="clsEelementContainer">
+    <h2>in dynamicdialogtest.component.html</h2>
+    <div class="p-grid"> 
+
+        <p-toast [style]="{marginTop: '80px'}"></p-toast>
+
+        <div class="p-col-12 p-md-6">
+            <fieldset>
+                <legend>table</legend>  
+
+                <button type="button" (click)="showDynamicdialog1()" pButton icon="pi pi-info-circle" label="Show With Table"></button>
+
+                <br><br>
+            </fieldset>
+        </div>
+        <div class="p-col-12 p-md-6">
+            <fieldset id="fieldset_Contextmenu_Images">
+                <legend>modal with options</legend>
+                
+                <button type="button" (click)="showDynamicdialog2()" pButton icon="pi pi-info-circle" label="Show Actions on Buttons"></button>
+
+                
+            </fieldset>
+            
+        </div>
+    </div>  
+</div>

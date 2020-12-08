@@ -1,0 +1,43 @@
+{
+    "username" : "Имя пользователя",
+    "email": "Адрес электронной почты",
+    "phoneNo": "Телефон",
+    "password": "пароль",
+    "welcomeMessage": "Спасибо за присоединение, ! Приятно видеть тебя!",
+    "login": {
+        "login": "авторизоваться",
+        "username": "Введите имя пользователя ",
+        "password": "Пароль здесь",
+        "email": "введите адрес электронной почты",
+        "city": "Рош Хаин",
+        "street" : "Хагефен 1"
+    },
+    "tableCustom" : {
+        "header1" : "наименование товара",
+        "header2" : "Сумма в этом году",
+        "header3" : "Сумма за прошлый год",
+        "header4" : "Прибыль в этом году",
+        "header5" : "Прибыль за прошлый год"
+    },
+    "generalTable" : {
+        "tabledata" : "Табличные данные"
+
+    },
+    "home": {
+        "title": "Привет, Angular с ngx-translate!",
+        "select": "изменение языка"
+      },
+    "coo": {
+        "entityNo": "Entity No.",
+        "cooStatus": "Coo Status",
+        "cooType": "Coo Type",
+        "cooNo": "Coo No.",
+        "CUSDECFile": "CUSDEC  File",
+        "destination": "Destination",
+        "shipper": "Shipper",
+        "CNEE": "CNEE",
+        "ETD": "ETD",
+        "ATD": "ATD",
+        "CUSGTW": "CUSGTW"
+    }
+}

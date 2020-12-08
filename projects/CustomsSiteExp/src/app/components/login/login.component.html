@@ -1,0 +1,38 @@
+<div id="dpHeaderContainer" class="p-grid clsNoMargin"></div>
+
+<!-- <button (click)="test4()">test</button> -->
+
+<div id="dpLoginBody">
+    <div id="dpLoginContainer">
+        <h2>Export Customs</h2>
+        <div class="container2">
+            <div class="ui-fluid">
+                <div class="p-field">
+                    <label for="username">User name</label>
+                    <input id="username" 
+                    type="text"
+                    pInputText placeholder="type user_ru or user_he"
+                    [(ngModel)]="username"> 
+                </div>
+                <div class="p-field">
+                    <label for="password">Password</label>
+                    <input id="password" type="password" pInputText
+                    [(ngModel)]="password"
+                    > 
+                </div>  
+            </div>
+            <!-- (click)="" -->
+            <div id="dpLoginBtnContainer" class="text-center">
+                <dp-button class="ui-button-yellow" (click)='login()' [definition]="btnLoginDef"></dp-button>
+            </div> 
+            <div id="dpLoginForgotContainer" class="text-center">
+                Forgot your password? 
+                <a [routerLink]="" routerLinkActive="active"> click here </a>
+            </div> 
+            <!-- <button pButton label="login"
+                class="ui-button ui-button-yellow" (click)='login()'
+            ></button> -->
+        </div>
+    </div>
+</div>
+

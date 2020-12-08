@@ -1,0 +1,26 @@
+<p-tabView #tabview *ngIf="TabPanelDefinition && TabViewDefinition || 1 === 1">
+    <p-tabPanel header="Header 1">
+        
+    </p-tabPanel>
+    <p-tabPanel header="Header 2">
+        <ng-template pTemplate="content">
+            Complex Content to Lazy Load
+        </ng-template>
+    </p-tabPanel>
+    <p-tabPanel header="Header 3">
+        <ng-template pTemplate="content">
+            Complex Content to Lazy Load
+        </ng-template>
+    </p-tabPanel>
+</p-tabView>
+
+
+<!-- 
+(onNodeSelect)="onTreeNodeSelect(tree.selection, definition.selectionMode, $event)"   -->
+
+<!-- (onNodeUnselect)="onTreeNodeSelect(tree.selection, definition.selectionMode, $event)" 
+[(selection)]="this.treeSelectedValues"
+[value]="datasource"
+[selectionMode]="definition.selectionMode"    
+[style]="definition.style"
+[styleClass]="definition.styleClass" -->

@@ -1,0 +1,32 @@
+
+<h2>in autocompletesingletest.component.html</h2>
+
+<div class="p-grid">
+
+    <div class="p-col-12 p-md-6">
+        
+        <!-- <dp-autocomplete (getSelected)="externalDataSelected6 = $event" 
+        [definition]="autocompleteDefinition6" 
+        [datasource]="dataForAc6">
+        </dp-autocomplete> -->
+
+        <dp-autocomplete *ngIf="dataForAc6" 
+            (getSelected)="handleResult($event, 6)"
+            [definition]="autocompleteDefinition6"
+            [datasource]="dataForAc6"
+            [initVal]="'ACCUPD'"
+        ></dp-autocomplete>
+
+        <div>external 6: <div class='s'>
+            <ng-container *ngIf="externalDataSelected6">
+                {{externalDataSelected6 | json}}
+            </ng-container>
+            </div>
+        </div>
+        <!-- <br><br><div>Selected:<div class='s'> {{ !externalDataSelected6 ? '' : (externalDataSelected6 | json)  }}</div></div> -->
+
+
+    </div>
+
+
+</div>

@@ -1,0 +1,40 @@
+{
+    "data": [ 
+        {
+            "ShipmentNumber": 1234, 
+            "Dept_Code": "1",
+            "Shlifa_Order": 1,
+            "GP_LineNumber": 1,
+            "GP_MIS_SIDURI": 123,
+            "GP_KAMUT_ARIZOT": 2,
+            "GP_SUG_ARIZA": "T2",
+            "GP_MISHKAL_BRUTO": 15,
+            "GP_NEFACH_BRUTO": 25,
+            "GP_SIMANIM": "Taim"
+        }, 
+        {
+            "ShipmentNumber": 1234, 
+            "Dept_Code": "1",
+            "Shlifa_Order": 1,
+            "GP_LineNumber": 2,
+            "GP_MIS_SIDURI": 123,
+            "GP_KAMUT_ARIZOT": 2,
+            "GP_SUG_ARIZA": "T2",
+            "GP_MISHKAL_BRUTO": 15,
+            "GP_NEFACH_BRUTO": 25,
+            "GP_SIMANIM": "Taim"
+        }, 
+        {
+            "ShipmentNumber": 1234, 
+            "Dept_Code": "1",
+            "Shlifa_Order": 1,
+            "GP_LineNumber": 3,
+            "GP_MIS_SIDURI": 123,
+            "GP_KAMUT_ARIZOT": 2,
+            "GP_SUG_ARIZA": "T2",
+            "GP_MISHKAL_BRUTO": 15,
+            "GP_NEFACH_BRUTO": 25,
+            "GP_SIMANIM": "Taim"
+        }
+    ]
+}

@@ -1,0 +1,16 @@
+
+#Tabmenu2 {
+    /*.ui-menuitem-text{padding: 1.5em;}*/
+    .ui-menuitem-link{
+        background-repeat: no-repeat; background-position: top center; 
+        display: flex;padding-top: 2em;}
+    #idTabmenuItem1{background-image: url('/assets/Images/collection_png_32x32/flags/flag_brazil.png');}
+    #idTabmenuItem2{background-image: url('/assets/Images/collection_png_32x32/flags/flag_usa.png');}
+    #idTabmenuItem3{
+        background-image: url('/assets/Images/collection_png_32x32/flags/flag_canada.png');
+        .ui-menuitem-text {color:red; font-weight:bold;}
+    }
+        
+        
+    #idTabmenuItem4{background-image: url('/assets/Images/collection_png_32x32/flags/flag_finland.png');}
+ }

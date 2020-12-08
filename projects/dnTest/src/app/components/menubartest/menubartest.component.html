@@ -1,0 +1,55 @@
+
+
+
+<div class="clsEelementContainer">
+    <h2>in menubartest.component.html</h2>
+    <div class="p-grid"> 
+        <div class="p-col-12 p-md-3">
+            <fieldset>
+                <legend>Standard with icons</legend>  
+
+                <dp-menubar
+                    [definition]=menubarDefinition1 
+                    [datasource]=items1
+                ></dp-menubar>                
+                
+                <br><br>                
+            </fieldset>
+        </div>
+
+        <div class="p-col-12 p-md-3">
+            <fieldset>
+                <legend>Import / colors / 5 levels</legend>  
+
+                <dp-menubar id="menubar_infra_2"
+                    [definition]=menubarDefinition2 
+                    [datasource]=items2
+                ></dp-menubar>                
+
+                <br><br>            
+            </fieldset>
+        </div>
+
+
+        
+        <div class="p-col-12 p-md-6">
+            <fieldset>
+                
+                <legend>actions and pictures</legend>  
+      
+                <dp-menubar id="menubar_infra_3"
+                    [definition]=menubarDefinition3 
+                    [datasource]="items3"                
+                ></dp-menubar>     
+
+            </fieldset>
+            
+        </div>
+
+
+    </div>
+
+    
+
+</div>
+

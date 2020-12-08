@@ -1,0 +1,51 @@
+#fieldset_Contextmenu_Images{
+    img{max-height: 90px;}
+    div.p-md-4{text-align: center;}
+    h5{margin: 0.1em;}
+}
+
+#contextmenu_infra_2 [class^="mItem_2_"] {
+    font-weight: bold  !important;
+    background-repeat: no-repeat; background-position: left center;
+    .ui-menuitem-text{padding: 1.5em;}
+}
+
+#contextmenu_infra_2 .mItem_2_1
+{
+    background-color: rgb(136, 235, 116);     
+    background-image: url('/assets/Images/collection_png_32x32/flags/flag_canada.png');        
+}
+#contextmenu_infra_2 .mItem_2_2
+{
+    background-color: rgb(221, 221, 149);
+    background-image: url('/assets/Images/collection_png_32x32/flags/flag_brazil.png');
+}
+#contextmenu_infra_2 .mItem_2_3
+{
+    background-color: rgb(241, 171, 104);
+    background-image: url('/assets/Images/collection_png_32x32/flags/flag_germany.png');
+}
+
+
+#contextmenu_infra_3 [class^="mItem_3_"] {
+    font-weight: bold  !important;
+    background-repeat: no-repeat; background-position: right center;
+    .ui-menuitem-text{color:rgb(177, 173, 173) !important;text-shadow: 2px 2px #f02547;}  
+}
+#contextmenu_infra_3 {
+    .mItem_3_1
+    {
+        background-color: rgb(240, 137, 137);   
+        background-image: url('/assets/Images/collection_png_32x32/flags/flag_israel.png');
+    }
+    .mItem_3_2
+    {
+        background-color: rgb(219, 250, 81);   
+        background-image: url('/assets/Images/collection_png_32x32/flags/flag_india.png');
+    }
+    .mItem_3_3
+    {
+        background-color: rgb(66, 240, 90);   
+        background-image: url('/assets/Images/collection_png_32x32/flags/flag_usa.png');
+    }
+}

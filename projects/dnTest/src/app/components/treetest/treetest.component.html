@@ -1,0 +1,60 @@
+
+<div class="clsEelementContainer">
+    <h2>in treetest.component.html</h2>
+    <div class="p-grid"> 
+        <div class="p-col-12 p-md-4">
+            <fieldset>
+                <legend> single - templating </legend>  
+
+                <div>Selected:<div class='s'> {{ !treeSelected1 ? '' : (treeSelected1 | json)  }}</div></div><br>
+
+                    <dp-tree id="tree_infra_1"
+                        (getSelected)="treeSelected1 = $event" 
+                        [definition]="treeDefinitions1"
+                        [datasource]="treeItems1"
+                        
+                    >
+                    </dp-tree>                    
+
+                <br><br>            
+            </fieldset>
+        </div>
+
+        <div class="p-col-12 p-md-3">
+            <fieldset>
+                <legend> single - templating result  </legend>
+
+                    CHANGE PAGE <br><br>
+                    
+                    <!-- <router-outlet></router-outlet> -->
+
+                <br><br>            
+            </fieldset>
+        </div>
+
+
+        
+        <div class="p-col-12 p-md-5">
+            <fieldset>
+                <legend> tree - checkbox (multi) </legend>                                    
+
+                <div style="min-height: 126px;">Selected:<div class='s'> {{ !treeSelected3 ? '' : (treeSelected3 | json)  }}</div></div><br>
+
+                <dp-tree  id="tree_infra_3"
+                    (getSelected)="treeSelected3 = $event" 
+                    [definition]="treeDefinitions3"
+                    [datasource]="treeItems3"
+                >
+                </dp-tree>
+               
+                <br><br>
+            </fieldset>
+            
+        </div>
+
+        
+    </div>
+
+    
+</div>
+

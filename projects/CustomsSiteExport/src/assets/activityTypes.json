@@ -1,0 +1,9 @@
+{
+    "data": [ 
+        {"name": "Type 1", "code": "T1"}, 
+        {"name": "Type 2", "code": "T2"}, 
+        {"name": "Type 3", "code": "T3"}, 
+        {"name": "Type 4", "code": "T4"}, 
+        {"name": "Type 5", "code": "T5"}
+    ]
+}

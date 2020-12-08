@@ -1,0 +1,101 @@
+<div class="clsEelementContainer">
+    <h2>in splitbuttontest.component.html</h2>
+    <div class="p-grid"> 
+        <div class="p-col-12 p-md-3">
+            <fieldset>
+                <legend></legend>  
+                <!-- original p-splitButton -->
+                <!-- <p-splitButton label="Save" icon="pi pi-file" (onClick)="save('info')" 
+                [model]="items1"></p-splitButton> -->
+           
+
+                <br><br>            
+            </fieldset>
+        </div>
+        <div class="p-col-12 p-md-6">
+            <fieldset>
+                <legend>splitbutton</legend>      
+
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-4">
+
+                        <dp-splitbutton
+                            (click_)="save('info 11')" 
+                            [definition]=splitbuttonDefinition1
+                            [model]="items1"
+                        ></dp-splitbutton>
+
+                    </div>
+                    <div class="p-col-12 p-md-4"> 
+
+                        <dp-splitbutton
+                            (click_)="save('info 22')" 
+                            [definition]="splitbuttonDefinition2"
+                            [model]="items2"
+                        ></dp-splitbutton> 
+
+                    </div>
+                    <div class="p-col-12 p-md-4">
+
+                        <dp-splitbutton
+                            (click_)="save('info 33')" 
+                            [definition]="splitbuttonDefinition3"
+                            [model]="items3"
+
+                        ></dp-splitbutton> 
+                    </div>
+                </div>
+
+ 
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-4">
+
+                        <dp-splitbutton
+                            (click_)="save('info 55')" 
+                            [definition]=splitbuttonDefinition5
+                            [model]="items1"
+                        ></dp-splitbutton>
+
+                    </div>
+                    <div class="p-col-12 p-md-4"> 
+
+                        <dp-splitbutton
+                            (click_)="save('info 66')" 
+                            [definition]="splitbuttonDefinition6"
+                            [model]="items2"
+                        ></dp-splitbutton> 
+
+                    </div>
+                    <div class="p-col-12 p-md-4">
+
+                        <dp-splitbutton
+                            (click_)="save('info 77')" 
+                            [definition]="splitbuttonDefinition7"
+                            [model]="items3"
+
+                        ></dp-splitbutton> 
+                    </div>
+                </div>
+                
+                <br><br>
+            </fieldset>
+            
+        </div>
+
+        <div class="p-col-12 p-md-3">
+            <fieldset class="text-center">
+                <legend>disabled</legend>      
+                     
+                 <dp-splitbutton
+                    (click_)="save('info 4444')" 
+                    [definition]="splitbuttonDefinition4"
+                    [model]="items4" 
+                ></dp-splitbutton> 
+
+                <br><br>
+            </fieldset>
+            
+        </div>        
+    </div>  
+</div>
+

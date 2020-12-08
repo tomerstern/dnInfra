@@ -1,0 +1,17 @@
+<!-- <div>
+    <table border=0>
+        <tr>
+            <td>
+                <table border=1 style="width: 200px;">
+                     <tr>
+                        <td>
+                            <dp-table tableId="tableFormsList" [definition]="gridDefinition" [datasource]="gridData"></dp-table>
+                        </td>
+                    </tr> 
+                </table>
+            </td>
+    </table>
+</div> -->
+
+<dp-table *ngIf="gridData" tableId="tableFormList" [definition]="gridDefinition" [datasource]="gridData">
+</dp-table>

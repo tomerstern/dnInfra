@@ -1,0 +1,36 @@
+
+<!-- [selection]="definition.selection" -->
+<!-- (onNodeSelect)="getSelected.emit(this.treeSelectedValues)"   (onNodeUnselect)="getSelected.emit(this.treeSelectedValues)"  -->
+
+<p-tree #tree *ngIf="definition"
+    (onNodeSelect)="onTreeNodeSelect(tree.selection, definition.selectionMode, $event)"  
+     (onNodeUnselect)="onTreeNodeSelect(tree.selection, definition.selectionMode, $event)" 
+    [(selection)]="this.treeSelectedValues"
+    [value]="datasource"
+    [selectionMode]="definition.selectionMode"    
+    [style]="definition.style"
+    [styleClass]="definition.styleClass"
+    [layout]="definition.layout"
+    [metaKeySelection]="definition.metaKeySelection"
+    [loading]="definition.loading"
+    [loadingIcon]="definition.loadingIcon"
+    [emptyMessage]="definition.emptyMessage"
+    [ariaLabel]="definition.ariaLabel"
+    [filter]="definition.filter"
+    [filterBy]="definition.filterBy"
+    [filterMode]="definition.filterMode"
+    [filterPlaceholder]="definition.filterPlaceholder"
+ >
+    <ng-container *ngIf="definition.selectionMode === 'single' ">
+        <ng-template let-node pTemplate="url">
+            <a [href]="node.data">{{node.label}}</a>
+        </ng-template>
+        <ng-template let-node pTemplate="routerLink">
+            <a [routerLink]="node.data" routerLinkActive="active">{{node.label}}</a>           
+        </ng-template>               
+        <ng-template let-node pTemplate="default">
+            <b>{{node.label}}</b>
+        </ng-template>
+ 
+    </ng-container>
+</p-tree>
