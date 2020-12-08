@@ -1,6 +1,6 @@
 import {
   Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges, ViewEncapsulation,
-  ChangeDetectionStrategy, SimpleChanges, AfterViewInit, ChangeDetectorRef
+  SimpleChanges, AfterViewInit, ChangeDetectorRef
 } from '@angular/core';
 import { GridDefinitions, GridColumnType } from './objects/grid-definitions';
 import { TableStoreService, TableState } from '../../services/table-store.service';
@@ -13,16 +13,16 @@ import {
 import { InputNumberProperties } from '../inputnumber/objects/inputnumber-definitions';
 import { select, Store } from '@ngrx/store';
 import { addRow, deleteRow, updateRow, updateTable, sortColumn } from '../../store/actions';
-import { getTableStateById, getTableLengthById } from '../../store/selectors';
+import { getTableStateById, getTableLengthById, getAppState } from '../../store/selectors';
 import { debounceTime, distinctUntilChanged, map, take } from 'rxjs/operators';
 import { DpDialogService, DpDynamicDialogRef } from '../dynamicdialog/Objects/dynamicdialog-definitions';
 import { ColumnSelectionComponent } from './columnSelection/column-selection/column-selection.component';
 import { MessageService } from 'primeng/api'; /* only for showing return value */
 import { FormArray, NgForm } from '@angular/forms';
-import { getAppState } from 'projects/dn-infra/src/lib/dp/store/selectors';
-import { ConfirmdialogDefinitions, positionDpConfirmdialog } from 'projects/dn-infra/src/lib/dp/components/confirmdialog/Objects/confirmdialog-definitions';
+
 import { ConfirmationService } from 'primeng/api';
 import { HttpClient } from '@angular/common/http';
+import { ConfirmdialogDefinitions } from '../confirmdialog/Objects/confirmdialog-definitions';
 
 interface MultiselectOptions {
   value?: string;

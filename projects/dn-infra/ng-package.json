@@ -21,6 +21,11 @@
     "@fortawesome/angular-fontawesome",
     "@fortawesome/fontawesome-svg-core",
     "@fortawesome/free-solid-svg-icons",
-    "@fullcalendar/core"
+    "@fullcalendar/core",
+    "@ngrx/core",
+    "@ngrx/store",
+    "@ngrx/store-devtools",
+    "@ngx-translate/core",
+    "@ngx-translate/http-loader"
   ]
 }
