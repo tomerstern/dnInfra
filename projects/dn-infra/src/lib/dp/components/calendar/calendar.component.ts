@@ -139,8 +139,10 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
   onClose(event) {
     if (event !== null && !this.standAlone) {
       this.onInputClickOutside(event);
-    } else if(this.standAlone){
-      this.innerValue = event;
+    } else if (this.standAlone){
+      console.log(this.tempVal);
+      this.tempVal !== null ? this.innerValue = this.tempVal : this.innerValue = event;
+      this.tempVal = null;
     }
   }
 
