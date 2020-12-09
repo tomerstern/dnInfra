@@ -20,6 +20,7 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
 
   lastInputDate: Date;
   isInputByUser: boolean;
+  standAlone: boolean;
   @Input() definition: CalendarDefinitions;
   @Output() selectEvent: EventEmitter<number> = new EventEmitter();
   tempVal = null;
@@ -32,10 +33,13 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
   ngOnInit(): void {
     if (this.definition == null) {
       this.definition = new CalendarDefinitions({ isStandAlone: false });
-      if (this.columnDefinition.columnParams.params.length > 0) {
+      if (this.columnDefinition && this.columnDefinition.columnParams.params.length > 0) {
+        this.standAlone = false;
         if (this.columnDefinition.columnParams.isKeyExist(CalendarProperties.showTime)) {
           this.definition.showTime = this.columnDefinition.columnParams.getValueByKey(CalendarProperties.showTime);
         }
+      } else {
+        this.standAlone = true;
       }
     }
   }
@@ -73,12 +77,12 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
   }
 
   onInputClickOutside(input) {
-    console.log('hey from click outside:', input);
-
-    if (this.tempVal == null) {
+    if (this.tempVal) {
       // user selected a date from the date picker
       this.selectEvent.emit(input);
       return;
+    } else {
+
     }
 
     this.tempVal = null;
@@ -87,8 +91,6 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
       return;
     }
 
-    // user typed a date - format if neccessary
-    this.format(input);
   }
 
   format(input) {
@@ -127,23 +129,18 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
     if (this.definition.showTime && minute !== undefined) {
       date.setHours(+hour, +minute);
     }
-
-    this.innerValue = Number(date);
-
-    console.log(input);
-
-    this.selectEvent.emit(this.innerValue);
+    return date;
   }
 
   setTempVal(event) {
     this.tempVal = event;
-    console.log(event);
   }
 
   onClose(event) {
-    console.log('hey from close event:', event);
-    if (event !== null) {
+    if (event !== null && !this.standAlone) {
       this.onInputClickOutside(event);
+    } else if(this.standAlone){
+      this.innerValue = event;
     }
   }
 
@@ -166,7 +163,7 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
       return retVal;
     }
 
-    temp.forEach(function (ele) {
+    temp.forEach((ele: string) => {
       if (ele.length === 1) {
         ele = '0' + ele;
       }

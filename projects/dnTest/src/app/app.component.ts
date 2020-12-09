@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
   calendarData2: string;
   calendarDefinitions: CalendarDefinitions;
   calendarDefinitions2: CalendarDefinitions;
-
+ac_suggestions = [{name: 'israel'}, {name: 'united states'}, {name: 'spain'}];
   inputText1: string;
   inputNumber1: number;
 

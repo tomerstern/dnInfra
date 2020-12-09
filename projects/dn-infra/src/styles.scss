@@ -54,16 +54,21 @@ body
 .ui-table tr.ui-state-highlight a {
   color: inherit !important;
 }
-.ng-invalid {
-  // border: 2px solid red;
-  // border-color: transparent;
-  // border:inherit;
-}
+// .ng-invalid {
+//   border: 2px solid red;
+//   // border-color: transparent;
+//   // border:inherit;
+// }
 
-.show-dirty {
-  .ng-invalid:not(td) {
-    input {
-      border: 2px solid red;
+.show-dirty, form {
+&.ng-invalid{
+  border:none;
+}
+  // .ng-invalid:not(td) {
+    .ng-invalid:not(td) {
+      input{
+        border: 2px solid red!important;
+      }
     }
-  }
+  // }
 }

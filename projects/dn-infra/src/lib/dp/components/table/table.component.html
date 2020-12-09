@@ -1,13 +1,4 @@
 <form [class.show-dirty]="showDirty" #myForm="ngForm">
-
-
-
-
-  {{myForm.value | json}}
-   <br>
-   <br>
-   <br>
-   <br>
   <p-table #dt [columns]="scrollableCols" [value]="data$ | async" [dataKey]="definition.dataKey"
     [rowHover]="definition.rowHover" [rows]="definition.rows" [showCurrentPageReport]="true"
     [rowsPerPageOptions]="definition.rowsPerPageOptions" [paginator]="definition.paginator"
@@ -163,7 +154,7 @@
 
               <dp-calendar (selectEvent)="updateRow(column.fieldname, row, $event, index)"
                 [required]="column.isMandatory" [columnDefinition]="column" ngModel="{{row[column.fieldname]}}"
-                name="{{column.fieldname}}" 
+                name="{{column.fieldname}}"
                 *ngSwitchCase="gridColumnTypeEnum.calendar">
               </dp-calendar>
 

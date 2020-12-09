@@ -21,8 +21,6 @@ export class InputtextComponent implements OnInit, ControlValueAccessor {
 
   constructor() { }
 
-
-
   inputTextModeEnum = InputTextMode;
 
   @Input() definition: InputtextDefinitions;

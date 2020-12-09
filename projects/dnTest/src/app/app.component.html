@@ -12,12 +12,46 @@
 <dp-inputtext [definition]="InputtextDefinitions1" [ngModel]="'dddddddd'" class="p-mr-1"></dp-inputtext> -->
 <!-- <app-page0test></app-page0test> -->
 
- <!-- <app-table2test></app-table2test> -->
+ <!-- <app-table2test></app-table2test>
 
  <br>
  <br>
  <br>
+
+ <br>
+ <br>
+ <br>
+ <br> -->
+
  <app-tabletest></app-tabletest> 
+
+
+{{myForm.value | json}}
+
+
+ <form #myForm="ngForm"> 
+    <br>
+    <br>
+    <br>
+    <br>
+     <div class="form-control">
+        <dp-autocomplete [required]="true" [datasource]="ac_suggestions" 
+        name="country" [ngModel]="ac_suggestions[0]"></dp-autocomplete>
+     </div>
+     <div class="form-control">
+        <dp-inputtext required name="firstname" ngModel="ziv" placeholder="hewy"></dp-inputtext>
+     </div>
+     <div class="form-control">
+        <dp-calendar required name="date" ngModel="11/11/21"></dp-calendar>
+     </div>
+     <div class="form-control">
+        <dp-inputnumber required name="age" ngModel="10"></dp-inputnumber>
+     </div>
+     <div class="form-control">
+        <dp-checkbox name="cb" [ngModel]="false"></dp-checkbox>
+     </div>
+</form>
+
 <!-- 
 
 <br>
