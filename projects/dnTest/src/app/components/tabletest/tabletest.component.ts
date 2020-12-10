@@ -104,6 +104,7 @@ export class TabletestComponent implements OnInit {
   }
 
   onCustomerNameClick(val) {
+    debugger
     window.open('https://www.google.com?HeyYo=' + val);
   }
 
@@ -155,7 +156,7 @@ export class TabletestComponent implements OnInit {
       headername: 'Customer Name',
       fieldname: 'name',
       columnParams: columnParams1,
-      iseditable: true,
+      iseditable: false,
       clickColumnName: 'id',
       class: 'clsSpanLink',
       isMandatory: true,

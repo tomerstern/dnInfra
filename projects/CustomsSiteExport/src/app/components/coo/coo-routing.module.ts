@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MainCooComponent } from './main-coo/main-coo.component';
+import { FormsMainComponent } from './forms/forms-main/forms-main.component';
 
 const routes: Routes = [
-  { path: '', component: MainCooComponent },
+  { path: '', component: FormsMainComponent },
   { path: 'main', component: MainCooComponent }
 ];
 

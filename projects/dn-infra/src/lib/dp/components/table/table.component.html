@@ -1,17 +1,11 @@
 <form [class.show-dirty]="showDirty" #myForm="ngForm">
-
-
-Get {{tableId}} errors from within
-  {{errors | json}}
-  <br>
-  <br>
   <p-table #dt [columns]="scrollableCols" [value]="data$ | async" [dataKey]="definition.dataKey"
     [rowHover]="definition.rowHover" [rows]="definition.rows" [showCurrentPageReport]="true"
     [rowsPerPageOptions]="definition.rowsPerPageOptions" [paginator]="definition.paginator"
     [currentPageReportTemplate]="definition.currentPageReportTemplate" [editMode]="definition.editMode"
     [(first)]="first" [selectionMode]="definition.selectionMode" [selection]="definition.selectionMode"
     (onRowSelect)="onRowSelect($event)" [scrollHeight]="definition.FreezeHeaderTableHeight"
-    [scrollable]="definition.scrollable" frozenWidth="{{frozenWidth}}" [frozenColumns]="frozenCols"
+    [scrollable]="definition.scrollable" [frozenWidth]="frozenWidth + 'px'" [frozenColumns]="frozenCols"
     (onPage)="paginate($event)" [ngClass]="(definition.isRoundedInputs === false )?'cssSquareInputs' :''">
     <ng-template pTemplate="caption" *ngIf="definition.toolbar">
       <div class="p-toolbar-group-left">
@@ -50,47 +44,23 @@ Get {{tableId}} errors from within
           <fa-icon [icon]="faThumbtack"></fa-icon>
         </button>
 
-
-        <!-- <button
-          (click)="funcTest(dt)">funcTest
-          </button> -->
-
       </div>
     </ng-template>
 
-    <!-- way 1  && this.definition.HideBtnsCol -->
-    <!-- <ng-template *ngIf="this.isFreezeColumnActive || true" pTemplate="colgroup"  -->
 
-
-
-    <ng-template *ngIf="frozenCols !==null " pTemplate="colgroup" let-frozenColumns>
+    <ng-template *ngIf="frozenCols !== [] " pTemplate="colgroup" let-frozenColumns>
       <colgroup>
         <col class="clsColgroup" *ngFor="let col of frozenColumns; let colIndex=index" [style.width]="col.width +'px'">
       </colgroup>
     </ng-template>
 
-    <!-- <tr>
-        <th *ngFor="let col of columns">
-            {{col.headername}}
-        </th>
-    </tr> -->
-    <!-- <ng-template pTemplate="frozenheader" >
-            <tr>
-                <th style="width:200px;height:84px">h1</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="frozenbody" let-columns>
-            <tr>
-                <td>{{columns.headername}}</td>
-            </tr>
-        </ng-template> -->
-    <!-- gil start add,  add  let-columns  in <ng-template>   -->
-    <ng-template *ngIf="this.isFreezeColumnActive || true" pTemplate="header" let-columns>
+
+    <ng-template pTemplate="header" let-columns>
       <div *ngIf="definition.HeadersMergeGroupsHtml !== ''" [outerHTML]="definition.HeadersMergeGroupsHtml"></div>
       <!-- HEADER -->
-      <tr class="clsDpHeadTr">
-        <th #th *ngFor="let column of columns; let columnInd = index" 
-          (onDrop)="dpFreezeColumndrop($event, columnInd, dt)" (onDragStart)="definition.scrollable = false"
+      <tr *ngIf="!this.definition.isHideHeader" class="clsDpHeadTr">
+        <th #th id="{{column.fieldname}}" *ngFor="let column of columns; let columnInd = index" 
+          (onDrop)="dpFreezeColumndrop(column.fieldname, th)" (onDragStart)="definition.scrollable = false"
           (click)="sortColumn(column.fieldname)"
           pDroppable="abc" [ngClass]="(frozenColsCounter >=columnInd)?'cssFrozenHeader' :''"
           [style.height]="HeadersHeight">
@@ -151,71 +121,19 @@ Get {{tableId}} errors from within
       </tr>
     </ng-template>
 
-    <!-- gil start remove dont delete -->
-    <!--
-        <ng-template *ngIf="!this.isFreezeColumnActive && false" pTemplate="header">
-            <div *ngIf="definition.HeadersMergeGroupsHtml !== ''" [outerHTML]="definition.HeadersMergeGroupsHtml"></div>
-            <tr class="clsDpHeadTr">
-                <th #th *ngFor="let column of definition.columns; let columnInd = index" [pSortableColumn]="column.fieldname"
-                (onDrop)="dpFreezeColumndrop($event,columnInd, dt)"  pDroppable="abc"
-                [ngClass]="(frozenColsCounter >=columnInd)?'cssFrozenHeader' :''"
-                >
-                    {{column.headername}}
-                    <p-sortIcon [field]="column.fieldname"></p-sortIcon>
-                    <span *ngIf="column.isMandatory" class="mandatory">&bull;</span>
-                </th>
-                <th *ngIf="!this.definition.HideBtnsCol">
-                    <button pButton type="button" [icon]="toggleFilter ? 'pi pi-caret-up' : 'pi pi-caret-down'"
-                        class="ui-button ui-button-dp" (click)="toggleFilter = !toggleFilter" pAddRow>
-                    </button>
-                </th>
-            </tr>
-            <tr class="clsDpHeadFilterTr">
-                <th *ngFor="let column of definition.columns" [hidden]="!toggleFilter" [ngSwitch]="column.type" class="clsDpFilterHeader">
-
-                    <input *ngSwitchCase="gridColumnTypeEnum.span" pInputText type="text"
-                        (input)="dt.filter($event.target.value, column.fieldname, 'contains')">
-                    <input *ngSwitchCase="gridColumnTypeEnum.inputnumber" pInputText type="text"
-                        (input)="dt.filter($event.target.value, column.fieldname, 'contains')">
-                    <p-checkbox *ngSwitchCase="gridColumnTypeEnum.checkbox"
-                        (onChange)="dt.filter($event.target.value, column.fieldname, 'equals')">
-                    </p-checkbox>
-                    <p-calendar *ngSwitchCase="gridColumnTypeEnum.calendar" (onSelect)="onDateSelect($event)"
-                        (onClearClick)="dt.filter('', 'date', 'equals')" [showButtonBar]="true" styleClass="p-column-filter"
-                        placeholder="Registration Date" [readonlyInput]="true" dateFormat="dd/mm/yy"
-                        [style]="{'width':'100%'}">
-                    </p-calendar>
-
-                </th>
-            </tr>
-        </ng-template>
-    -->
-    <!-- <ng-template pTemplate="body" let-index="rowIndex" let-row let-columns="columns"
-        *ngIf="definition.editMode == 'cell'">
-        <tr>
-            <td *ngFor="let column of columns" [pEditableColumn]="row" [pEditableColumnField]="column">
-                <app-cell [row]="row" [column]="column"></app-cell>
-            </td>
-            <td *ngIf="!this.definition.HideBtnsCol" class="clsDpFilterCell">
-                <button *ngIf="isEditable" pButton type="button" icon="pi pi-trash" class="ui-button ui-button-dp"
-                    (click)="deleteRow(index, row)">
-                </button>
-            </td>
-        </tr>
-    </ng-template> -->
-
-
     <!-- BODY -->
     <ng-template [ngModelGroup]="tableId" pTemplate="body" let-index="rowIndex" let-row let-columns="columns"
       *ngIf="definition.editMode == 'cell'">
+      
       <tr *ngIf="row" [pSelectableRow]="row">
         <td [ngModelGroup]="'row'+index" *ngFor="let column of columns" [pEditableColumn]="row"
           [pEditableColumnField]="column">
 
+
+
           <ng-container *ngIf="column.iseditable else notEditable">
 
             <ng-container [ngSwitch]="column.type">
-
 
               <!-- updateRow() is taking too many arguments, it means we might have to seperate it to two smaller functions -->
 
@@ -236,7 +154,8 @@ Get {{tableId}} errors from within
 
               <dp-calendar (selectEvent)="updateRow(column.fieldname, row, $event, index)"
                 [required]="column.isMandatory" [columnDefinition]="column" ngModel="{{row[column.fieldname]}}"
-                name="{{column.fieldname}}" *ngSwitchCase="gridColumnTypeEnum.calendar">
+                name="{{column.fieldname}}"
+                *ngSwitchCase="gridColumnTypeEnum.calendar">
               </dp-calendar>
 
 
@@ -248,6 +167,9 @@ Get {{tableId}} errors from within
                 [datasource]="column.ColumnDatasource" [columnDefinition]="column">
               </dp-autocomplete>
 
+              <input hidden [required]="column.isMandatory" ngModel="{{row[column.fieldname]}}"
+              name="{{column.fieldname}}">
+
 
               <img *ngSwitchCase="gridColumnTypeEnum.image" class="my-center-text" src="{{row[column.fieldname]}}"
                 title="{{row[column.fieldname.concat('_tooltip')]}}" width="{{column.width}}"
@@ -257,10 +179,17 @@ Get {{tableId}} errors from within
           </ng-container>
 
           <ng-template #notEditable>
+
+            <ng-container *ngIf="column.fieldname === 'index'">
+            {{index + 1}}
+            </ng-container>
             <ng-container [ngSwitch]="column.type">
-              <span *ngSwitchCase="gridColumnTypeEnum.span" [style]="column.style" [class]="column.class">
+              <span *ngSwitchCase="gridColumnTypeEnum.span"
+                (click)="column.clickColumnName !== undefined ? clickEvent(column, row[column.clickColumnName]) : ''" [style]="column.style"
+                [class]="column.class">
                 {{row[column.fieldname]}}
-              </span>
+            </span>
+
               <span *ngSwitchCase="gridColumnTypeEnum.calendar">{{row[column.fieldname] | date: 'dd/MM/yyyy'}}</span>
               <span *ngSwitchCase="gridColumnTypeEnum.inputnumber">
                 {{column.columnParams.getValueByKey(inputNumberProperties.prefix)}}
@@ -281,7 +210,7 @@ Get {{tableId}} errors from within
           </ng-template>
 
         </td>
-
+        <!--trash can-->
         <td *ngIf="!this.definition.HideBtnsCol" class="clsDpFilterCell">
           <dp-confirmdialog #cd [definition]="confirmdialogDef"></dp-confirmdialog>
           <button *ngIf="isEditable" pButton type="button" icon="pi pi-trash" class="ui-button ui-button-dp"

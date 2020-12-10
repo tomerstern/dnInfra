@@ -60,21 +60,30 @@ th {position: relative;}
     font-size: 10px;
 }
 
+.ui-table-frozen-view{
+    .clsDpFilterCell{
+        display:none;
+    }
+}
+
+// .ui-table-scrollable-header-table, .ui-table-scrollable-body{
+   
+// }
 body .ui-table .ui-sortable-column:focus fa-icon{
     color: black;
 }
 body .ui-table .ui-sortable-column:not(.ui-state-highlight):hover fa-icon{
     color: black;
 }
-.ui-table-scrollable-wrapper .ui-table-scrollable-view:nth-child(1) .cssFrozenHeader .cssFrozenHeaderIcon{
-    visibility: visible;
-}
+// .ui-table-scrollable-wrapper .ui-table-scrollable-view:nth-child(1) .cssFrozenHeader .cssFrozenHeaderIcon{
+//     visibility: visible;
+// }
 
 
-.ui-table-scrollable-wrapper .ui-table-scrollable-view:nth-child(2) { /* fix frozen cols */
-    position: absolute !important;
-    top: 0 !important;
-  }
+// .ui-table-scrollable-wrapper .ui-table-scrollable-view:nth-child(2) { /* fix frozen cols */
+//     position: absolute !important;
+//     top: 0 !important;
+//   }
 // .ui-table-unfrozen-view {
 //     position: absolute;
 //     top: 0;

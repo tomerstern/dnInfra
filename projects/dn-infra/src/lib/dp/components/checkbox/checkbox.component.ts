@@ -32,7 +32,7 @@ export class CheckboxComponent implements OnInit, ControlValueAccessor {
   ngOnInit(): void {
     if (this.definition == null) {
       this.definition = new CheckboxDefinitions({ isStandAlone: false });
-      if (this.columnDefinition.columnParams.params.length > 0) {
+      if (this.columnDefinition && this.columnDefinition.columnParams.params.length > 0) {
         if (this.columnDefinition.columnParams.isKeyExist(CheckboxProperties.binary)) {
           this.definition.binary = this.columnDefinition.columnParams.getValueByKey(CheckboxProperties.binary);
         }

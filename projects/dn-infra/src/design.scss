@@ -396,7 +396,7 @@ body {
   }
  .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem .ui-menuitem-link:focus {
     box-shadow: 0 0 0 0.2em  $HeaderShadow;
-}
+  }
 
   .ui-paginator .ui-paginator-pages .ui-paginator-page:focus {
     box-shadow: 0 0 0 0.2em $PrimaryColorShadow;
@@ -410,6 +410,9 @@ body {
       box-shadow: 0 0 0 0.2em $PrimaryColorShadow;
   }
 
+  .ui-fieldset .ui-fieldset-legend a:focus {
+    box-shadow: 0 0 0 0.2em$PrimaryColorShadow;
+  }
 } 
 /* focus section end */
 
@@ -968,5 +971,8 @@ dp-table, dp-tabmenu, dp-tree{
 .clsDpRtl {direction: rtl;}
 .clsDpRtl .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem{
   float: right;
+}
+.clsDpRtl  .ui-fieldset .ui-fieldset-legend a .ui-fieldset-toggler {
+  margin-left: 0.5em;margin-right:0em;
 }
 /* direction end*/

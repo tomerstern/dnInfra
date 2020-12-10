@@ -4,7 +4,9 @@ export const initialState: any = {};
 
 const reducer = createReducer(initialState,
     on(updateTable, (state, action): any => {
-        if (state[action.data.tableId] === undefined) {
+
+        // handle first table draw
+        // if (state[action.data.tableId] !== undefined) {
             const newTableState = {
                 [action.data.tableId]: {
                     data: action.data.tableData
@@ -12,10 +14,9 @@ const reducer = createReducer(initialState,
             };
             const newState = { ...state, ...newTableState };
             return (newState);
-        }
-        else {
-            return state;
-        }
+        // } else {
+        //     return state;
+        // }
     }),
     on(updateRow, (state, action): any => {
         let newChanges = {};

@@ -13,15 +13,18 @@ import {  OpenComponent } from './components/declaration/tabs/open/open.componen
 import { DeclarationComponent } from './components/declaration/tabs/declaration/declaration.component';
 import { Declaration2Component } from './components/declaration/tabs/declaration2/declaration2.component';
 
+import { MainCooComponent } from './components/coo/main-coo/main-coo.component';
 import { GeneralComponent } from './components/coo/tabs/general/general.component';
 import { HeaderComponent } from './components/coo/tabs/header/header.component';
+
+import { FormsMainComponent } from './components/coo/forms/forms-main/forms-main.component';
 
 import { PageNotFoundComponent } from './components/shared/components/pagenotfound/pagenotfound.component';
 
 const routes: Routes = [
   // // {path: '',  component: AppComponent},
   // { path: '', component: LoginComponent },
-  { path: '', component: HomeComponent },
+  { path: '', component: FormsMainComponent },
   // { path: '**', component: PageNotFoundComponent},
   { path: 'home', component: HomeComponent },
   { path: 'test1', component: Test1Component },
@@ -38,6 +41,7 @@ const routes: Routes = [
 
   { path: 'general', component: GeneralComponent },
   { path: 'header', component: HeaderComponent },
+  { path: 'coo', component: MainCooComponent },
 
   // { path: 'coo', loadChildren: () => import('./components/coo/coo.module').then(m => m.CooModule)}
 ];

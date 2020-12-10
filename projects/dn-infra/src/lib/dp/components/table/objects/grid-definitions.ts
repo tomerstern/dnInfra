@@ -28,6 +28,7 @@ export interface IGridDefinition {
     isRoundedInputs?: boolean;
     pdfHeaderText?: string;
     pdfFooterText?: string;
+    isHideHeader?: boolean ;
 }
 
 export interface IGridColumn {
@@ -94,6 +95,7 @@ export class GridDefinitions implements IGridDefinition {
     isRoundedInputs: boolean;
     pdfHeaderText: string;
     pdfFooterText: string;
+    isHideHeader: boolean;
     constructor(params: IGridDefinition) {
         this.dataKey = params.dataKey;
         this.columns = params.columns;
@@ -135,6 +137,8 @@ export class GridDefinitions implements IGridDefinition {
             || params.isRoundedInputs === undefined ? false : params.isRoundedInputs);
         this.pdfHeaderText = (params.pdfHeaderText === undefined || params.pdfHeaderText == null ? '' : params.pdfHeaderText);
         this.pdfFooterText = (params.pdfFooterText === undefined || params.pdfFooterText == null ? '' : params.pdfFooterText);
+        this.isHideHeader = (params.isHideHeader == null
+            || params.isHideHeader === undefined ? false : params.isHideHeader);  
     }
 }
 

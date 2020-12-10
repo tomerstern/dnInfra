@@ -49,6 +49,10 @@ import { MainCooComponent } from './components/coo/main-coo/main-coo.component';
 import { GeneralComponent } from './components/coo/tabs/general/general.component';
 import { CooRoutingModule } from './components/coo/coo-routing.module';
 
+import { FormsListComponent } from './components/coo/forms/forms-list/forms-list.component';
+import { FormDetailsComponent } from './components/coo/forms/form-details/form-details.component';
+import { FormsMainComponent } from './components/coo/forms/forms-main/forms-main.component';
+import { FormButtonComponent } from './components/coo/forms/form-button/form-button.component';
 
 
 // export function configService(configService: ConfigService) {
@@ -84,7 +88,11 @@ import { CooRoutingModule } from './components/coo/coo-routing.module';
     CooTabComponent,
     CooToolbarComponent,
     MainCooComponent,
-    GeneralComponent
+    GeneralComponent,
+    FormsListComponent,
+    FormDetailsComponent,
+    FormsMainComponent,
+    FormButtonComponent
     // ,CooRoutingModule
   ],
 

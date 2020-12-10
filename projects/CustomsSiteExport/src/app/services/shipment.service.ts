@@ -17,7 +17,6 @@ interface iShipmentData {
   providedIn: 'root',
 })
 export class ShipmentService {
-
   shipmentData: iShipmentData;
 
   shipmentDataSubject = new BehaviorSubject<string>(null);
@@ -69,11 +68,12 @@ export class ShipmentService {
     shipment.Details.Shlifa_Order = shipmentParam.Shlifa_Order;
     delete shipment.Details.State;
     return shipment;
-    //sessionStorage.setItem('currentUpdShipment', JSON.stringify(shipment));
+    // sessionStorage.setItem('currentUpdShipment', JSON.stringify(shipment));
   }
 
   getShipmentDetails() {
-    const shipmentDetail: ShipmentDetail = this.shipmentData.dataShipment.Details;
+    const shipmentDetail: ShipmentDetail = this.shipmentData.dataShipment
+      .Details;
     // if (sessionStorage.getItem('currentShipment') !== null) {
     //   shipmentDetail = JSON.parse(sessionStorage.getItem('currentShipment'))
     //     .Details;

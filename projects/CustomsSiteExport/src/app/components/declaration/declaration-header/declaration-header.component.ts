@@ -32,7 +32,7 @@ export class DeclarationHeaderComponent implements OnInit {
   chkIsAuthorizedDefinition: CheckboxDefinitions;
   chkIsDigitallyArchivedDefinition: CheckboxDefinitions;
   chkIsExporterDefinition: CheckboxDefinitions;
-e
+
   constructor(private declarationService: DeclarationService) { }
 
 
@@ -40,7 +40,7 @@ e
     this.direction = localStorage.getItem('dDirection');
     debugger;
 
-    this.declarationDetails = this.declarationService.getDeclarationDetails();
+    // this.declarationDetails = this.declarationService.getDeclarationDetails();
     // this.exportCustom = this.declarationService.getExportCustom();
     // this.direction = 'rtl';
     this.shipmentNumber = 111222;

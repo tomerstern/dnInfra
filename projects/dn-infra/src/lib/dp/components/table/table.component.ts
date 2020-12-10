@@ -1,6 +1,6 @@
 import {
   Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges, ViewEncapsulation,
-  ChangeDetectionStrategy, SimpleChanges, AfterViewInit, ChangeDetectorRef
+  SimpleChanges, AfterViewInit, ChangeDetectorRef
 } from '@angular/core';
 import { GridDefinitions, GridColumnType } from './objects/grid-definitions';
 import { TableStoreService, TableState } from '../../services/table-store.service';
@@ -13,17 +13,16 @@ import {
 import { InputNumberProperties } from '../inputnumber/objects/inputnumber-definitions';
 import { select, Store } from '@ngrx/store';
 import { addRow, deleteRow, updateRow, updateTable, sortColumn } from '../../store/actions';
-import { getTableStateById, getTableLengthById } from '../../store/selectors';
+import { getTableStateById, getTableLengthById, getAppState } from '../../store/selectors';
 import { debounceTime, distinctUntilChanged, map, take } from 'rxjs/operators';
 import { DpDialogService, DpDynamicDialogRef } from '../dynamicdialog/Objects/dynamicdialog-definitions';
 import { ColumnSelectionComponent } from './columnSelection/column-selection/column-selection.component';
 import { MessageService } from 'primeng/api'; /* only for showing return value */
 import { FormArray, NgForm } from '@angular/forms';
-import { getAppState } from 'projects/dn-infra/src/lib/dp/store/selectors';
-import { ConfirmdialogDefinitions, positionDpConfirmdialog } from 'projects/dn-infra/src/lib/dp/components/confirmdialog/Objects/confirmdialog-definitions';
+
 import { ConfirmationService } from 'primeng/api';
-import { environment } from 'projects/CustomsSiteExport/src/environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { ConfirmdialogDefinitions } from '../confirmdialog/Objects/confirmdialog-definitions';
 
 interface MultiselectOptions {
   value?: string;
@@ -52,10 +51,12 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
   isFooter = false;
   isfrozenCols = false;
   frozenColsIndex = 0;
+  initiated = false;
   frozenCols: any[];
   scrollableCols: any[]; /* non frozen Cols*/
   selectedEntity: any;
-  frozenWidth = '0px';
+  frozenWidth = 0;
+  freezeObj = {};
   frozenColsCounter = -1;
   frozenButtonText = 'גרור אותי להקפיא עמודות';
   frozenButtonClasses = 'clsBtnFreezeCols';
@@ -72,6 +73,7 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
   FooterArrObj = {};
   ArrDatasourceKeys: string[] = [];
   ngForm: any;
+  loaded = false;
   obj = {};
   sub: Subscription;
   newRow = {};
@@ -152,16 +154,29 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
       // Remember value after debouncing
 
       // Do the actual search
-      
+
       this.store.dispatch(updateRow(val));
 
     });
     this.scrollableCols = this.definition.columns;
+    this.frozenCols = [
+      this.definition.columns[0]
+    ];
     this.dpCreateFooterData();
 
     if (this.definition.isFreezeColumns === true) {
       this.definition.scrollable = true;
     }
+
+    // this.frozenWidth = 0;
+
+    // setTimeout(() => {
+    //   this.frozenCols = [
+    //     this.definition.columns[1]
+    //   ];
+    //   this.frozenWidth = '500px';
+
+    // }, 3000);
 
   }
   checkLocalStorage() {
@@ -232,13 +247,31 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
 
 
   ngOnChanges(changes: SimpleChanges) {
-    // this.dpCreateFooterData();
-    if (this.tableId && this.datasource) {
+
+    this.dpCreateFooterData();
+
+    if (this.tableId && this.datasource && !this.initiated) {
       this.store.dispatch(updateTable({ data: { tableId: this.tableId, tableData: this.datasource } }));
       this.data$ = this.store.select(getTableStateById(this.tableId));
-    } else {
-      // alert('you must supply an ID for each table');
+      this.initiated = true;
     }
+
+    // if (
+    //   changes.tableId.previousValue === undefined &&
+    //   changes.tableId.currentValue &&
+    //   changes.dataSource.previousValue === undefined &&
+    //   changes.dataSource.currentValue
+    // ) {
+    //   this.store.dispatch(
+    //     updateTable({
+    //       data: { tableId: this.tableId, tableData: this.datasource },
+    //     })
+    //   );
+    //   this.data$ = this.store.select(getTableStateById(this.tableId));
+    // } else {
+    //   // alert('you must supply an ID for each table');
+    // }
+
   }
 
   toggleFn(el: HTMLElement) {
@@ -329,9 +362,9 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   exportPdf() {
-    this.http.get('assets/Files/Arimo.txt', {responseType: 'text'})
-    .subscribe(data =>
-      this.exportPdfMain(data)
+    this.http.get('assets/Files/Arimo.txt', { responseType: 'text' })
+      .subscribe(data =>
+        this.exportPdfMain(data)
       );
   }
 
@@ -364,7 +397,8 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
             styles: {
               font: 'Arimo',
               fontStyle: 'normal',
-              lineWidth: 0.2 },
+              lineWidth: 0.2
+            },
             headStyles: { fillColor: [33, 33, 33], textColor: [255, 255, 255], fontSize: 11, lineWidth: 0.5 },
           });
 
@@ -378,8 +412,8 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
           const pageWidth = doc.internal.pageSize.width;
           const pageHeight = doc.internal.pageSize.height;
 
-          const HeaderText =  this.definition.pdfHeaderText;
-          const FooterText =  this.definition.pdfFooterText;
+          const HeaderText = this.definition.pdfHeaderText;
+          const FooterText = this.definition.pdfFooterText;
 
           // const HeaderText = 'This is כותרת פנימית / Inner Page Header';
           // doc.setTextColor(44, 222, 0);
@@ -412,6 +446,11 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     });
   }
 
+  clickEvent(column, val) {
+    if (column.onClick !== undefined) {
+      column.onClick(val);
+    }
+  }
 
   exportExcel() {
     import('xlsx').then(xlsx => {
@@ -823,10 +862,11 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
 
   dpFreezeColumns(dt, LocFrozenWidth) {
     // console.log('frozenColsCounter=' + this.frozenColsCounter);
-    this.frozenCols = this.definition.columns.slice(0, this.frozenColsCounter + 1);
-    this.scrollableCols = this.definition.columns.slice(this.frozenColsCounter + 1, this.definition.columns.length);
-    this.isFreezeColumnActive = true;
-    this.frozenWidth = LocFrozenWidth;
+    // this.frozenCols = this.definition.columns.slice(0, this.frozenColsCounter + 1);
+    // this.scrollableCols = this.definition.columns.slice(this.frozenColsCounter + 1, this.definition.columns.length);
+    // this.isFreezeColumnActive = true;
+    // this.frozenWidth = LocFrozenWidth;
+    console.log('hey');
 
     // const Elems = dt.el.nativeElement.querySelectorAll('.ui-table-scrollable-view');
     // const Elem = Elems[1];
@@ -893,43 +933,89 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     this.store.dispatch(sortColumn({ tableId: this.tableId, fieldname }));
   }
 
-  dpFreezeColumndrop(event, columnInd, dt) {
+  dpFreezeColumndrop(colName: string, th: HTMLElement) {
 
-    if (this.frozenColsCounter >= 0) {
-      return;
-    }
+    const fc = [];
+    const sc = [];
+    let width = 0;
+    let reached = false;
 
-    this.frozenButtonClasses = 'clsBtnFreezeCols clsBtnFreezeColsSelected';
+    this.definition.columns.forEach((column, index) => {
+      if (!reached) {
+        fc.push(column);
+        const el = document.getElementById(column.fieldname);
+        width += el.clientWidth;
+        if (column.fieldname === colName) {
+          reached = true;
+        }
+      } else {
+        sc.push(column);
+      }
+    });
+
+    this.frozenWidth = width;
+
     this.frozenButtonText = 'לחץ עלי לבטל נעילה';
-    this.frozenColsCounter = columnInd;
+    this.frozenCols = fc;
+    this.scrollableCols = sc;
 
-    if (this.dpIsHScroll(dt) === false) {
-      return;
-    }
+    // console.log(fc, sc);
 
-    let LocWidth = 0;
-    this.HeadersHeight = this.dpCalcHeadersHeight(dt);
+    // console.log(id);
+    // // console.log(sc);
 
-    // make sure table is scrollable:true before freezing columns
-    // if (this.definition.isFreezeColumns === true) {
-    //    this.definition.scrollable = true;
+
+    // const table = document.querySelector(`[tableid = ${this.tableId}]`);
+    // const frozen = table.getElementsByClassName('ui-table-unfrozen-view')[0];
+    // const arr = frozen.querySelectorAll('thead > tr th');
+
+    // console.log(arr);
+
+    // console.log(th.clientWidth);
+
+
+
+    // if (this.frozenColsCounter >= 0) {
+    //   return;
     // }
-    // this.definition.scrollable = true;
 
-    LocWidth = this.dpCalcFreezeColumnsWidth(dt);
-    this.dpFreezeColumns(dt, LocWidth + 'px');
+    // this.frozenButtonClasses = 'clsBtnFreezeCols clsBtnFreezeColsSelected';
+    // this.frozenColsCounter = columnInd;
 
-    // this.dpCreateFooterData();
+    // if (this.dpIsHScroll(dt) === false) {
+    //   return;
+    // }
+
+    // let LocWidth = 0;
+    // this.HeadersHeight = this.dpCalcHeadersHeight(dt);
+
+    // // make sure table is scrollable:true before freezing columns
+    // // if (this.definition.isFreezeColumns === true) {
+    // //    this.definition.scrollable = true;
+    // // }
+    // // this.definition.scrollable = true;
+
+    // LocWidth = this.dpCalcFreezeColumnsWidth(dt);
+    // this.dpFreezeColumns(dt, LocWidth + 'px');
+
+    // // this.dpCreateFooterData();
+
+
   }
 
   dpUnFreezeCols() {
-    this.frozenColsCounter = -1;
-    this.frozenButtonClasses = 'clsBtnFreezeCols';
-    this.frozenButtonText = 'גרור אותי להקפיא עמודות';
-    this.frozenCols = null;
+
     this.scrollableCols = this.definition.columns;
-    this.isFreezeColumnActive = false;
-    this.frozenWidth = '0px';
+    // this.frozenColsCounter = -1;
+    // this.frozenButtonClasses = 'clsBtnFreezeCols';
+
+    this.frozenButtonText = 'גרור אותי להקפיא עמודות';
+
+    // this.frozenCols = null;
+    // this.scrollableCols = this.definition.columns;
+    // this.isFreezeColumnActive = false;
+    this.frozenWidth = 0;
+
   }
 
   dpCalcFreezeColumnsWidth(dt) {
@@ -962,15 +1048,6 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     return true;
   }
 
-  funcTest() {
-    const a = document.scrollingElement;
-    console.log(a);
-
-    const Elems = this.table.el.nativeElement.querySelectorAll('.ui-table-scrollable-view');
-    const Elem = Elems[1];
-    Elem.classList.add('ui-table-unfrozen-view');
-    // ui-table-scrollable-view -> ui-table-unfrozen-view
-  }
 
   isChecked(e) {
     alert("On Change:" + e.checked);

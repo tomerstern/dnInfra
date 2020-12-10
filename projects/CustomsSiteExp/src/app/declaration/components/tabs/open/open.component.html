@@ -1,0 +1,135 @@
+<div class="p-grid">
+    <div>לקוח תפעולי</div>
+    <div>
+        <dp-autocomplete  *ngIf="dataForOperationalCustomer"         
+        [definition]="acDefOperationalCustomer"
+        [datasource]="dataForOperationalCustomer"
+        
+        ></dp-autocomplete>
+        <!-- [initVal]="'ACCCLOSE'" -->
+        <!-- (getSelected)="handleResult($event, 5)" -->
+    </div>
+</div>
+<div class="p-grid">
+    <div>לקוח חשבונאי</div>
+    <div></div>
+</div>
+<div class="p-grid">
+    <div>צוות תפעולי</div>
+    <div></div>
+</div>
+
+<!-- <table>
+    <tr>
+        <td>
+            לקוח תפעולי
+        </td>
+        <td>
+    
+        </td>
+    </tr>
+    <tr>
+        <td>
+            לקוח חשבונאי 
+        </td>
+        <td>
+            
+        </td>
+    <tr>
+        <td>
+            צוות תפעולי
+        </td>
+        <td>
+            
+        </td>
+    </tr>
+    </table> -->
+<app-shipment-details></app-shipment-details>
+<!-- 
+<p-fieldset>
+
+</p-fieldset> -->
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+
+<p-fieldset legend="פרטי משלוח" [toggleable]="false">
+    <table>
+        <tr>
+            <td>
+                תאריך פתיחה
+            </td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                ארץ יעד
+            </td>
+            <td>
+                
+            </td>
+        </tr> 
+        <tr>
+            <td>
+                Inco-Terms
+            </td>
+            <td>
+                
+            </td>
+        </tr>      
+        <tr>
+            <td>
+                סוג שימוש
+            </td>
+            <td>
+                
+            </td>
+        </tr>  
+        <tr>
+            <td>
+                מקור ההצהרה
+            </td>
+            <td>
+                
+            </td>
+        </tr>  
+        <tr>
+            <td>
+                מספר ש.מ.ר
+            </td>
+            <td>
+                
+            </td>
+        </tr>                                   
+        <tr>
+            <td>
+                מספר ש.מ.פ
+            </td>
+            <td>
+                
+            </td>
+        </tr> 
+        <tr>
+            <td>
+                מספר ש.מ
+            </td>
+            <td>
+                
+            </td>
+        </tr>                 
+    </table>
+     <p-fieldset legend="טבלת אסמכתאות" [toggleable]="true">
+
+     </p-fieldset>
+</p-fieldset> -->

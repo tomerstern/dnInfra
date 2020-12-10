@@ -1,0 +1,21 @@
+<p>Forms List For Shipment: {{ShipmentKey}}</p>
+
+
+<div class="a">
+    <div class="b">
+        <app-forms-list (notifyFormType)='onNotifyFormType($event)'></app-forms-list>
+    </div>
+
+    <div class="c">
+        <app-form-button  (notifyButtonType)='onNotifyButtonType($event)'></app-form-button>
+    </div>
+
+    <div class="d">
+         <app-form-details [gridData]="arrFormDetails" (notifyFormDetails)='onNotifyFormDetails($event)' ></app-form-details>
+
+
+    </div>
+
+
+
+</div>

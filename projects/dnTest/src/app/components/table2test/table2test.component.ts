@@ -327,7 +327,7 @@ export class Table2testComponent implements OnInit {
     const column2 = new GridColumn({
       headername: 'header name 2', fieldname: 'header2', columnParams: columnParams2
       , width: 150 /* for example */
-      , ColumnSum: true
+      // , ColumnSum: true
     });
     columns.push(column2);
 
@@ -358,7 +358,7 @@ export class Table2testComponent implements OnInit {
     const column6 = new GridColumn({
       headername: 'header name 6', fieldname: 'header6', columnParams: columnParams6
       , width: 148 /* for example */
-      , ColumnSum: true
+      // , ColumnSum: true // selectors error
     });
     columns.push(column6);
 

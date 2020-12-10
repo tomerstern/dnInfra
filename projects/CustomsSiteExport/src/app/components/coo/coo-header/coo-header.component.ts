@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ShipmentDetail } from '../../../models/shipment';
+import { ShipmentService } from '../../../services/shipment.service';
 // import { CheckboxDefinitions } from 'projects/dn-infra/src/lib/dp/components/checkbox/objects/checkbox-definitions';
 
 @Component({
@@ -8,6 +10,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CooHeaderComponent implements OnInit {
 
+  LineNo: number;
   direction: string;
   entityNo: number;
   cooStatus: string;
@@ -21,15 +24,22 @@ export class CooHeaderComponent implements OnInit {
   ATD: string;
   CUSGTW: string;
 
-  constructor() { }
+  detail: ShipmentDetail;
+
+  constructor(private shipmentService: ShipmentService) { }
 
   ngOnInit(): void {
+    
+   
+    //this.detail = this.shipmentService.getShipmentDetails();
+
+    //this.LineNo = this.shipmentService.cls_COOFormData.cooFormLineNo;
     this.direction = localStorage.getItem('dDirection');
     this.entityNo = 585895;
-    this.cooStatus = 'New';
-    this.cooType = 'ERU-1';
+    //this.cooStatus =  this.shipmentService.cls_COOFormData.cooFormStatus;
+    //this.cooType = this.shipmentService.cls_COOFormData.cooFormType;
     this.cooNo = 'CUS5555';
-    this.CUSDECFile = '1-202564/2';
+    //this.CUSDECFile = this.shipmentService.cls_COOFormData.cooShipmentKey;
     this.destination = 'NL - Nederland';
     this.shipper = 'CARMEL OLEFINS LTD.';
     this.CNEE = 'AMAFREN S.A.';

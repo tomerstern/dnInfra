@@ -1,0 +1,112 @@
+<br/>
+
+<div class="p-grid">
+    <div class="p-col-12 p-md-4">
+        <p-fieldset legend="{{ 'coo.CustomsEndorsement' | translate }}" [toggleable]="false">
+        <div class="p-grid">
+            <div class="p-col-12 p-md-5">{{ 'coo.CustomsOffice' | translate }}:</div>
+            <div class="p-col-12 p-md-1 Mandatory">*</div>
+            <div class="p-col-12 p-md-6"><b>
+                <dp-autocomplete 
+                    *ngIf="cooService.customsOfficeList" 
+                    [initVal]="cooService.cooBox.Header.COO_CustomsHouseName"                                 
+                    [definition]="autocompleteDefinition2" 
+                    [datasource]="cooService.customsOfficeList">
+                </dp-autocomplete> 
+            </b></div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-5">{{ 'coo.IssuingCountryOrTerritory' | translate }}:</div>
+            <div class="p-col-12 p-md-1 Mandatory">*</div>
+            <div class="p-col-12 p-md-6"><b>
+                <dp-autocomplete 
+                    *ngIf="cooService.countriesList" 
+                    [initVal]="cooService.cooBox.Header.COO_IssuingCountryHebName"
+                    [definition]="autocompleteDefinition1" 
+                    [datasource]="cooService.countriesList">
+                </dp-autocomplete> 
+            </b></div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-5">{{ 'coo.DateOfDeclaration' | translate }}:</div>
+            <div class="p-col-12 p-md-1 Mandatory">*</div>
+            <div class="p-col-12 p-md-6"><b>
+                <dp-calendar 
+                    name="DateOfDeclaration" 
+                    [definition]="CalendarDef1" 
+                    [ngModel]="test">
+                </dp-calendar>
+            </b></div>      
+        </div>
+        </p-fieldset>
+    </div>
+    <div class="p-col-12 p-md-4">
+        <p-fieldset legend="{{ 'coo.DeclarationByTheExporter' | translate }}" [toggleable]="false">
+            <div class="p-grid">
+                <div class="p-col-12 p-md-5">{{'coo.DeclaredBy' |translate }}:</div>
+                <div class="p-col-12 p-md-1 Optional"></div>
+
+                <input  type="radio"
+                        id="declarationByExporter" 
+                        [(ngModel)]="declarationBy" 
+                        name="rdDeclarationBy"
+                        value="Exporter" >
+                        
+                <label for="r_opt1">{{'coo.Exporter' |translate }}</label><br>
+
+                <input  type="radio" 
+                        id="declarationByManufacturer" 
+                        [(ngModel)]="declarationBy" 
+                        name="rdDeclarationBy" 
+                        value="Manufacturer">
+
+                <label for="r_opt2">{{'coo.Manufacturer' |translate }}</label><br>
+
+                <!-- <div class="p-col-12 p-md-6"><b>
+                    <dp-autocomplete 
+                        *ngIf="dataDeclaredByExp" 
+                        [initVal]="'Yes'"                                 
+                        [definition]="autocompleteDefinition1" 
+                        [datasource]="dataDeclaredByExp">
+                </dp-autocomplete> 
+                </b></div> -->
+            </div>
+            <!-- <div class="p-grid">
+                <div class="p-col-12 p-md-5">{{'coo.DeclaredByManufacturer' | translate }}:</div>
+                <div class="p-col-12 p-md-1 Optional">*</div>
+                <div class="p-col-12 p-md-6"><b>
+                    <dp-autocomplete 
+                    *ngIf="dataDeclaredByMan" 
+                    [initVal]="'No'"                                 
+                    [definition]="autocompleteDefinition1" 
+                    [datasource]="dataDeclaredByMan">
+               </dp-autocomplete> 
+                </b></div>     
+            </div> -->
+            <div class="p-grid">
+                <div class="p-col-12 p-md-5">{{'coo.CityOfDeclaration' | translate }}:</div>
+                <div class="p-col-12 p-md-1 Mandatory">*</div>
+                <div class="p-col-12 p-md-6"><b>
+                    <dp-autocomplete 
+                    *ngIf="cooService.customsOfficeList" 
+                    [initVal]="cooService.cooBox.Header.COO_CityOfDeclarationName"                                 
+                    [definition]="autocompleteDefinition2" 
+                    [datasource]="cooService.customsOfficeList">
+               </dp-autocomplete> 
+                </b></div>           
+            </div>
+            <div class="p-grid">
+                <div class="p-col-12 p-md-5">{{'coo.CountryOfDeclaration' | translate }}:</div>
+                <div class="p-col-12 p-md-1 Mandatory">*</div>
+                <div class="p-col-12 p-md-6"><b>
+                    <dp-autocomplete 
+                        *ngIf="cooService.countriesList" 
+                        [initVal]="cooService.cooBox.Header.COO_CountryOfDeclarationHebName"                                 
+                        [definition]="autocompleteDefinition1" 
+                        [datasource]="cooService.countriesList">
+                   </dp-autocomplete> 
+                </b></div>           
+            </div>
+            </p-fieldset>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+<div id="dpHeaderContainer" [ngClass]="(this.isRtl )?'clsDpRtl999 p-grid' : 'p-grid'"> 
+    <!-- for 2 menu  p-md-3 + p-md-4, after make one with p-md-7-->
+      <div class="p-col-12 p-md-3">
+
+          <dp-menubar id="menubarCustomsMain" *ngIf="tree"
+          [datasource]="tree" 
+          [definition]="menubarDefinition1">
+        </dp-menubar>
+  
+      </div>
+      <div class="p-col-12 p-md-4">
+  
+  
+      <dp-menubar id="menubarCustomsMainTest" 
+      [datasource]="itemsTest"
+      [definition]="menubarTestDefinition1">
+    </dp-menubar>
+  
+    </div>
+      <div class="p-col-12 p-md-5">
+          
+            <app-language></app-language>
+  
+      </div>
+  </div>
+  

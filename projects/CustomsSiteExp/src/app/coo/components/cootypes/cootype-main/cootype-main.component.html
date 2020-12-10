@@ -1,0 +1,57 @@
+<p>Forms List For Shipment: {{cooKey.ShipmentNumber}}</p>
+
+<!-- <div class="p-grid">
+    <div class="p-col-12 p-md-2"></div>
+    <div class="p-col-12 p-md-10">
+        
+        <table>
+            <tr>
+                <td><dp-button  id="btnNew" class="ui-button-dp clsCootypeBtns"  [definition]="btnNewDef"></dp-button></td>
+                <td><dp-button  id="btnUpdate" class="ui-button-dp clsCootypeBtns"[definition]="btnUpdateDef"></dp-button></td>
+                <td><dp-button  id="btnReplace" class="ui-button-dp clsCootypeBtns" [definition]="btnReplaceDef"></dp-button></td>
+                <td><dp-button  id="btnCancel" class="ui-button-dp clsCootypeBtns" [definition]="btnCancelDef"></dp-button></td>
+            </tr>
+        </table>
+  
+    </div>
+</div> -->
+
+<div class="p-grid">
+    <div class="p-col-12 p-md-2">
+        <app-cootype-list *ngIf="arrCooTypeList" [gridData]="arrCooTypeList" (notifyCOOType)='onNotifyCOOType($event)'></app-cootype-list>
+    </div>
+    <div class="p-col-12 p-md-9">
+        <app-cootype-details [gridData]="arrCooDataDetails" (notifyFormDetails)='onNotifyFormDetails($event)' ></app-cootype-details>
+    </div>
+    <div class="p-col-12 p-md-1">
+        <app-cootype-button  (notifyButtonType)='onNotifyButtonType($event)'></app-cootype-button>
+    </div>
+</div> 
+
+
+
+<!-- <div class="container">
+
+        <app-cootype-list *ngIf="arrCooTypeList" [gridData]="arrCooTypeList" (notifyCOOType)='onNotifyCOOType($event)'></app-cootype-list>
+
+        <app-cootype-details [gridData]="arrCooDataDetails" (notifyFormDetails)='onNotifyFormDetails($event)' ></app-cootype-details>
+
+        <app-cootype-button  (notifyButtonType)='onNotifyButtonType($event)'></app-cootype-button> 
+
+        <span class="hey1">
+            1
+        </span>
+
+        <span class="hey2">
+            2
+        </span>
+
+        <span class="hey3">
+            <button>GO 1</button>
+            <button>GO 2</button>
+            <button>GO 3</button>
+        </span> 
+
+
+</div>  -->
+
