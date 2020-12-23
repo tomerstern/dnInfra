@@ -150,9 +150,13 @@ export class AutocompleteComponent implements OnInit, OnChanges, ControlValueAcc
   // }
 
   emit(val) {
+    console.log(this.definition.isStandAlone);
     if (val !== null && val !== undefined) {
-        this.innerValue = val;
+      if (!this.definition.isStandAlone){
         this.getSelected.emit(val);
+      } else {
+        this.innerValue = val;
+      }
     }
   }
   blurEmit(val) {
