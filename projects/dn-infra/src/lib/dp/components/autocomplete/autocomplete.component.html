@@ -11,7 +11,8 @@
     definition.dp_AutocompleteType,
     definition.dpAutocompleteMaxSuggestionsToShow
   )
-" (onBlur)="blurEmit(autoComplete.value)" (onSelect)="emit(autoComplete.value)" (onClear)="innerValue = ''; getSelected.emit('')" 
+" (onBlur)="blurEmit(autoComplete.value)" (onSelect)="emit(autoComplete.value)" 
+(onClear)="innerValue = ''; getSelected.emit('')" 
   (onUnselect)="emit(autoComplete.value)" [ngModel]="innerValue" [ngModelOptions]="{standalone:true}"
   [scrollHeight]="definition.scrollHeight" [style]="definition.style" [field]="definition.field"
   [dropdown]="definition.dropdown" [multiple]="definition.multiple" [dropdownIcon]="definition.dropdownIcon"

@@ -28,7 +28,7 @@ export class AutocompleteComponent implements OnInit, OnChanges, ControlValueAcc
 
   @Input() definition: AutocompleteDefinitions;
   @Input() datasource: any = [];
-  @Input() required: boolean = false;
+  @Input() required: boolean;
   ngModelDP: any;
   hasTouched = false;
 
@@ -151,8 +151,11 @@ export class AutocompleteComponent implements OnInit, OnChanges, ControlValueAcc
 
   emit(val) {
     if (val !== null && val !== undefined) {
-        this.innerValue = val;
+      if (!this.definition.isStandAlone){
         this.getSelected.emit(val);
+      } else {
+        this.innerValue = val;
+      }
     }
   }
   blurEmit(val) {
