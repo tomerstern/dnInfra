@@ -3,6 +3,9 @@ import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DeclarationContainer, DeclarationDetails, ExportCustom } from '../models/declaration/container';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { getTableStateById } from 'projects/dn-infra/src/lib/dp/store/selectors';
+import { Store } from '@ngrx/store';
+
 
 interface IDeclarationData {
   dataDeclaration: DeclarationContainer;
@@ -18,7 +21,10 @@ export class DeclarationService {
   declarationContainer: DeclarationContainer;
   declarationDataSubject = new BehaviorSubject<string>(null);
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private store: Store<any>) {
+
+
+   }
 
   getDefaultDeclarationFromServer() {
     this.http

@@ -175,9 +175,6 @@ export class HeaderComponent implements OnInit {
         mappedArr[arrElem.Id]['items'] = [];
       }
 
-      console.log('mappedArr');
-      console.log(mappedArr);
-
       for (const id in mappedArr) {
         if (mappedArr.hasOwnProperty(id)) {
           mappedElem = mappedArr[id];

@@ -6,6 +6,7 @@ import { InputNumberDefinitions } from 'projects/dn-infra/src/lib/dp/components/
 import { CalendarDefinitions } from 'projects/dn-infra/src/lib/dp/components/calendar/objects/calendar-definitions';
 import { CheckboxDefinitions } from 'projects/dn-infra/src/lib/dp/components/checkbox/objects/checkbox-definitions';
 import { Observable, Subscription } from 'rxjs';
+import { ExportassistService } from 'projects/CustomsSiteExp/src/app/core/services/exportassist.service';
 
 @Component({
   selector: 'app-nonmanipulationcertificate',
@@ -15,7 +16,9 @@ import { Observable, Subscription } from 'rxjs';
 export class NonmanipulationcertificateComponent implements OnInit {
   @Output() callCooSaveFunction:EventEmitter<any>=new EventEmitter<any>()
 
-  constructor(private cooService: CooService) { }
+  constructor(public cooService : CooService, public exportassistService: ExportassistService,) { 
+    cooService.cooDataSubject$.subscribe(data => {console.log(data);})
+  }
   private eventsSubscription: Subscription;
   @Input() events: Observable<void>;
   autocompleteDefinition1: AutocompleteDefinitions;
@@ -30,7 +33,8 @@ export class NonmanipulationcertificateComponent implements OnInit {
 
   ngOnInit(): void {
     this.autocompleteDefinition1 = new AutocompleteDefinitions({
-      inputId: 'department', field: 'name',
+      //inputId: 'department', 
+      field: 'name',
       dp_AutocompleteType: 0  , dropdown: true
     });
 
@@ -47,7 +51,9 @@ export class NonmanipulationcertificateComponent implements OnInit {
     }).catch(err => {
       console.log(err);
     });
+    if(this.events!=undefined){
     this.eventsSubscription = this.events.subscribe(() => this.sendDataToParent());
+    }
   }
   sendDataToParent() {
     alert('this is non man cer tab');

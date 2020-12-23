@@ -1,5 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { CooHeader } from '../../models/coo'; 
+import { Component, OnInit } from '@angular/core'; 
 import { CooService } from '../../services/coo.service';
 
 @Component({
@@ -9,10 +8,10 @@ import { CooService } from '../../services/coo.service';
 })
 
 export class HeaderComponent implements OnInit {
-  @Input() jsonCooHeader: any = {};
   direction: string;
 
-  constructor(public cooService: CooService) {}
-
+  constructor(public cooService: CooService) {
+    cooService.cooDataSubject$.subscribe(data => {console.log(data);})
+}
   ngOnInit(): void { }
 }

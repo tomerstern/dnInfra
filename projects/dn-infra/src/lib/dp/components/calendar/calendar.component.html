@@ -1,5 +1,5 @@
 <p-calendar #input (keyup)="setTempVal($event.target.value)" (onClickOutside)="onInputClickOutside(tempVal)"
-    (onClose)="onClose(input.value)" [ngModel]="innerValue" [ngModelOptions]="{standalone: true}"
+    (onClose)="onClose(input.value)" [(ngModel)]="innerValue" [ngModelOptions]="{standalone: true}"
     [selectionMode]="definition.selectionMode" [readonlyInput]="definition.readonlyInput"
     [showTime]="definition.showTime" dateFormat="dd/mm/yy" [minDate]="definition.minDate" [maxDate]="definition.maxDate"
     [monthNavigator]='definition.monthNavigator' [yearNavigator]='definition.yearNavigator'

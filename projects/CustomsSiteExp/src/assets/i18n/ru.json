@@ -1,6 +1,7 @@
 {
     "date": "Дата",
     "openDate": "открытая дата",
+    "dates": "даты",
     "shipmentNumber": "Номер отправления",
     "declarationId": "ID декларации",
     "username" : "Имя пользователя",

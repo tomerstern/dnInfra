@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TabmenuDefinitions, DpMenuItem } from 'projects/dn-infra/src/lib/dp/components/tabmenu/Objects/tabmenu-definitions';
-
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-tabmenu',
   templateUrl: './tabmenu.component.html',
@@ -10,15 +10,14 @@ export class TabmenuComponent implements OnInit {
 
   constructor() { }
 
-  tabItems: DpMenuItem[];
-  tabMenuDefinition: TabmenuDefinitions;
+  eventsSubject: Subject<void> = new Subject<void>();
+  direction: string;
 
   ngOnInit(): void {
-    this.tabItems = [
-      { label: 'Open', id: 'decTabOpen', routerLink: 'decTabOpen' },
-      { label: 'Declaration', id: 'decTabDeclaration', routerLink: 'decTabDeclaration' },
-      { label: 'Declaration 2', id: 'decTabDeclaration2', routerLink: 'decTabDeclaration2' }];
-
-    this.tabMenuDefinition = new TabmenuDefinitions({ activeItem: this.tabItems[1] });
+    this.direction = localStorage.getItem('dDirection');    
+  }
+  saveData(data)
+  {
+      alert("coo comp. saving this data from tab:  " +  JSON.stringify(data));
   }
 }

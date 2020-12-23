@@ -14,7 +14,7 @@
 
 /* You can add global styles to this file, and also import other style files */
 
-.HeaderTable1
+.HeaderContainer1
 {
 	border: #b9b76c 1px solid;
 	font-weight: normal;
@@ -24,6 +24,8 @@
 	padding: 3px;   
 	white-space: nowrap; 
 	border:1px solid #CB2026;
+	height: 65px;
+	display: inline-block;margin:0;
 }
 
 .HeaderBG1

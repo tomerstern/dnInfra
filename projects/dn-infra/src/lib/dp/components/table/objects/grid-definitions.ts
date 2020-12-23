@@ -134,7 +134,7 @@ export class GridDefinitions implements IGridDefinition {
         this.HeaderColGroup = (params.HeaderColGroup == null
             || params.HeaderColGroup === undefined ? '' : params.HeaderColGroup);
         this.isRoundedInputs = (params.isRoundedInputs == null
-            || params.isRoundedInputs === undefined ? false : params.isRoundedInputs);
+            || params.isRoundedInputs === undefined ? true : params.isRoundedInputs);
         this.pdfHeaderText = (params.pdfHeaderText === undefined || params.pdfHeaderText == null ? '' : params.pdfHeaderText);
         this.pdfFooterText = (params.pdfFooterText === undefined || params.pdfFooterText == null ? '' : params.pdfFooterText);
         this.isHideHeader = (params.isHideHeader == null

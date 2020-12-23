@@ -343,7 +343,6 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
       const columnName = column.fieldname;
       row[columnName] = '';
     });
-
     return row;
   }
 

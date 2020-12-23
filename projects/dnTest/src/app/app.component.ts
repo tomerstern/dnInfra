@@ -40,6 +40,7 @@ export class AppComponent implements OnInit {
 
   externalDataSelected1: any;
 
+  ac_suggestions = [{name: 'israel'}, {name: 'united states'}, {name: 'spain'}];
 
   ngOnInit(): void {
 
@@ -68,6 +69,21 @@ export class AppComponent implements OnInit {
       this.dataForAc1 = countries;
     });
   }
+
+
+
+  onSubmit(form) {
+
+    // console.log(form);
+    // console.log(this.model);
+    // console.log(form.value);
+
+
+      // console.log('form.value');
+      console.log(form);
+  }
+
+
 
 }
 

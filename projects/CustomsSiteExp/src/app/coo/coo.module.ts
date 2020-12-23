@@ -14,12 +14,18 @@ import { CootypeButtonComponent } from './components/cootypes/cootype-button/coo
 import { CootypeListComponent } from './components/cootypes/cootype-list/cootype-list.component';
 import { CootypeDetailsComponent } from './components/cootypes/cootype-details/cootype-details.component';
 
+
+
 import { GeneralComponent } from './components/tabs/general/general.component';
 import { HeaderTabComponent } from './components/tabs/headertab/headertab.component';
 import { CoodetailsComponent } from './components/tabs/coodetails/coodetails.component';
 import { CoogoodsdetailsComponent } from './components/tabs/coogoodsdetails/coogoodsdetails.component';
 import { CoosignatureComponent } from './components/tabs/coosignature/coosignature.component';
 import { NonmanipulationcertificateComponent } from './components/tabs/nonmanipulationcertificate/nonmanipulationcertificate.component';
+import { FormsModule } from '@angular/forms';
+import { TransmissionlogComponent } from '../components/transmission/transmissionlog/transmissionlog.component';
+import { TransmissiondetailsComponent } from '../components/transmission/transmissiondetails/transmissiondetails.component';
+
 
 @NgModule({
   declarations: [
@@ -36,13 +42,16 @@ import { NonmanipulationcertificateComponent } from './components/tabs/nonmanipu
     CoodetailsComponent,
     CoogoodsdetailsComponent,
     CoosignatureComponent,
-    NonmanipulationcertificateComponent
+    NonmanipulationcertificateComponent,
+    TransmissionlogComponent,
+    TransmissiondetailsComponent
   ],
   imports: [
     FieldsetModule,
     CommonModule,
     CooRoutingModule,
-    SharedModule
+    SharedModule,
+    FormsModule
   ],
   exports: []
 })

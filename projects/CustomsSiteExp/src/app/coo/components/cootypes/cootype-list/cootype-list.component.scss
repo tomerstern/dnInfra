@@ -4,3 +4,31 @@
     color:green; 
     font-size: 20px;
 }
+
+.cooTypeContainer
+{
+    height:60px;
+    border-radius: 8px;
+    margin-top: 2px;
+    border: #a3a3a3 1px solid;
+    color: #333333;
+    transition: background-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+    padding-top: 12px;
+    cursor: pointer;
+
+}
+
+.divSelected
+{
+    border:red 2px solid;
+    transition: background-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+}
+
+.divUnSelected
+{
+    border: black 1px solid;
+    transition: background-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+}

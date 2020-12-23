@@ -27,8 +27,9 @@ export class CootypeDetailsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  RowClick(nLineNo: number): void {
-    let jsonFormDetails = this.gridData.filter(x => x.EntityNo == nLineNo);
+  RowClick(nEntityNo: number): void {
+    let jsonFormDetails = this.gridData.filter(x => x.EntityNo == nEntityNo);
+    console.log("Entity No: " + nEntityNo)
     this.notifyFormDetails.emit(jsonFormDetails);
   }
 

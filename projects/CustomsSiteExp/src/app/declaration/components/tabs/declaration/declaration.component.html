@@ -1,1 +1,11 @@
-<p>declaration works!</p>
+<div class="p-col-12 p-md-6">
+    <p-fieldset legend="{{ 'declaration.declarationDetails' | translate }}" [toggleable]="false">
+        <app-declaration-details></app-declaration-details>
+    </p-fieldset>
+</div> 
+<div class="p-col-12 p-md-6">
+    <p-fieldset legend="{{ 'declaration.dates' | translate }}" [toggleable]="false">
+        <app-dates></app-dates>
+    </p-fieldset>
+</div> 
+

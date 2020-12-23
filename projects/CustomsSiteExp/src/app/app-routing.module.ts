@@ -6,6 +6,7 @@ import { ErrorComponent } from './components/error/error.component';
 //  ** COO **
 import { CooComponent } from './coo/coo.component';
 import { CootypeMainComponent } from './coo/components/cootypes/cootype-main/cootype-main.component';
+import { TransmissionlogComponent } from './components/transmission/transmissionlog/transmissionlog.component';
 //  ** COO **
 
 //  ** Declaration **
@@ -28,6 +29,7 @@ const routes: Routes = [
   { path: 'error',    component: ErrorComponent },
   { path: 'cootype',  component: CootypeMainComponent },
   { path: 'coo',      component: CooComponent },
+  { path: 'transmission',component: TransmissionlogComponent },
   { path: 'test1', component: Test1Component },
   { path: 'test2', component: Test2Component },
   { path: 'test3', component: Test3Component },
@@ -54,7 +56,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true })],
+  // imports: [RouterModule.forRoot(routes, { useHash: true })],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

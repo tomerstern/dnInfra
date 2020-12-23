@@ -8,6 +8,7 @@
             class="ui-button ui-button-dp p-mr-2"></button>
             <button pButton pRipple label="Transmission Log"
                 icon="pi pi-save" 
+                (click)="tansmissionLog()"
                 class="ui-button ui-button-dp p-mr-2"></button>
             <button pButton pRipple label="Doc View"
             icon="pi pi-save" 
@@ -20,3 +21,4 @@
             class="ui-button ui-button-dp p-mr-2"></button>
     </div>
 </p-toolbar>
+<dp-toast #toast [definition]="toastDefinition"></dp-toast>

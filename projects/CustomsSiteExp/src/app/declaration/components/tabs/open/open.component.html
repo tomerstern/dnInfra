@@ -1,54 +1,63 @@
-<div class="p-grid">
-    <div>לקוח תפעולי</div>
-    <div>
-        <dp-autocomplete  *ngIf="dataForOperationalCustomer"         
-        [definition]="acDefOperationalCustomer"
-        [datasource]="dataForOperationalCustomer"
-        
-        ></dp-autocomplete>
-        <!-- [initVal]="'ACCCLOSE'" -->
-        <!-- (getSelected)="handleResult($event, 5)" -->
+<br/>
+{{declarationService.declarationData.DeclarationBox.ExportCustoms | json}}
+<br>
+<br>
+<br>
+<div *ngIf="exportassistService.customersList != undefined">
+    <div class="p-grid">
+        <div class="p-col-12 p-md-4">
+            <div class="p-grid">
+                <div class="p-col-12 p-md-3">{{ 'declaration.operationalCustomer' | translate }}:</div>
+                <div class="p-col-12 p-md-1 Mandatory">*</div>
+                <div class="p-col-12 p-md-5">
+                    <b>
+                        <dp-autocomplete    
+                            [initVal]="declarationService.declarationData.DeclarationBox.ExportCustoms.CustomerName"     
+                            [definition]="acDefOperationalCustomer"
+                            [datasource]="exportassistService.customersList"  
+                            (getSelected)="handleResult($event, 'operationalCustomer')"              
+                        ></dp-autocomplete>
+                    </b>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-12 p-md-3">{{ 'declaration.billCustomer' | translate }}:</div>
+                <div class="p-col-12 p-md-1 Mandatory">*</div>
+                <div class="p-col-12 p-md-5">
+                    <b>
+                    <dp-autocomplete    
+                    [initVal]="declarationService.declarationData.DeclarationBox.ExportCustoms.BillToName"     
+                    [definition]="acDefOperationalCustomer"
+                    [datasource]="exportassistService.customersList"  
+                    (getSelected)="handleResult($event, 'billCustomer')"              
+                    ></dp-autocomplete>
+                    </b>
+                </div>            
+            </div>       
+            <div class="p-grid">
+                <div class="p-col-12 p-md-3">{{ 'declaration.operationalTeam' | translate }}:</div>
+                <div class="p-col-12 p-md-1 Mandatory">*</div>
+                <div class="p-col-12 p-md-5">
+                    <b>
+                        <dp-autocomplete    
+                            [initVal]="declarationService.declarationData.DeclarationBox.ExportCustoms.OperationTeamName"     
+                            [definition]="acDefOperationalTeam"
+                            [datasource]="exportassistService.teamsList"  
+                            (getSelected)="handleResult($event, 'operationalTeam')"              
+                        ></dp-autocomplete>
+                    </b>
+                </div>
+            </div>  
+        </div>
+    </div>
+    <div class="p-grid">
+        <div class="p-col-12 p-md-12">
+            <p-fieldset legend="{{ 'declaration.shipmentDetails' | translate }}" [toggleable]="false">
+                <app-shipment-details></app-shipment-details>
+            </p-fieldset>
+        </div>        
     </div>
 </div>
-<div class="p-grid">
-    <div>לקוח חשבונאי</div>
-    <div></div>
-</div>
-<div class="p-grid">
-    <div>צוות תפעולי</div>
-    <div></div>
-</div>
-
-<!-- <table>
-    <tr>
-        <td>
-            לקוח תפעולי
-        </td>
-        <td>
-    
-        </td>
-    </tr>
-    <tr>
-        <td>
-            לקוח חשבונאי 
-        </td>
-        <td>
-            
-        </td>
-    <tr>
-        <td>
-            צוות תפעולי
-        </td>
-        <td>
-            
-        </td>
-    </tr>
-    </table> -->
-<app-shipment-details></app-shipment-details>
-<!-- 
-<p-fieldset>
-
-</p-fieldset> -->
 
 
 
@@ -59,77 +68,3 @@
 
 
 
-
-<!-- 
-
-<p-fieldset legend="פרטי משלוח" [toggleable]="false">
-    <table>
-        <tr>
-            <td>
-                תאריך פתיחה
-            </td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-                ארץ יעד
-            </td>
-            <td>
-                
-            </td>
-        </tr> 
-        <tr>
-            <td>
-                Inco-Terms
-            </td>
-            <td>
-                
-            </td>
-        </tr>      
-        <tr>
-            <td>
-                סוג שימוש
-            </td>
-            <td>
-                
-            </td>
-        </tr>  
-        <tr>
-            <td>
-                מקור ההצהרה
-            </td>
-            <td>
-                
-            </td>
-        </tr>  
-        <tr>
-            <td>
-                מספר ש.מ.ר
-            </td>
-            <td>
-                
-            </td>
-        </tr>                                   
-        <tr>
-            <td>
-                מספר ש.מ.פ
-            </td>
-            <td>
-                
-            </td>
-        </tr> 
-        <tr>
-            <td>
-                מספר ש.מ
-            </td>
-            <td>
-                
-            </td>
-        </tr>                 
-    </table>
-     <p-fieldset legend="טבלת אסמכתאות" [toggleable]="true">
-
-     </p-fieldset>
-</p-fieldset> -->

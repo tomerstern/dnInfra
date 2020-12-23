@@ -1,31 +1,32 @@
 <br/>
-<div  *ngIf="cooService.cooBox != undefined">
+<!-- {{cooService.cooData.CooBoxData.Header | json}}  -->
+<div *ngIf="cooService.cooData.CooBoxData != undefined">    
 <div class="p-grid">
     <div class="p-col-12 p-md-3">
         <p-fieldset legend="General" [toggleable]="false">
         <div class="p-grid">
             <div class="p-col-12 p-md-6">Entity No:</div>
-            <div class="p-col-12 p-md-6"><b>{{this.cooService.cooBox.Header.EntityNo}}</b></div>
+            <div class="p-col-12 p-md-6"><b>{{cooService.cooData.CooBoxData.Header.EntityNo}}</b></div>
         </div>
         <div class="p-grid">
             <div class="p-col-12 p-md-6">OPS Shipment No.:</div>
-            <div class="p-col-12 p-md-6"><b>{{this.cooService.cooBox.Header.ShipmentNumber}}</b></div>
+            <div class="p-col-12 p-md-6"><b>{{cooService.cooData.CooBoxData.Header.ShipmentNumber}}</b></div>
         </div>
         <div class="p-grid">
             <div class="p-col-12 p-md-6">Department :</div>
-            <div class="p-col-12 p-md-6"><b>{{this.cooService.cooBox.Header.DeptCode}} - Air Export</b></div>           
+            <div class="p-col-12 p-md-6"><b>{{cooService.cooData.CooBoxData.Header.DeptCode}} - Air Export</b></div>           
         </div>
         <div class="p-grid">
             <div class="p-col-12 p-md-6">CSDEC Order</div>
-            <div class="p-col-12 p-md-6"><b>{{this.cooService.cooBox.Header.CusDecOrder}}</b></div>
+            <div class="p-col-12 p-md-6"><b>{{cooService.cooData.CooBoxData.Header.CusDecOrder}}</b></div>
         </div>
         <div class="p-grid">
             <div class="p-col-12 p-md-6">Open Date:</div>
-            <div class="p-col-12 p-md-6"><b>{{headerOpenDate}}</b></div>
+            <div class="p-col-12 p-md-6"><b>{{cooService.cooData.CooBoxData.Header.OpenDate}}</b></div>
         </div>
         <div class="p-grid">
             <div class="p-col-12 p-md-6">Opened By:</div>
-            <div class="p-col-12 p-md-6"><b>{{this.cooService.cooBox.Header.OpenedBy}}</b></div>
+            <div class="p-col-12 p-md-6"><b>{{cooService.cooData.CooBoxData.Header.OpenedBy}}</b></div>
         </div>
         </p-fieldset>
     </div>
@@ -38,19 +39,27 @@
         <p-fieldset legend="Agent Request" [toggleable]="false">
         <div class="p-grid">
             <div class="p-col-12 p-md-6">Request No.:</div>
-            <div class="p-col-12 p-md-6"><b>{{cooService.cooOtherDetails.CUSDECFile }}-{{cooService.cooBox.Header.EntityNo}}</b></div>
+            <div class="p-col-12 p-md-6"><b>
+                {{cooService.cooData.CooBoxData.Header.DeptCode }}-
+                {{cooService.cooData.CooBoxData.Header.ShipmentNumber}}/
+                {{cooService.cooData.CooBoxData.Header.CusDecOrder}}-
+                {{cooService.cooData.CooBoxData.Header.EntityNo}}
+            </b></div>
         </div>
         <div class="p-grid">
             <div class="p-col-12 p-md-6">COO Type:</div>
-            <div class="p-col-12 p-md-6"><b>{{cooService.cooBox.Header.AgentR_certificateOfOriginTypeCode }} - {{ this.cooService.cooBox.Header.AgentR_certificateOfOriginTypeName}}</b></div>
+            <div class="p-col-12 p-md-6"><b>
+                {{cooService.cooData.CooBoxData.Header.AgentR_certificateOfOriginTypeCode }} - 
+                {{cooService.cooData.CooBoxData.Header.AgentR_certificateOfOriginTypeName}}
+            </b></div>
         </div>
         <div class="p-grid">
             <div class="p-col-12 p-md-6">Request Reason Code:</div>
-            <div class="p-col-12 p-md-6"><b>{{cooService.cooOtherDetails.CooMode}}</b></div>           
+            <div class="p-col-12 p-md-6"><b>{{cooService.cooData.CooBoxData.Header.CooMode}}</b></div>           
         </div>
         <div class="p-grid">
             <div class="p-col-12 p-md-6">COO No:</div>
-            <div class="p-col-12 p-md-6"><b>{{cooService.cooBox.Header.AgentR_certificateID}}</b></div>
+            <div class="p-col-12 p-md-6"><b>{{cooService.cooData.CooBoxData.Header.AgentR_certificateID}}</b></div>
         </div>        
         </p-fieldset>
     </div>

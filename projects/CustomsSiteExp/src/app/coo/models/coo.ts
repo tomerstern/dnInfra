@@ -1,20 +1,32 @@
-export class AssistTable {
-  code :string;
-  name: string;
-  description: string
+
+export class State {
+  State?: number;
+  constructor() {
+    this.State = 2;
+  }
 }
 
-export class CooKey {
+export class CooKey extends State {
     EntityNo: number;
     ShipmentNumber: number;
     DeptCode: string;
     CusDecOrder: number;
+    constructor() {
+      super();
+      this.EntityNo = 0;
+      this.ShipmentNumber = 0;
+      this.DeptCode = '';
+      this.CusDecOrder = 0;
+    }
   }
 
 export interface ICooData {
-    serverCooData: CooBox;
-    updatedCooData: CooBox;
+    CooBoxData: CooBox;
   }
+
+export interface ICooAddressData {
+  CooAddressData: CooShipmentAddress;
+}
 
 export interface ICooHeadersData {
     headers: CooHeader[];
@@ -28,7 +40,7 @@ export enum CooMode {
 }
 
 export class CooOtherDetails extends CooKey {
-  CooMode: string; 
+  CooMode: string;
   CUSDECFile: string;
 }
 
@@ -36,10 +48,10 @@ export class CooBox extends CooKey {
     Header: CooHeader;  }
 
 export class CooHeader extends CooKey {
+    CooMode: string;
     OpenDate: string;
     OpenedBy: string;
     CustomerNo: string;
-    CustomerName: string;
     AgentR_internalApplication :string; 
     AgentR_certificateOfOriginTypeCode :string; 
     AgentR_certificateOfOriginTypeName :string; 
@@ -105,6 +117,30 @@ export class CooHeader extends CooKey {
     FeedbackRemark :string; 
     rejectCancelReason :string; 
     QueryURL :string; 
-    CUS_GTW :number 
+    CUS_GTW :number;
+    
   }
+
+export class CooShipmentAddress {
+  ShipmentNumber: number;
+  WaybillType: string;
+  WaybillNumber: string;
+  BLType: string;
+  OpenDate: Date;
+  Destination: string;
+  ShippingAgent: string;
+  ShipperCode: string;
+  ShipperName: string;
+  ShipperAddress1: string;
+  ShipperAddress2: string;
+  CNEECode: string;
+  CNEEName: string;
+  CNEEAddress1: string;
+  CNEEAddress2: string;
+  NotifyCode: string;
+  Notify1Name: string;
+  Notify1Address1: string;
+  Notify1Address2: string;
+
+}
 

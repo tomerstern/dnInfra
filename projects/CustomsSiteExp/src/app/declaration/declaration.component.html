@@ -1,7 +1,7 @@
 <!-- <div *ngIf="(declarationService.data$ | async) else loader" id="dpMainPageBody" class="dpCssTabContainer"></div> -->
-<div *ngIf="(declarationService.declarationDataSubject$ | async) else loader" id="dpMainPageBody" class="dpCssTabContainer">
+<div *ngIf="(declarationService.declarationDataSubject$ | async) else loader" id="dpMainPageBody" class="dpCssTabContainer1">
+    <app-toolbar></app-toolbar>
     <app-declaration-header></app-declaration-header>
-    <br/>
     <app-tabmenu></app-tabmenu>
     <router-outlet></router-outlet>
 </div>

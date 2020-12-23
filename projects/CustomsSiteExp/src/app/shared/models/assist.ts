@@ -29,3 +29,26 @@ export class Assist{
         this.Activate = Activate;
     }
 }
+
+export class AssistTableMin {
+    code :string;
+    name: string;
+    description: string
+  }
+  export class AssistTableExport {
+    AssistTableValueID :string;
+    FieldName1 :string;
+    FieldName2 :string;
+    FieldName3 :string;
+    FieldName4 :string;
+  }
+
+  
+
+
+//   export class State {
+//     State?: number;
+//     constructor() {
+//       this.State = 2;
+//     }
+//   }

@@ -1,17 +1,11 @@
-<!-- <div>
-    <table border=0>
-        <tr>
-            <td>
-                <table border=1 style="width: 200px;">
-                     <tr>
-                        <td>
-                            <dp-table tableId="tableFormsList" [definition]="gridDefinition" [datasource]="gridData"></dp-table>
-                        </td>
-                    </tr> 
-                </table>
-            </td>
-    </table>
-</div> -->
+<div >
 
-<dp-table *ngIf="gridData" tableId="tableFormList" [definition]="gridDefinition" [datasource]="gridData">
-</dp-table>
+    <div class="cooTypeContainer" 
+        *ngFor="let cooType of gridData" 
+        (click)="RowClick(cooType.code)" 
+        [ngClass]="cooType.display == true ? 'divSelected' : 'divUnSelected'"
+    >
+        <div class="p-col-12 p-md-10 pull-left text-center" style="height: 100%;">{{cooType.name}}</div>
+        <div class="p-col-12 p-md-2 pull-left text-center Wingdings2Approve">{{cooType.description}}</div>
+    </div>
+</div>

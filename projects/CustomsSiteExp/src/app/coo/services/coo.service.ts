@@ -1,42 +1,32 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
-import { ICooData,CooBox,CooKey,CooOtherDetails,ICooHeadersData,AssistTable} from '../models/coo';
+import { StateSavingMode } from  '../../core/enums';
+import { ICooData,CooKey,ICooAddressData} from '../models/coo';
+import { CommunicationService } from '../../core/services/communication.service';
+import { AssistTableMin } from '../../shared/models/assist';
 
 @Injectable({ providedIn: 'root'})
 
 export class CooService {
 
-  countriesList: AssistTable;
-  customsOfficeList: AssistTable;
-  cooTypes: AssistTable;
-  cooKey: CooKey;
+  countriesList: AssistTableMin;
+  customsOfficeList: AssistTableMin;
+  cooTypes: AssistTableMin;  
   cooData: ICooData;
-  cooBox: CooBox;
-  cooOtherDetails: CooOtherDetails;
-  headersData: ICooHeadersData;
+  cooAddressData: ICooAddressData
+  cooUpdatedData: any;  
   cooDataSubject$ = new BehaviorSubject<ICooData>(null);
-  //cooHeadersSubject$ = new BehaviorSubject<ICooHeadersData>(null);
-  jsonData : any ;
+  cooAddressDataSubject$ = new BehaviorSubject<ICooAddressData>(null);
   
-  constructor(private http: HttpClient) {}
+  
+  constructor(private http: HttpClient, private webAPI: CommunicationService) {}
 
   //#region  "Set"
-  setCooKey(key: CooKey)
-  {
-    this.cooKey = key;
-  }
-
-  setCooOtherDetails(otherDetails: CooOtherDetails)
-  {
-    this.cooOtherDetails = otherDetails;
-    this.cooOtherDetails.CUSDECFile = this.cooKey.DeptCode + '-' + this.cooKey.ShipmentNumber + '/' + this.cooKey.CusDecOrder
-  }
-
   setCooBox(jsonCooBox: any)
   {
-    this.cooBox = jsonCooBox;
+    this.cooData = jsonCooBox;
+    this.cooDataSubject$.next(this.cooData);
   }
 
   setCountries(jsonCountriesList: any)
@@ -52,154 +42,93 @@ export class CooService {
 
 //#region Get
   async getCooHeaderList( key: CooKey) {
-    let jsonKey: any = JSON.stringify(key);
-    // this.jsonData = await this.sendWebRequest("COO/GetCooHeaderList" , jsonKey);
-    // this.headersData = { headers: this.jsonData } ;
-    // return this.headersData
-    return this.sendWebRequest("COO/GetCooHeaderList" , jsonKey);
+    //let jsonKey: any = JSON.stringify(key);
+    //debugger
+    return this.webAPI.sendWebRequest("COO/GetCooHeaderList" , key);
   }
 
   async getCooBoxByEntityNo( key: CooKey) {
-    let jsonKey: any = JSON.stringify(key);
-    return this.sendWebRequest("COO/GetCooBoxByEntityNo" , jsonKey);
+    //let jsonKey: any = JSON.stringify(key);
+    return this.webAPI.sendWebRequest("COO/GetCooBoxByEntityNo" , key);
   }
 
   async getCooTypesList() {
-   return this.sendWebRequest("COO/GetCooTypesList",{});
+   return this.webAPI.sendWebRequest("COO/GetCooTypesList",{});
   }
 
   async getCountriesList() {
-    return this.sendWebRequest("Assist/GetCustomsCountries",{});
+    return this.webAPI.sendWebRequest("Assist/GetCustomsCountries",{});
   }
 
   async getCustomsOfficeList() {
-    return this.sendWebRequest("Assist/GetCustomsOffice",{});
-  }
-  /*------------------------------*/
-
- async sendWebRequest(sURL: string , jsonKey: any) { 
-    return await new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      // const requestData = { username: userName, password: userPassword };
-      xhr.open(
-        'POST',
-        environment.apiBaseUrl + sURL,
-        true
-      );
-      xhr.setRequestHeader('Content-type', 'application/json;');
-      xhr.onload = () => {
-        if (xhr.status >= 200 && xhr.status < 300) {
-          const response = JSON.parse(xhr.response);
-          if (response.Status === 'OK') {
-            // this.headersData = {
-            //   headers: response.result
-            // };
-            //this.cooHeadersSubject$.next(response.result);
-            resolve(response.result);
-          } else {
-            resolve(xhr.response);
-          }
-        } else {
-          reject({
-            status: xhr.status,
-            statusText: xhr.statusText,
-          });
-        }
-      };
-      xhr.onerror = () => {
-        reject({
-          status: xhr.status,
-          statusText: xhr.statusText,
-        });
-      };
-      xhr.send(jsonKey);
-    });
-    
+    return this.webAPI.sendWebRequest("Assist/GetCustomsOffice",{});
   }
   
-  getCooBoxFromServer(key: CooKey) {
-
-    return new Promise((resolve, reject) => {
-
-      const xhr = new XMLHttpRequest();
-
-      xhr.open(
-        'POST',
-        environment.apiBaseUrl + 'Coo/GetDefaultCoo',
-        true
-      );
-      xhr.setRequestHeader('Content-type', 'application/json;');
-      xhr.onload = () => {
-        if (xhr.status >= 200 && xhr.status < 300) {
-          const response = JSON.parse(xhr.response);
-          if (response.Status === 'OK') {
-            this.cooData = {
-              serverCooData: response.result,
-              updatedCooData: this.createUpdatedCooData(response.result),
-            };
-            this.cooDataSubject$.next(this.cooData);
-            resolve('OK');
-          } else {
-            resolve(xhr.response);
+  async updateCooData() {
+    this.cooData.CooBoxData.Header.State = StateSavingMode.Modified;
+    this.copyKeyFromHeaderToBox();    
+      return await new Promise((resolve, reject) => {
+        this.webAPI.sendWebAPIRequest("COO/UpdateCooBox" , JSON.stringify(this.cooData.CooBoxData))
+        .then((response: { Status: string; result: any }) => {
+          if (response.Status == "OK"){
+            resolve(response.Status);
           }
-        } else {
-          reject({
-            status: xhr.status,
-            statusText: xhr.statusText,
-          });
+          else{
+            resolve(response.result); 
+          }
         }
-      };
-      xhr.onerror = () => {
-        reject({
-          status: xhr.status,
-          statusText: xhr.statusText,
-        });
-      };
-      xhr.send(JSON.stringify(key));
+      )
     });
-
   }
 
-  getDefaultCooFromServer() {
-    // http://localhost/ExportCustomsWebAPI/Coo/GetDefaultCoo
-    this.http
-      .get(environment.apiBaseUrl + 'Coo/GetDefaultCoo')
-      .toPromise()
-      .then((data: { Status: string; result: any }) => {
-        if (data.Status === 'OK') {
+  copyKeyFromHeaderToBox()
+  {
+    this.cooData.CooBoxData.ShipmentNumber = this.cooData.CooBoxData.Header.ShipmentNumber;
+    this.cooData.CooBoxData.DeptCode = this.cooData.CooBoxData.Header.DeptCode;
+    this.cooData.CooBoxData.CusDecOrder = this.cooData.CooBoxData.Header.CusDecOrder;
+    this.cooData.CooBoxData.EntityNo = this.cooData.CooBoxData.Header.EntityNo;
+  }
+
+  getCooBoxFromServer(key: CooKey) {    
+    return new Promise((resolve, reject) => { 
+      this.webAPI.sendWebAPIRequest("COO/GetCooBoxByEntityNo" , JSON.stringify(key))
+      .then((data: { Status: string; result: any }) => {        
+        if (data.Status === 'OK') {          
           this.cooData = {
-            serverCooData: data.result,
-            updatedCooData: this.createUpdatedCooData(data.result),
+            CooBoxData: data.result
           };
           this.cooDataSubject$.next(this.cooData);
+          resolve('');
+        }
+        else {
+          resolve(data.result);
         }
       });
+    });
   }
 
-  createUpdatedCooData(cooDataParam: any) {
-    const cooData: CooBox = new CooBox();
-    cooData.ShipmentNumber = cooDataParam.ShipmentNumber;
-    cooData.DeptCode = cooDataParam.DeptCode;
-    cooData.CusDecOrder = cooDataParam.CusDecOrder;
-    // delete cooData.Header.State;
-    return cooData;
-    // sessionStorage.setItem('currentUpdShipment', JSON.stringify(shipment));
-  }
-
-  getCooHeader() {
-    return this.cooData.serverCooData.Header;
-  }
-
-  async getCooHeaderTab() {
-    return this.sendWebRequest("COO/GetCooHeaderTab",{});
-  }
-
-  updateCooHeaderTabData(cooHeaderTabData: any)
-  {}
+  getAdressFromOperationShipment(key: CooKey) {  
+    let ShipmentParms: any = {ShipmentNumber:key.ShipmentNumber, Department:key.DeptCode};  
+    return new Promise((resolve, reject) => { 
+      this.webAPI.RunQuery('1000', ShipmentParms)
+        .then((data: { Status: string; result: any }) => {        
+          if (data.Status === 'OK') {          
+            this.cooAddressData = {
+              CooAddressData: data.result
+            };
+            this.cooAddressDataSubject$.next(this.cooAddressData);
+            resolve('');
+          }
+          else {
+            resolve(data.result);
+          }
+        });
+      });
+    }
 
   async getNonManCer()
   {
-    return this.sendWebRequest("COO/GetCooHeaderTab",{});
+    return this.webAPI.sendWebRequest("COO/GetCooHeaderTab",{});
   }
 
 }

@@ -29,6 +29,34 @@
 .ui-menu-list {
   text-align: left;
 } /*fix menu-item li text if container have another text-align*/
+.clsDpRtl {
+  .text-left {
+    text-align: right;
+  }
+  .text-right {
+    text-align: left;
+  }
+  .dir-left {
+    direction: rtl;
+  }
+  .dir-right {
+    direction: ltr;
+  }
+  .pull-left {
+    float: right;
+  }
+  .pull-right {
+    float: left;
+  }
+}
+
+.borderRight {
+    border-right: #939393 1px solid;
+}
+
+.marginLeft4 {
+    margin-left: 4px;
+}
 
 body
   .ui-tree

@@ -9,7 +9,9 @@ import { InputNumberDefinitions } from 'projects/dn-infra/src/lib/dp/components/
 })
 export class GeneralComponent implements OnInit {
 
-  constructor(public cooService : CooService) { }
+  constructor(public cooService : CooService) { 
+    cooService.cooDataSubject$.subscribe(data => {console.log(data);})
+  }
   headerOpenDate: string;
 
   ngOnInit(): void {

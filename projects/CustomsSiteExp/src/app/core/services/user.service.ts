@@ -140,19 +140,9 @@ export class UserService {
       // xhr.setRequestHeader('Access-Control-Allow-Headers', '*');
       xhr.onload = () => {
         if (xhr.status >= 200 && xhr.status < 300) {
-           // resolve(xhr.response);
-          //  var posts = JSON.parse(xhr.responseText);
-          //  posts.forEach(function (post) {
-          //    var title = post.title;
-          //    var content = post.content;
-          //  });
-          console.log('in resolve before JSON.parse menu');
-          console.log(xhr.response);
+
           resolve(JSON.parse(xhr.response));
-          // resolve({
-          //   status: xhr.status,
-          //   statusText: xhr.statusText
-          // });
+
         } else {
           reject({
             status: xhr.status,
@@ -169,37 +159,6 @@ export class UserService {
       xhr.send(JSON.stringify(requestData));
     });
   }
-
-
-  // sp_General(SpName: string, Params: string) {
-
-  //   return new Promise((resolve, reject) => {
-  //     const xhr = new XMLHttpRequest();
-  //     const requestData = { spname: SpName, params: Params };
-  //     xhr.open('POST', environment.apiBaseUrl + 'User/sp_General', true);
-  //     xhr.setRequestHeader('Content-type', 'application/json;');
-
-  //     xhr.onload = () => {
-  //       if (xhr.status >= 200 && xhr.status < 300) {
-  //         resolve(JSON.parse(xhr.response));
-
-  //       } else {
-  //         reject({
-  //           status: xhr.status,
-  //           statusText: xhr.statusText
-  //         });
-  //       }
-  //     };
-  //     xhr.onerror = () => {
-  //       reject({
-  //         status: xhr.status,
-  //         statusText: xhr.statusText
-  //       });
-  //     };
-  //     xhr.send(JSON.stringify(requestData));
-  //   });
-  // }
-
 
 
 

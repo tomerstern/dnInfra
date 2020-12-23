@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CheckboxDefinitions } from 'projects/dn-infra/src/lib/dp/components/checkbox/objects/checkbox-definitions';
 import { DeclarationDetails, ExportCustom } from '../../../models/declaration/container';
 import { DeclarationService } from '../../../services/declaration.service';
 @Component({
   selector: 'app-declaration-header',
   templateUrl: './declaration-header.component.html',
-  styleUrls: ['./declaration-header.component.scss']
+  styleUrls: ['./declaration-header.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class DeclarationHeaderComponent implements OnInit {
 

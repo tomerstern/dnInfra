@@ -1,0 +1,7 @@
+{{declarationService.declarationData.DeclarationBox.ReferenceList | json}}
+<!-- [showDirty]="showDirtyInputs"  -->
+<!-- (getErrors)="validationErrors1 = $event"  -->
+<dp-table tableId="references" 
+    [definition]="gridDefinition"
+    [datasource]="declarationService.declarationData.DeclarationBox.ReferenceList">
+</dp-table>

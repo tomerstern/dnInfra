@@ -1,55 +1,43 @@
- <!-- <app-cootype-main></app-cootype-main>  -->
-<!-- <app-coo-main></app-coo-main> -->
-<!-- <router-outlet></router-outlet> -->
-<!-- <div *ngIf="(cooService.cooDataSubject$ | async) else loader" id="dpMainPageBody" class="dpCssTabContainer"></div> -->
-
-<!-- *ngIf="showApp else loader"  -->
-<div 
-    
-    id="dpMainPageBody" 
-    class="dpCssTabContainer"
-    *ngIf="showApp else loader"
->
-    <app-toolbar (callCooSaveFunction)=startSaveData($event)></app-toolbar>
-    <app-coo-header [jsonCooHeader]= "jsonCooHeader"></app-coo-header>
-    <br/>
-    <!-- <app-tabmenu></app-tabmenu>
-    <router-outlet></router-outlet> -->
-    <p-tabView>
-        <p-tabPanel header="General">
-            <app-general ></app-general>
-        </p-tabPanel>
-        <p-tabPanel header="Header">
-            <app-header (callCooSaveFunction)=saveData($event) [events]="eventsSubject.asObservable()"></app-header>
-        </p-tabPanel>
-        <p-tabPanel header="Signature">
-            <app-coosignature></app-coosignature>
-        </p-tabPanel>
-        <p-tabPanel header="Non Manipulation Certificate">
-            <app-nonmanipulationcertificate (callCooSaveFunction)=saveData($event) [events]="eventsSubject.asObservable()"></app-nonmanipulationcertificate>
-        </p-tabPanel>
-    </p-tabView>
+<div *ngIf="showApp else loader" id="dpMainPageBody" class="dpCssTabContainer">
+    <div id="dpMainPageBody" class="dpCssTabContainer" *ngIf="showApp else loader">
+        <app-toolbar class="p-col-12 p-md-8"></app-toolbar> 
+        <!-- <app-toolbar></app-toolbar> -->
+        <app-coo-header class="p-col-12 p-md-8"></app-coo-header>
+        <br />
+        <!-- <app-tabmenu></app-tabmenu>
+        <router-outlet></router-outlet> -->
+        <p-tabView class="dp-css">
+            <p-tabPanel header="General" class="dp-css">
+                <app-general></app-general>
+            </p-tabPanel>
+            <p-tabPanel header="Header" *ngIf="cooType != '5'">
+                <app-header></app-header>
+                <!-- <app-header (callCooSaveFunction)=saveData($event) [events]="eventsSubject.asObservable()"></app-header> -->
+            </p-tabPanel>
+            <p-tabPanel header="Signature" *ngIf="cooType != '5'">
+                <app-coosignature></app-coosignature>
+            </p-tabPanel>
+            <p-tabPanel header="Non Manipulation Certificate" *ngIf="cooType == '5'">
+                <app-nonmanipulationcertificate></app-nonmanipulationcertificate>
+            </p-tabPanel>
+        </p-tabView>
+    </div>
 </div>
 
-<!-- <div *ngIf="(declarationService.data$ | async) else loader" id="dpMainPageBody" class="dpCssTabContainer"></div> -->
-<!-- <div *ngIf="(declarationService.declarationDataSubject | async) else loader" id="dpMainPageBody" class="dpCssTabContainer"> -->
-    <!-- <app-toolbar></app-toolbar>
-    <app-coo-header></app-coo-header>
-    <br/>
-    <app-tabmenu></app-tabmenu>
-    <router-outlet></router-outlet> -->
-<!-- </div> -->
-
-
+<dp-toast #toast [definition]="toastDefinition"></dp-toast>
 <!-- DATA!!!!! -->
 <!-- {{(declarationService.data$ | async) | json }} -->
 <!-- {{(declarationService.declarationDataSubject | async) | json }} -->
 
 <ng-template #loader>
     <div class="loader">
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin:auto;background:#fff;display:block;" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
-            <circle cx="50" cy="50" fill="none" stroke="#e15b64" stroke-width="10" r="35" stroke-dasharray="164.93361431346415 56.97787143782138">
-                <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1"></animateTransform>
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+            style="margin:auto;background:#fff;display:block;" width="200px" height="200px" viewBox="0 0 100 100"
+            preserveAspectRatio="xMidYMid">
+            <circle cx="50" cy="50" fill="none" stroke="#e15b64" stroke-width="10" r="35"
+                stroke-dasharray="164.93361431346415 56.97787143782138">
+                <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s"
+                    values="0 50 50;360 50 50" keyTimes="0;1"></animateTransform>
             </circle>
         </svg>
     </div>
