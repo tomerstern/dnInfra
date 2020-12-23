@@ -1,6 +1,6 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { GridColumn, GridDefinitions, GridColumnType, GridColumnParams } from 'projects/dn-infra/src/lib/dp/components/table/objects/grid-definitions';
-import { CooKey } from '../../../coo/models/coo';
+import { ShipmentKey } from '../../../core/models/shipment';
 import { TransmissionService } from '../service/transmission/transmission.service';
 
 
@@ -21,11 +21,11 @@ export class TransmissionlogComponent implements OnInit {
   gridData: any[];
   gridDefinition: GridDefinitions;
   fetchArr = [];
-  cooKey: CooKey = { EntityNo: 0,  DeptCode: '1', ShipmentNumber: 2105050, CusDecOrder: 1 };
+  shipmentKey: ShipmentKey = { DeptCode: '1', ShipmentNumber: 2105050, CusDecOrder: 1 };
   outputXml : any ;
 
   ngOnInit(): void {
-    this.fetchArr.push(this.transmissionService.getCooHeaderList(this.cooKey));
+    this.fetchArr.push(this.transmissionService.getCooHeaderList(this.shipmentKey));
     Promise.all(this.fetchArr).then((data: Array<any>) => {
       this.gridData = data[0];
       this.transmissionService.setTransmission( data[0] )  ;      

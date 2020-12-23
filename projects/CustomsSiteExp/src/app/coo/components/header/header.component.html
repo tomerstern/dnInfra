@@ -6,7 +6,7 @@
     <p class="HeaderBG1">  Coo Status:
         <!-- {{ 'coo.cooStatus' | translate  }} -->
     
-        {{cooService.cooData.CooBoxData.Header.CooMode}}</p>
+        {{cooService.cooData.CooBoxData.CooMode}}</p>
 </div>
 <div class="HeaderBG2 borderRight pull-left">
     <p> Coo Type: 
@@ -17,8 +17,9 @@
         </label></p>
     <p> Coo No.: 
         <!-- {{ 'coo.cooNo' | translate  }}: -->
-   
-        {{cooService.cooData.CooBoxData.Header.EntityNo}}</p>
+        <label>
+            {{cooService.cooData.CooBoxData.Header.AgentR_certificateID}}
+        </label></p>
 </div>
 <div class="HeaderBG2 borderRight pull-left">
     <p>  CUSDEC: 
@@ -33,7 +34,10 @@
     <p>Destination: 
         <!-- {{ 'coo.destination' | translate  }}: -->
    
-        <label> {{cooService.cooData.CooBoxData.Header.COO_DestinationCountry}}</label></p>
+        <label> 
+            {{cooService.cooData.CooBoxData.Header.COO_DestinationCountry}} -
+            {{cooService.cooData.CooBoxData.Header.COO_DestinationCountryName}}
+        </label></p>
 </div>
 <div class="HeaderBG2 borderRight pull-left">
     <p>Shipper: 

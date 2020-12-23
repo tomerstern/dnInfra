@@ -40,10 +40,7 @@
         <div class="p-grid">
             <div class="p-col-12 p-md-6">Request No.:</div>
             <div class="p-col-12 p-md-6"><b>
-                {{cooService.cooData.CooBoxData.Header.DeptCode }}-
-                {{cooService.cooData.CooBoxData.Header.ShipmentNumber}}/
-                {{cooService.cooData.CooBoxData.Header.CusDecOrder}}-
-                {{cooService.cooData.CooBoxData.Header.EntityNo}}
+                {{cooService.cooData.CooBoxData.Header.AgentR_internalApplication}}
             </b></div>
         </div>
         <div class="p-grid">
@@ -55,7 +52,7 @@
         </div>
         <div class="p-grid">
             <div class="p-col-12 p-md-6">Request Reason Code:</div>
-            <div class="p-col-12 p-md-6"><b>{{cooService.cooData.CooBoxData.Header.CooMode}}</b></div>           
+            <div class="p-col-12 p-md-6"><b>{{cooService.cooData.CooBoxData.CooMode}}</b></div>           
         </div>
         <div class="p-grid">
             <div class="p-col-12 p-md-6">COO No:</div>
@@ -67,19 +64,19 @@
         <p-fieldset legend="Replace COO" [toggleable]="true">
             <div class="p-grid">
                 <div class="p-col-12 p-md-6">COO No. for Cancel:</div>
-                <div class="p-col-12 p-md-6"><b></b></div>
+                <div class="p-col-12 p-md-6"><b>{{cooService.cooData.CooBoxData.Header.AgentR_certificateIdToCancel}}</b></div>
             </div>
             <div class="p-grid">
                 <div class="p-col-12 p-md-6">Replace Reason:</div>
-                <div class="p-col-12 p-md-6"><b></b></div>
+                <div class="p-col-12 p-md-6"><b>{{cooService.cooData.CooBoxData.Header.AgentR_replacementReason}}</b></div>
             </div>
             <div class="p-grid">
                 <div class="p-col-12 p-md-6">Customs Declaration No.</div>
-                <div class="p-col-12 p-md-6"><b></b></div>           
+                <div class="p-col-12 p-md-6"><b>{{cooService.cooData.CooBoxData.Header.AgentR_exportDeclarationNum}}</b></div>           
             </div>
             <div class="p-grid">
                 <div class="p-col-12 p-md-6">Print Declaration on COO?</div>
-                <div class="p-col-12 p-md-6"><b>Y</b></div>
+                <div class="p-col-12 p-md-6"><b>{{cooService.cooData.CooBoxData.Header.COO_IsConsigneeForPrint}}</b></div>
             </div>        
             </p-fieldset>
     </div>

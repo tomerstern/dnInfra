@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { StateSavingMode } from  '../../core/enums';
-import { ICooData,CooKey,ICooAddressData} from '../models/coo';
+import { ICooData,CooKey, CooMode} from '../models/coo';
 import { CommunicationService } from '../../core/services/communication.service';
 import { AssistTableMin } from '../../shared/models/assist';
+import { OperationShipmentData } from '../../core/models/shipment';
 
 @Injectable({ providedIn: 'root'})
 
@@ -12,14 +13,12 @@ export class CooService {
 
   countriesList: AssistTableMin;
   customsOfficeList: AssistTableMin;
-  cooTypes: AssistTableMin;  
+  cooTypes: AssistTableMin;    
   cooData: ICooData;
-  cooAddressData: ICooAddressData
+  operationShipmentData: OperationShipmentData;
   cooUpdatedData: any;  
   cooDataSubject$ = new BehaviorSubject<ICooData>(null);
-  cooAddressDataSubject$ = new BehaviorSubject<ICooAddressData>(null);
-  
-  
+    
   constructor(private http: HttpClient, private webAPI: CommunicationService) {}
 
   //#region  "Set"
@@ -37,6 +36,11 @@ export class CooService {
   setCustomsOffice(jsonCustomsOfficeList: any)
   {
     this.customsOfficeList = jsonCustomsOfficeList;
+  }
+
+  setOperationShipmentData(jsonShipmentData: any)
+  {
+    this.operationShipmentData = jsonShipmentData;
   }
  /*------------------------------*/
 
@@ -62,6 +66,10 @@ export class CooService {
 
   async getCustomsOfficeList() {
     return this.webAPI.sendWebRequest("Assist/GetCustomsOffice",{});
+  }
+
+  async getOperationShipmentData(key: CooKey) {
+    return this.webAPI.sendWebRequest("Shipment/GetOperationShipmentData",key);
   }
   
   async updateCooData() {
@@ -89,14 +97,17 @@ export class CooService {
     this.cooData.CooBoxData.EntityNo = this.cooData.CooBoxData.Header.EntityNo;
   }
 
-  getCooBoxFromServer(key: CooKey) {    
+  getCooBoxFromServer(key: CooKey, cooMode: CooMode) {    
+    
     return new Promise((resolve, reject) => { 
       this.webAPI.sendWebAPIRequest("COO/GetCooBoxByEntityNo" , JSON.stringify(key))
       .then((data: { Status: string; result: any }) => {        
+        
         if (data.Status === 'OK') {          
           this.cooData = {
             CooBoxData: data.result
           };
+          this.cooData.CooBoxData.CooMode = cooMode;
           this.cooDataSubject$.next(this.cooData);
           resolve('');
         }
@@ -106,25 +117,6 @@ export class CooService {
       });
     });
   }
-
-  getAdressFromOperationShipment(key: CooKey) {  
-    let ShipmentParms: any = {ShipmentNumber:key.ShipmentNumber, Department:key.DeptCode};  
-    return new Promise((resolve, reject) => { 
-      this.webAPI.RunQuery('1000', ShipmentParms)
-        .then((data: { Status: string; result: any }) => {        
-          if (data.Status === 'OK') {          
-            this.cooAddressData = {
-              CooAddressData: data.result
-            };
-            this.cooAddressDataSubject$.next(this.cooAddressData);
-            resolve('');
-          }
-          else {
-            resolve(data.result);
-          }
-        });
-      });
-    }
 
   async getNonManCer()
   {

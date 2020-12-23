@@ -4,10 +4,12 @@
 <!-- cooService.cooBox.Header.CustomerNo -->
 <!-- [(ngModel)]="cooService.cooDataSubject$.getValue().CooBox.Header.CustomerNo"> -->
 <form name="form" (ngSubmit)="fHeaderTab.form.valid && onSubmit()" #fHeaderTab="ngForm" novalidate> 
-    <div *ngIf="cooService.cooData.CooBoxData != undefined && this.debugMode">
-
-   
-        CooBoxData:  {{cooService.cooData.CooBoxData | json}} 
+    <!-- <div *ngIf="cooService.cooData.CooBoxData != undefined && this.debugMode"> -->
+    <div *ngIf="cooService.cooData != undefined" >
+        CooBoxData:  {{cooService.cooData.CooBoxData | json}}  
+        <br><br>
+        OperationShipmentData:  {{cooService.operationShipmentData | json}} 
+        <br><br>
 <br>
 **********************************************************************************
 <br>
@@ -159,11 +161,11 @@
             <div class="p-grid">
             <span class="HorzRadio">
                 <input type="radio" name="rdConsigneeType1" [(ngModel)]="neeType" name="rdConsigneeType" [value]="'CNEE'" (change)="onChangeNeeType()" />
-                <label for="r_opt1">CNEE</label><br/>
+                <label for="other">CNEE</label><br/>
             </span>
             <span class="HorzRadio">
                 <input type="radio" name="rdConsigneeType2" [(ngModel)]="neeType" name="rdConsigneeType" [value]="'importer'" (change)="onChangeNeeType()"/>
-                <label for="r_opt2">importer</label><br>
+                <label for="other">importer</label><br>
             </span>
         
             <span class="HorzRadio">
@@ -172,7 +174,6 @@
             </span>
         
             <span class="HorzRadio">
-                
                 <input type="radio" name="rdConsigneeType4" [(ngModel)]="neeType" name="rdConsigneeType" [value]="'Notify2'" (change)="onChangeNeeType()" />
                 <label for="other">Notify2</label>
             </span>

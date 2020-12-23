@@ -3,7 +3,7 @@ import { CooService } from './services/coo.service';
 import '../core/extensions';
 import { ToastDefinitions } from 'projects/dn-infra/src/lib/dp/components/toast/Objects/toast-definitions';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ICooData, CooKey, CooMode, CooBox, CooOtherDetails } from './models/coo';
+import { ICooData, CooKey, CooMode, CooBox } from './models/coo';
 import { Subject } from 'rxjs';
 import { undistributeHeight } from '@fullcalendar/core';
 import { ToastComponent } from 'projects/dn-infra/src/public-api';
@@ -20,9 +20,8 @@ export class CooComponent implements OnInit {
 
   showApp: boolean = false;
   cooType: string = '';
-  cooMode: string = 'New';
+  cooMode: CooMode = CooMode.New;
   cooBox: CooBox;
-  cooOtherDetails: CooOtherDetails = new CooOtherDetails();
   cooKey: CooKey = new CooKey();
   jsonCooHeader: any = {};
   fetchArr = [];
@@ -44,34 +43,20 @@ export class CooComponent implements OnInit {
             this.route.navigate(['/error']);
         }
         this.cooType = data['cooType']; 
-        this.cooMode = data['cooMode'].toString().toUpperCase();
+        const mode: string = data['cooMode'].toString();
+        this.cooMode = CooMode[mode];
+
+        if (this.cooMode === undefined)
+        {
+          this.showApp = true;
+          this.route.navigate(['/error']);
+        }
 
         switch (this.cooMode) {
-          // case CooMode.New: {
-            
-          //   // this.checkErrorPage(data)
-          //   this.cooKey = this.setAndCheckCooKey(CooMode.New, data['entityNo'], data['ShipmentNumber'], 
-          //               data['DeptCode'], data['CusDecOrder']);
-          //   if (this.cooKey === undefined){
-          //     this.showApp = true;
-          //     this.route.navigate(['/error']);
-          //   }
-            
-          //   this.cooService.getAdressFromOperationShipment(this.cooKey)
-          //   .then((response: string) => {              
-          //     if(response != '')
-          //     {
-          //       console.log(response)
-          //       this.showApp = true;
-          //       this.toast.dp_showToast('Error on search data:', '' + response , 'error', 4000);
-          //     }
-          //   });
-          //   this.showApp = true;
-          //   break;
-          // }
-
-          case CooMode.Update:
+         
           case CooMode.New:
+          case CooMode.Update:
+          case CooMode.Replace:
           {
             
             // this.checkErrorPage(data)
@@ -82,7 +67,7 @@ export class CooComponent implements OnInit {
               this.route.navigate(['/error']);
             }
             
-            this.cooService.getCooBoxFromServer(this.cooKey)
+            this.cooService.getCooBoxFromServer(this.cooKey, this.cooMode )
             .then((response: string) => {              
               if(response != '')
               {
@@ -90,19 +75,21 @@ export class CooComponent implements OnInit {
                 this.toast.dp_showToast('Error on search data:', '' + response , 'error', 4000);
               }
             });
-            this.cooService.cooDataSubject$.subscribe((result: ICooData) => {              
-              //this.cooService.getCountriesList();
-              //this.cooService.getCustomsOfficeList();
-              this.fetchArr.push(this.cooService.getCustomsOfficeList());
-              Promise.all(this.fetchArr).then((data: Array<any>) => {
-                //this.cooService.setCountries(data[0]);
-                this.cooService.setCustomsOffice(data[0]);
-                //console.log(this.cooMode)
-                //this.cooService.cooData.CooBoxData.Header.CooMode = this.cooMode;
-                this.showApp = true;
-              });
-                            
+            this.cooService.cooDataSubject$.subscribe((result: ICooData) => {
+              this.setCooReplace()
             });
+
+            this.fetchArr.push(this.cooService.getOperationShipmentData(this.cooKey));
+            this.fetchArr.push(this.cooService.getCustomsOfficeList());
+            Promise.all(this.fetchArr).then((data: Array<any>) => {
+              this.cooService.setOperationShipmentData(data[0]);
+              this.cooService.setCustomsOffice(data[1]);
+                            
+              
+              this.showApp = true;
+
+            });
+
             break;
           }
           
@@ -112,19 +99,27 @@ export class CooComponent implements OnInit {
           }
        }
       
-        //this.cooKey.EntityNo = data['entityNo'];
-        
-        //this.cooOtherDetails.CooMode = data['cooMode'];
-        // this.cooKey.ShipmentNumber = data['ShipmentNumber'];
-        // this.cooKey.DeptCode = data['DeptCode'];
-        // this.cooKey.CusDecOrder = data['CusDecOrder'];
-        //console.log(this.cooKey)
       }
     );
 
-      // this.cooService.setCooKey(this.cooKey);
-      // this.cooService.setCooOtherDetails(this.cooOtherDetails);
-      // this.setHeaderDetails();
+  }
+
+  setCooReplace()
+  {
+    if ( this.cooService.cooData == undefined )
+      return
+
+    if(this.cooService.cooData.CooBoxData.CooMode != CooMode.Replace ) 
+      return 
+
+    this.cooService.cooData.CooBoxData.Header.EntityNo = 0;
+    this.cooService.cooData.CooBoxData.Header.AgentR_certificateIdToCancel = this.cooService.cooData.CooBoxData.Header.AgentR_certificateID;
+    this.cooService.cooData.CooBoxData.Header.AgentR_certificateID = "";
+    this.cooService.cooData.CooBoxData.Header.AgentR_replacementReason = this.cooService.cooData.CooBoxData.CooMode;
+    this.cooService.cooData.CooBoxData.CooMode = CooMode.Update;
+    this.cooService.cooData.CooBoxData.Header.AgentR_internalApplication = "";
+    
+    return;
   }
 
   checkErrorPage(data: any){
@@ -144,17 +139,18 @@ export class CooComponent implements OnInit {
   setAndCheckCooKey(cooMode: CooMode, entityNo: string, shipmentNumber: string, deptCode: string, cusDecOrder: string){
     
      const result: CooKey = new CooKey();
+
     if (cooMode === CooMode.New) {
       if ( shipmentNumber === undefined || !shipmentNumber.isNumber)
       {
         return undefined;
       }
       result.ShipmentNumber = +shipmentNumber;
-
-      // if (deptCode == undefined || deptCode.isNullOrEmpty)
-      // {
-      //   return undefined;
-      // }
+      // if (deptCode === undefined || deptCode.isNullOrEmpty)
+      if (deptCode === undefined)
+      {
+        return undefined;
+      }
       result.DeptCode = deptCode;
 
       if (cusDecOrder === undefined || !cusDecOrder.isNumber)
@@ -184,8 +180,8 @@ export class CooComponent implements OnInit {
       {
         result.ShipmentNumber = +shipmentNumber;
       }
-      
-      if (deptCode == undefined || deptCode.isNullOrEmpty)
+      // if (deptCode === undefined || deptCode.isNullOrEmpty)
+      if (deptCode === undefined)
       {
         result.DeptCode = '';
       }
@@ -206,42 +202,4 @@ export class CooComponent implements OnInit {
     return result;
   }
   
-  setHeaderDetails() {
-   
-      this.fetchArr.push(this.cooService.getCooBoxByEntityNo(this.cooKey))
-      this.fetchArr.push(this.cooService.getCountriesList());
-      this.fetchArr.push(this.cooService.getCustomsOfficeList());
-
-      Promise.all(this.fetchArr).then((data: Array<any>) => {
-        console.log(data[0])
-        this.cooService.setCooBox(data[0]);
-        this.cooService.setCountries(data[1]);
-        this.cooService.setCustomsOffice(data[2]);
-
-        this.cooService.cooDataSubject$.subscribe((result: ICooData) => {
-             this.showApp = true;
-             //alert(result.CooBoxData.Header.CustomerName)
-       });
-
-        //this.showApp = true;
-
-        //alert(this.cooService.cooBox.Header.COO_IssuingCountry)
-        // this.jsonCooHeader = {
-        //   entityNo: this.cooKey.EntityNo,
-        //   cooStatus: this.cooMode,
-        //   cooType: this.cooService.cooBox.Header.AgentR_certificateOfOriginTypeName,
-        //   CUSDECFile: this.cooKey.DeptCode + '-' + this.cooKey.ShipmentNumber + '/' + this.cooKey.CusDecOrder,
-        //   destination: '',
-        //   shipper: '',
-        //   ETD: '',
-        //   ATD: '',
-        //   CUSGTW: ''
-        // };
-
-      }).catch(err => {
-        console.log(err);
-      });
-  };
-
-
 }

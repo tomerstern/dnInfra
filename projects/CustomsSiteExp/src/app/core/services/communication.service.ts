@@ -34,7 +34,7 @@ export class CommunicationService {
       );
       xhr.setRequestHeader('Content-type', 'application/json;');
       xhr.onload = () => {
-        if (xhr.status >= 200 && xhr.status < 300) {          
+        if (xhr.status >= 200 && xhr.status < 300) {  
           resolve(JSON.parse(xhr.response));
         } else {
           reject({

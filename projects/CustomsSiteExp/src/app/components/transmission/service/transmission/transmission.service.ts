@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { CooKey } from 'projects/CustomsSiteExp/src/app/coo/models/coo';
 import { environment } from 'projects/CustomsSiteExp/src/environments/environment';
 import { BehaviorSubject } from 'rxjs';
 import { IMalamMainData} from '../../models/Transmission';
 import { CommunicationService } from '../../../../core/services/communication.service';
+import { ShipmentKey } from 'projects/CustomsSiteExp/src/app/core/models/shipment';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class TransmissionService {
     this.malamMain = jsonTransmission;
   }
 
-  async getCooHeaderList( key: CooKey) {
+  async getCooHeaderList( key: ShipmentKey) {
     //let jsonKey: any = JSON.stringify(key);
     return this.webAPI.sendWebRequest("Transmission/GetTansmissionLog" , key);
     // return this.sendWebRequest("Transmission/GetTansmissionLog" , jsonKey);

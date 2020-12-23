@@ -1,5 +1,7 @@
 <br/>
-{{cooService.cooData.CooBoxData.Header | json}} 
+<div *ngIf="cooService.cooData != undefined" >
+    {{cooService.cooData.CooBoxData | json}} 
+</div>
 <div class="p-grid"  *ngIf="cooService.cooData.CooBoxData != undefined">
     <div class="p-col-12 p-md-4">
         <p-fieldset legend="{{ 'coo.CustomsEndorsement' | translate }}" [toggleable]="false">

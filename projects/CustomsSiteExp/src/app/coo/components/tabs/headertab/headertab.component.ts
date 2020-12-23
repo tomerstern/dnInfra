@@ -100,7 +100,48 @@ export class HeaderTabComponent implements OnInit {
 
   onChangeNeeType()
   {
-    alert(this.neeType);
+    
+    switch (this.neeType) {
+      case 'CNEE':
+        this.setCOO_Consignee(this.cooService.operationShipmentData.CNEEName,
+                              this.cooService.operationShipmentData.CNEEAddress1,
+                              this.cooService.operationShipmentData.CNEEcountry
+                              )
+        break;
+
+      case 'importer':
+        this.setCOO_Consignee(this.cooService.operationShipmentData.ImporterName,
+                              this.cooService.operationShipmentData.ImporterAddress1,
+                              this.cooService.operationShipmentData.ImporterCountry
+                              )
+        break;  
+
+      case 'Notify1':
+        this.setCOO_Consignee(this.cooService.operationShipmentData.Notify1Name,
+                              this.cooService.operationShipmentData.Notify1Address1,
+                              this.cooService.operationShipmentData.Notify1Country
+                              )
+        break;  
+  
+      case 'Notify2':
+        this.setCOO_Consignee(this.cooService.operationShipmentData.Notify2Name,
+                              this.cooService.operationShipmentData.Notify2Address1,
+                              this.cooService.operationShipmentData.Notify2Country
+                              )
+        break;  
+
+      default:
+        this.setCOO_Consignee("","","")
+        break; 
+    }
+    
+  }
+
+  setCOO_Consignee(CneeName: string , CneeAddress: string, CneeCountry: string)
+  {
+    this.cooService.cooData.CooBoxData.Header.COO_ConsigneeName = CneeName;
+    this.cooService.cooData.CooBoxData.Header.COO_ConsigneeAddress = CneeAddress;
+    this.cooService.cooData.CooBoxData.Header.COO_ConsigneeCountry = CneeCountry;
   }
 
   sendDataToParent() {
