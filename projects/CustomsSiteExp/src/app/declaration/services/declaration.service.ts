@@ -174,10 +174,38 @@ export class DeclarationService {
   }
 
   setReferencesNewRow() {
-    this.store.select(getTableStateById('references')).subscribe((table: any[]) => {
+
+  const keys: Record<string, any>[] = [
+    {'ShipmentNumber': this.declarationData.DeclarationBox.ShipmentNumber},
+    {'DeptCode': this.declarationData.DeclarationBox.DeptCode},
+    {'CusDecOrder': this.declarationData.DeclarationBox.CusDecOrder},
+    {'LineNumber': 0}
+  ];
+this.setRowAddedKeys('references', keys);
+
+
+    // this.store.select(getTableStateById('references')).subscribe((table: any[]) => {
+    //   if(table){        
+    //     const row: any = {...table[table.length - 1]};
+    //     if (row.ShipmentNumber != ''){
+    //       return;
+    //     }
+    //     const lastRow: any = {...table[table.length - 2]};
+    //     const rowIndex = table.length - 1
+    //     row.ShipmentNumber =  this.declarationData.DeclarationBox.ShipmentNumber;
+    //     row.DeptCode =  this.declarationData.DeclarationBox.DeptCode;
+    //     row.CusDecOrder =  this.declarationData.DeclarationBox.CusDecOrder;
+    //     row.LineNumber = (lastRow == undefined ? 1 : lastRow.LineNumber + 1);
+    //     this.store.dispatch(updateRow({row, rowIndex, tableId: 'references'}));
+    //   }
+    // });
+  }
+
+  setRowAddedKeys(tableId: string, keys: Record<string, any>){
+    this.store.select(getTableStateById(tableId)).subscribe((table: any[]) => {
       if(table){        
         const row: any = {...table[table.length - 1]};
-        if (row.ShipmentNumber != ''){
+        if (row[keys['ShipmentNumber']] != ''){
           return;
         }
         const lastRow: any = {...table[table.length - 2]};
@@ -186,13 +214,9 @@ export class DeclarationService {
         row.DeptCode =  this.declarationData.DeclarationBox.DeptCode;
         row.CusDecOrder =  this.declarationData.DeclarationBox.CusDecOrder;
         row.LineNumber = (lastRow == undefined ? 1 : lastRow.LineNumber + 1);
-        this.store.dispatch(updateRow({row, rowIndex, tableId: 'references'}));
+        this.store.dispatch(updateRow({row, rowIndex, tableId: tableId}));
       }
     });
-  }
-
-  setRowAddedKeys(){
-    
   }
 
   // update(data: IDeclarationData){
