@@ -38,7 +38,7 @@ const reducer = createReducer(initialState,
             changes: newChanges,
             sortOrder: state[action.tableId].sortOrder
         };
-        const newTableData = { [action.tableId]: newData };        
+        const newTableData = { [action.tableId]: newData };
         return ({ ...state, ...newTableData });
     }),
     on(deleteRow, (state, action): any => {

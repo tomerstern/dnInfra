@@ -59,6 +59,9 @@
     "phoneNo": "טלפון",
     "password": "סיסמה",
     "welcomeMessage": "תודה שהצטרפת, ! ממש סבבה!",
+    "origin": "מוצא",
+    "country": "ארץ",
+    "groupOfCounries": "קבוצת מדינות",
     "login": {
         "login": "התחבר",
         "username": "הזן שם משתמש",

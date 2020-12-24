@@ -60,6 +60,9 @@
   "phoneNo": "Phone",
   "password": "Password",
   "welcomeMessage": "Thanks for joining, ! It's great to have you!",
+  "origin": "Origin",
+  "country": "Country",
+  "groupOfCounries": "Group Of Countries",
   "login": {
     "login": "Login",
     "username": "Enter your user name",

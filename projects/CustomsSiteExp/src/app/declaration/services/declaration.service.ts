@@ -30,36 +30,8 @@ export class DeclarationService {
   declarationData: IDeclarationData;
   declarationDataSubject$ = new BehaviorSubject<IDeclarationData>(null);
   customerList: AssistTable;
-  // declarationContainer: DeclarationContainer;
 
-
-  // declarationDataSubject$ = new BehaviorSubject<string>(null);
-  // data$ = new BehaviorSubject<IDeclarationData>(null);
-
-
-  constructor(private http: HttpClient, private webAPI: CommunicationService, private store: Store<any>) {
-
-  }
-
-  // getDefaultDeclarationFromServer() {
-  //   // http://localhost/ExportCustomsWebAPI/Shipment/GetDefaultShipment
-  //   this.http
-  //     .get(environment.apiBaseUrl + 'Declaration/GetDefaultDeclarationBox')
-  //     .toPromise()
-  //     .then((data: { Status: string; result: any }) => {
-  //       if (data.Status === 'OK') {
-  //         console.log(data.result);
-  //         this.declarationData = {
-  //           dataDeclaration: data.result,
-  //           updatedDeclaration: this.createUpdatedDeclaration(data.result),
-  //         };
-  //         // this.data$.next(data.result);
-  //         this.declarationDataSubject$.next(this.declarationData);
-  //         // let item = JSON.parse(localStorage.getItem(key));
-  //       }
-  //     });
-  //   // return this.declarationContainer;
-  // }
+  constructor(private http: HttpClient, private webAPI: CommunicationService, private store: Store<any>) {}
 
   setCountries(jsonData: any) {
     this.countriesList = jsonData;
@@ -139,16 +111,27 @@ export class DeclarationService {
               DeclarationBox: response.result
             };
 
-            this.declarationData.DeclarationBox.ExportCustoms.OpenDate =
-              new Date(new Date(parseInt(this.declarationData.DeclarationBox.ExportCustoms.OpenDate.toString().substr(6))).toISOString());
+            if(this.declarationData.DeclarationBox.ExportCustoms.OpenDate != null){
+              this.declarationData.DeclarationBox.ExportCustoms.OpenDate =
+                new Date(new Date(parseInt(this.declarationData.DeclarationBox.ExportCustoms.OpenDate.toString().substr(6))).toISOString());
+            }
+           if(this.declarationData.DeclarationBox.ExportCustoms.ETD){
             this.declarationData.DeclarationBox.ExportCustoms.ETD =
               new Date(new Date(parseInt(this.declarationData.DeclarationBox.ExportCustoms.ETD.toString().substr(6))).toISOString());
+           }
+            
+           if(this.declarationData.DeclarationBox.ExportCustoms.ATD){
             this.declarationData.DeclarationBox.ExportCustoms.ATD =
               new Date(new Date(parseInt(this.declarationData.DeclarationBox.ExportCustoms.ATD.toString().substr(6))).toISOString());
-
-            this.declarationData.DeclarationBox.ReferenceList.forEach(x => {
-              x.DateAdded = new Date(new Date(parseInt(x.DateAdded.toString().substr(6))).toISOString());
+           }
+           
+          if (this.declarationData.DeclarationBox.ReferenceList != null){
+            this.declarationData.DeclarationBox.ReferenceList.forEach(x => {    
+                if (x.DateAdded != null){
+                  x.DateAdded = new Date(new Date(parseInt(x.DateAdded.toString().substr(6))).toISOString());
+                }                    
             });
+          }
 
             this.declarationDataSubject$.next(this.declarationData);
             resolve('OK');
@@ -174,18 +157,47 @@ export class DeclarationService {
   }
 
   setReferencesNewRow() {
+    const keys: Record<string, any>[] = [
+      {'ShipmentNumber': this.declarationData.DeclarationBox.ShipmentNumber},
+      {'DeptCode': this.declarationData.DeclarationBox.DeptCode},
+      {'CusDecOrder': this.declarationData.DeclarationBox.CusDecOrder},
+      {'LineNumber': 0}
+    ];
 
-  const keys: Record<string, any>[] = [
-    {'ShipmentNumber': this.declarationData.DeclarationBox.ShipmentNumber},
-    {'DeptCode': this.declarationData.DeclarationBox.DeptCode},
-    {'CusDecOrder': this.declarationData.DeclarationBox.CusDecOrder},
-    {'LineNumber': 0}
-  ];
-this.setRowAddedKeys('references', keys);
+    this.setRowAddedKeys('references', keys);
+  }
 
+  setRowAddedKeys(tableId: string, keys: Record<string, any>){
+    this.store.select(getTableStateById(tableId)).subscribe((table: any[]) => {
+      if(table){      
+        const row: any = {...table[table.length - 1]};
+        let firstPrimaryKey =  Object.keys(keys[0])[0];
+        if (row[firstPrimaryKey] != ''){
+          return;
+        }
+        let isLineNumberKeyExists = false;  
+        const lastRow: any = {...table[table.length - 2]};
+        const rowIndex = table.length - 1
+
+        Object.values(keys).forEach(x => {
+          let primaryKey = Object.keys(x)[0];
+          row[primaryKey] = Object.values(x)[0];
+          if (primaryKey == 'LineNumber'){
+            isLineNumberKeyExists = true;
+          }
+        });
+
+        if(isLineNumberKeyExists){
+          row.LineNumber = (lastRow == undefined ? 1 : lastRow.LineNumber + 1);
+        }        
+        this.store.dispatch(updateRow({row, rowIndex, tableId: tableId}));
+      }
+    });
+  }
 
     // this.store.select(getTableStateById('references')).subscribe((table: any[]) => {
-    //   if(table){        
+    //   if(table){ 
+               
     //     const row: any = {...table[table.length - 1]};
     //     if (row.ShipmentNumber != ''){
     //       return;
@@ -199,41 +211,18 @@ this.setRowAddedKeys('references', keys);
     //     this.store.dispatch(updateRow({row, rowIndex, tableId: 'references'}));
     //   }
     // });
-  }
 
-  setRowAddedKeys(tableId: string, keys: Record<string, any>){
-    this.store.select(getTableStateById(tableId)).subscribe((table: any[]) => {
-      if(table){        
-        const row: any = {...table[table.length - 1]};
-        if (row[keys['ShipmentNumber']] != ''){
-          return;
-        }
-        const lastRow: any = {...table[table.length - 2]};
-        const rowIndex = table.length - 1
-        row.ShipmentNumber =  this.declarationData.DeclarationBox.ShipmentNumber;
-        row.DeptCode =  this.declarationData.DeclarationBox.DeptCode;
-        row.CusDecOrder =  this.declarationData.DeclarationBox.CusDecOrder;
-        row.LineNumber = (lastRow == undefined ? 1 : lastRow.LineNumber + 1);
-        this.store.dispatch(updateRow({row, rowIndex, tableId: tableId}));
-      }
-    });
-  }
-
-  // update(data: IDeclarationData){
-  //   // this.declarationDataSubject$.next(data);
+  // createUpdatedDeclaration(declarationParam: any) {
+  //   const declaration: DeclarationBox = new DeclarationBox();
+  //   declaration.ShipmentNumber = declarationParam.ShipmentNumber;
+  //   declaration.DeptCode = declarationParam.DeptCode;
+  //   declaration.CusDecOrder = declarationParam.CusDecOrder;
+  //   declaration.DeclarationDetails.ShipmentNumber = declarationParam.ShipmentNumber;
+  //   declaration.ExportCustoms.CusDecOrder = declarationParam.CusDecOrder;
+  //   // delete shipment.Details.State;
+  //   return declaration;
+  //   // sessionStorage.setItem('currentUpdShipment', JSON.stringify(shipment));
   // }
-
-  createUpdatedDeclaration(declarationParam: any) {
-    const declaration: DeclarationBox = new DeclarationBox();
-    declaration.ShipmentNumber = declarationParam.ShipmentNumber;
-    declaration.DeptCode = declarationParam.DeptCode;
-    declaration.CusDecOrder = declarationParam.CusDecOrder;
-    declaration.DeclarationDetails.ShipmentNumber = declarationParam.ShipmentNumber;
-    declaration.ExportCustoms.CusDecOrder = declarationParam.CusDecOrder;
-    // delete shipment.Details.State;
-    return declaration;
-    // sessionStorage.setItem('currentUpdShipment', JSON.stringify(shipment));
-  }
 
   getDeclarationDetails() {
     // const declarationDetails: DeclarationDetails =  this.declarationData.dataDeclaration.DeclarationDetails;

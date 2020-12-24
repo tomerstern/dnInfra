@@ -249,12 +249,17 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
   ngOnChanges(changes: SimpleChanges) {
 
     this.dpCreateFooterData();
-
-    if (this.tableId && this.datasource && !this.initiated) {
-      this.store.dispatch(updateTable({ data: { tableId: this.tableId, tableData: this.datasource } }));
-      this.data$ = this.store.select(getTableStateById(this.tableId));
-      this.initiated = true;
+    if (!this.initiated) {
+      if (this.datasource === null) {
+        this.datasource = [];
+      }
+      if (this.tableId && this.datasource) {
+        this.store.dispatch(updateTable({ data: { tableId: this.tableId, tableData: this.datasource } }));
+        this.data$ = this.store.select(getTableStateById(this.tableId));
+        this.initiated = true;
+      }
     }
+
 
     // if (
     //   changes.tableId.previousValue === undefined &&
@@ -682,7 +687,7 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   dpInitArrDatasourceKeys() {
-    if (this.datasource !== undefined) {
+    if (this.datasource) {
       const jsonData = this.datasource[0];
       // tslint:disable-next-line: forin
       for (const myIndex in jsonData) {
