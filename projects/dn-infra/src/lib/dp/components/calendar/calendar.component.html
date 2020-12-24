@@ -1,9 +1,10 @@
-<p-calendar #input (keyup)="setTempVal($event.target.value)" (onClickOutside)="onInputClickOutside(tempVal)"
-    (onClose)="onClose(input.value)" [(ngModel)]="innerValue" [ngModelOptions]="{standalone: true}"
-    [selectionMode]="definition.selectionMode" [readonlyInput]="definition.readonlyInput"
-    [showTime]="definition.showTime" dateFormat="dd/mm/yy" [minDate]="definition.minDate" [maxDate]="definition.maxDate"
-    [monthNavigator]='definition.monthNavigator' [yearNavigator]='definition.yearNavigator'
-    [yearRange]="definition.yearRange" [showButtonBar]="definition.showButtonBar"
-    [style]="definition.isStandAlone ? {} : {'width':'75%', 'float': 'left'}" [icon]="definition.icon"
-    [showIcon]="definition.showIcon">
+<p-calendar [dataType]="'string'" (onFocus)="focus($event)" (onInput)="type($event)" 
+(onClearClick)="clear()" (onClose)="close($event)"
+  [(ngModel)]="innerValue" (onSelect)="onSelectedDate($event)" (onBlur)="onInputBlur($event)"
+  [ngModelOptions]="{standalone: true}" [selectionMode]="definition.selectionMode"
+  [readonlyInput]="definition.readonlyInput" [showTime]="definition.showTime" dateFormat="dd/mm/yy"
+  [minDate]="definition.minDate" [maxDate]="definition.maxDate" [monthNavigator]='definition.monthNavigator'
+  [yearNavigator]='definition.yearNavigator' [yearRange]="definition.yearRange"
+  [showButtonBar]="definition.showButtonBar" [style]="definition.isStandAlone ? {} : {'width':'100%'}"
+  [icon]="definition.icon" [showIcon]="definition.showIcon">
 </p-calendar>

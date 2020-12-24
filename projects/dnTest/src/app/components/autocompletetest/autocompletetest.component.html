@@ -1,222 +1,82 @@
 <h2>in autocompletetest.component.html</h2>
-<div>
-    <div class="p-grid">
-        <div class="p-col-12 p-md-6">
-            <fieldset>
-                <legend>regular:</legend>
 
-                <dp-autocomplete *ngIf="dataForAc1" [initVal]="'Albania'" 
-                    (getSelected)="handleResult($event, 1)"
-                    [definition]="autocompleteDefinition1" [datasource]="dataForAc1">
-                </dp-autocomplete>
-                <br><br>
 
-                <div>external 1: <div class='s'>
-                    <ng-container *ngIf="externalDataSelected1">
-                        {{externalDataSelected1 | json}}
-                    </ng-container>
-                    </div>
-                </div>
+{{myForm.value | json}}
+<br>
+<br>
+<br>
+<br>
+<form #myForm="ngForm" (ngSubmit)="submit(myForm.value)" >
+  <div class="p-grid">
 
-            </fieldset>
-        </div>
-        <div class="p-col-12 p-md-6">
-            <fieldset>
-                <legend>regular with multi select:</legend>
-
-                <dp-autocomplete *ngIf="dataForAc2" [initVal]="['newapie', 'new cess']"
-                    (getSelected)="handleResult($event, 2)" 
-                    [definition]="autocompleteDefinition2"
-                    [datasource]="dataForAc2">
-                </dp-autocomplete>
-
-                <br><br>
-
-                <div>external 2: <div class='s'>
-                    <ng-container *ngIf="externalDataSelected2">
-                        {{externalDataSelected2 | json}}
-                    </ng-container>
-                    </div>
-                </div>                
-
-            </fieldset>
-
-        </div>
+    <div class="p-col-12 p-md-6">
+      <fieldset>
+        <legend>regular:</legend>
+        <dp-autocomplete *ngIf="dataForAc1" [ngModel]="dataForAc1[0]" name="regularAc"
+          [definition]="autocompleteDefinition1" [datasource]="dataForAc1">
+        </dp-autocomplete>
+        <br><br>
+      </fieldset>
     </div>
 
-    <!-- <button (click)="changeInitVal()">
-        CHANGE VALUE TO BRAZIL
-    </button> -->
-
-
-    <div class="p-grid">
-
-
-        <div class="p-col-12 p-md-6">
-            <fieldset>
-                <legend>With Images (default):</legend>
-
-                <dp-autocomplete *ngIf="dataForAc3" [initVal]="someVar"
-                    (getSelected)="handleResult($event, 3)" 
-                    [definition]="autocompleteDefinition3"
-                    [datasource]="dataForAc3">
-                </dp-autocomplete>
-
-                <br><br>
-
-                <div>external 3: <div class='s'>
-                    <ng-container *ngIf="externalDataSelected3">
-                        {{externalDataSelected3 | json}}
-                    </ng-container>
-                    </div>
-                </div>
-
-            </fieldset>
-        </div>
-
-
-
-
-        <div class="p-col-12 p-md-6">
-            <fieldset>
-
-                <legend>Load on first click / open </legend>
-
-                <!-- <dp-autocomplete *ngIf="dataForAc4" 
-                    (getSelected)="handleResult($event, 4)"
-                    [definition]="autocompleteDefinition4"
-                    [datasource]="dataForAc4"
-                    [initVal]="'Albania'"
-                ></dp-autocomplete> -->
-        
-                <!-- *ngIf="dataForAc4" -->
-                <dp-autocomplete  
-                    *ngIf="dataForAc4"
-                    [initVal]="{ name: 'Albania', code: 'AL' }" 
-                    (getSelected)="handleResult($event, 4)"
-                    [definition]="autocompleteDefinition4" [datasource]="dataForAc4">
-                </dp-autocomplete>
-                <br><br>                
-                <br><br>
-
-                <div>external 4: <div class='s'>
-                    <ng-container *ngIf="externalDataSelected4">
-                        {{externalDataSelected4 | json}}
-                    </ng-container>
-                    </div>
-                </div>
-            </fieldset>
-        </div>
-
-
+    <div class="p-col-12 p-md-6">
+      <fieldset>
+        <legend>regular with multi select:</legend>
+        <dp-autocomplete *ngIf="dataForAc2" name="regularMultiSelect" [ngModel]="dataForAc2[0]"
+          [definition]="autocompleteDefinition2" [datasource]="dataForAc2">
+        </dp-autocomplete>
+      </fieldset>
     </div>
 
 
-
-    <div class="p-grid">
-        <div class="p-col-12 p-md-6">
-            <fieldset>
-                <legend>With Table (default):</legend>
-
-                <dp-autocomplete  *ngIf="dataForAc5" 
-                    (getSelected)="handleResult($event, 5)"
-                    [definition]="autocompleteDefinition5"
-                    [datasource]="dataForAc5"
-                    [initVal]="'ACCCLOSE'"
-                ></dp-autocomplete>
-
-                <br><br>
-
-                <div>external 5: <div class='s'>
-                    <ng-container *ngIf="externalDataSelected5">
-                        {{externalDataSelected5 | json}}
-                    </ng-container>
-                    </div>
-                </div>
-            </fieldset>
-        </div>
-        <div class="p-col-12 p-md-6">
-            <fieldset>
-                <legend>Table with Columns Extra Definitons</legend>
-
-                <dp-autocomplete *ngIf="dataForAc6" 
-                    (getSelected)="handleResult($event, 6)"
-                    [definition]="autocompleteDefinition6"
-                    [datasource]="dataForAc6"
-                    [initVal]="'ACCUPD'"
-                ></dp-autocomplete>
-
-                <br><br>
-
-                <div>external 6: <div class='s'>
-                    <ng-container *ngIf="externalDataSelected6">
-                        {{externalDataSelected6 | json}}
-                    </ng-container>
-                    </div>
-                </div>
-         
-
-            </fieldset>
-        </div>
+    <div class="p-col-12 p-md-6">
+      <fieldset>
+        <legend>With Images (default):</legend>
+        <dp-autocomplete *ngIf="dataForAc3" name="withImages" [ngModel]="dataForAc3[0]"
+          [definition]="autocompleteDefinition3" [datasource]="dataForAc3">
+        </dp-autocomplete>
+      </fieldset>
     </div>
 
-
-
-
-    <div class="p-grid">
-        <div class="p-col-12 p-md-6">
-            <fieldset>
-
-
-
-                <legend>Data From DB:</legend>
-                <!-- *ngIf="dataForAc7"  -->
-                <!-- [initVal]="'IRELAND'" -->
-                <!-- "{ name: 'Albania', code: 'AL' }"  -->
-                <dp-autocomplete 
-                    (getSelected)="handleResult($event, 7)"
-                    [definition]="autocompleteDefinition7"
-                    [datasource]="dataForAc7"
-                    [initVal]="{ name: 'Albania', code: 'AL' }" 
-                ></dp-autocomplete>                    
-                <br><br>
-
-              
-                <div>external 7: <div class='s'>
-                    <ng-container *ngIf="externalDataSelected7">
-                        {{externalDataSelected7 | json}}
-                    </ng-container>
-                    </div>
-                </div>
-
-
-            </fieldset>
-        </div>
-        <div class="p-col-12 p-md-6">
-            <fieldset>
-                <legend></legend>
-                <!-- <legend>Load on first click / open - programmer</legend> -->
-
-                <!-- *ngIf="dataForAc8"  -->
-                <!-- (firstInteraction)="getDbSataForAc8($event)"  -->
-
-                <!-- <dp-autocomplete  
-                    (firstInteraction)="getDbSataForAc8($event)" 
-                    [initVal]="someVar"
-                    (getSelected)="handleResult($event,8)" 
-                    [definition]="autocompleteDefinition3"
-                    [datasource]="dataForAc8">
-                </dp-autocomplete> -->
-
-                    <br><br>
-                    <div>external 8: <div class='s'>
-                        <ng-container *ngIf="externalDataSelected8">
-                            {{externalDataSelected8 | json}}
-                        </ng-container>
-                        </div>
-                    </div>
-            </fieldset>
-        </div>
+    <div class="p-col-12 p-md-6">
+      <fieldset>
+        <legend>Load on first click / open </legend>
+        <dp-autocomplete *ngIf="dataForAc4" name="loadOnFirstClick" [ngModel]="dataForAc4[0]"
+          [definition]="autocompleteDefinition4" [datasource]="dataForAc4">
+        </dp-autocomplete>
+        <br><br>
+        <br><br>
+      </fieldset>
     </div>
 
-</div>
+    <div class="p-col-12 p-md-6">
+      <fieldset>
+        <legend>With Table (default):</legend>
+        <dp-autocomplete *ngIf="dataForAc5" name="withTable" [ngModel]="dataForAc5[0]"
+          [definition]="autocompleteDefinition5" [datasource]="dataForAc5"></dp-autocomplete>
+      </fieldset>
+    </div>
+
+    <div class="p-col-12 p-md-6">
+      <fieldset>
+        <legend>Table with Columns Extra Definitons</legend>
+        <dp-autocomplete *ngIf="dataForAc6" name="widthTableExtra" [ngModel]="dataForAc6[0]"
+          [definition]="autocompleteDefinition6" [datasource]="dataForAc6"></dp-autocomplete>
+        <br><br>
+      </fieldset>
+    </div>
+
+    <div class="p-col-12 p-md-6">
+      <fieldset>
+        <legend>Data From DB:</legend>
+        <dp-autocomplete name="fromDB" *ngIf="dataForAc7" [ngModel]="dataForAc7[0]" [definition]="autocompleteDefinition7"
+          [datasource]="dataForAc7"></dp-autocomplete>
+      </fieldset>
+    </div>
+
+  </div>
+<button type="submit">
+  SUBMIT
+</button>
+
+</form>

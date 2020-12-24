@@ -147,14 +147,14 @@
                 name="{{column.fieldname}}">
               </dp-checkbox>
 
-              <dp-inputnumber (blurEvent)="updateRow(column.fieldname, row, $event, index)"
+              <dp-inputnumber  (blurEvent)="updateRow(column.fieldname, row, $event, index)"
                 [required]="column.isMandatory" ngModel="{{row[column.fieldname]}}" name="{{column.fieldname}}"
                 [columnDefinition]="column" *ngSwitchCase="gridColumnTypeEnum.inputnumber">
               </dp-inputnumber>
 
               <dp-calendar (selectEvent)="updateRow(column.fieldname, row, $event, index)"
-                [required]="column.isMandatory" [columnDefinition]="column" ngModel="{{row[column.fieldname]}}"
-                name="{{column.fieldname}}"
+                [required]="column.isMandatory" ngModel="{{row[column.fieldname]}}"
+                name="{{column.fieldname}}" 
                 *ngSwitchCase="gridColumnTypeEnum.calendar">
               </dp-calendar>
 
@@ -163,10 +163,10 @@
 
 
               <dp-autocomplete (getSelected)="updateRow(column.fieldname, row, $event, index, column.fieldCode)"
-                [initVal]="row[column.fieldname]" [required]="column.isMandatory" *ngSwitchCase="gridColumnTypeEnum.autocomplete" 
+                 [required]="column.isMandatory" name="{{column.fieldname}}" ngModel="{{row[column.fieldname]}}" *ngSwitchCase="gridColumnTypeEnum.autocomplete" 
                 [datasource]="column.ColumnDatasource" [columnDefinition]="column">
               </dp-autocomplete>
-
+              <!-- {{column.ColumnDatasource|json}} -->
               <input hidden [required]="column.isMandatory" ngModel="{{row[column.fieldname]}}"
               name="{{column.fieldname}}">
 

@@ -10,14 +10,14 @@
 </p-toolbar>
 
 <!-- you can move revealErrs inside definition -->
-<dp-table tableId="table1" (getErrors)="validationErrors1 = $event" [showDirty]="showDirtyInputs" [definition]="gridDefinition"
+<!-- <dp-table tableId="table1" (getErrors)="validationErrors1 = $event" [showDirty]="showDirtyInputs" [definition]="gridDefinition"
   [datasource]="customers"></dp-table>
 <br>
 <br>
-<br>
+<br> -->
 <dp-table tableId="table2" (getErrors)="validationErrors2 = $event" [showDirty]="showDirtyInputs" [definition]="gridDefinition2"
   [datasource]="customers"></dp-table>
-<br>
+<!-- <br>
 <br>
 <br>
 <br>
@@ -37,7 +37,7 @@
 <br>
 <br>
 
-<button (click)="showDirtyInputs = !showDirtyInputs">SHOW DIRTY INPUTS FROM OUTSIDE</button>
+<button (click)="showDirtyInputs = !showDirtyInputs">SHOW DIRTY INPUTS FROM OUTSIDE</button> -->
 <!-- <br>
     <br>
     <br>
@@ -45,3 +45,11 @@
 <dp-table #table2
 (stateChanges)="readState('table2 state:', $event)"
     [definition]="gridDefinition" [datasource]="customers"></dp-table> -->
+
+
+    <strong>
+      Get validation errors for both tables from outside
+      <br>
+      <br>
+      {{validationErrors2 | json}}
+  </strong>

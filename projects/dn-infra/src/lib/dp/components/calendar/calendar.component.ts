@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, ViewEncapsulation, forwardRef, Provider, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation, forwardRef, Provider, EventEmitter, Output, ElementRef, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { CalendarDefinitions, CalendarProperties, SelectionMode } from './objects/calendar-definitions';
+import { CalendarDefinitions, SelectionMode } from './objects/calendar-definitions';
 
 export const CALENDAR_CONTROL_VALUE_ACCESSOR: Provider = {
   provide: NG_VALUE_ACCESSOR,
@@ -18,47 +18,32 @@ export const CALENDAR_CONTROL_VALUE_ACCESSOR: Provider = {
 })
 export class CalendarComponent implements OnInit, ControlValueAccessor {
 
-  lastInputDate: Date;
-  isInputByUser: boolean;
-  standAlone: boolean;
   @Input() definition: CalendarDefinitions;
-  @Output() selectEvent: EventEmitter<number> = new EventEmitter();
-  tempVal = null;
+  // @Input() standAlone: boolean = false;
+  @Output() selectEvent: EventEmitter<any> = new EventEmitter();
+
+  tempVal: any;
+  isTypedVal = false;
   private _innerValue: any;
+
   constructor() { }
-  @Input() columnDefinition: any;
+
   private onChangeCallback: (_: any) => void = () => { };
   private onTouchedCallback: () => void = () => { };
 
   ngOnInit(): void {
-    if (this.definition == null) {
-      this.definition = new CalendarDefinitions({ isStandAlone: false });
-      if (this.columnDefinition && this.columnDefinition.columnParams.params.length > 0) {
-        this.standAlone = false;
-        if (this.columnDefinition.columnParams.isKeyExist(CalendarProperties.showTime)) {
-          this.definition.showTime = this.columnDefinition.columnParams.getValueByKey(CalendarProperties.showTime);
-        }
-      } else {
-        this.standAlone = true;
-      }
+    if (!this.definition) {
+      this.definition = new CalendarDefinitions({ isStandAlone: false, showTime: true });
     }
   }
 
-  public get innerValue(): number {
+  public get innerValue(): any {
     return this._innerValue;
   }
 
-  public set innerValue(newValue: number) {
-    if (newValue) {      
-
-      let t = new Date(newValue);
-      // d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()))
-      // d.setMinutes( d.getMinutes() - d.getTimezoneOffset() );
-      // let dateOffset = t.getTimezoneOffset();
-      // let t2 = new Date(t.toISOString());
-      // let d = new Date(t2.getTime() + dateOffset * 1800 * 1000);      
-      
-      this._innerValue = t;
+  public set innerValue(newValue: any) {
+    if (newValue) {
+      this._innerValue = new Date(newValue);
     }
     this.onChangeCallback(newValue);
   }
@@ -68,9 +53,7 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
   }
 
   public writeValue(value: number) {
-    if (value !== this.innerValue) {
-      this.innerValue = value;
-    }
+    this.innerValue = value;
   }
 
   public registerOnChange(callback: (_: Date) => void) {
@@ -81,27 +64,43 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
     this.onTouchedCallback = callback;
   }
 
-  onInputClickOutside(input) {
-    if (this.tempVal) {
-      // user selected a date from the date picker
-      this.selectEvent.emit(input);
-      return;
-    } else {
+  onSelectedDate(selectedDate: any) {
+    this.isTypedVal = false;
+    this.innerValue = selectedDate;
+    // this.selectEvent.emit(selectedDate);
+  }
 
-    }
 
-    this.tempVal = null;
+  type(event) {
+    this.isTypedVal = true;
+    this.tempVal = event.data;
+  }
+
+  focus(event) {
+    // debugger;
+  }
+  close(event) {
+    this.tempVal === null ? this.selectEvent.emit('') : this.selectEvent.emit(this.innerValue);
+    this.tempVal = false;
+  }
+
+  clear() {
+    this.selectEvent.emit('');
+  }
+
+  onInputBlur(event: Event) {
 
     if (this.definition.selectionMode === SelectionMode.range) {
       return;
     }
 
-  }
-
-  format(input) {
-
     let hour: string;
     let minute: string;
+    let input = (event.target as HTMLInputElement).value;
+
+    if (input === '') {
+      return;
+    }
 
     if (this.definition.showTime) {
       const time = input.split(' ')[1];
@@ -127,29 +126,19 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
     if (input.length === 6 || input.length === 8) {
       date = this.getValidDateMonth(input.substr(0, 2), input.substr(2, 2), input.substr(4, 4), 2500, 1900);
     } else {
-      // user wrote a number and expects to get the date. e.g. he wrote -30 and expects to get the date from a month ago.
       date.setDate(date.getDate() + +input);
     }
 
     if (this.definition.showTime && minute !== undefined) {
       date.setHours(+hour, +minute);
     }
-    return date;
-  }
 
-  setTempVal(event) {
-    this.tempVal = event;
-  }
-
-  onClose(event) {
-    if (event !== null && !this.standAlone) {
-      this.onInputClickOutside(event);
-    } else if (this.standAlone){
-      console.log(this.tempVal);
-      this.tempVal !== null ? this.innerValue = this.tempVal : this.innerValue = event;
-      this.tempVal = null;
+    if (this.isTypedVal) {
+      this.innerValue = date;
     }
+
   }
+
 
   validateTime(aHouers, aMinute) {
     if (aHouers.trim() === '' || isNaN(aHouers)) { return false; }
@@ -160,8 +149,6 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
     return true;
   }
 
-  // change 12/5/20 to 120520
-  // change 12.5.20 to 120520
   setCorrectFormat(insertedFormat, delimiter) {
     let retVal = '';
     const temp = insertedFormat.toString().split(delimiter);
@@ -170,7 +157,7 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
       return retVal;
     }
 
-    temp.forEach((ele: string) => {
+    temp.forEach(function (ele) {
       if (ele.length === 1) {
         ele = '0' + ele;
       }
@@ -180,25 +167,22 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
     return retVal;
   }
 
-  // gets value formatted in 6 or 8 chars e.g. 120520 / 12052020 and changes to date object.
-  getValidDateMonth(sDay, sMonth, sYear, sTopYear, sLowYear) {
+  getValidDateMonth(a_day, a_month, a_year, a_TopYear, a_LowYear) {
 
-    let iDay;
-    let iMonth;
-    let iYear;
+    let iDay, iMonth, iYear;
 
-    if (+sDay < 1 || +sDay > 31) { return null; }
-    if (+sMonth < 1 || +sMonth > 12) { return null; }
+    if (+a_day < 1 || +a_day > 31) { return null; }
+    if (+a_month < 1 || +a_month > 12) { return null; }
 
-    if (sDay.length > 2 || sMonth.length > 2 || sYear.length < 1 || sYear.length > 4) { return null; }
+    if (a_day.length > 2 || a_month.length > 2 || a_year.length < 1 || a_year.length > 4) { return null; }
 
-    if (parseInt(sDay, 10) <= 0 || parseInt(sDay, 10) > 31) {
+    if (parseInt(a_day, 10) <= 0 || parseInt(a_day, 10) > 31) {
       return null;
     }
 
-    iMonth = parseInt(sMonth, 10);
-    iDay = parseInt(sDay, 10);
-    iYear = parseInt(sYear, 10);
+    iMonth = parseInt(a_month, 10);
+    iDay = parseInt(a_day, 10);
+    iYear = parseInt(a_year, 10);
 
     if (iDay.toString().length === 1) {
       iDay = '0' + iDay;
@@ -218,7 +202,7 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
       }
     }
 
-    if (iYear > sTopYear || iYear < sLowYear) { return null; }
+    if (iYear > a_TopYear || iYear < a_LowYear) { return null; }
     switch (iMonth) {
       case 4 || 6 || 9 || 11:
         if (iDay > 30) { return null; }

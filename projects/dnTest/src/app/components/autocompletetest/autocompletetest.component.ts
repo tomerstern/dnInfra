@@ -1,5 +1,5 @@
 
-import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 /*import { Customer, Representative } from '../../../events/models/customer';*/
 // import { Country } from '../../../events/models/customer';
 /*import { CustomerService } from '../../../events/services/customerservice';*/
@@ -7,6 +7,8 @@ import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angula
 import { AutocompleteDefinitions, AutocompleteType } from 'projects/dn-infra/src/lib/dp/components/autocomplete/Objects/autocomplete-definitions';
 import { CountryService } from '../../events/services/countryservice';
 import { Country } from '../../events/models/customer';
+import { NgForm } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-autocompletetest',
@@ -17,7 +19,8 @@ import { Country } from '../../events/models/customer';
 export class AutocompletetestComponent implements OnInit {
 
   someVar = 'bulgaria';
-
+  @ViewChild('myForm', { static: true }) ngForm: NgForm;
+  formChangesSubscription: Subscription = null;
   constructor(private countryService: CountryService, private cdref: ChangeDetectorRef) { }
 
   // ----------- 1    Autocomplete Definition
@@ -31,6 +34,7 @@ export class AutocompletetestComponent implements OnInit {
   autocompleteDefinition8: AutocompleteDefinitions;
 
   // ----------- 2  Data To send Property
+
   dataForAc1: any[]; // Country
   dataForAc2: Country[]; // Cities_100k
   dataForAc3: string[] = ['argentina', 'brazil', 'bulgaria', 'canada', 'cuba', 'finland', 'germany', 'hungary',
@@ -43,60 +47,50 @@ export class AutocompletetestComponent implements OnInit {
 
   dataForAc8: any[]; // test
 
-  // ----------- 3 get selected data
-  externalDataSelected1: any;
-  externalDataSelected2: any;
-  externalDataSelected3: any = null;
-  externalDataSelected4: any;
-  externalDataSelected5: any;
-  externalDataSelected6: any;
-  externalDataSelected7: any;
-  externalDataSelected8: any;
-
   changeInitVal() {
     this.someVar = 'brazil1';
   }
 
-  handleResult(res: any, id: number) {
-    if (res === undefined || id === undefined) {
-      return;
-    }
-
-    switch (id) {
-      case 1:
-        this.externalDataSelected1 = res;
-        break;
-      case 2:
-        this.externalDataSelected2 = res;
-        break;
-      case 3:
-        this.externalDataSelected3 = res;
-        break;
-      case 4:
-        this.externalDataSelected4 = res;
-        break;
-      case 5:
-        this.externalDataSelected5 = res;
-        break;
-      case 6:
-        this.externalDataSelected6 = res;
-        break;
-      case 7:
-        this.externalDataSelected7 = res;
-        break;
-      case 8:
-        this.externalDataSelected8 = res;
-        break;
-    }
-
-    // if (id === 'data3' && res !== undefined) {
-    //   this.externalDataSelected3 = res;
-    // }
-
-    this.cdref.detectChanges();
+  submit(formObject) {
+    const newObj = {};
+    Object.keys(formObject).forEach(controlName => {
+      switch (controlName) {
+        case 'withImages':
+          newObj[controlName] = formObject[controlName];
+          break;
+        case 'loadOnFirstClick':
+          formObject[controlName] ? newObj[controlName] = formObject[controlName][this.autocompleteDefinition4.field] : '';
+          break;
+        case 'regularMultiSelect':
+          const newArr = [];
+          formObject[controlName].forEach(item => {
+            newArr.push(item[this.autocompleteDefinition2.field]);
+          });
+          newObj[controlName] = newArr;
+          break;
+        case 'withTable':
+          newObj[controlName] = formObject[controlName][this.autocompleteDefinition5.field];
+          break;
+        case 'widthTableExtra':
+          newObj[controlName] = formObject[controlName][this.autocompleteDefinition5.field];
+          break;
+        case 'regularAc':
+          newObj[controlName] = formObject[controlName][this.autocompleteDefinition1.field];
+          break;
+        default:
+          break;
+      }
+    });
+    console.log(newObj);
   }
 
+
+
   ngOnInit(): void {
+
+    // this.formChangesSubscription = this.ngForm.form.valueChanges.subscribe(x => {
+    //   console.log(x);
+    // });
 
     // -----------    5 Section Definitions
 
@@ -120,7 +114,7 @@ export class AutocompletetestComponent implements OnInit {
       dp_AutocompleteType: 0, multiple: false, minLength: 1, placeholder: 'ph text 4'
       , dropdown: true
       , dpAutocompleteLateDataLoadFunc: () => {
-          this.getDynamicData();
+        this.getDynamicData();
       }
     });
 
@@ -240,6 +234,11 @@ export class AutocompletetestComponent implements OnInit {
 
   }
 
+
+  console(event) {
+    console.log(event);
+  }
+
   getDbSataForAc8(event) {
     // alert('first user interaction!');
 
@@ -253,13 +252,13 @@ export class AutocompletetestComponent implements OnInit {
   }
 
   getDynamicData() {
-  // // use A - working
-  // this.countryService.getData_iis(`http://import-iis-dev:8090/Assist/GetCountriesCode`)
-  //   .subscribe((data: []) => {
-  //     this.dataForAc4 = data;
-  //   });
+    // // use A - working
+    // this.countryService.getData_iis(`http://import-iis-dev:8090/Assist/GetCountriesCode`)
+    //   .subscribe((data: []) => {
+    //     this.dataForAc4 = data;
+    //   });
 
-  // // use B - working
+    // // use B - working
     this.countryService.getCountries().then(countries => {
       this.dataForAc4 = countries;
     });
