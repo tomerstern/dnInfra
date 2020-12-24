@@ -1,0 +1,14 @@
+<p>Forms List For Shipment: {{cooKey.ShipmentNumber}}</p>
+
+<div class="p-grid">
+    <div class="p-col-12 p-md-2">
+        <app-cootype-list *ngIf="arrCooTypeList" [gridData]="arrCooTypeList" (notifyCOOType)='onNotifyCOOType($event)'></app-cootype-list>
+    </div>
+    <div class="p-col-12 p-md-9">
+        <app-cootype-details [gridData]="arrCooDataDetails" (notifyFormDetails)='onNotifyFormDetails($event)' ></app-cootype-details>
+    </div>
+    <div class="p-col-12 p-md-1">
+        <app-cootype-button  (notifyButtonType)='onNotifyButtonType($event)'></app-cootype-button>
+    </div>
+</div> 
+

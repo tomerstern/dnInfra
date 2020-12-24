@@ -1,0 +1,98 @@
+<br/>
+<div *ngIf="cooService.cooData != undefined" >
+    {{cooService.cooData.CooBoxData | json}} 
+</div>
+<div class="p-grid"  *ngIf="cooService.cooData.CooBoxData != undefined">
+    <div class="p-col-12 p-md-4">
+        <p-fieldset legend="{{ 'coo.CustomsEndorsement' | translate }}" [toggleable]="false">
+        <div class="p-grid">
+            <div class="p-col-12 p-md-5">{{ 'coo.CustomsOffice' | translate }}:</div>
+            <div class="p-col-12 p-md-1 Mandatory">*</div>
+            <div class="p-col-12 p-md-6"><b>
+                <dp-autocomplete 
+                    *ngIf="cooService.customsOfficeList" 
+                    [initVal]="cooService.cooData.CooBoxData.Header.COO_CustomsHouseName"                                 
+                    [definition]="autocompleteDefinition2" 
+                    [datasource]="cooService.customsOfficeList"
+                    (getSelected)="handleChange($event,'customsHouse')">
+                </dp-autocomplete> 
+            </b></div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-5">{{ 'coo.IssuingCountryOrTerritory' | translate }}:</div>
+            <div class="p-col-12 p-md-1 Mandatory">*</div>
+            <div class="p-col-12 p-md-6"><b>
+                <dp-autocomplete 
+                    *ngIf="exportassistService.countriesList" 
+                    [initVal]="cooService.cooData.CooBoxData.Header.COO_IssuingCountryHebName"
+                    [definition]="autocompleteDefinition1" 
+                    [datasource]="exportassistService.countriesList"
+                    (getSelected)="handleChange($event,'issuingCountry')">
+                </dp-autocomplete> 
+            </b></div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-5">{{ 'coo.DateOfDeclaration' | translate }}:</div>
+            <div class="p-col-12 p-md-1 Mandatory">*</div>
+            <div class="p-col-12 p-md-6"><b>
+                <dp-calendar 
+                    name="DateOfDeclaration" 
+                    [definition]="CalendarDef1" >
+                </dp-calendar>
+            </b></div>      
+        </div>
+        </p-fieldset>
+    </div>
+    <div class="p-col-12 p-md-4">
+        <p-fieldset legend="{{ 'coo.DeclarationByTheExporter' | translate }}" [toggleable]="false">
+            <div class="p-grid">
+                <div class="p-col-12 p-md-5">{{'coo.DeclaredBy' |translate }}:</div>
+                <div class="p-col-12 p-md-1 Optional"></div>
+
+                <input  type="radio"
+                        id="declarationByExporter" 
+                        [(ngModel)]="declarationBy" 
+                        name="rdDeclarationBy"
+                        value="Exporter" 
+                        (change)="handleChange($event,'declarationBy')">
+                        
+                <label for="r_opt1">{{'coo.Exporter' |translate }}</label><br>
+
+                <input  type="radio" 
+                        id="declarationByManufacturer" 
+                        [(ngModel)]="declarationBy" 
+                        name="rdDeclarationBy" 
+                        value="Manufacturer"
+                        (change)="handleChange($event,'declarationBy')">
+                <label for="r_opt2">{{'coo.Manufacturer' |translate }}</label><br>
+            </div>
+          
+            <div class="p-grid">
+                <div class="p-col-12 p-md-5">{{'coo.CityOfDeclaration' | translate }}:</div>
+                <div class="p-col-12 p-md-1 Mandatory">*</div>
+                <div class="p-col-12 p-md-6"><b>
+                    <dp-autocomplete 
+                    *ngIf="cooService.customsOfficeList" 
+                    [initVal]="cooService.cooData.CooBoxData.Header.COO_CityOfDeclarationName"                                 
+                    [definition]="autocompleteDefinition2" 
+                    [datasource]="cooService.customsOfficeList"
+                    (getSelected)="handleChange($event,'cityOfDeclaration')">
+               </dp-autocomplete> 
+                </b></div>           
+            </div>
+            <div class="p-grid">
+                <div class="p-col-12 p-md-5">{{'coo.CountryOfDeclaration' | translate }}:</div>
+                <div class="p-col-12 p-md-1 Mandatory">*</div>
+                <div class="p-col-12 p-md-6"><b>
+                    <dp-autocomplete 
+                        *ngIf="exportassistService.countriesList" 
+                        [initVal]="cooService.cooData.CooBoxData.Header.COO_CountryOfDeclarationHebName"                                 
+                        [definition]="autocompleteDefinition1" 
+                        [datasource]="exportassistService.countriesList"
+                        (getSelected)="handleChange($event,'countryOfDeclaration')">
+                   </dp-autocomplete> 
+                </b></div>           
+            </div>
+            </p-fieldset>
+    </div>
+</div>

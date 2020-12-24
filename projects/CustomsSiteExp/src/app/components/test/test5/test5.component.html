@@ -1,0 +1,826 @@
+
+
+
+<h2>שאילתת תיקים</h2>
+<!-- Template Driven -->
+<!-- <form name="form" (ngSubmit)="f.valid && onSubmit(f)" #f="ngForm" >   -->
+    <!--novalidate  vs ngNativeValidate -->
+
+
+<!-- <form name="form" (ngSubmit)="onSubmit(f)" #f="ngForm" >    -->
+    <form #myForm="ngForm" (ngSubmit)="onSubmit(myForm.value)" class="frmShipmentsQuery"> 
+    <dp-button class="ui-button-dp"  [definition]="btnDef1"></dp-button>
+    <br><br>
+    <div class="p-grid">
+        <div class="p-col-12 p-md-12">
+            <p-fieldset  [toggleable]="true" legend="">
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-4 was6"> 
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                <!-- [definition]="InputTextDefDis" -->
+                                {{'department' | translate}}
+                            </div>
+                            <div class="p-col-12 p-md-5">   
+                                <!-- [ngModel]="dataForAc1[0]" -->
+                                <!-- *ngIf="dataForAc1" -->
+                                <dp-autocomplete  [initVal]="" name="department"                                
+                                 [definition]="acDefDepartment" [datasource]="dataForAc1"
+                                 (getSelected)="handleAcResult($event, 4)"
+                                 
+                                 required 
+                                 class="dpTempYellow"                             
+                                 >
+                                </dp-autocomplete> 
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                {{'team' | translate}}
+                            </div>
+                            <div class="p-col-12 p-md-5">       
+                                <dp-autocomplete  name="OperationTeam"       
+                                    [definition]="acDefOperationTeam"
+                                    [datasource]="exportassistService.teamsList"  
+                                    (getSelected)="handleAcResult($event, 2)"              
+                                ></dp-autocomplete> 
+
+                                <!-- <dp-inputtext name="team" [(ngModel)]="model.team"></dp-inputtext>  required  -->
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                {{'shipmentNumber' | translate}}
+                            </div>
+                            <div class="p-col-12 p-md-5">       
+                                <dp-inputtext name="ShipmentNumber" [(ngModel)]="model.ShipmentNumber" class="dpTempYellow"></dp-inputtext>
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>                                                
+                    </div>
+                    <div class="p-col-12 p-md-4 was6">
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                <!-- Set Report   
+                                יאופיין בהמשך - לאחר שהביזנס יבצע טסטים ויוכל לבקש סטים מובנים מראש 
+                                יתכן ולא יהיה שימוש בנושא -->
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                                <!-- <dp-inputtext name="email" [(ngModel)]="model.set_report"></dp-inputtext> -->
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                1111
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                                <!-- <dp-calendar name="from_open_date" [definition]="CalendarDefFromOpenDate" [ngModel]="model.from_open_date"></dp-calendar> -->
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                <!-- <dp-checkbox name="check1" [definition]="checkboxDefinitions" [ngModel]="model.check1" ></dp-checkbox> -->
+                            </div>
+                        </div>                        
+                    </div>
+                </div>
+            </p-fieldset>
+        </div>
+    </div>
+
+    
+
+    
+
+
+    <div class="p-grid">
+        <div class="p-col-12 p-md-12">
+            <p-fieldset  [toggleable]="true" legend="{{'dates' | translate}}">
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-5 was6"> 
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                {{'fromOpenDate' | translate}}
+                            </div>
+                            <div class="p-col-12 p-md-5 form-control">
+                                <!-- <dp-inputtext name="openDateFrom" [(ngModel)]="model.openDateFrom" class="dpTempYellow"></dp-inputtext> -->
+                                <!-- <dp-calendar name="openDateFrom" [definition]="CalendarDef1" [ngModel]="model.openDateFrom"  class="dpTempYellow"></dp-calendar> -->
+                                <dp-calendar name="fromOpenDate" [definition]="CalendarDefFromOpenDate"
+                                  class="dpTempYellow"
+                                  [(ngModel)]="model.fromOpenDate"   
+                                 ></dp-calendar>
+                          
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                               {{'fromEtdDate' | translate}}                                
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                                <dp-inputtext name="EtdDateFrom" [(ngModel)]="model.EtdDateFrom" class="dpTempYellow"></dp-inputtext>
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                {{'fromAtdDate' | translate}}
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                                <dp-inputtext name="AtdDateFrom" [(ngModel)]="model.AtdDateFrom" class="dpTempYellow"></dp-inputtext>
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                
+                            </div>
+                        </div>                                        
+                    </div>
+                    <div class="p-col-12 p-md-5 was6">
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                {{'toOpenDate' | translate}}
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                                <dp-inputtext name="openDateTo" [(ngModel)]="model.openDateTo" class="dpTempYellow"></dp-inputtext>
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                {{'toEtdDate' | translate}}
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                                <dp-inputtext name="EtdDateTo" [(ngModel)]="model.EtdDateTo" class="dpTempYellow"></dp-inputtext>
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                {{'toAtdDate' | translate}}
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                                <dp-inputtext name="AtdDateTo" [(ngModel)]="model.AtdDateTo" class="dpTempYellow"></dp-inputtext>
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>                                                
+                    </div>
+                </div>
+            </p-fieldset>
+        </div>
+    </div>
+
+    
+
+
+    <div class="p-grid">
+        <div class="p-col-12 p-md-12">
+            <p-fieldset  [toggleable]="true" legend="יישויות">
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-5 was6"> 
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                {{ 'operationalCustomer' | translate}}                               
+                            </div>
+                            <div class="p-col-12 p-md-5 form-control">    
+    
+                                <dp-autocomplete                                                    
+                                    [definition]="acDefOperationalCustomer" 
+                                    [datasource]="exportassistService.customersList"
+                                    (getSelected)="handleAcResult($event,3)"        
+                                ></dp-autocomplete>                              
+
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                {{ 'bindingCustomer' | translate}}    
+                            </div>
+                            <div class="p-col-12 p-md-5">
+
+                                <dp-autocomplete                                                    
+                                    [definition]="acDefBindingCustomer" 
+                                    [datasource]="exportassistService.customersList"
+                                    (getSelected)="handleAcResult($event,4)"        
+                                ></dp-autocomplete>   
+
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                {{'exporterBnNumber' | translate}}
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                               
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                
+                            </div>
+                        </div>                                        
+                    </div>
+                    <div class="p-col-12 p-md-5 was6">
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                CSSV
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                                <!-- <dp-inputtext name="openDateTo" [(ngModel)]="model.openDateTo" class="dpTempYellow"></dp-inputtext> -->
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                {{'goodsReceiver' | translate}}
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                                <!-- <dp-inputtext name="EtdDateTo" [(ngModel)]="model.EtdDateTo" class="dpTempYellow"></dp-inputtext> -->
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                aaaaaa
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                                <!-- <dp-inputtext name="AtdDateTo" [(ngModel)]="model.AtdDateTo" class="dpTempYellow"></dp-inputtext> -->
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>                                                
+                    </div>
+                </div>
+            </p-fieldset>
+        </div>
+    </div>
+    
+
+    <div class="p-grid">
+        <div class="p-col-12 p-md-12">
+            <p-fieldset  [toggleable]="true" legend="{{'declarationData' | translate}}">
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-5 was6"> 
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                {{'declarationId' | translate}}
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                                <dp-inputtext name="DeclarationID" [(ngModel)]="model.DeclarationID" class="dpTempYellow"></dp-inputtext>
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                {{'declarationType' | translate}}
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                                <dp-autocomplete  [initVal]="" name="dp6"                                
+                                [definition]="acDefDeclarationType" [datasource]="dataForAc6"
+                                (getSelected)="handleAcResult($event, 6)"
+                                [ngModel]="acDataSelected6"    
+                                class="dpTempYellow"                             
+                                >
+                               </dp-autocomplete> 
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                {{'processCode' | translate}}
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                                <dp-autocomplete  [initVal]="" name="dp7"                                
+                                    [definition]="acDefProcessCode" [datasource]="dataForAc7"
+                                    (getSelected)="handleAcResult($event, 7)"
+                                    [ngModel]="acDataSelected7"    
+                                    class="dpTempYellow"                             
+                                    >
+                                </dp-autocomplete> 
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                
+                            </div>
+                        </div>                              
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">                               
+                                {{'customsHouseExports' | translate}}
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                                <dp-autocomplete  [initVal]="" name="dp8"                                
+                                [definition]="acDefCustomsHouseExports" [datasource]="dataForAc8"
+                                (getSelected)="handleAcResult($event, 8)"
+                                [ngModel]="acDataSelected8"    
+                                class="dpTempYellow"                             
+                                >
+                            </dp-autocomplete> 
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                {{'cargoId' | translate}}                             
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                                <dp-inputtext name="CargoId" [(ngModel)]="model.CargoId" class="dpTempYellow"></dp-inputtext>
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                
+                            </div>
+                        </div>                              
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">                               
+                                {{'cargoIdType' | translate}}    
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                                <dp-autocomplete  [initVal]="" name="dp9"                                
+                                    [definition]="acDefCargoIdType" [datasource]="dataForAc9"
+                                    (getSelected)="handleAcResult($event, 9)"
+                                    [ngModel]="acDataSelected9"    
+                                class="dpTempYellow"                             
+                                >
+                            </dp-autocomplete> 
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">                           
+                                {{'incoterms' | translate}}   
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                                <dp-autocomplete  [initVal]="" name="dp10"                                
+                                    [definition]="acDefIncoterms" [datasource]="dataForAc10"
+                                    (getSelected)="handleAcResult($event, 10)"
+                                    [ngModel]="acDataSelected10" class="dpTempYellow"                             
+                                    >
+                                </dp-autocomplete> 
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                
+                            </div>
+                        </div>   
+                        
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">                           
+                                {{'preferenceDocument' | translate}}   
+                            </div>
+                            <div class="p-col-12 p-md-5">
+          
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                
+                            </div>
+                        </div>                  
+
+                    </div>
+                    <div class="p-col-12 p-md-5 was6">
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                                
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                                
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                
+                            </div>
+                        </div>
+                                                 
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                {{'storageSiteType' | translate}}  
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                                <dp-autocomplete  [initVal]="" name="dp11"                                
+                                    [definition]="acDefStorageSiteType" [datasource]="dataForAc11"
+                                    (getSelected)="handleAcResult($event, 11)"
+                                    [ngModel]="acDataSelected11" class="dpTempYellow"                             
+                                    >
+                                </dp-autocomplete> 
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>      
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                {{'storageSiteCode' | translate}}  
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                                <dp-autocomplete  [initVal]="" name="dp12"                                
+                                    [definition]="acDefStorageSiteCode" [datasource]="dataForAc12"
+                                    (getSelected)="handleAcResult($event, 12)"
+                                    [ngModel]="acDataSelected12" class="dpTempYellow"                             
+                                    >
+                                </dp-autocomplete> 
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>      
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                {{'internalPassages' | translate}}  
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                                <dp-autocomplete  [initVal]="" name="dp12"                                
+                                    [definition]="acDefInternalPassages" [datasource]="dataForAc13"
+                                    (getSelected)="handleAcResult($event, 13)"
+                                    [ngModel]="acDataSelected13" class="dpTempYellow"                             
+                                    >
+                                </dp-autocomplete> 
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>      
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                {{'declarationSiteLocation' | translate}}                                
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                                bbb1
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>      
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                aaaa1
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                                bbb1
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>                                                      
+
+
+                    </div>
+                </div>
+            </p-fieldset>
+        </div>
+    </div>
+
+
+    <div class="p-grid">
+        <div class="p-col-12 p-md-12">
+            <p-fieldset  [toggleable]="true" [collapsed]="true" legend="{{'destination' | translate}}">
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-5 was6"> 
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                {{'destinationCountry' | translate}}  
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                           
+                            <dp-autocomplete                                                    
+                                [definition]="acDefDestinationCountry" 
+                                [datasource]="exportassistService.countriesList"
+                                (getSelected)="handleAcResult($event,11)"
+                            ></dp-autocomplete>                            
+  
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                {{'continent' | translate}}  
+                            </div>
+                            <div class="p-col-12 p-md-5">
+
+                                b23
+                               
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>
+
+                        
+                    </div>
+                    <div class="p-col-12 p-md-5 was6">
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                          
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                                
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </p-fieldset>
+        </div>
+    </div>
+
+
+
+    <div class="p-grid">
+        <div class="p-col-12 p-md-12">
+            <p-fieldset  [toggleable]="true" legend="{{'additionalData' | translate}}" >
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-4 was6"> 
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                
+            
+                                {{'shipmentType' | translate}}
+                            </div>
+                            <div class="p-col-12 p-md-5">   
+                                             
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                {{'incidentallyPprotest' | translate}}
+                            </div>
+                            <div class="p-col-12 p-md-5">       
+                   
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                {{'aInitiated' | translate}}
+                            </div>
+                            <div class="p-col-12 p-md-5">       
+                               
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>                                                
+                    </div>
+
+                    <div class="p-col-12 p-md-4 was6">
+                                            
+                    </div>
+                </div>
+            </p-fieldset>
+        </div>
+    </div>
+
+
+    <div class="p-grid">
+        <div class="p-col-12 p-md-12">
+            <p-fieldset  [toggleable]="true" [collapsed]="false" legend="{{'dataForSearch' | translate}}">
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-4 was6"> 
+
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+
+                                {{'generalSearch' | translate}}
+                            </div>
+                            <div class="p-col-12 p-md-5">   
+                                <dp-inputtext name="generalSearch" [(ngModel)]="model.generalSearch" class="dpTempYellow"></dp-inputtext>
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+
+                                {{'referenceNo' | translate}}
+                            </div>
+                            <div class="p-col-12 p-md-5">   
+                                
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+
+                                {{'referenceType' | translate}}
+                            </div>
+                            <div class="p-col-12 p-md-5">   
+             
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                {{'waybillNumber' | translate}}
+                            </div>
+                            <div class="p-col-12 p-md-5">   
+                                <dp-inputtext name="SHMPNumber" [(ngModel)]="model.SHMPNumber" class="dpTempYellow"></dp-inputtext>
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+
+                                {{'containerNumber' | translate}}
+                            </div>
+                            <div class="p-col-12 p-md-5">   
+                                <dp-inputtext name="containerNumber" [(ngModel)]="model.containerNumber" class="dpTempYellow"></dp-inputtext>
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+
+                                {{'storageCertificateNumber' | translate}}
+                            </div>
+                            <div class="p-col-12 p-md-5">   
+                                <dp-inputtext name="storageCertificateNumber" [(ngModel)]="model.storageCertificateNumber" class="dpTempYellow"></dp-inputtext>
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+
+                                {{'relatedDeclarationNumber' | translate}}
+                            </div>
+                            <div class="p-col-12 p-md-5">   
+                                <dp-inputtext name="relatedDeclarationNumber" [(ngModel)]="model.relatedDeclarationNumber" class="dpTempYellow"></dp-inputtext>
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+
+                                {{'fundTransactionNumber' | translate}}
+                            </div>
+                            <div class="p-col-12 p-md-5">   
+                                <dp-inputtext name="fundTransactionNumber" [(ngModel)]="model.fundTransactionNumber" class="dpTempYellow"></dp-inputtext>
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+
+                                {{'cooFormNumber' | translate}}
+                            </div>
+                            <div class="p-col-12 p-md-5">   
+                                <dp-inputtext name="cooFormNumber" [(ngModel)]="model.cooFormNumber" class="dpTempYellow"></dp-inputtext>
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+
+                                {{'numberOfStatementsPerCaseGreaterThan' | translate}}
+                            </div>
+                            <div class="p-col-12 p-md-5">   
+                                <dp-inputtext name="numberOfStatementsPerCaseGreaterThan" [(ngModel)]="model.numberOfStatementsPerCaseGreaterThan" class="dpTempYellow"></dp-inputtext>
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>                                                                                                
+                        
+                    </div>
+                    <!-- <div class="p-col-12 p-md-4 was6">
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                               
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                
+                            </div>
+                        </div>
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                               
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                
+                            </div>
+                        </div>                        
+                    </div> -->
+                </div>
+            </p-fieldset>
+        </div>
+    </div>
+
+
+
+    
+    <div class="p-grid">
+        <div class="p-col-12 p-md-12">
+            <p-fieldset  [toggleable]="true" [collapsed]="true" legend="{{'dataForSearch' | translate}}">  
+                <div class="p-grid">    
+                    <div class="p-col-12 p-md-5 was6"> 
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                aaaaaa
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                                bbbbbb
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-col-12 p-md-5 was6">
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-3">
+                                aaaaaa
+                            </div>
+                            <div class="p-col-12 p-md-5">
+                                bbbbbb
+                            </div>
+                            <div class="p-col-12 p-md-3">
+                                cccccc
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </p-fieldset>
+        </div>
+    </div>
+
+
+    <!-- <button type="submit" class="btn btn-success" >חיפוש</button>
+    <br><br> -->
+    <dp-button class="ui-button-dp"  [definition]="btnDef1"></dp-button>
+    <!-- (click)='login()' -->
+</form>
+
+<br><br>
+
+<dp-table *ngIf="gridData1" tableId="tblShipmentsQuery" [definition]="gridDefinition1" 
+    [datasource]="gridData1"></dp-table> 

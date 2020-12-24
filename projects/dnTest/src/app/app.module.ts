@@ -34,7 +34,7 @@ import { Table2testComponent } from './components/table2test/table2test.componen
 import { DynamicdialogtestComponent } from './components/dynamicdialogtest/dynamicdialogtest.component';
 import { Dynamicdialogsrc1testComponent } from './components/dynamicdialogsrc1test/dynamicdialogsrc1test.component';
 import { Dynamicdialogsrc2testComponent } from './components/dynamicdialogsrc2test/dynamicdialogsrc2test.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'; 
 
 
 // actual build

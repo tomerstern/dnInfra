@@ -7,7 +7,7 @@ const getAppState = createSelector(
 
 const getTableStateById = (id) => createSelector(
   getAppState,
-  (appState): any => appState.tables[id].data
+  (appState): any => appState.tables[id] && appState.tables[id].data
 );
 
 const getTableLengthById = (id) => createSelector(

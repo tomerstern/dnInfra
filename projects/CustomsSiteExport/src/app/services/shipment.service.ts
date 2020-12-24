@@ -6,12 +6,23 @@ import { Shipment, ShipmentDetail } from '../models/shipment';
 import { ShipmentGP } from '../models/shipment';
 import { ShipmentG7 } from '../models/shipment';
 import { ShipmentTemp } from '../models/shipment';
+import { BehaviorSubject, Subject } from 'rxjs';
+
+interface iShipmentData {
+  dataShipment: Shipment;
+  updShipment: Shipment;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class ShipmentService {
-  constructor(private http: HttpClient,  public datepipe: DatePipe) {}
+  shipmentData: iShipmentData;
+
+  shipmentDataSubject = new BehaviorSubject<string>(null);
+  // shipmentDataSubject = new BehaviorSubject<iShipmentData>(null);
+
+  constructor(private http: HttpClient, public datepipe: DatePipe) {}
 
   get_data(url) {
     return this.http
@@ -21,26 +32,32 @@ export class ShipmentService {
       .then((data) => data);
   }
 
-  async getShipmentFromServer() {
-    let shipment: any;
+  getShipmentFromServer() {
     // this.http.get('http://localhost/ExportCustomsWebAPI/Shipment/GetShipmentByKey').toPromise().then((data: {Status: string}) => {
-      // .get(environment.apiBaseUrl + 'Shipment/GetDefaultShipment')
-      // .get(environment.apiBaseUrl + 'Shipment/GetDefaultShipmentWithBigData')
+    // .get(environment.apiBaseUrl + 'Shipment/GetDefaultShipment')
+    // .get(environment.apiBaseUrl + 'Shipment/GetDefaultShipmentWithBigData')
     this.http
-      .get(environment.apiBaseUrl + 'Shipment/GetShipmentByKey')
+      .get(environment.apiBaseUrl + 'Shipment/GetDefaultShipment')
       .toPromise()
       .then((data: { Status: string; result: any }) => {
         if (data.Status === 'OK') {
-          sessionStorage.setItem('currentShipment', JSON.stringify(data.result));
-          this.createUpdatedShipment(data.result);
+          // const shipObject: iShipmentData = {
+          this.shipmentData = {
+            dataShipment: data.result,
+            updShipment: this.createUpdatedShipment(data.result),
+          };
+          // this.shipmentDataSubject.next(this.shipmentData);
+          this.shipmentDataSubject.next(data.Status);
+          // sessionStorage.setItem('currentShipment', JSON.stringify(data.result));
+          // this.createUpdatedShipment(data.result);
           // let item = JSON.parse(localStorage.getItem(key));
-          shipment = data.result;
+          // shipment = data.result;
         }
       });
+    return;
   }
 
-  createUpdatedShipment(shipmentParam: any)
-  {
+  createUpdatedShipment(shipmentParam: any) {
     const shipment: Shipment = new Shipment();
     shipment.ShipmentNumber = shipmentParam.ShipmentNumber;
     shipment.Dept_Code = shipmentParam.Dept_Code;
@@ -50,44 +67,52 @@ export class ShipmentService {
     shipment.Details.Dept_Code = shipmentParam.Dept_Code;
     shipment.Details.Shlifa_Order = shipmentParam.Shlifa_Order;
     delete shipment.Details.State;
-    sessionStorage.setItem('currentUpdShipment', JSON.stringify(shipment));
+    return shipment;
+    // sessionStorage.setItem('currentUpdShipment', JSON.stringify(shipment));
   }
 
   getShipmentDetails() {
-    let shipmentDetail: ShipmentDetail;
-    if (sessionStorage.getItem('currentShipment') != null) {
-      shipmentDetail = JSON.parse(sessionStorage.getItem('currentShipment')).Details;
-    }
+    const shipmentDetail: ShipmentDetail = this.shipmentData.dataShipment
+      .Details;
+    // if (sessionStorage.getItem('currentShipment') !== null) {
+    //   shipmentDetail = JSON.parse(sessionStorage.getItem('currentShipment'))
+    //     .Details;
+    // }
     return shipmentDetail;
   }
 
   getGPList() {
     let listGP: ShipmentGP[];
-    if (sessionStorage.getItem('currentShipment') != null) {
-      listGP = JSON.parse(sessionStorage.getItem('currentShipment')).GPLines;
-    }
+    // const listGP: ShipmentGP[] = this.shipmentData.dataShipment.GPLines;
+    // if (sessionStorage.getItem('currentShipment') != null) {
+    //   listGP = JSON.parse(sessionStorage.getItem('currentShipment')).GPLines;
+    // }
     return listGP;
   }
 
   getG7List() {
     let listG7: ShipmentG7[];
-    if (sessionStorage.getItem('currentShipment') != null) {
-      listG7 = JSON.parse(sessionStorage.getItem('currentShipment')).G7Lines;
-    }
+    //const listG7: ShipmentG7[] = this.shipmentData.dataShipment.G7Lines;
+    // if (sessionStorage.getItem('currentShipment') != null) {
+    //   listG7 = JSON.parse(sessionStorage.getItem('currentShipment')).G7Lines;
+    // }
     return listG7;
   }
 
   getGTList() {
     let GTLines: ShipmentTemp[];
-    if (sessionStorage.getItem('currentShipment') != null) {
-      GTLines = JSON.parse(sessionStorage.getItem('currentShipment')).GTLines;
-    }
+    // const GTLines: ShipmentTemp[] = this.shipmentData.dataShipment.GTLines;
+    // if (sessionStorage.getItem('currentShipment') != null) {
+    //   GTLines = JSON.parse(sessionStorage.getItem('currentShipment')).GTLines;
+    // }
     //  element.TM_Date = this.datepipe.transform(new Date(parseInt(elemen/t.TM_Date.substr(6))), 'dd/MM/yyyy');
-    GTLines.forEach( element => {
-      // tslint:disable-next-line: radix
-      element.TM_Date = new Date(parseInt(element.TM_Date.toString().substr(6)));
-      // element.TM_State = JSON.parse("{ name: 'BBB', code: 'T2' }");
-    });
+    // GTLines.forEach((element) => {
+    //   // tslint:disable-next-line: radix
+    //   element.TM_Date = new Date(
+    //     parseInt(element.TM_Date.toString().substr(6))
+    //   );
+    //   // element.TM_State = JSON.parse("{ name: 'BBB', code: 'T2' }");
+    // });
     return GTLines;
   }
 
@@ -95,28 +120,31 @@ export class ShipmentService {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       // const requestData = { username: userName, password: userPassword };
-      xhr.open('POST', environment.apiBaseUrl + '/Shipment/UpdateShipment', true);
+      xhr.open(
+        'POST',
+        environment.apiBaseUrl + '/Shipment/UpdateShipment',
+        true
+      );
       xhr.setRequestHeader('Content-type', 'application/json;');
       xhr.onload = () => {
         if (xhr.status >= 200 && xhr.status < 300) {
           // resolve(xhr.response);
           if (JSON.parse(xhr.response).Status === 'OK') {
             resolve('OK');
-          }
-          else{
+          } else {
             resolve(xhr.response);
           }
         } else {
           reject({
             status: xhr.status,
-            statusText: xhr.statusText
+            statusText: xhr.statusText,
           });
         }
       };
       xhr.onerror = () => {
         reject({
           status: xhr.status,
-          statusText: xhr.statusText
+          statusText: xhr.statusText,
         });
       };
       xhr.send(JSON.stringify(shipment));
@@ -191,9 +219,6 @@ export class ShipmentService {
     //     console.log(x);
     //   });
 
-
-
-
     //  FIRST Version
     // const reqData = { testObj: 'test5' };
     // const xhr = new XMLHttpRequest();
@@ -219,8 +244,8 @@ export class ShipmentService {
         if (xhr.status === 200) {
           console.log(xhr.responseText);
         } else {
-           console.log(xhr.statusText);
-           console.log(xhr.responseText);
+          console.log(xhr.statusText);
+          console.log(xhr.responseText);
         }
       }
     };

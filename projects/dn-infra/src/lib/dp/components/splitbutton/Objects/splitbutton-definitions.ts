@@ -1,7 +1,6 @@
-
-
 export { MenuItem as DpMenuItem} from 'primeng/api';
 export { MessageService as DpMessageService } from 'primeng/api';
+
 // // tslint:disable-next-line: no-empty-interface
 // export interface DpMenuItem extends MenuItem {
 //   // description: string;

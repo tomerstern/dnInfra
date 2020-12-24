@@ -1,0 +1,86 @@
+<div class="text-center">
+    <div class="HeaderContainer1 marginLeft4 text-left" >  
+        <div class="borderRight pull-left HeaderBG1">
+            <p class="headerP">{{ 'declaration.shipmentNumber' | translate  }}: 
+                {{declarationService.declarationData.DeclarationBox.ShipmentNumber}}
+            </p>
+            <p class="headerP">{{ 'declaration.processCode' | translate  }}:
+                {{declarationService.declarationData.DeclarationBox.DeclarationDetails.DeclarationCurrentCode}}
+            </p>
+        </div>
+        <div class="borderRight pull-left ">
+            <p class="headerP"> {{ 'declaration.customerName' | translate  }}:
+                <label class="headerLabel">
+                    {{declarationService.declarationData.DeclarationBox.ExportCustoms.CustomerName}}
+                </label>
+            </p>
+            <p class="headerP">{{ 'declaration.team' | translate  }}:
+                <label class="headerLabel">
+                    {{declarationService.declarationData.DeclarationBox.ExportCustoms.OperationTeamName}}
+                </label>            
+            </p>
+        </div>
+        <div class=" borderRight pull-left">
+            <p class="headerP">{{ 'declaration.declarationId' | translate  }}:                
+                <label class="headerLabel"> 
+                    {{declarationService.declarationData.DeclarationBox.DeclarationDetails.DeclarationID}}
+                </label>
+            </p>
+            <p class="headerP">{{ 'declaration.version' | translate  }}: 
+                <label class="headerLabel">
+                    {{declarationService.declarationData.DeclarationBox.DeclarationDetails.VersionID}}                
+                </label>
+            </p>
+        </div>
+        <div class=" borderRight pull-left">
+            <p class="headerP">{{ 'declaration.declarationStatus' | translate  }}:               
+                <label class="headerLabel"> 
+                    {{declarationService.declarationData.DeclarationBox.DeclarationDetails.DeclarationStatusName}}
+                </label>
+            </p>
+            <p class="headerP">{{ 'declaration.logisticStatus' | translate  }}: 
+                <label class="headerLabel">
+                    {{declarationService.declarationData.DeclarationBox.DeclarationDetails.LogisticStatusName}}                
+                </label>
+            </p>
+        </div>
+        <div class=" borderRight pull-left">
+            <p class="headerP">{{ 'declaration.isFileInProcess' | translate  }}:
+                <label class="headerLabel"> 
+                    <dp-checkbox [definition]="chkIsFileInProcessDefinition" [(ngModel)]="chkIsFileInProcessChecked"></dp-checkbox>
+                
+                </label>
+            </p>
+            <p class="headerP">{{ 'declaration.isApprovedExporter' | translate  }}: 
+                <label class="headerLabel">
+                    <dp-checkbox [definition]="chkIsApprovedExporterDefinition"></dp-checkbox>            
+                </label>
+            </p>
+        </div>    
+        <div class=" borderRight pull-left">
+            <p class="headerP">                
+                <label class="headerLabel"> 
+                    {{processTime}}
+                </label>
+            </p>
+            <p class="headerP">{{ 'declaration.isAuthorized' | translate  }}: 
+                <label class="headerLabel">
+                    <dp-checkbox [definition]="chkIsAuthorizedDefinition"></dp-checkbox>          
+                </label>
+            </p>
+        </div>     
+        <div class=" pull-left">
+            <p class="headerP">{{ 'declaration.isExporterDeposition' | translate  }}:
+                <label class="headerLabel"> 
+                    <dp-checkbox [definition]="chkIsExporterDefinition"></dp-checkbox>
+                
+                </label>
+            </p>
+            <p class="headerP">{{ 'declaration.isDigitallyArchived' | translate  }}: 
+                <label class="headerLabel">
+                    <dp-checkbox [definition]="chkIsDigitallyArchivedDefinition"></dp-checkbox>           
+                </label>
+            </p>
+        </div>        
+    </div>
+</div>

@@ -30,7 +30,30 @@ import { GpComponent } from './components/shipment/gp/gp.component';
 import { MaintabComponent } from './components/shipment/maintab/maintab.component';
 import { DetailsComponent } from './components/shipment/details/details.component';
 import { GtComponent } from './components/shipment/gt/gt.component';
-import { DeclarationComponent } from './components/declaration/declaration.component';
+import { MainDeclarationComponent } from './components/declaration/main-declaration/main-declaration.component';
+import { HomeComponent } from './components/home/home.component';
+import { DeclarationHeaderComponent } from './components/declaration/declaration-header/declaration-header.component';
+import { DeclarationTabComponent } from './components/declaration/declaration-tab/declaration-tab.component';
+import { DeclarationToolbarComponent } from './components/declaration/declaration-toolbar/declaration-toolbar.component';
+import { OpenComponent } from './components/declaration/tabs/open/open.component';
+import { Declaration2Component } from './components/declaration/tabs/declaration2/declaration2.component';
+import { DeclarationComponent } from './components/declaration/tabs/declaration/declaration.component';
+import { ShipmentDetailsComponent } from './components/declaration/tabs/open/shipment-details/shipment-details.component';
+import {FieldsetModule} from 'primeng/fieldset';
+import { PageNotFoundComponent } from './components/shared/components/pagenotfound/pagenotfound.component';
+
+import { CooHeaderComponent } from './components/coo/coo-header/coo-header.component';
+import { CooTabComponent } from './components/coo/coo-tab/coo-tab.component';
+import { CooToolbarComponent } from './components/coo/coo-toolbar/coo-toolbar.component';
+import { MainCooComponent } from './components/coo/main-coo/main-coo.component';
+import { GeneralComponent } from './components/coo/tabs/general/general.component';
+import { CooRoutingModule } from './components/coo/coo-routing.module';
+
+import { FormsListComponent } from './components/coo/forms/forms-list/forms-list.component';
+import { FormDetailsComponent } from './components/coo/forms/form-details/form-details.component';
+import { FormsMainComponent } from './components/coo/forms/forms-main/forms-main.component';
+import { FormButtonComponent } from './components/coo/forms/form-button/form-button.component';
+
 
 // export function configService(configService: ConfigService) {
 //   return () => configService.load();
@@ -51,10 +74,30 @@ import { DeclarationComponent } from './components/declaration/declaration.compo
     MaintabComponent,
     DetailsComponent,
     GtComponent,
-    DeclarationComponent
+    MainDeclarationComponent,
+    HomeComponent,
+    DeclarationHeaderComponent,
+    DeclarationTabComponent,
+    OpenComponent,
+    DeclarationComponent,
+    Declaration2Component,
+    DeclarationToolbarComponent,
+    ShipmentDetailsComponent,
+    PageNotFoundComponent,
+    CooHeaderComponent,
+    CooTabComponent,
+    CooToolbarComponent,
+    MainCooComponent,
+    GeneralComponent,
+    FormsListComponent,
+    FormDetailsComponent,
+    FormsMainComponent,
+    FormButtonComponent
+    // ,CooRoutingModule
   ],
 
   imports: [
+    FieldsetModule,
     BrowserModule,
     FormsModule,
     AppRoutingModule,
@@ -73,7 +116,7 @@ import { DeclarationComponent } from './components/declaration/declaration.compo
     })
     // ,FontAwesomeModule
   ],
-
+  exports: [FieldsetModule],
   providers: [
     {
       provide: APP_INITIALIZER,
@@ -109,7 +152,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
 
       // const Currentlang = 'en';
 
-      let Currentlang = localStorage.getItem('dpGLang');
+      let Currentlang = localStorage.getItem('dGLang');
       if (Currentlang == null) {
         Currentlang = 'en';
       }

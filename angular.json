@@ -297,6 +297,134 @@
           }
         }
       }
-    }},
-  "defaultProject": "CustomsSiteExport"
+    },
+    "CustomsSiteExp": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/CustomsSiteExp",
+      "sourceRoot": "projects/CustomsSiteExp/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/CustomsSiteExp",
+            "index": "projects/CustomsSiteExp/src/index.html",
+            "main": "projects/CustomsSiteExp/src/main.ts",
+            "polyfills": "projects/CustomsSiteExp/src/polyfills.ts",
+            "tsConfig": "projects/CustomsSiteExp/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/CustomsSiteExp/src/favicon.ico",
+              "projects/CustomsSiteExp/src/assets"
+            ],
+            "styles": [
+              "projects/CustomsSiteExp/src/styles.scss",
+              "node_modules/primeicons/primeicons.css",
+              "node_modules/primeng/resources/themes/nova-light/theme.css",
+              "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/primeflex/primeflex.css",
+              "projects/dn-infra/src/styles.scss",
+              "projects/dn-infra/src/design.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/CustomsSiteExp/src/environments/environment.ts",
+                  "with": "projects/CustomsSiteExp/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "CustomsSiteExp:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "CustomsSiteExp:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "CustomsSiteExp:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/CustomsSiteExp/src/test.ts",
+            "polyfills": "projects/CustomsSiteExp/src/polyfills.ts",
+            "tsConfig": "projects/CustomsSiteExp/tsconfig.spec.json",
+            "karmaConfig": "projects/CustomsSiteExp/karma.conf.js",
+            "assets": [
+              "projects/CustomsSiteExp/src/favicon.ico",
+              "projects/CustomsSiteExp/src/assets"
+            ],
+            "styles": [
+              "projects/CustomsSiteExp/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/CustomsSiteExp/tsconfig.app.json",
+              "projects/CustomsSiteExp/tsconfig.spec.json",
+              "projects/CustomsSiteExp/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/CustomsSiteExp/e2e/protractor.conf.js",
+            "devServerTarget": "CustomsSiteExp:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "CustomsSiteExp:serve:production"
+            }
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "CustomsSiteExp"
 }

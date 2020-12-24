@@ -1,0 +1,24 @@
+<p-toolbar styleClass="p-mb-4">
+    <div class="p-toolbar-group-left">
+            <button pButton pRipple label="Save"
+                icon="pi pi-save" (click)="saveData()"
+                class="ui-button ui-button-dp p-mr-2"></button>
+            <button pButton pRipple label="Request COO"
+            icon="pi pi-save" 
+            class="ui-button ui-button-dp p-mr-2"></button>
+            <button pButton pRipple label="Transmission Log"
+                icon="pi pi-save" 
+                (click)="tansmissionLog()"
+                class="ui-button ui-button-dp p-mr-2"></button>
+            <button pButton pRipple label="Doc View"
+            icon="pi pi-save" 
+            class="ui-button ui-button-dp p-mr-2"></button>
+            <button pButton pRipple label="Events"
+                icon="pi pi-save" 
+                class="ui-button ui-button-dp p-mr-2"></button>
+            <button pButton pRipple label="History"
+            icon="pi pi-save" 
+            class="ui-button ui-button-dp p-mr-2"></button>
+    </div>
+</p-toolbar>
+<dp-toast #toast [definition]="toastDefinition"></dp-toast>

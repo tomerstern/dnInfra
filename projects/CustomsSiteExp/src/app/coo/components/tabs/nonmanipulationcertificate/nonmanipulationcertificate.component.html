@@ -1,0 +1,278 @@
+<br>
+<div  *ngIf="NonManCerData != undefined">
+<div class="p-grid">
+    <div class="p-col-12 p-md-4">
+        <p-fieldset legend="{{ 'coo.nonManCer' | translate  }}" [toggleable]="false">
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6"> {{ 'coo.entityNo' | translate  }}:</div>
+            <div class="p-col-12 p-md-6">
+                <dp-inputtext [definition]="InputTextDef" [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_ExporterId"
+                (change)="cooService.cooUpdatedData.Header.COO_ExporterId = cooService.cooData.CooBoxData.Header.COO_ExporterId" ></dp-inputtext>
+            </div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6">{{ 'coo.openDate' | translate  }}:</div>
+            <div class="p-col-12 p-md-6">
+                <dp-inputtext [definition]="InputTextDef" [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_ExporterId"
+                (change)="cooService.cooUpdatedData.Header.COO_ExporterId = cooService.cooData.CooBoxData.Header.COO_ExporterId" ></dp-inputtext>
+            </div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6">{{ 'coo.openedBy' | translate  }}:</div>
+            <div class="p-col-12 p-md-6">
+                <dp-inputtext [definition]="InputTextDef" [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_ExporterId"
+                (change)="cooService.cooUpdatedData.Header.COO_ExporterId = cooService.cooData.CooBoxData.Header.COO_ExporterId" ></dp-inputtext>
+                </div>           
+        </div>
+        </p-fieldset>
+    </div>
+    <div class="p-col-12 p-md-4">
+       
+    </div>
+</div>
+<br/>
+<div class="p-grid">
+    <div class="p-col-12 p-md-4">
+        <p-fieldset legend="{{ 'coo.general' | translate  }}" [toggleable]="false">
+        <div class="p-grid">
+            <div class="p-col-12 p-md-5"> {{ 'coo.COOinternalNumber' | translate  }}:</div>
+            <div class="p-col-12 p-md-1 Mandatory">*</div>
+            <div class="p-col-12 p-md-6">
+                <dp-inputtext [definition]="InputTextDef" name="ExporterId" required #Exportername="ngModel"
+                [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_ExporterId"
+                (change)="cooService.cooUpdatedData.Header.COO_ExporterId = cooService.cooData.CooBoxData.Header.COO_ExporterId"></dp-inputtext> 
+            </div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-5">{{ 'coo.shipmentNo' | translate  }}:</div>
+            <div class="p-col-12 p-md-1 Mandatory">*</div>
+            <div class="p-col-12 p-md-6">
+                <dp-inputtext [definition]="InputTextDef" name="ExporterId" required #Exportername="ngModel"
+                [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_ExporterId"
+                (change)="cooService.cooUpdatedData.Header.COO_ExporterId = cooService.cooData.CooBoxData.Header.COO_ExporterId" ></dp-inputtext>
+            </div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-5">{{ 'coo.department' | translate  }}:</div>
+            <div class="p-col-12 p-md-1 Mandatory">*</div>
+            <div class="p-col-12 p-md-6">
+                <dp-autocomplete [initVal]="'ISRAEL'"  name="acDepartment1" [ngModel]="NonManCerData.department"                               
+                [definition]="autocompleteDefinition1" [datasource]="countriesData">
+               </dp-autocomplete>
+                </div>           
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-5">{{ 'coo.CSDECorder' | translate  }}:</div>
+            <div class="p-col-12 p-md-1 Mandatory">*</div>
+            <div class="p-col-12 p-md-6">
+                <dp-inputtext [definition]="InputTextDef" name="ExporterId" required #Exportername="ngModel"
+                [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_ExporterId"
+                (change)="cooService.cooUpdatedData.Header.COO_ExporterId = cooService.cooData.CooBoxData.Header.COO_ExporterId" ></dp-inputtext>
+                </div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6">{{ 'coo.openDate' | translate  }}:</div>
+            <div class="p-col-12 p-md-6">
+                <dp-calendar [definition]="calendarDef" [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_ExporterId"
+                (change)="cooService.cooUpdatedData.Header.COO_ExporterId = cooService.cooData.CooBoxData.Header.COO_ExporterId" ></dp-calendar>
+            </div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-6">{{ 'coo.openedBy' | translate  }}:</div>
+            <div class="p-col-12 p-md-6">
+            {{cooService.cooData.CooBoxData.Header.COO_ExporterId}}
+            </div>
+        </div>
+        </p-fieldset>
+    </div>
+    <div class="p-col-12 p-md-4">
+        <p-fieldset legend="{{ 'coo.replaceCOO' | translate  }}" [toggleable]="false">
+            <div class="p-grid">
+                <div class="p-col-12 p-md-6">{{ 'coo.COOnoForCancel' | translate  }}</div>
+                <div class="p-col-12 p-md-6">
+                    <dp-inputtext [definition]="InputTextDef" name="ExporterId" 
+                    [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_ExporterId"
+                    (change)="cooService.cooUpdatedData.Header.COO_ExporterId = cooService.cooData.CooBoxData.Header.COO_ExporterId" ></dp-inputtext>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-12 p-md-6">{{ 'coo.replaceReason' | translate  }}</div>
+                <div class="p-col-12 p-md-6">
+                    <dp-inputtext [definition]="InputTextDef" name="ExporterId"
+                    [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_ExporterId"
+                    (change)="cooService.cooUpdatedData.Header.COO_ExporterId = cooService.cooData.CooBoxData.Header.COO_ExporterId" ></dp-inputtext>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-12 p-md-6">{{ 'coo.customsDecNo' | translate  }}:</div>
+                <div class="p-col-12 p-md-6 ">
+                    <dp-inputtext [definition]="InputTextDef" name="ExporterId" 
+                    [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_ExporterId"
+                    (change)="cooService.cooUpdatedData.Header.COO_ExporterId = cooService.cooData.CooBoxData.Header.COO_ExporterId" ></dp-inputtext>
+                </div>           
+            </div>
+            <div class="p-grid">
+                <div class="p-col-12 p-md-6">{{ 'coo.printDecCOO' | translate  }}:</div>
+                <div class="p-col-12 p-md-6 ">
+                    <dp-checkbox  [definition]="checkboxDef" name="ExporterId" 
+                    [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_ExporterId"
+                    (change)="cooService.cooUpdatedData.Header.COO_ExporterId = cooService.cooData.CooBoxData.Header.COO_ExporterId"></dp-checkbox>
+                </div>           
+            </div>
+            </p-fieldset>
+    </div>
+</div>
+<br/>
+<div class="p-grid">
+    <div class="p-col-12 p-md-4">
+        <p-fieldset legend="{{ 'coo.transitionDetails' | translate  }}" [toggleable]="false">
+        <div class="p-grid">
+            <div class="p-col-12 p-md-5"> {{ 'coo.importWBno' | translate  }}:</div>
+            <div class="p-col-12 p-md-1 Mandatory">*</div>
+            <div class="p-col-12 p-md-6">
+                <dp-inputtext [definition]="InputTextDef" name="NonMC_ImportBillOfLadingNum" required #NonMC_ImportBillOfLadingNum="ngModel"
+                [(ngModel)]="cooService.cooData.CooBoxData.Header.NonMC_ImportBillOfLadingNum"
+                (change)="cooService.cooUpdatedData.Header.NonMC_ImportBillOfLadingNum = cooService.cooData.CooBoxData.Header.NonMC_ImportBillOfLadingNum" ></dp-inputtext> 
+            </div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-5">{{ 'coo.exportDate' | translate  }}:</div>
+            <div class="p-col-12 p-md-1 Mandatory">*</div>
+            <div class="p-col-12 p-md-6">
+                <dp-calendar [definition]="calendarDef" name="NonMC_ExportDate" required #NonMC_ExportDate="ngModel"
+                [(ngModel)]="cooService.cooData.CooBoxData.Header.NonMC_ExportDate"
+                (change)="cooService.cooUpdatedData.Header.NonMC_ExportDate = cooService.cooData.CooBoxData.Header.NonMC_ExportDate" ></dp-calendar>
+            </div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-5">{{ 'coo.exportCountry' | translate  }}:</div>
+            <div class="p-col-12 p-md-1 Mandatory">*</div>
+            <div class="p-col-12 p-md-6">
+                <dp-autocomplete [initVal]="'ISRAEL'"  name="acexportCountry" 
+                [(ngModel)]="cooService.cooData.CooBoxData.Header.NonMC_ExportCountry"                               
+                [definition]="autocompleteDefinition1" [datasource]="countriesData">
+               </dp-autocomplete>
+                </div>           
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-5">{{ 'coo.originPort' | translate  }} ({{ 'export' | translate  }}):</div>
+            <div class="p-col-12 p-md-1 Mandatory">*</div>
+            <div class="p-col-12 p-md-6">
+                <dp-autocomplete [initVal]="'ISRAEL'"  name="acExporterCountry" 
+                [(ngModel)]="cooService.cooData.CooBoxData.Header.NonMC_ExportPort" 
+                [definition]="autocompleteDefinition1" [datasource]="countriesData">
+               </dp-autocomplete>
+                </div>
+        </div>
+        <br>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-5"> {{ 'coo.exportWBno' | translate  }}:</div>
+            <div class="p-col-12 p-md-1 Mandatory">*</div>
+            <div class="p-col-12 p-md-6">
+                <dp-inputtext [definition]="InputTextDef" name="NonMC_ExportBillOFLadingNum" required #NonMC_ExportBillOFLadingNum="ngModel"
+                [(ngModel)]="cooService.cooData.CooBoxData.Header.NonMC_ExportBillOFLadingNum"
+                (change)="cooService.cooUpdatedData.Header.NonMC_ExportBillOFLadingNum = cooService.cooData.CooBoxData.Header.NonMC_ExportBillOFLadingNum" ></dp-inputtext> 
+            </div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-5">{{ 'coo.importDate' | translate  }}:</div>
+            <div class="p-col-12 p-md-1 Mandatory">*</div>
+            <div class="p-col-12 p-md-6">
+                <dp-calendar [definition]="calendarDef" name="NonMC_ImportDate" required #NonMC_ImportDate="ngModel"
+                [(ngModel)]="cooService.cooData.CooBoxData.Header.NonMC_ImportDate"
+                (change)="cooService.cooUpdatedData.Header.NonMC_ImportDate = cooService.cooData.CooBoxData.Header.NonMC_ImportDate" ></dp-calendar>
+            </div>
+        </div>
+        <br>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-5">{{ 'coo.transitionCountry' | translate  }}:</div>
+            <div class="p-col-12 p-md-1 Mandatory">*</div>
+            <div class="p-col-12 p-md-6">
+                <dp-autocomplete [initVal]="'ISRAEL'"  name="acentrancePortIL"                                
+                [definition]="autocompleteDefinition1" [datasource]="countriesData"
+                [(ngModel)]="cooService.cooData.CooBoxData.Header.NonMC_TransirCountry">
+               </dp-autocomplete>
+            </div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-5">{{ 'coo.entrancePortIL' | translate  }}:</div>
+            <div class="p-col-12 p-md-1 Mandatory">*</div>
+            <div class="p-col-12 p-md-6">
+                <dp-autocomplete [initVal]="'ISRAEL'"  name="acentrancePortIL"                                
+                [definition]="autocompleteDefinition1" [datasource]="countriesData"
+                [(ngModel)]="cooService.cooData.CooBoxData.Header.NonMC_PortOfEntrance">
+               </dp-autocomplete>
+                </div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-5">{{ 'coo.departurePortIL' | translate  }}:</div>
+            <div class="p-col-12 p-md-1 Mandatory">*</div>
+            <div class="p-col-12 p-md-6">
+                <dp-autocomplete [initVal]="'ISRAEL'"  name="acdeparturePortIL"                                
+                [definition]="autocompleteDefinition1" [datasource]="countriesData"
+                [(ngModel)]="cooService.cooData.CooBoxData.Header.NonMC_ExitPort">
+               </dp-autocomplete>
+                </div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-5">{{ 'coo.ETDfromIsrael' | translate  }}:</div>
+            <div class="p-col-12 p-md-1 Mandatory">*</div>
+            <div class="p-col-12 p-md-6">
+                <dp-calendar [definition]="calendarDef" [ngModel]="NonManCerData.NonMC_ExpectedExitDate" 
+                name="NonMC_ExpectedExitDate" required #NonMC_ExpectedExitDate="ngModel"
+                [(ngModel)]="cooService.cooData.CooBoxData.Header.NonMC_ExpectedExitDate"
+                (change)="cooService.cooUpdatedData.Header.NonMC_ExpectedExitDate = cooService.cooData.CooBoxData.Header.NonMC_ExpectedExitDate"></dp-calendar>
+            </div>
+        </div>
+        </p-fieldset>
+    </div>
+    <div class="p-col-12 p-md-4">
+        <p-fieldset legend="{{ 'coo.declaration' | translate  }}" [toggleable]="false">
+            <div class="p-grid">
+                <div class="p-col-12 p-md-5">{{ 'coo.goodsDescription' | translate  }}</div>
+                <div class="p-col-12 p-md-1 Mandatory">*</div>
+                <div class="p-col-12 p-md-6">
+                    <dp-inputtext [definition]="InputTextDef" name="NonMC_GoodsDescription" required #NonMC_GoodsDescription="ngModel"
+                    [(ngModel)]="cooService.cooData.CooBoxData.Header.NonMC_GoodsDescription"
+                    (change)="cooService.cooUpdatedData.Header.NonMC_GoodsDescription = cooService.cooData.CooBoxData.Header.NonMC_GoodsDescription" ></dp-inputtext>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-12 p-md-5">{{ 'coo.declaringCompany' | translate  }}</div>
+                <div class="p-col-12 p-md-1 Mandatory">*</div>
+                <div class="p-col-12 p-md-6">
+                    <dp-inputtext [definition]="InputTextDef" name="NonMC_DeclaringCompany" required #NonMC_DeclaringCompany="ngModel"
+                    [(ngModel)]="cooService.cooData.CooBoxData.Header.NonMC_DeclaringCompany"
+                    (change)="cooService.cooUpdatedData.Header.NonMC_DeclaringCompany = cooService.cooData.CooBoxData.Header.NonMC_DeclaringCompany" ></dp-inputtext>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-12 p-md-5">{{ 'coo.declaringPersonName' | translate  }}:</div>
+                <div class="p-col-12 p-md-1 Mandatory">*</div>
+                <div class="p-col-12 p-md-6 ">
+                    <dp-inputtext [definition]="InputTextDef" name="NonMC_DeclaringPerson" required #NonMC_DeclaringPerson="ngModel"
+                    [(ngModel)]="cooService.cooData.CooBoxData.Header.NonMC_DeclaringPerson"
+                    (change)="cooService.cooUpdatedData.Header.NonMC_DeclaringPerson = cooService.cooData.CooBoxData.Header.NonMC_DeclaringPerson" ></dp-inputtext>
+                </div>           
+            </div>
+            <div class="p-grid">
+                <div class="p-col-12 p-md-5">{{ 'coo.declaringPersonRole' | translate  }}:</div>
+                <div class="p-col-12 p-md-1 Mandatory">*</div>
+                <div class="p-col-12 p-md-6 ">
+                    <dp-inputtext [definition]="InputTextDef" name="NonMC_DeclaringPosition" required #NonMC_DeclaringPosition="ngModel"
+                    [(ngModel)]="cooService.cooData.CooBoxData.Header.NonMC_DeclaringPosition"
+                    (change)="cooService.cooUpdatedData.Header.NonMC_DeclaringPosition = cooService.cooData.CooBoxData.Header.NonMC_DeclaringPosition" ></dp-inputtext>
+                </div>           
+            </div>
+            <div class="p-grid">
+                <div class="p-col-12 p-md-6">{{ 'coo.manifestNo' | translate  }}:</div>
+                <div class="p-col-12 p-md-6 ">
+                    <dp-inputtext [definition]="InputTextDef" name="NonMC_ManifestNum" required #NonMC_ManifestNum="ngModel"
+                    [(ngModel)]="cooService.cooData.CooBoxData.Header.NonMC_ManifestNum"
+                    (change)="cooService.cooUpdatedData.Header.NonMC_ManifestNum = cooService.cooData.CooBoxData.Header.NonMC_ManifestNum" ></dp-inputtext>
+                </div>           
+            </div>
+            </p-fieldset>
+    </div>
+</div>
+</div>

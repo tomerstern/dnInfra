@@ -26,6 +26,9 @@ export interface IGridDefinition {
     HideBtnsCol?: boolean;
     HeaderColGroup?: string;
     isRoundedInputs?: boolean;
+    pdfHeaderText?: string;
+    pdfFooterText?: string;
+    isHideHeader?: boolean ;
 }
 
 export interface IGridColumn {
@@ -90,6 +93,9 @@ export class GridDefinitions implements IGridDefinition {
     HideBtnsCol: boolean;
     HeaderColGroup: string;
     isRoundedInputs: boolean;
+    pdfHeaderText: string;
+    pdfFooterText: string;
+    isHideHeader: boolean;
     constructor(params: IGridDefinition) {
         this.dataKey = params.dataKey;
         this.columns = params.columns;
@@ -128,7 +134,11 @@ export class GridDefinitions implements IGridDefinition {
         this.HeaderColGroup = (params.HeaderColGroup == null
             || params.HeaderColGroup === undefined ? '' : params.HeaderColGroup);
         this.isRoundedInputs = (params.isRoundedInputs == null
-            || params.isRoundedInputs === undefined ? false : params.isRoundedInputs);
+            || params.isRoundedInputs === undefined ? true : params.isRoundedInputs);
+        this.pdfHeaderText = (params.pdfHeaderText === undefined || params.pdfHeaderText == null ? '' : params.pdfHeaderText);
+        this.pdfFooterText = (params.pdfFooterText === undefined || params.pdfFooterText == null ? '' : params.pdfFooterText);
+        this.isHideHeader = (params.isHideHeader == null
+            || params.isHideHeader === undefined ? false : params.isHideHeader);  
     }
 }
 
@@ -201,6 +211,7 @@ export class GridColumn implements IGridColumn {
     constructor(params: IGridColumn) {
         this.headername = params.headername;
         this.fieldname = params.fieldname;
+        this.fieldCode = params.fieldCode;
         this.type = (params.type == null ? GridColumnType.span : params.type);
         this.iseditable = (params.iseditable == null ? false : params.iseditable);
         this.isMandatory = (params.isMandatory == null ? false : params.isMandatory);

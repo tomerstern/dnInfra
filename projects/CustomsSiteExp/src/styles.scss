@@ -1,0 +1,61 @@
+/* You can add global styles to this file, and also import other style files */
+.loader{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    background: rgb(255 255 255 / 85%);
+}
+
+/* You can add global styles to this file, and also import other style files */
+
+.HeaderContainer1
+{
+	border: #b9b76c 1px solid;
+	font-weight: normal;
+	font-size: 16px;
+	font-family: 'Arial';
+    background-color: rgb(255,204,0);    
+	padding: 3px;   
+	white-space: nowrap; 
+	border:1px solid #CB2026;
+	height: 65px;
+	display: inline-block;margin:0;
+}
+
+.HeaderBG1
+{
+	font-weight: bold;
+	font-size: 16px;
+	color: white;
+	font-family: 'Arial';
+	background-color: #CB2026;
+}
+
+.HeaderBG2
+{
+	font-weight: bold;
+	font-size: 16px;
+	color: black;
+	font-family: 'Arial';
+}
+
+.HeaderTableDelimiter1 { BACKGROUND-COLOR: #b9b76c;}
+.HorzRadio
+{
+	margin-right:15px;
+}
+
+.Mandatory
+{
+	color:red;
+}
+.Optional
+{
+	color: aqua;
+}

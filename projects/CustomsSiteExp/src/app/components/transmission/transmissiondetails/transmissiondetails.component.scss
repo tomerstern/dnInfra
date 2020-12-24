@@ -1,0 +1,40 @@
+.Response_MainDiv {height:97%;width:98%;background-color:#FFFFFF;border:2px solid red;margin:0px;overflow:auto;direction:rtl;}
+.Response_WhiteLine td {height:10px;}
+.Response_Header_Exception_Reg {background-color:#FFCC00;}
+.Response_Header_Exception_Alt {background-color:#F4F3BF;}
+.Response_Header_Exception_Reg td {text-align:right;color:#CA0300;border-bottom:#FFCC00 1px dotted;}
+.Response_Header_Exception_Alt td {text-align:right;color:#CA0300;border-bottom:#FFCC00 1px dotted;}
+.Response_Footer_Exception_Reg {background-color:#FFCC00;}
+.Response_Footer_Exception_Alt {background-color:#F4F3BF;}
+.Response_Footer_Exception_Reg td {text-align:right;color:#CA0300;border-bottom:#FFCC00 1px dotted;}
+.Response_Footer_Exception_Alt td {text-align:right;color:#CA0300;border-bottom:#FFCC00 1px dotted;}
+.Response_Caption {background-color:#CA0300;color:#FFFFFF;font-size:larger;}
+.Response_Caption td {text-align:center;}
+.Response_Main_Caption {background-color:#CA0300;color:#FFFFFF;font-size:15pt;}
+.Response_Main_Caption td {text-align:center;}
+.Response_Validation_Reg {background-color:#FFFFFF;}
+.Response_Validation_Alt {background-color:#FAFAFA;}
+.Response_Validation_Reg td {border-bottom:#CA0300 1px dotted;}
+.Response_Validation_Alt td {border-bottom:#CA0300 1px dotted;}
+.Response_Validation_Message {text-align:right;}
+.Response_Validation_Caption {text-align:right;color:#CA0300;}
+.Response_Validation_Caption_Success {text-align:right;color:green;}
+.Response_Validation_Caption_Warning {text-align:right;color:#000000;}
+.Response_Validation_Caption_Error {text-align:right;background-color:#FFCC00;color:#CA0300;}
+.Response_Body_Reg {background-color:#FFFFFF;}
+.Response_Body_Alt {background-color:#FAFAFA;}
+.Response_Body_Reg td {border-bottom:#CA0300 1px dotted;}
+.Response_Body_Alt td {border-bottom:#CA0300 1px dotted;}
+.Response_Body_Message {text-align:right;}
+.Response_Body_Caption {text-align:center;color:#CA0300;}
+.Response_Error_Caption {background-color:#CA0300;color:#FFFFFF;font-size:larger;text-align:center;}
+.Response_Error_Message {text-align:center;color:#CA0300;}
+.Response_RequestStatus {font-size:large;}
+.Response_RequestStatus_Caption {font-size:large;text-align:left;}
+.Response_RequestStatus_Caption_Error {font-size:large;text-align:left;}
+.Response_RequestStatus_Caption_Warning {font-size:large;text-align:left;}
+.Response_RequestStatus_Caption_Success {font-size:large;text-align:left;}
+.Response_RequestStatus_Message {font-size:large;}
+.Response_RequestStatus_Message_Error {font-size:large;text-align:right;color:#CA0300;}
+.Response_RequestStatus_Message_Warning {font-size:large;text-align:right;color:green;}
+.Response_RequestStatus_Message_Success {font-size:large;text-align:right;color:green;}

@@ -1,0 +1,164 @@
+<table class="HeaderTable1" cellspacing="5" dir={{direction}}>
+    <tr>
+        <td class="HeaderBG1">
+            {{ 'declaration.shipmentNumber' | translate  }}
+        </td>
+        <td class="HeaderBG1">
+            <label>
+                {{shipmentNumber}}
+            </label>
+        </td>   
+        <td width="1" class="HeaderTableDelimiter1">
+            <img width="1" height="1">
+        </td>  
+        <td>
+            {{ 'declaration.customerName' | translate  }}:
+        </td>
+        <td class="HeaderBG2">
+            <label>
+                {{customerName}}
+            </label>
+        </td>   
+        <td width="1" class="HeaderTableDelimiter1">
+            <img width="1" height="1">
+        </td>    
+        <td>
+            {{ 'declaration.declarationId' | translate  }}:
+        </td>
+        <td class="HeaderBG2">
+            {{declarationId}}
+        </td>    
+        <td width="1" class="HeaderTableDelimiter1">
+            <img width="1" height="1">
+        </td>    
+        <td>
+            {{ 'declaration.declarationStatus' | translate  }}:
+        </td>
+        <td class="HeaderBG2">
+            {{declarationStatus}}
+        </td>       
+        <td width="1" class="HeaderTableDelimiter1">
+            <img width="1" height="1">
+        </td>    
+        <td>
+            {{ 'declaration.isFileInProcess' | translate  }}:
+        </td>
+        <td>
+            <dp-checkbox [definition]="chkIsFileInProcessDefinition" 
+                         [(ngModel)]="chkIsFileInProcessChecked">
+            </dp-checkbox>
+        </td>    
+        <td>
+            {{processTime}}
+        </td>  
+        <td>
+            {{ 'declaration.isExporterDeposition' | translate  }}:
+        </td>
+        <td>
+            <dp-checkbox [definition]="chkIsExporterDefinition"></dp-checkbox>
+        </td>                                
+    </tr>
+    <tr>
+        <td class="HeaderBG1">
+            {{ 'declaration.processCode' | translate  }}
+        </td>
+        <td class="HeaderBG1">
+            {{processCode}}
+        </td>   
+        <td width="1" class="HeaderTableDelimiter1">
+            <img width="1" height="1">
+        </td>    
+        <td>
+            {{ 'declaration.team' | translate  }}:
+        </td>
+        <td class="HeaderBG2">
+            {{team}}
+        </td>          
+        <td width="1" class="HeaderTableDelimiter1">
+            <img width="1" height="1">
+        </td>    
+        <td>
+            {{ 'declaration.version' | translate  }}:
+        </td>
+        <td class="HeaderBG2">
+            {{version}}
+        </td>   
+        <td width="1" class="HeaderTableDelimiter1">
+            <img width="1" height="1">
+        </td>    
+        <td>
+            {{ 'declaration.logisticStatus' | translate  }}:
+        </td>
+        <td class="HeaderBG2">
+            {{logisticStatus}}
+        </td>  
+        <td width="1" class="HeaderTableDelimiter1">
+            <img width="1" height="1">
+        </td>    
+        <td>
+            {{ 'declaration.isApprovedExporter' | translate  }}:
+        </td>
+        <td>
+            <dp-checkbox [definition]="chkIsApprovedExporterDefinition"></dp-checkbox>
+        </td>  
+        <td>
+            {{ 'declaration.isAuthorized' | translate  }}:
+        </td>
+        <td>
+            <dp-checkbox [definition]="chkIsAuthorizedDefinition"></dp-checkbox>
+        </td>         
+        <td>
+            {{ 'declaration.isDigitallyArchived' | translate  }}:
+        </td>
+        <td>
+            <dp-checkbox [definition]="chkIsDigitallyArchivedDefinition"></dp-checkbox>
+        </td>                                             
+    </tr>    
+</table>
+
+
+<br/>
+
+
+<div class="p-grid" dir={{direction}}> 
+    <div class="p-col-12 p-md-1"></div>
+    <div class="p-col-12 p-md-10 HeaderTable1" style ="border:1px solid red">
+
+        <div class="p-grid"> 
+            <div class="p-col-12 p-md-2 HeaderBG1">
+                {{ 'declaration.shipmentNumber' | translate  }}
+            </div>
+            <div class="p-col-12 p-md-2 HeaderBG1">
+                {{shipmentNumber}}
+            </div>
+            <div class="p-col-12 p-md-2">
+                22222
+            </div>
+            <div class="p-col-12 p-md-2">
+                22222
+            </div>
+            <div class="p-col-12 p-md-4">
+                444444
+            </div>                        
+        </div>
+   
+        <div class="p-grid"> 
+            <div class="p-col-12 p-md-2 HeaderBG1">
+                {{ 'declaration.processCode' | translate  }}
+            </div>
+            <div class="p-col-12 p-md-2 HeaderBG1">
+                {{processCode}}
+            </div>
+            <div class="p-col-12 p-md-2">
+                22222
+            </div>
+            <div class="p-col-12 p-md-2">
+                22222
+            </div>
+            <div class="p-col-12 p-md-4">
+                444444
+            </div>                        
+        </div>
+    </div>
+    <div class="p-col-12 p-md-1"></div>
+</div>

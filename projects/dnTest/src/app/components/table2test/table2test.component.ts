@@ -41,7 +41,9 @@ export class Table2testComponent implements OnInit {
     const columns2: GridColumn[] = this.getColumns2(); /* הקפאת עמודות */
     this.gridDefinition2 = new GridDefinitions({
       dataKey: 'header1', columns: columns2, isFreezeColumns: true,
-      toolbar: true
+      toolbar: true,
+      pdfHeaderText: 'Header Text',
+      pdfFooterText: 'Footer Text'
     });
 
 
@@ -325,7 +327,7 @@ export class Table2testComponent implements OnInit {
     const column2 = new GridColumn({
       headername: 'header name 2', fieldname: 'header2', columnParams: columnParams2
       , width: 150 /* for example */
-      , ColumnSum: true
+      // , ColumnSum: true
     });
     columns.push(column2);
 
@@ -356,7 +358,7 @@ export class Table2testComponent implements OnInit {
     const column6 = new GridColumn({
       headername: 'header name 6', fieldname: 'header6', columnParams: columnParams6
       , width: 148 /* for example */
-      , ColumnSum: true
+      // , ColumnSum: true // selectors error
     });
     columns.push(column6);
 
@@ -435,7 +437,170 @@ export class Table2testComponent implements OnInit {
       {
         header1: 'Chakra Bracelet', header2: 52, header3: 65, header4: 421132, header5: 150005
         , header6: 56, header7: 40, header8: 54406, header9: 211
-      }/*,
+      }
+      
+      
+      ,{
+        header1: 'Bamboo Watch', header2: 51, header3: 40, header4: 54406, header5: 43342
+        , header6: 51, header7: 40, header8: 54406, header9: 45
+      },
+      {
+        header1: 'Black Watch', header2: 83, header3: 9, header4: 423132, header5: 54
+        , header6: 52, header7: 40, header8: 54406, header9: 545
+      },
+      {
+        header1: 'Blue Band', header2: 38, header3: 5, header4: 12321, header5: 8500
+        , header6: 53, header7: 40, header8: 54406, header9: 7
+      },
+      {
+        header1: 'Blue T-Shirt', header2: 49, header3: 22, header4: 745232, header5: 65323
+        , header6: 54, header7: 40, header8: 54406, header9: 32
+      },
+      {
+        header1: 'Brown Purse', header2: 17, header3: 79, header4: 643242, header5: 500332
+        , header6: 55, header7: 40, header8: 54406, header9: 343
+      },
+      {
+        header1: 'Product Watch', header2: 83, header3: 9, header4: 76, header5: 78
+        , header6: 76, header7: 87, header8: 6, header9: 76
+      },
+      {
+        header1: 'Product Band', header2: 38, header3: 5, header4: 76, header5: 87
+        , header6: 76, header7: 45, header8: 76, header9: 7
+      },
+      {
+        header1: 'Chakra Bracelet', header2: 52, header3: 65, header4: 421132, header5: 150005
+        , header6: 56, header7: 40, header8: 54406, header9: 211
+      }
+      ,{
+        header1: 'Bamboo Watch', header2: 51, header3: 40, header4: 54406, header5: 43342
+        , header6: 51, header7: 40, header8: 54406, header9: 45
+      },
+      {
+        header1: 'Black Watch', header2: 83, header3: 9, header4: 423132, header5: 54
+        , header6: 52, header7: 40, header8: 54406, header9: 545
+      },
+      {
+        header1: 'Blue Band', header2: 38, header3: 5, header4: 12321, header5: 8500
+        , header6: 53, header7: 40, header8: 54406, header9: 7
+      },
+      {
+        header1: 'Blue T-Shirt', header2: 49, header3: 22, header4: 745232, header5: 65323
+        , header6: 54, header7: 40, header8: 54406, header9: 32
+      },
+      {
+        header1: 'Brown Purse', header2: 17, header3: 79, header4: 643242, header5: 500332
+        , header6: 55, header7: 40, header8: 54406, header9: 343
+      },
+      {
+        header1: 'Product Watch', header2: 83, header3: 9, header4: 76, header5: 78
+        , header6: 76, header7: 87, header8: 6, header9: 76
+      },
+      {
+        header1: 'Product Band', header2: 38, header3: 5, header4: 76, header5: 87
+        , header6: 76, header7: 45, header8: 76, header9: 7
+      },
+      {
+        header1: 'Chakra Bracelet', header2: 52, header3: 65, header4: 421132, header5: 150005
+        , header6: 56, header7: 40, header8: 54406, header9: 211
+      }
+      ,{
+        header1: 'Bamboo Watch', header2: 51, header3: 40, header4: 54406, header5: 43342
+        , header6: 51, header7: 40, header8: 54406, header9: 45
+      },
+      {
+        header1: 'Black Watch', header2: 83, header3: 9, header4: 423132, header5: 54
+        , header6: 52, header7: 40, header8: 54406, header9: 545
+      },
+      {
+        header1: 'Blue Band', header2: 38, header3: 5, header4: 12321, header5: 8500
+        , header6: 53, header7: 40, header8: 54406, header9: 7
+      },
+      {
+        header1: 'Blue T-Shirt', header2: 49, header3: 22, header4: 745232, header5: 65323
+        , header6: 54, header7: 40, header8: 54406, header9: 32
+      },
+      {
+        header1: 'Brown Purse', header2: 17, header3: 79, header4: 643242, header5: 500332
+        , header6: 55, header7: 40, header8: 54406, header9: 343
+      },
+      {
+        header1: 'Product Watch', header2: 83, header3: 9, header4: 76, header5: 78
+        , header6: 76, header7: 87, header8: 6, header9: 76
+      },
+      {
+        header1: 'Product Band', header2: 38, header3: 5, header4: 76, header5: 87
+        , header6: 76, header7: 45, header8: 76, header9: 7
+      },
+      {
+        header1: 'Chakra Bracelet', header2: 52, header3: 65, header4: 421132, header5: 150005
+        , header6: 56, header7: 40, header8: 54406, header9: 211
+      }
+      ,{
+        header1: 'Bamboo Watch', header2: 51, header3: 40, header4: 54406, header5: 43342
+        , header6: 51, header7: 40, header8: 54406, header9: 45
+      },
+      {
+        header1: 'Black Watch', header2: 83, header3: 9, header4: 423132, header5: 54
+        , header6: 52, header7: 40, header8: 54406, header9: 545
+      },
+      {
+        header1: 'Blue Band', header2: 38, header3: 5, header4: 12321, header5: 8500
+        , header6: 53, header7: 40, header8: 54406, header9: 7
+      },
+      {
+        header1: 'Blue T-Shirt', header2: 49, header3: 22, header4: 745232, header5: 65323
+        , header6: 54, header7: 40, header8: 54406, header9: 32
+      },
+      {
+        header1: 'Brown Purse', header2: 17, header3: 79, header4: 643242, header5: 500332
+        , header6: 55, header7: 40, header8: 54406, header9: 343
+      },
+      {
+        header1: 'Product Watch', header2: 83, header3: 9, header4: 76, header5: 78
+        , header6: 76, header7: 87, header8: 6, header9: 76
+      },
+      {
+        header1: 'Product Band', header2: 38, header3: 5, header4: 76, header5: 87
+        , header6: 76, header7: 45, header8: 76, header9: 7
+      },
+      {
+        header1: 'Chakra Bracelet', header2: 52, header3: 65, header4: 421132, header5: 150005
+        , header6: 56, header7: 40, header8: 54406, header9: 211
+      }
+      ,{
+        header1: 'Bamboo Watch', header2: 51, header3: 40, header4: 54406, header5: 43342
+        , header6: 51, header7: 40, header8: 54406, header9: 45
+      },
+      {
+        header1: 'Black Watch', header2: 83, header3: 9, header4: 423132, header5: 54
+        , header6: 52, header7: 40, header8: 54406, header9: 545
+      },
+      {
+        header1: 'Blue Band', header2: 38, header3: 5, header4: 12321, header5: 8500
+        , header6: 53, header7: 40, header8: 54406, header9: 7
+      },
+      {
+        header1: 'Blue T-Shirt', header2: 49, header3: 22, header4: 745232, header5: 65323
+        , header6: 54, header7: 40, header8: 54406, header9: 32
+      },
+      {
+        header1: 'Brown Purse', header2: 17, header3: 79, header4: 643242, header5: 500332
+        , header6: 55, header7: 40, header8: 54406, header9: 343
+      },
+      {
+        header1: 'Product Watch', header2: 83, header3: 9, header4: 76, header5: 78
+        , header6: 76, header7: 87, header8: 6, header9: 76
+      },
+      {
+        header1: 'Product Band', header2: 38, header3: 5, header4: 76, header5: 87
+        , header6: 76, header7: 45, header8: 76, header9: 7
+      },
+      {
+        header1: 'Chakra Bracelet', header2: 52, header3: 65, header4: 421132, header5: 150005
+        , header6: 56, header7: 40, header8: 54406, header9: 211
+      }                        
+      /*,
       {
         header1: 'Galaxy Earrings', header2: 82, header3: 12, header4: 131211, header5: 100214
         , header6: 57, header7: 40, header8: 54406, header9: 832
@@ -455,6 +620,10 @@ export class Table2testComponent implements OnInit {
     ];
 
     this.gridData5 = this.gridData2;
+
+
+
+
 
     this.gridData4 = [
       {

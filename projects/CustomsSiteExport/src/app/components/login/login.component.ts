@@ -21,9 +21,15 @@ export class LoginComponent implements OnInit {
 
   constructor(private router: Router, public translate: TranslateService, private userService: UserService, private http: HttpClient) { }
 
+  username = 'gil';
+  password = 'test123';
   loginUsername = '';
+
+
   btnLoginDef: ButtonDefinitions;
   ngOnInit(): void {
+    sessionStorage.setItem('dpUserID', '');
+
     this.btnLoginDef = new ButtonDefinitions({ label: 'LOGIN' });
   }
 
@@ -34,61 +40,85 @@ export class LoginComponent implements OnInit {
   login() {
     // debugger;
     // const res = this.userService.getLoginUser('gil', 'pass');
-    this.userService.getLoginUser('FEDEX', 'FEDEX').then(data => {
-      console.log('gil');
-      console.log(data);
-    });
+    this.userService.getLoginUser(this.username, this.password)
+      // .then(data => {
+      .then((data: { Status: string; result: any }) => {
+        if (data.Status !== 'OK') {
+          return;
+        }
 
-    // if (LoginUser === undefined) {
-    //   alert('No Permission');
-    //   return;
+        sessionStorage.setItem('dpUserID', data.result.UserId);
+
+        const Currentlang = this.setLang(data.result.Language);
+
+        this.translate.use(Currentlang).subscribe(() => {
+          this.router.navigate(['/home']); /* Success */
+        }, err => {
+          console.error(`Problem Init '${Currentlang}' language'`);
+        }, () => {
+          // resolve(null);
+        });
+
+      });
+
+
+
+
+    // let Currentlang = 'en';
+    // if (this.loginUsername === 'user_ru') {
+    //   localStorage.setItem('dGLang', 'ru');
+    //   Currentlang = 'ru';
     // }
- 
-    let Currentlang = 'en';
-    if (this.loginUsername === 'user_ru') {
-      localStorage.setItem('dpGLang', 'ru');
-      Currentlang = 'ru';
-    }
-    else if (this.loginUsername === 'user_he') {
-      localStorage.setItem('dpGLang', 'he');
-      Currentlang = 'he';
-    }
-    else {
-      localStorage.setItem('dpGLang', 'en');
-    }
+    // else if (this.loginUsername === 'user_he') {
+    //   localStorage.setItem('dGLang', 'he');
+    //   Currentlang = 'he';
+    // }
+    // else {
+    //   localStorage.setItem('dGLang', 'en');
+    // }
 
-    this.translate.use(Currentlang).subscribe(() => {
-      this.router.navigate(['/test1']); /* Success */
-    }, err => {
-      console.error(`Problem Init '${Currentlang}' language'`);
-    }, () => {
-      // resolve(null);
-    });
+    // this.translate.use(Currentlang).subscribe(() => {
+    //   this.router.navigate(['/test1']); /* Success */
+    // }, err => {
+    //   console.error(`Problem Init '${Currentlang}' language'`);
+    // }, () => {
+    //   // resolve(null);
+    // });
 
   }
 
 
+
+  setLang(TempLanguage): string {
+    let Currentlang = 'he';
+    if (TempLanguage !== undefined) {
+      TempLanguage = TempLanguage.toLowerCase();
+    }
+    if (TempLanguage === undefined || TempLanguage === '' || TempLanguage === 'he' || TempLanguage === 'he-il') {
+      localStorage.setItem('dGLang', 'he');
+      localStorage.setItem('dDirection', 'rtl');
+      Currentlang = 'he';
+    }
+    else if (TempLanguage === 'en' || TempLanguage === 'en-us') {
+      localStorage.setItem('dGLang', 'en');
+      localStorage.setItem('dDirection', 'ltr');
+      Currentlang = 'en';
+    }
+    else if (TempLanguage === 'ru') {
+      localStorage.setItem('dGLang', 'ru');
+      localStorage.setItem('dDirection', 'ltr');
+      Currentlang = 'ru';
+    }
+    else {
+      localStorage.setItem('dGLang', 'he');
+      localStorage.setItem('dDirection', 'ltr');
+      Currentlang = 'he';
+    }
+    return Currentlang;
+  }
+
+
 }
-
-  // test4() {
-
-  //   const xhr = new XMLHttpRequest();
-  //   xhr.onreadystatechange = () => {
-  //     if (xhr.readyState === 4) {
-  //       if (xhr.status === 200) {
-  //         console.log(xhr.responseText);
-  //       } else {
-  //          console.log(xhr.statusText);
-  //          console.log(xhr.responseText);
-  //       }
-  //     }
-  //   };
-  //   const params = {sUserName : 'test', sPassword : 'test', sDomain: 'flying-cargo.fco'};
-  //   xhr.open('POST', 'http://import-iis-dev:8087/FCServices/WebServices/ActiveDirectory.asmx/IsUserValid', true);
-  //   xhr.setRequestHeader('Content-type', 'application/json;');
-  //   xhr.send(JSON.stringify(params));
-  // }
-
 
 
 

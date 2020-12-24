@@ -1,0 +1,23 @@
+
+
+<p-tabView  dir={{direction}}>
+    <p-tabPanel header="Open">
+        <app-open></app-open>
+    </p-tabPanel>
+    <p-tabPanel header="Declaration">
+        <app-tab-declaration (callCooSaveFunction)=saveData($event) [events]="eventsSubject.asObservable()">
+        </app-tab-declaration>
+    </p-tabPanel>
+    <p-tabPanel header="Declaration 2">
+        <app-declaration2 (callCooSaveFunction)=saveData($event) [events]="eventsSubject.asObservable()">
+        </app-declaration2>
+    </p-tabPanel>
+</p-tabView>
+
+
+<!-- <dp-tabmenu class="dp-css" 
+[definition]="tabMenuDefinition"
+ [datasource]="tabItems"></dp-tabmenu> -->
+
+
+

@@ -99,7 +99,8 @@ export class UserService {
       xhr.setRequestHeader('Content-type', 'application/json;');
       xhr.onload = () => {
         if (xhr.status >= 200 && xhr.status < 300) {
-          resolve(xhr.response);
+          // resolve(xhr.response);
+          resolve(JSON.parse(xhr.response));
         } else {
           reject({
             status: xhr.status,
@@ -124,6 +125,10 @@ export class UserService {
 
 
   GetUserMenus(userId: number, InitPath: string) {
+
+    if (userId === null ){
+      userId = 0;
+    }
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       const requestData = { userid: userId, initpaths: InitPath };

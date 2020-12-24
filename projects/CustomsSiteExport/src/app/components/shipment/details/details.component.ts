@@ -33,17 +33,17 @@ export class DetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.detail = this.shipmentService.getShipmentDetails();
-    if (this.detail.IsOld == 'N'){
-      this.isOldChk = false;
-    }
-    else{
-      this.isOldChk = true;
-    }
+    // if (this.detail.IsOld == 'N'){
+    //   this.isOldChk = false;
+    // }
+    // else{
+    //   this.isOldChk = true;
+    // }
 
     // this.testDate = parseInt(this.detail.OpenDate.substr(6));
     // tslint:disable-next-line: radix
     // this.openDateStr = this.datepipe.transform(new Date(parseInt(this.detail.OpenDate.substr(6))), 'dd/MM/yyyy');
-    this.openDateStr = new Date(parseInt(this.detail.OpenDate.substr(6)))
+    this.openDateStr = new Date(Number(this.detail.OpenDate.substr(6)));
     this.InputTextDef = new InputtextDefinitions({ size: 15 });
     this.InputTextDefDis = new InputtextDefinitions({ size: 15, disabled: true});
     this.InputNumberDef = new InputNumberDefinitions({});
@@ -74,11 +74,12 @@ export class DetailsComponent implements OnInit {
     detailUpdated.EntityId = this.detail.EntityId;
     detailUpdated.ActivityId = this.detail.ActivityId;
     detailUpdated.e_commerce_y_n = this.detail.e_commerce_y_n;
-    if (this.isOldChk) {
-      detailUpdated.IsOld = 'Y';
-    } else{
-      detailUpdated.IsOld = 'N';
-    }
+
+    // if (this.isOldChk) {
+    //   detailUpdated.IsOld = 'Y';
+    // } else{
+    //   detailUpdated.IsOld = 'N';
+    // }
     detailUpdated.OpenDate = this.openDateStr;
     // .getTime()
     sessionStorage.setItem('currentUpdShipment', JSON.stringify(shipment));

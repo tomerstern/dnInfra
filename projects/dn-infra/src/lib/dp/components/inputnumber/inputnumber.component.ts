@@ -35,7 +35,7 @@ export class InputnumberComponent implements OnInit, ControlValueAccessor {
   ngOnInit(): void {
     if (this.definition == null) {
       this.definition = new InputNumberDefinitions({ isStandAlone: false });
-      if (this.columnDefinition.columnParams.params.length > 0) {
+      if (this.columnDefinition && this.columnDefinition.columnParams.params.length > 0) {
         if (this.columnDefinition.columnParams.isKeyExist(InputNumberProperties.prefix)) {
           this.definition.prefix = this.columnDefinition.columnParams.getValueByKey(InputNumberProperties.prefix);
         }

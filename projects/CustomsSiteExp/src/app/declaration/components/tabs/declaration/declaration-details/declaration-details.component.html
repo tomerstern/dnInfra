@@ -1,0 +1,64 @@
+<br/>
+{{declarationService.declarationData.DeclarationBox.DeclarationDetails | json}}
+<br>
+<br>
+<br>
+<div *ngIf="exportassistService.customersList != undefined">
+    <div class="p-grid">
+        <div class="p-col-12 p-md-4">
+            <div class="p-grid">
+                <div class="p-col-12 p-md-3">{{ 'declaration.operationalCustomer' | translate }}:</div>
+                <div class="p-col-12 p-md-1 Mandatory">*</div>
+                <div class="p-col-12 p-md-5">
+                    <b>
+                        <!-- <dp-autocomplete    
+                            [initVal]="declarationService.declarationData.DeclarationBox.ExportCustoms.CustomerName"     
+                            [definition]="acDefOperationalCustomer"
+                            [datasource]="exportassistService.customersList"  
+                            (getSelected)="handleResult($event, 'operationalCustomer')"              
+                        ></dp-autocomplete> -->
+                    </b>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-12 p-md-3">{{ 'declaration.billCustomer' | translate }}:</div>
+                <div class="p-col-12 p-md-1 Mandatory">*</div>
+                <div class="p-col-12 p-md-5">
+                    <b>
+                    <!-- <dp-autocomplete    
+                    [initVal]="declarationService.declarationData.DeclarationBox.ExportCustoms.BillToName"     
+                    [definition]="acDefOperationalCustomer"
+                    [datasource]="exportassistService.customersList"  
+                    (getSelected)="handleResult($event, 'billCustomer')"              
+                    ></dp-autocomplete> -->
+                    </b>
+                </div>            
+            </div>       
+            <div class="p-grid">
+                <div class="p-col-12 p-md-3">{{ 'declaration.operationalTeam' | translate }}:</div>
+                <div class="p-col-12 p-md-1 Mandatory">*</div>
+                <div class="p-col-12 p-md-5">
+                    <b>
+                        <!-- <dp-autocomplete    
+                            [initVal]="declarationService.declarationData.DeclarationBox.ExportCustoms.OperationTeamName"     
+                            [definition]="acDefOperationalTeam"
+                            [datasource]="exportassistService.teamsList"  
+                            (getSelected)="handleResult($event, 'operationalTeam')"              
+                        ></dp-autocomplete> -->
+                    </b>
+                </div>
+            </div>  
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+

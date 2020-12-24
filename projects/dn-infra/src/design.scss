@@ -198,7 +198,7 @@ body .ui-tooltip.ui-tooltip-bottom .ui-tooltip-arrow {border-bottom-color: $Prim
 // :enabled:active
 body button.ui-button{
   // height: 25px;
-  border-radius: 12.5px;
+  border-radius: 33px;
 
   .ui-button-text {
     // height: 13px;
@@ -295,7 +295,7 @@ body button.ui-button.ui-button-dp
 .ui-button-icon-left {
   color: $PrimaryColor;  
 }
-body button.ui-button.ui-button-dp:hover
+body button.ui-button.border-radius:hover
 .ui-button-icon-left{  
   color: white;
 }
@@ -396,8 +396,11 @@ body {
   }
  .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem .ui-menuitem-link:focus {
     box-shadow: 0 0 0 0.2em  $HeaderShadow;
-}
-
+  }
+  .ui-tabview .ui-tabview-nav .ui-tabviewitem .ui-menuitem-link:focus {
+    box-shadow: 0 0 0 0.2em  $HeaderShadow;
+  }
+  
   .ui-paginator .ui-paginator-pages .ui-paginator-page:focus {
     box-shadow: 0 0 0 0.2em $PrimaryColorShadow;
   }
@@ -410,6 +413,9 @@ body {
       box-shadow: 0 0 0 0.2em $PrimaryColorShadow;
   }
 
+  .ui-fieldset .ui-fieldset-legend a:focus {
+    box-shadow: 0 0 0 0.2em$PrimaryColorShadow;
+  }
 } 
 /* focus section end */
 
@@ -546,6 +552,80 @@ body dp-tabmenu.dp-css {
   }
 }
 /* tabmenu end */
+/* tabview start */
+ 
+ body .ui-tabview.ui-tabview-top {
+  .ui-tabview-nav li{
+    background-color: $HeaderBG;
+    border: 1px solid $HeaderBG;
+    
+  }
+  
+
+  .ui-tabview-nav li.ui-state-active a
+  {
+    color: $HeaderBG;
+  }
+
+  .ui-tabview-nav li.ui-state-active {
+    background-color: #dadada;
+    border: 1px solid $HeaderBG;
+    .ui-tabview-nav li.ui-state-active a {
+      color: $HeaderBG;
+    }
+  }
+
+  .ui-tabview-nav li.ui-state-active:hover {
+    background-color: #dadada;
+    border: 1px solid $HeaderBG;
+    .ui-tabview-nav li.ui-state-active a:hover {
+      color: $HeaderBG;
+    }
+  }
+  .ui-tabview-nav li.ui-state-active:focus {
+    outline: 0 none;
+  outline-offset: 0;
+  -webkit-box-shadow: 0 0 0 0.2em #818181;
+  -moz-box-shadow: 0 0 0 0.2em #818181;
+  box-shadow: 0 0 0 0.2em #818181;
+  }
+  
+  .ui-tabview-nav li.ui-state-active:active {
+    outline: 0 none;
+  outline-offset: 0;
+  -webkit-box-shadow: 0 0 0 0.2em #818181;
+  -moz-box-shadow: 0 0 0 0.2em #818181;
+  box-shadow: 0 0 0 0.2em #818181;
+  }
+
+  .ui-tabview-nav li a{
+    color: white;
+    font-weight: 400;
+  }
+  .ui-tabview-title:hover{
+    color: $HeaderBG;
+    font-weight: 700;
+  }
+  .ui-tabview .ui-tabview-nav .ui-tabviewitem .ui-menuitem-link .ui-menuitem-icon {
+    color: white;
+  }
+
+  .ui-tabview .ui-tabview-nav .ui-tabviewitem.ui-state-active .ui-menuitem-link .ui-menuitem-text{
+    color: $HeaderBG;
+  }
+  .ui-tabview-nav li:hover{
+    font-weight: bold;
+    background-color: #dadada;
+    border: 1px solid $HeaderBG;
+  }
+}
+
+
+
+
+
+/* tabview
+ end */
 /* menubar start */
 
 
@@ -625,6 +705,13 @@ body .ui-autocomplete.ui-autocomplete-multiple .ui-autocomplete-multiple-contain
 body dp-autocomplete .ui-button:enabled:focus {
   box-shadow: 0 0 0 0.2em $PrimaryColorShadow;
 }
+
+
+@media screen and (min-width: 992px) {
+  body dp-autocomplete .ui-autocomplete {width: 100%;}
+  body dp-autocomplete .ui-autocomplete .ui-autocomplete-input {width: calc(100% - 2.357em )};
+}
+
 /* autocomplete end */
 
 body .ui-button.ui-state-default.ui-button-secondary:enabled:focus,
@@ -915,7 +1002,7 @@ dp-table td > span{
   // background-image: url('projects/dn-infra/src/assets/Images/LoginBG.png');
   label{color:#424242;} 
   #dpLoginForgotContainer{color:#424242;}
-  #username, #password{color:#8b8b8b;}
+  #username, #password{color:#8b8b8b; font-weight: bold;}
   // background-repeat: no-repeat;
 }
 #dpLoginContainer{
@@ -958,4 +1045,43 @@ dp-table td > span{
     position: absolute;
   }
 }
+/* direction start*/
+// confuirmdialog, contextmenu, dialog, dynamicdialog, toast, tabview?
+dp-calendar, dp-autocomplete, 
+dp-button, dp-checkbox, dp-inputnumber, dp-inputtext, dp-menubar ,dp-picklist, dp-splitbutton, 
+dp-table, dp-tabmenu, dp-tree,p-tabview , p-tabview{
+  direction: ltr;
+}
 
+.clsDpRtl {direction: rtl;}
+.clsDpRtl .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem{
+  float: right;
+}
+.clsDpRtl .ui-tabview .ui-tabview-nav .ui-tabviewitem{
+  float: right;
+}
+.clsDpRtl  .ui-fieldset .ui-fieldset-legend a .ui-fieldset-toggler {
+  margin-left: 0.5em;margin-right:0em;
+}
+.clsDpRtl .ui-tabview .ui-tabview-nav li{
+  float: right;
+}
+/* direction end*/
+
+/* check move to table css*/
+dp-table p-table tbody tr {
+  td{
+  position: relative;
+  }
+  .ui-editing-cell .dnd
+  {
+    position: absolute; width:10px; height:10px;background-color: blue;right:0px ;bottom: 0px;z-index: 111;
+    cursor: crosshair;
+  }
+
+  .dnd
+  {
+    position: absolute; width:10px; height:10px;background-color: blue;right:0px ;bottom: 0px;z-index: 111;
+    cursor: crosshair;
+  }
+}

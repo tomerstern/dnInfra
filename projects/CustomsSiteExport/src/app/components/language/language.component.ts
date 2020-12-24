@@ -15,7 +15,13 @@ export class LanguageComponent implements OnInit {
   }
 
   changeLang(langSelect) {
-    localStorage.setItem('dpGLang', langSelect);
+    if (langSelect === 'he') {
+      localStorage.setItem('dDirection', 'rtl');
+    }
+    else {
+      localStorage.setItem('dDirection', 'ltr');
+    }
+    localStorage.setItem('dGLang', langSelect);
     window.location.reload();
   }
 }

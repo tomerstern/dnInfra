@@ -1,6 +1,6 @@
 import {
   Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges, ViewEncapsulation,
-  ChangeDetectionStrategy, SimpleChanges, AfterViewInit, ChangeDetectorRef
+  SimpleChanges, AfterViewInit, ChangeDetectorRef
 } from '@angular/core';
 import { GridDefinitions, GridColumnType } from './objects/grid-definitions';
 import { TableStoreService, TableState } from '../../services/table-store.service';
@@ -12,16 +12,17 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { InputNumberProperties } from '../inputnumber/objects/inputnumber-definitions';
 import { select, Store } from '@ngrx/store';
-import { addRow, deleteRow, updateRow, updateTable, addValidationError, setErrors } from '../../store/actions';
-import { getTableStateById, getTableLengthById } from '../../store/selectors';
+import { addRow, deleteRow, updateRow, updateTable, sortColumn } from '../../store/actions';
+import { getTableStateById, getTableLengthById, getAppState } from '../../store/selectors';
 import { debounceTime, distinctUntilChanged, map, take } from 'rxjs/operators';
 import { DpDialogService, DpDynamicDialogRef } from '../dynamicdialog/Objects/dynamicdialog-definitions';
 import { ColumnSelectionComponent } from './columnSelection/column-selection/column-selection.component';
 import { MessageService } from 'primeng/api'; /* only for showing return value */
 import { FormArray, NgForm } from '@angular/forms';
-import { getAppState } from 'projects/dn-infra/src/lib/dp/store/selectors';
-import { ConfirmdialogDefinitions, positionDpConfirmdialog } from 'projects/dn-infra/src/lib/dp/components/confirmdialog/Objects/confirmdialog-definitions';
+
 import { ConfirmationService } from 'primeng/api';
+import { HttpClient } from '@angular/common/http';
+import { ConfirmdialogDefinitions } from '../confirmdialog/Objects/confirmdialog-definitions';
 
 interface MultiselectOptions {
   value?: string;
@@ -50,10 +51,12 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
   isFooter = false;
   isfrozenCols = false;
   frozenColsIndex = 0;
+  initiated = false;
   frozenCols: any[];
   scrollableCols: any[]; /* non frozen Cols*/
   selectedEntity: any;
-  frozenWidth = '0px';
+  frozenWidth = 0;
+  freezeObj = {};
   frozenColsCounter = -1;
   frozenButtonText = 'גרור אותי להקפיא עמודות';
   frozenButtonClasses = 'clsBtnFreezeCols';
@@ -71,6 +74,7 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
   FooterArrObj = {};
   ArrDatasourceKeys: string[] = [];
   ngForm: any;
+  loaded = false;
   obj = {};
   sub: Subscription;
   newRow = {};
@@ -98,7 +102,8 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     public dialogService: DpDialogService,
     public messageService: MessageService,
     private store: Store<any>,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private http: HttpClient
   ) { }
 
   confirmdialogDef: ConfirmdialogDefinitions = new ConfirmdialogDefinitions({
@@ -154,11 +159,24 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
 
     });
     this.scrollableCols = this.definition.columns;
+    this.frozenCols = [
+      this.definition.columns[0]
+    ];
     this.dpCreateFooterData();
 
     if (this.definition.isFreezeColumns === true) {
       this.definition.scrollable = true;
     }
+
+    // this.frozenWidth = 0;
+
+    // setTimeout(() => {
+    //   this.frozenCols = [
+    //     this.definition.columns[1]
+    //   ];
+    //   this.frozenWidth = '500px';
+
+    // }, 3000);
 
   }
   checkLocalStorage() {
@@ -173,7 +191,6 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   updateRow(columnField: string, row: object, val: any, rowIndex: number, columnFieldCode?: string) {
-    // debugger
     if (val === undefined) {
       return;
     }
@@ -188,9 +205,14 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
       newRow = { ...row, ...{ [columnFieldCode]: val.code, [columnField]: val.name } };
     }
     // const newRow = { ...row, ...{ [columnField]: val } };
+
     this.store.dispatch(updateRow({ row: newRow, rowIndex, tableId: this.tableId }));
     this.getFormValidationErrors();
   }
+
+  // updateCalendar(columnField: string, row: object, val: any, columnFieldCode?: string){
+  //   // this.updateRow()
+  // }
 
   showDynamicdialog1() {
     const Tlist = this.definition.columns;
@@ -225,13 +247,36 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
 
 
   ngOnChanges(changes: SimpleChanges) {
-    // this.dpCreateFooterData();
-    if (this.tableId && this.datasource) {
-      this.store.dispatch(updateTable({ data: { tableId: this.tableId, tableData: this.datasource } }));
-      this.data$ = this.store.select(getTableStateById(this.tableId));
-    } else {
-      // alert('you must supply an ID for each table');
+
+    this.dpCreateFooterData();
+    if (!this.initiated) {
+      if (this.datasource === null) {
+        this.datasource = [];
+      }
+      if (this.tableId && this.datasource) {
+        this.store.dispatch(updateTable({ data: { tableId: this.tableId, tableData: this.datasource } }));
+        this.data$ = this.store.select(getTableStateById(this.tableId));
+        this.initiated = true;
+      }
     }
+
+
+    // if (
+    //   changes.tableId.previousValue === undefined &&
+    //   changes.tableId.currentValue &&
+    //   changes.dataSource.previousValue === undefined &&
+    //   changes.dataSource.currentValue
+    // ) {
+    //   this.store.dispatch(
+    //     updateTable({
+    //       data: { tableId: this.tableId, tableData: this.datasource },
+    //     })
+    //   );
+    //   this.data$ = this.store.select(getTableStateById(this.tableId));
+    // } else {
+    //   // alert('you must supply an ID for each table');
+    // }
+
   }
 
   toggleFn(el: HTMLElement) {
@@ -306,7 +351,6 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
       const columnName = column.fieldname;
       row[columnName] = '';
     });
-
     return row;
   }
 
@@ -327,15 +371,94 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   exportPdf() {
+    this.http.get('assets/Files/Arimo.txt', { responseType: 'text' })
+      .subscribe(data =>
+        this.exportPdfMain(data)
+      );
+  }
+
+  exportPdfMain(Arimo) {
+
     this.data$.pipe(take(1), map(x => x)).subscribe(data => {
       import('jspdf').then((jspdf: any) => {
         import('jspdf-autotable').then(x => {
-          const doc = new jspdf.default('l', 'mm', [305, 250]);
-          doc.autoTable(this.exportColumns, data);
-          doc.save('products.pdf');
+          const doc = new jspdf.default('l', 'mm', [305, 250]);  // [wide , high]
+
+          // doc.addFileToVFS('Arimo.ttf', environment.Arimo);
+          doc.addFileToVFS('Arimo.ttf', Arimo);
+          doc.addFont('Arimo.ttf', 'Arimo', 'normal');
+          doc.setFont('Arimo');
+
+
+          /* for first page  */
+          // add Image start
+          // const img = new Image();
+          // img.src = '/assets/Images/collection_png_32x32/flags/flag_israel.png';
+          // addImage(image, format, xPosition, yPosition, width, height).
+          // doc.addImage(img, 'png', 12, 1, 12, 15);
+          // add Image end
+          // doc.text('This is First Page Header', 30, 10); // add header
+
+          doc.autoTable(this.exportColumns, data, {
+            margin: { top: 25, bottom: 35 },
+            // styles: { fillColor: [255, 0, 0] },
+            /*  styles, headStyles, bodyStyles , footStyles, alternateRowStyles, columnStyles */
+            styles: {
+              font: 'Arimo',
+              fontStyle: 'normal',
+              lineWidth: 0.2
+            },
+            headStyles: { fillColor: [33, 33, 33], textColor: [255, 255, 255], fontSize: 11, lineWidth: 0.5 },
+          });
+
+          doc.setFontSize(10);
+          // doc.autoTable(this.exportColumns, data, { margin: { top: 25, bottom: 35 } }); /* working */
+
+          const imgHeader = new Image();
+          // imgHeader.src = '/assets/Images/collection_png_32x32/flags/flag_israel.png';
+          imgHeader.src = '/assets/Images/Logos/LogoExcel.png';
+          const pages = doc.internal.getNumberOfPages();
+          const pageWidth = doc.internal.pageSize.width;
+          const pageHeight = doc.internal.pageSize.height;
+
+          const HeaderText = this.definition.pdfHeaderText;
+          const FooterText = this.definition.pdfFooterText;
+
+          // const HeaderText = 'This is כותרת פנימית / Inner Page Header';
+          // doc.setTextColor(44, 222, 0);
+
+          for (let j = 1; j < pages + 1; j++) {
+
+            // addImage(imageData, format, x, y, width, height, alias, compression, rotation)
+            doc.addImage(imgHeader, 'png', 14, 3, 66, 19);
+
+            if (HeaderText !== '') {
+              doc.setFontSize(14);
+              doc.text(HeaderText, 110, 16); // add header
+            }
+
+            const horizontalPos = pageWidth / 2;
+            const verticalPos = pageHeight - 10;
+
+            if (FooterText !== '') {
+              doc.text(FooterText, 10, verticalPos - 15, { textColor: [33, 33, 33] }); // add footer
+            }
+
+            doc.setPage(j);
+            doc.setFontSize(10);
+            doc.text(`${j} of ${pages}`, horizontalPos, verticalPos, { align: 'center' });
+          }
+
+          doc.save('table.pdf');
         });
       });
     });
+  }
+
+  clickEvent(column, val) {
+    if (column.onClick !== undefined) {
+      column.onClick(val);
+    }
   }
 
   exportExcel() {
@@ -343,7 +466,139 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
       const worksheet = xlsx.utils.json_to_sheet(this.datasource);
       const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
       const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
-      this.saveAsExcelFile(excelBuffer, 'products');
+      this.saveAsExcelFile(excelBuffer, 'table');
+    });
+  }
+
+
+  // exportExcel() {
+  //     import('xlsx').then(xlsx => {
+  //   // Using same variables as the above answer
+  //     var Heading = [
+  //       ["FirstName", "Last Name", "Email"],
+  //     ];
+  //     var Footer = [
+  //       ["Footer Text", "More Text"],
+  //     ];
+
+  //     var Data = [
+  //       {firstName:"Jack", lastName: "Sparrow", email: "abc@example.com"},
+  //       {firstName:"Harry", lastName: "Potter", email: "abc@example.com"},
+  //     ];
+
+  //     //Had to create a new workbook and then add the header
+  //     const ws = xlsx.utils.book_new();
+  //     xlsx.utils.sheet_add_aoa(ws, Heading);
+
+  //     //Starting in the second row to avoid overriding and skipping headers
+  //     const worksheet = xlsx.utils.sheet_add_json(ws, Data, { origin: 'A2', skipHeader: true });
+
+
+  //     // xlsx.utils.sheet_add_aoa(ws, Footer);
+
+  //     // const worksheet = xlsx.utils.json_to_sheet(this.datasource);
+  //     const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+  //     const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+  //     this.saveAsExcelFile(excelBuffer, 'table');
+  //   });
+  // }
+
+
+  exportExcel99() {
+    import('xlsx').then(xlsx => {
+
+      const ws_data = [
+        ['very long text... very long text... very long text... very long text... very long text... very long text... ']
+        , ['A2', 'B2', 'C2']
+      ];
+
+      var merge = { s: { r: 0, c: 0 }, e: { r: 0, c: 1 } };
+
+
+      // const ws = xlsx.utils.aoa_to_sheet(ws_data);
+
+      const ws = xlsx.utils.book_new();
+      xlsx.utils.sheet_add_aoa(ws, ws_data);
+
+      // const ws =  xlsx.utils.sheet_add_aoa(ws_data, );
+
+      if (!ws['!merges']) {
+        ws['!merges'] = [];
+      }
+      ws['!merges'].push(merge);
+
+
+      const worksheet = xlsx.utils.json_to_sheet(this.datasource);
+      const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+      this.saveAsExcelFile(excelBuffer, 'table');
+    });
+  }
+
+  // exportExcel_ok() {
+  //   import('xlsx').then(xlsx => {
+
+
+
+  //     var wb = xlsx.utils.book_new();
+
+  //     const ws_name = "SheetJS";
+
+
+  //     const ws_data = [
+  //       ['very long text... very long text... very long text... very long text... very long text... very long text... '],
+  //       [1, 2, 3, 4]
+  //     ];
+
+  //     var merge = { s: { r: 0, c: 0 }, e: { r: 0, c: 1 } };
+
+  //     const ws = xlsx.utils.aoa_to_sheet(ws_data);
+
+  //     if(!ws['!merges']) ws['!merges'] = [];
+  //     ws['!merges'].push(merge);
+
+  //     /* Add the worksheet to the workbook */
+  //     xlsx.utils.book_append_sheet(wb, ws, ws_name);
+
+  //     const excelBuffer: any = xlsx.write(wb, { bookType: 'xlsx', type: 'array' });
+  //     this.saveAsExcelFile(excelBuffer, 'table');
+  //   });
+  // }
+
+  exportExcel_ok() {
+    import('xlsx').then(xlsx => {
+
+
+      // const wsdata = [['hello' , 'world']];
+      // const ws = xlsx.utils.aoa_to_sheet(wsdata);
+
+      // // const worksheet = xlsx.utils.table_to_sheet(dt.el.nativeElement);
+      // const worksheet = xlsx.utils.json_to_sheet(this.datasource);
+      // const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+
+
+      var wb = xlsx.utils.book_new();
+
+      const ws_name = "SheetJS";
+
+
+      const ws_data = [
+        ['very long text... very long text... very long text... very long text... very long text... very long text... '],
+        [1, 2, 3, 4]
+      ];
+
+      var merge = { s: { r: 0, c: 0 }, e: { r: 0, c: 1 } };
+
+      const ws = xlsx.utils.aoa_to_sheet(ws_data);
+
+      if (!ws['!merges']) ws['!merges'] = [];
+      ws['!merges'].push(merge);
+
+      /* Add the worksheet to the workbook */
+      xlsx.utils.book_append_sheet(wb, ws, ws_name);
+
+      const excelBuffer: any = xlsx.write(wb, { bookType: 'xlsx', type: 'array' });
+      this.saveAsExcelFile(excelBuffer, 'table');
     });
   }
 
@@ -357,6 +612,41 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
       FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
     });
   }
+
+
+
+  // exportPdf() {
+  //   this.data$.pipe(take(1), map(x => x)).subscribe(data => {
+  //     import('jspdf').then((jspdf: any) => {
+  //       import('jspdf-autotable').then(x => {
+  //         const doc = new jspdf.default('l', 'mm', [305, 250]);
+  //         doc.autoTable(this.exportColumns, data);
+  //         doc.save('products.pdf');
+  //       });
+  //     });
+  //   });
+  // }
+
+  // exportExcel() {
+  //   import('xlsx').then(xlsx => {
+  //     const worksheet = xlsx.utils.json_to_sheet(this.datasource);
+  //     const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+  //     const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+  //     this.saveAsExcelFile(excelBuffer, 'products');
+  //   });
+  // }
+
+  // saveAsExcelFile(buffer: any, fileName: string): void {
+  //   import('file-saver').then(FileSaver => {
+  //     const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+  //     const EXCEL_EXTENSION = '.xlsx';
+  //     const data: Blob = new Blob([buffer], {
+  //       type: EXCEL_TYPE
+  //     });
+  //     FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+  //   });
+  // }
+
   onRowSelect(event) {
     const boo = this.selectedEntity;
   }
@@ -402,7 +692,7 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   dpInitArrDatasourceKeys() {
-    if (this.datasource !== undefined) {
+    if (this.datasource) {
       const jsonData = this.datasource[0];
       // tslint:disable-next-line: forin
       for (const myIndex in jsonData) {
@@ -591,10 +881,11 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
 
   dpFreezeColumns(dt, LocFrozenWidth) {
     // console.log('frozenColsCounter=' + this.frozenColsCounter);
-    this.frozenCols = this.definition.columns.slice(0, this.frozenColsCounter + 1);
-    this.scrollableCols = this.definition.columns.slice(this.frozenColsCounter + 1, this.definition.columns.length);
-    this.isFreezeColumnActive = true;
-    this.frozenWidth = LocFrozenWidth;
+    // this.frozenCols = this.definition.columns.slice(0, this.frozenColsCounter + 1);
+    // this.scrollableCols = this.definition.columns.slice(this.frozenColsCounter + 1, this.definition.columns.length);
+    // this.isFreezeColumnActive = true;
+    // this.frozenWidth = LocFrozenWidth;
+    console.log('hey');
 
     // const Elems = dt.el.nativeElement.querySelectorAll('.ui-table-scrollable-view');
     // const Elem = Elems[1];
@@ -657,43 +948,93 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     }
   }
 
-  dpFreezeColumndrop(event, columnInd, dt) {
+  sortColumn(fieldname: string) {
+    this.store.dispatch(sortColumn({ tableId: this.tableId, fieldname }));
+  }
 
-    if (this.frozenColsCounter >= 0) {
-      return;
-    }
+  dpFreezeColumndrop(colName: string, th: HTMLElement) {
 
-    this.frozenButtonClasses = 'clsBtnFreezeCols clsBtnFreezeColsSelected';
+    const fc = [];
+    const sc = [];
+    let width = 0;
+    let reached = false;
+
+    this.definition.columns.forEach((column, index) => {
+      if (!reached) {
+        fc.push(column);
+        const el = document.getElementById(column.fieldname);
+        width += el.clientWidth;
+        if (column.fieldname === colName) {
+          reached = true;
+        }
+      } else {
+        sc.push(column);
+      }
+    });
+
+    this.frozenWidth = width;
+
     this.frozenButtonText = 'לחץ עלי לבטל נעילה';
-    this.frozenColsCounter = columnInd;
+    this.frozenCols = fc;
+    this.scrollableCols = sc;
 
-    if (this.dpIsHScroll(dt) === false) {
-      return;
-    }
+    // console.log(fc, sc);
 
-    let LocWidth = 0;
-    this.HeadersHeight = this.dpCalcHeadersHeight(dt);
+    // console.log(id);
+    // // console.log(sc);
 
-    // make sure table is scrollable:true before freezing columns
-    // if (this.definition.isFreezeColumns === true) {
-    //    this.definition.scrollable = true;
+
+    // const table = document.querySelector(`[tableid = ${this.tableId}]`);
+    // const frozen = table.getElementsByClassName('ui-table-unfrozen-view')[0];
+    // const arr = frozen.querySelectorAll('thead > tr th');
+
+    // console.log(arr);
+
+    // console.log(th.clientWidth);
+
+
+
+    // if (this.frozenColsCounter >= 0) {
+    //   return;
     // }
-    // this.definition.scrollable = true;
 
-    LocWidth = this.dpCalcFreezeColumnsWidth(dt);
-    this.dpFreezeColumns(dt, LocWidth + 'px');
+    // this.frozenButtonClasses = 'clsBtnFreezeCols clsBtnFreezeColsSelected';
+    // this.frozenColsCounter = columnInd;
 
-    // this.dpCreateFooterData();
+    // if (this.dpIsHScroll(dt) === false) {
+    //   return;
+    // }
+
+    // let LocWidth = 0;
+    // this.HeadersHeight = this.dpCalcHeadersHeight(dt);
+
+    // // make sure table is scrollable:true before freezing columns
+    // // if (this.definition.isFreezeColumns === true) {
+    // //    this.definition.scrollable = true;
+    // // }
+    // // this.definition.scrollable = true;
+
+    // LocWidth = this.dpCalcFreezeColumnsWidth(dt);
+    // this.dpFreezeColumns(dt, LocWidth + 'px');
+
+    // // this.dpCreateFooterData();
+
+
   }
 
   dpUnFreezeCols() {
-    this.frozenColsCounter = -1;
-    this.frozenButtonClasses = 'clsBtnFreezeCols';
-    this.frozenButtonText = 'גרור אותי להקפיא עמודות';
-    this.frozenCols = null;
+
     this.scrollableCols = this.definition.columns;
-    this.isFreezeColumnActive = false;
-    this.frozenWidth = '0px';
+    // this.frozenColsCounter = -1;
+    // this.frozenButtonClasses = 'clsBtnFreezeCols';
+
+    this.frozenButtonText = 'גרור אותי להקפיא עמודות';
+
+    // this.frozenCols = null;
+    // this.scrollableCols = this.definition.columns;
+    // this.isFreezeColumnActive = false;
+    this.frozenWidth = 0;
+
   }
 
   dpCalcFreezeColumnsWidth(dt) {
@@ -726,15 +1067,6 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     return true;
   }
 
-  funcTest() {
-    const a = document.scrollingElement;
-    console.log(a);
-
-    const Elems = this.table.el.nativeElement.querySelectorAll('.ui-table-scrollable-view');
-    const Elem = Elems[1];
-    Elem.classList.add('ui-table-unfrozen-view');
-    // ui-table-scrollable-view -> ui-table-unfrozen-view
-  }
 
   isChecked(e) {
     alert("On Change:" + e.checked);

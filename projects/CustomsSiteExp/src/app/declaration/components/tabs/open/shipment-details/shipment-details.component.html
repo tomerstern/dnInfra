@@ -1,0 +1,156 @@
+
+ <div class="p-grid clsShipmentDetailsCont">
+    <div class="p-col-12 p-md-12">
+        <div class="p-grid">
+            <div class="p-col-12 p-md-4 was6"> 
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-3">
+                        {{ 'declaration.openDate' | translate }}
+                    </div>
+                    <div class="p-col-12 p-md-5">   
+                        <dp-calendar [definition]="openDateCalendarDef" 
+                            [(ngModel)]="declarationService.declarationData.DeclarationBox.ExportCustoms.OpenDate" >
+                        </dp-calendar>
+                    </div>
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-3">
+                        {{ 'declaration.destinationCountry' | translate }}
+                    </div>
+                    <div class="p-col-12 p-md-5">       
+                        <dp-autocomplete 
+                            [initVal]="declarationService.declarationData.DeclarationBox.ExportCustoms.DestinationCountryName"                                 
+                            [definition]="acDefDestinationCountry" 
+                            [datasource]="exportassistService.countriesList"
+                            (getSelected)="handleChange($event,'destinationCountry')"
+                            >
+                        </dp-autocomplete> 
+                    </div>
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-3">
+                        {{ 'declaration.incoterms' | translate }}
+                    </div>
+                    <div class="p-col-12 p-md-5">       
+                        <dp-autocomplete    
+                            [initVal]="declarationService.declarationData.DeclarationBox.ExportCustoms.IncoTerms"     
+                            [definition]="acDefIncoTerms"
+                            [datasource]="exportassistService.incoTermsList"  
+                            (getSelected)="handleChange($event, 'incoterms')"              
+                        ></dp-autocomplete>
+                    </div>
+                </div>      
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-3">
+                        {{ 'declaration.usingType' | translate }}
+                    </div>
+                    <div class="p-col-12 p-md-5">       
+                        <dp-autocomplete    
+                            [initVal]="declarationService.declarationData.DeclarationBox.ExportCustoms.UsingTypeName"     
+                            [definition]="acDefIncoTerms"
+                            [datasource]="exportassistService.usingTypeList"  
+                            (getSelected)="handleChange($event, 'usingTypes')"              
+                        ></dp-autocomplete>
+                    </div>
+                </div>       
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-3">
+                        {{ 'declaration.declarationSource' | translate }}
+                    </div>
+                    <div class="p-col-12 p-md-5">       
+                        <dp-autocomplete    
+                            [initVal]="declarationService.declarationData.DeclarationBox.ExportCustoms.DeclarationSourceName"     
+                            [definition]="acDefIncoTerms"
+                            [datasource]="exportassistService.declarationSourceList"  
+                            (getSelected)="handleChange($event, 'declarationSource')"              
+                        ></dp-autocomplete>
+                    </div>
+                </div>  
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-3">
+                        {{ 'declaration.smrNumber' | translate }}
+                    </div>
+                    <div class="p-col-12 p-md-5">       
+                        <dp-inputtext [definition]="InputTextDef" name="ExporterName" 
+                            [(ngModel)]="declarationService.declarationData.DeclarationBox.ExportCustoms.SHMRNumber"   
+                            (change)="declarationService.declarationData.DeclarationBox.ExportCustoms.SHMRNumber = 
+                                        declarationService.declarationData.DeclarationBox.ExportCustoms.SHMRNumber"                        
+                        ></dp-inputtext>
+                    </div>
+                </div>  
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-3">
+                        {{ 'declaration.smpNumber' | translate }}
+                    </div>
+                    <div class="p-col-12 p-md-5">       
+                        <dp-inputtext [definition]="InputTextDef" name="ExporterName" 
+                            [(ngModel)]="declarationService.declarationData.DeclarationBox.ExportCustoms.SHMPNumber"   
+                            (change)="declarationService.declarationData.DeclarationBox.ExportCustoms.SHMPNumber = 
+                                        declarationService.declarationData.DeclarationBox.ExportCustoms.SHMPNumber"                        
+                        ></dp-inputtext>
+                    </div>
+                </div>  
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-3">
+                        {{ 'declaration.smDate' | translate }}
+                    </div>
+                    <div class="p-col-12 p-md-5">                             
+                        <dp-calendar [definition]="openDateCalendarDef" 
+                            [(ngModel)]="declarationService.declarationData.DeclarationBox.ExportCustoms.ETD" >
+                        </dp-calendar>
+                    </div>
+                </div>                                                                                                                            
+            </div>
+<!-- RIGHT SIDE -->
+            <div class="p-col-12 p-md-4 was6">
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-2">                      
+                    </div>
+                    <div class="p-col-12 p-md-5">           
+                    </div>
+                    <div class="p-col-12 p-md-3">                    
+                    </div>
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-2">
+                        {{ 'declaration.containerType' | translate }}
+                    </div>
+                    <div class="p-col-12 p-md-5">
+                        <dp-autocomplete 
+                        [initVal]="declarationService.declarationData.DeclarationBox.ExportCustoms.ContainerTypeName"                                 
+                        [definition]="acDefIncoTerms" 
+                        [datasource]="exportassistService.containerTypeList"
+                        (getSelected)="handleChange($event,'containerType')"
+                        >
+                    </dp-autocomplete> 
+                    </div>
+                </div>         
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-2">
+                        {{ 'declaration.etd' | translate }}
+                    </div>
+                    <div class="p-col-12 p-md-5">
+                        <dp-calendar [definition]="openDateCalendarDef" 
+                            [(ngModel)]="declarationService.declarationData.DeclarationBox.ExportCustoms.ETD" >
+                        </dp-calendar>
+                    </div>
+                </div>      
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-2">
+                        {{ 'declaration.atd' | translate }}
+                    </div>
+                    <div class="p-col-12 p-md-5">
+                        <dp-calendar [definition]="openDateCalendarDef" 
+                            [(ngModel)]="declarationService.declarationData.DeclarationBox.ExportCustoms.ATD" >
+                        </dp-calendar>
+                    </div>
+                </div>                                               
+            </div>
+        </div>
+    </div>
+</div>
+<div class="p-col-12 p-md-6">
+    <p-fieldset legend="{{ 'declaration.references' | translate }}" [toggleable]="true">
+        <app-references></app-references>
+    </p-fieldset>
+</div>

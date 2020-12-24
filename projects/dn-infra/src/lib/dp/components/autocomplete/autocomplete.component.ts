@@ -28,7 +28,7 @@ export class AutocompleteComponent implements OnInit, OnChanges, ControlValueAcc
 
   @Input() definition: AutocompleteDefinitions;
   @Input() datasource: any = [];
-  @Input() required: boolean;
+  @Input() required: boolean = false;
   ngModelDP: any;
   hasTouched = false;
 
@@ -137,17 +137,26 @@ export class AutocompleteComponent implements OnInit, OnChanges, ControlValueAcc
     } else if (this.definition.multiple && !Array.isArray(this.initVal)) {
       throw new Error('Autocomplete.ts: @input [initVal] for multi select must be an array');
     }
-    // this.getSelected.emit(this.innerValue);
-  }
 
-  clear(val) {
-    if (val !== null) {
-      this.getSelected.emit('');
+    if (this.definition.isStandAlone) {
+      this.getSelected.emit(this.innerValue);
     }
   }
+
+  // clear(val) {
+  //   if (val !== null) {
+  //     this.getSelected.emit('');
+  //   }
+  // }
+
   emit(val) {
+    console.log(this.definition.isStandAlone);
     if (val !== null && val !== undefined) {
-      this.getSelected.emit(val);
+      if (!this.definition.isStandAlone){
+        this.getSelected.emit(val);
+      } else {
+        this.innerValue = val;
+      }
     }
   }
   blurEmit(val) {
@@ -159,7 +168,7 @@ export class AutocompleteComponent implements OnInit, OnChanges, ControlValueAcc
   ngOnInit() {
 
     if (this.definition == null || this.definition === undefined) {
-      // this.definition = new AutocompleteDefinitions({ isStandAlone: false });
+      this.definition = new AutocompleteDefinitions({ isStandAlone: false });
 
       // this.definition = new AutocompleteDefinitions(false, 'elem_table', 'Event Code', 1, false, 1, 'ph text 3', true,
       // '', '', '', '', '');
@@ -527,7 +536,6 @@ export class AutocompleteComponent implements OnInit, OnChanges, ControlValueAcc
     this.isDynamicDataLoad = true;
     return this.definition.dpAutocompleteLateDataLoadFunc();
   }
-
 
 
 }

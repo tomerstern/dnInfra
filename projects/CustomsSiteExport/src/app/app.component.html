@@ -1,18 +1,33 @@
 <!-- <app-login></app-login> -->
 <app-header></app-header>
-<app-declaration></app-declaration>
-<!-- <app-maintab></app-maintab>
-
-<div id="dpMainPageBody" class="dpCssTabContainer">
+<app-main-declaration></app-main-declaration>
+<!-- <app-main-coo></app-main-coo> -->
+<!-- <div id="dpMainPageBody" [ngClass]="(this.isRtl )?'clsDpRtl dpCssTabContainer' : 'dpCssTabContainer'">
     <router-outlet></router-outlet>
-</div>
+</div> -->
 
-<p-toolbar styleClass="p-mb-4">
+<!-- **** LOADER **** -->
+<!-- <app-maintab></app-maintab> -->
+<!-- <div *ngIf="showApp else loader" id="dpMainPageBody" class="dpCssTabContainer">
+    <router-outlet></router-outlet>
+</div> -->
+
+<!-- <p-toolbar styleClass="p-mb-4">
     <div class="p-toolbar-group-left">
-            <button pButton pRipple label="Save" 
-                (click)="updateShipment()" 
-                icon="pi pi-save" 
-                class="ui-button ui-button-dp p-mr-2"
-            ></button>
+        <button pButton pRipple label="Save"
+                (click)="updateShipment()"
+                icon="pi pi-save"
+                class="ui-button ui-button-dp p-mr-2"></button>
     </div>
 </p-toolbar> -->
+<!-- 
+<ng-template #loader>
+    <div class="loader">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin:auto;background:#fff;display:block;" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+            <circle cx="50" cy="50" fill="none" stroke="#e15b64" stroke-width="10" r="35" stroke-dasharray="164.93361431346415 56.97787143782138">
+                <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1"></animateTransform>
+            </circle>
+        </svg>
+    </div>
+</ng-template> -->
+<!-- **** LOADER **** -->
