@@ -7,7 +7,7 @@ import { ToastDefinitions } from 'projects/dn-infra/src/lib/dp/components/toast/
 import { TransmissionlogComponent } from '../../../components/transmission/transmissionlog/transmissionlog.component';
 import { Store } from '@ngrx/store';
 import { getAppState } from 'projects/dn-infra/src/lib/dp/store/selectors';
-import { clearStateChanges, deleteRowByColumnValue, updateRowByColumnValue } from 'projects/dn-infra/src/lib/dp/store/actions';
+import { addRow, clearStateChanges, deleteRowByColumnValue, updateRowByColumnValue } from 'projects/dn-infra/src/lib/dp/store/actions';
 import { map, take } from 'rxjs/operators';
 
 @Component({
@@ -42,19 +42,38 @@ export class ToolbarComponent implements OnInit {
   //   });    
   // }
 
+addRow(){
+  this.store.dispatch(addRow({ data: { tableId: 'references', rowToAdd: this.newEmptyRow() } }));
+}
+
+newEmptyRow() {
+  const row: any = {};
+  row['ShipmentNumber'] = 1;
+  row['DeptCode'] = '1';
+  row['CusDecOrder'] = 1;
+  row['LineNumber'] = 15;
+  row['ReferenceType'] = '1';
+  row['ReferenceTypeName'] = 'PO';
+  row['Reference'] = 'yoyoyoyoy';
+  row['DateAdded'] = '2020-05-05';
+
+  return row;
+}
+
 deleteByColumn(){
   this.store.dispatch(deleteRowByColumnValue({ data: { tableId: 'references', columnName: 'Reference', columnValue: '666' } }));
 }
 
 updateByColumn(){
   this.store.dispatch(updateRowByColumnValue({ data: { tableId: 'references', 
-                                                columnNameToSearch: 'Reference', columnValueToSearch: '111',
+                                                columnNameToSearch: 'Reference', columnValueToSearch: '666',
                                                 columnNameToReplace: 'ReferenceType', columnValueToReplace: '2' } }));
 }
 
 saveData()
 {
-  this.deleteByColumn()
+  this.addRow()
+  // this.deleteByColumn()
   // this.updateByColumn()
   this.updateTableChanges();  
   this.callSave();
