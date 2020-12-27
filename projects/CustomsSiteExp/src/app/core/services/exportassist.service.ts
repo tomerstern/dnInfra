@@ -20,6 +20,8 @@ export class ExportassistService {
   public declarationSourceList: AssistTableMin[];
   public referenceTypeList: AssistTableMin[];
   public assistList: AssistTableExport[];
+  public eventCodesList: AssistTableMin[];
+  
 
   setCountries(jsonCountriesList: any)
   {
@@ -66,6 +68,12 @@ export class ExportassistService {
     this.referenceTypeList = jsonReferenceTypes;
   }
 
+  setEventCodes(jsonEventCodes:any)
+  {
+    this.eventCodesList = jsonEventCodes;
+  }
+
+  
   // getExportAssistByKey(tableId: string,  getAll: boolean = false ):any {
 
   //   this.getExportAssistByKeyMain(tableId, getAll )
@@ -116,6 +124,10 @@ export class ExportassistService {
 
   async getAllReferenceTypes() {
     return this.webAPI.sendWebRequest("Assist/GetReferenceTypes", {});
-}
+  }
+
+  async getAllEventCodes() {
+    return this.webAPI.sendWebRequest("General/GetAllEventCodes",{});
+  }
 
 }

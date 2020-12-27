@@ -1,2 +1,9 @@
 .frmShipmentsQuery p-grid {min-height: 47px;}
 .dpTempYellow input{background-color: #ffce00;}
+#tblEventsInShipmentsQuery > thead > tr > th:not(.cssShortTd) {min-width: 150px; }
+#tblEventsInShipmentsQuery > thead > tr > th.cssShortTd {min-width: 100px; }
+#tblEventsInShipmentsQuery > tbody > tr > td{padding: 0.25em; }
+@media screen and (max-width: 767px) {
+    #tblEventsInShipmentsQuery > thead > tr > th{min-width: 75px; }
+  }
+#tblEventsInShipmentsQuery td{ text-align: center ;} /* border:1px solid #c8c8c8; */

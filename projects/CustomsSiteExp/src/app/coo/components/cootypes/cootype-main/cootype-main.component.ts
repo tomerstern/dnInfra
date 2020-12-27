@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GridDefinitions } from 'projects/dn-infra/src/lib/dp/components/table/objects/grid-definitions';
 import { CooService } from '../../../services/coo.service';
 import { CooKey , CooHeader , ICooHeadersData} from '../../../models/coo';
@@ -11,8 +11,9 @@ import { CooKey , CooHeader , ICooHeadersData} from '../../../models/coo';
 })
 export class CootypeMainComponent implements OnInit {
 
-  constructor(private router: Router , private cooService : CooService) { }
-  cooKey: CooKey = { EntityNo: 0,  DeptCode: '1', ShipmentNumber: 2105050, CusDecOrder: 1 };
+  constructor(private activatedRoute: ActivatedRoute, private router: Router , private cooService : CooService) { }
+  //cooKey: CooKey = { EntityNo: 0,  DeptCode: '1', ShipmentNumber: 2105050, CusDecOrder: 1 };
+  cooKey: CooKey = { EntityNo: 0,  DeptCode: '', ShipmentNumber: 0, CusDecOrder: 0 };
   cooBox: CooHeader = new CooHeader ;
   headersData: ICooHeadersData;
   arrCooDataDetails: any[] = [];
@@ -21,19 +22,33 @@ export class CootypeMainComponent implements OnInit {
   cooType: string = "";
   render = false;
   gridDefinition: GridDefinitions;
+  userID: string = "mosheme";
 
   ngOnInit(): void {
     
-    this.fetchArr.push(this.cooService.getCooTypesList())
-    this.fetchArr.push(this.cooService.getCooHeaderList(this.cooKey));
-    Promise.all(this.fetchArr).then((data: Array<any>) => {
-      this.arrCooTypeList = data[0];
-      this.headersData = { headers: data[1] } ;
-      this.setCountForCooTypes();
-          
-    }).catch(err => {
-      console.log(err);
-    });
+    this.activatedRoute.params.subscribe( async data =>
+      {
+        this.cooKey.EntityNo = 0;
+        this.cooKey.ShipmentNumber = data['ShipmentNumber'];
+        this.cooKey.CusDecOrder = data['CusDecOrder'];
+        this.cooKey.DeptCode = data['DeptCode'];
+        this.userID = data['UserID'];
+
+        this.fetchArr.push(this.cooService.getCooTypesList())
+        this.fetchArr.push(this.cooService.getCooHeaderList(this.cooKey));
+        Promise.all(this.fetchArr).then((data: Array<any>) => {
+          this.arrCooTypeList = data[0];
+          this.headersData = { headers: data[1] } ;
+          this.setCountForCooTypes();
+              
+        }).catch(err => {
+          console.log(err);
+        });
+
+      }
+    );
+    
+    
   }
 
   setCountForCooTypes()
@@ -126,7 +141,8 @@ export class CootypeMainComponent implements OnInit {
                                   cooMode: cooMode ,
                                   ShipmentNumber: this.cooKey.ShipmentNumber ,
                                   DeptCode: this.cooKey.DeptCode,
-                                  CusDecOrder: this.cooKey.CusDecOrder
+                                  CusDecOrder: this.cooKey.CusDecOrder,
+                                  UserID: this.userID
     } ]);
   }
 

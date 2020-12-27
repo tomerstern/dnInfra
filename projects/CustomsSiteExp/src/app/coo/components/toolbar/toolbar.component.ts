@@ -26,7 +26,7 @@ export class ToolbarComponent implements OnInit {
   ref1: DpDynamicDialogRef;
 
   ngOnInit(): void {
-      this.toastDefinition = new ToastDefinitions({ position: "center" });
+      this.toastDefinition = new ToastDefinitions({ position: "top-right" });
 }
 
   saveData()

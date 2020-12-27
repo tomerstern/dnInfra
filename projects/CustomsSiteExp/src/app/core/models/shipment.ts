@@ -59,6 +59,7 @@ export class OperationShipmentData {
     ImporterAddress1: string;
     ImporterAddress2: string;
     ImporterCountry: string 
-
+    ETD: string;
+    ATD: string;
 }
 

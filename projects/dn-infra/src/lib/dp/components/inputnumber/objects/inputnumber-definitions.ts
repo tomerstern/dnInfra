@@ -51,12 +51,15 @@ export enum InputNumberMode {
     format: boolean;
     constructor(params: IInputNumberDefinitions) {
         this.isStandAlone = (params.isStandAlone == null ? true : params.isStandAlone);
+        if(this.mode != null){
+          this.maxFractionDigits = (params.maxFractionDigits == null ? 2 : params.maxFractionDigits);
+          this.minFractionDigits = (params.minFractionDigits == null ? 2 : params.minFractionDigits);
+        }
         this.mode = (params.mode == null ? InputNumberMode[InputNumberMode.decimal] : InputNumberMode[InputNumberMode[this.mode]]);
         this.min = (params.min == null ? -9999999999 : params.min);
         this.max = (params.max == null ? 9999999999 : params.max);
         this.maxlength = (params.maxlength == null ? 15 : params.maxlength);
-        this.maxFractionDigits = (params.maxFractionDigits == null ? 2 : params.maxFractionDigits);
-        this.minFractionDigits = (params.minFractionDigits == null ? 2 : params.minFractionDigits);
+  
         this.currency = (params.currency == null ? 'USD' : params.currency);
         this.step = (params.step == null ? 1 : params.step);
         this.prefix = (params.prefix == null ? '' : params.prefix);

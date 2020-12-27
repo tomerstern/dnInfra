@@ -7,7 +7,7 @@ import { ToastDefinitions } from 'projects/dn-infra/src/lib/dp/components/toast/
 import { TransmissionlogComponent } from '../../../components/transmission/transmissionlog/transmissionlog.component';
 import { Store } from '@ngrx/store';
 import { getAppState } from 'projects/dn-infra/src/lib/dp/store/selectors';
-import { clearStateChanges } from 'projects/dn-infra/src/lib/dp/store/actions';
+import { clearStateChanges, deleteRowByColumnValue, updateRowByColumnValue } from 'projects/dn-infra/src/lib/dp/store/actions';
 import { map, take } from 'rxjs/operators';
 
 @Component({
@@ -42,13 +42,25 @@ export class ToolbarComponent implements OnInit {
   //   });    
   // }
 
+deleteByColumn(){
+  this.store.dispatch(deleteRowByColumnValue({ data: { tableId: 'references', columnName: 'Reference', columnValue: '666' } }));
+}
+
+updateByColumn(){
+  this.store.dispatch(updateRowByColumnValue({ data: { tableId: 'references', 
+                                                columnNameToSearch: 'Reference', columnValueToSearch: '111',
+                                                columnNameToReplace: 'ReferenceType', columnValueToReplace: '2' } }));
+}
+
 saveData()
-{debugger
+{
+  this.deleteByColumn()
+  // this.updateByColumn()
   this.updateTableChanges();  
   this.callSave();
 }
 
-updateTableChanges(){
+updateTableChanges(){  
   const changes = [];
   this.store.select(getAppState).pipe(take(1), map(state => {
     Object.keys(state.tables).forEach(table => {

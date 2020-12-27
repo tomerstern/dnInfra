@@ -187,8 +187,8 @@ export class DeclarationService {
           }
         });
 
-        if(isLineNumberKeyExists){
-          row.LineNumber = (lastRow == undefined ? 1 : lastRow.LineNumber + 1);
+        if(isLineNumberKeyExists){          
+          row.LineNumber = (lastRow.LineNumber == undefined ? 1 : lastRow.LineNumber + 1);
         }        
         this.store.dispatch(updateRow({row, rowIndex, tableId: tableId}));
       }

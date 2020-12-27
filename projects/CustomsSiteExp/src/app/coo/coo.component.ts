@@ -67,7 +67,7 @@ export class CooComponent implements OnInit {
               this.route.navigate(['/error']);
             }
             
-            this.cooService.getCooBoxFromServer(this.cooKey, this.cooMode )
+            this.cooService.getCooBoxFromServer(this.cooKey, this.cooMode, data['UserID'] )
             .then((response: string) => {              
               if(response != '')
               {
@@ -76,7 +76,7 @@ export class CooComponent implements OnInit {
               }
             });
             this.cooService.cooDataSubject$.subscribe((result: ICooData) => {
-              this.setCooReplace()
+              //this.setCooReplace()
             });
 
             this.fetchArr.push(this.cooService.getOperationShipmentData(this.cooKey));
@@ -104,23 +104,23 @@ export class CooComponent implements OnInit {
 
   }
 
-  setCooReplace()
-  {
-    if ( this.cooService.cooData == undefined )
-      return
+  // setCooReplace()
+  // {
+  //   if ( this.cooService.cooData == undefined )
+  //     return
 
-    if(this.cooService.cooData.CooBoxData.CooMode != CooMode.Replace ) 
-      return 
+  //   if(this.cooService.cooData.CooBoxData.CooMode != CooMode.Replace ) 
+  //     return 
 
-    this.cooService.cooData.CooBoxData.Header.EntityNo = 0;
-    this.cooService.cooData.CooBoxData.Header.AgentR_certificateIdToCancel = this.cooService.cooData.CooBoxData.Header.AgentR_certificateID;
-    this.cooService.cooData.CooBoxData.Header.AgentR_certificateID = "";
-    this.cooService.cooData.CooBoxData.Header.AgentR_replacementReason = this.cooService.cooData.CooBoxData.CooMode;
-    this.cooService.cooData.CooBoxData.CooMode = CooMode.Update;
-    this.cooService.cooData.CooBoxData.Header.AgentR_internalApplication = "";
+  //   this.cooService.cooData.CooBoxData.Header.EntityNo = 0;
+  //   this.cooService.cooData.CooBoxData.Header.AgentR_certificateIdToCancel = this.cooService.cooData.CooBoxData.Header.AgentR_certificateID;
+  //   this.cooService.cooData.CooBoxData.Header.AgentR_certificateID = "";
+  //   this.cooService.cooData.CooBoxData.Header.AgentR_replacementReason = this.cooService.cooData.CooBoxData.CooMode;
+  //   this.cooService.cooData.CooBoxData.CooMode = CooMode.Update;
+  //   this.cooService.cooData.CooBoxData.Header.AgentR_internalApplication = "";
     
-    return;
-  }
+  //   return;
+  // }
 
   checkErrorPage(data: any){
     if (data['cooMode'] === undefined)
@@ -145,7 +145,7 @@ export class CooComponent implements OnInit {
       {
         return undefined;
       }
-      result.ShipmentNumber = +shipmentNumber;
+      result.ShipmentNumber =+ shipmentNumber;
       // if (deptCode === undefined || deptCode.isNullOrEmpty)
       if (deptCode === undefined)
       {
@@ -157,7 +157,7 @@ export class CooComponent implements OnInit {
       {
         return undefined;
       }
-      result.CusDecOrder = +cusDecOrder;
+      result.CusDecOrder =+ cusDecOrder;
     }
    
     if (cooMode === CooMode.Update || cooMode === CooMode.Replace){
@@ -170,7 +170,7 @@ export class CooComponent implements OnInit {
       {
         return undefined;
       }
-      result.EntityNo = +entityNo;
+      result.EntityNo =+ entityNo;
 
       if (shipmentNumber === undefined || !shipmentNumber.isNumber)
       {
@@ -178,7 +178,7 @@ export class CooComponent implements OnInit {
       }
       else
       {
-        result.ShipmentNumber = +shipmentNumber;
+        result.ShipmentNumber =+ shipmentNumber;
       }
       // if (deptCode === undefined || deptCode.isNullOrEmpty)
       if (deptCode === undefined)
@@ -196,7 +196,7 @@ export class CooComponent implements OnInit {
       }
       else
       {
-        result.CusDecOrder = +cusDecOrder;
+        result.CusDecOrder =+ cusDecOrder;
       }
     }
     return result;

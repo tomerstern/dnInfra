@@ -7,6 +7,7 @@ import { CoreModule } from './core/core.module';
 import { FormsModule } from '@angular/forms';
 import { DnInfraModule } from 'projects/dn-infra/src/public-api';
 import {FieldsetModule} from 'primeng/fieldset';
+import { ChipsModule } from 'primeng/chips';
 /* for Translate start */
 import { HttpClientModule } from '@angular/common/http';
 import { LanguageComponent } from './components/language/language.component';
@@ -52,7 +53,8 @@ import { Test5Component } from './components/test/test5/test5.component';
     SharedModule,
     DeclarationModule,
     CooModule,
-    FieldsetModule
+    FieldsetModule,
+    ChipsModule
   ],
 
   bootstrap: [AppComponent],

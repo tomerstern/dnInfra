@@ -53,5 +53,24 @@ export class GlobalFunctionsService {
   // Extract the unique values for the given key of each item in the array
   // retTreeNodesData = [...new Set(LocSelection.map(it => it.data))];
 
-  
+  getdate() {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear();
+    return( mm + '/' + dd + '/' + yyyy);
+  }
+
+    
+  addDays(date, days) {
+    var result = new Date(date);
+    result.setDate(result.getDate() + days);
+
+    var dd = String(result.getDate()).padStart(2, '0');
+    var mm = String(result.getMonth() + 1).padStart(2, '0');
+    var yyyy = result.getFullYear();
+
+    return( mm + '/' + dd + '/' + yyyy);
+  }
+
 }

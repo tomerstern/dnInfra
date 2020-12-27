@@ -1,69 +1,45 @@
-<div class="HeaderContainer1 marginLeft4">
+<div class="HeaderContainer1 marginLeft4" *ngIf="cooService.cooData != undefined" >
 <div class="borderRight pull-left">
-    <p class="HeaderBG1">{{ 'coo.entityNo' | translate  }}: <label>
-        {{cooService.cooData.CooBoxData.Header.EntityNo}}
-    </label></p>
-    <p class="HeaderBG1">  Coo Status:
-        <!-- {{ 'coo.cooStatus' | translate  }} -->
-    
-        {{cooService.cooData.CooBoxData.CooMode}}</p>
+    <p class="HeaderBG1">{{ 'entityNo' | translate }}:
+        <label>{{cooService.cooData.CooBoxData.Header.EntityNo}}</label></p>
+    <p class="HeaderBG1">{{ 'cooStatus'| translate }}:
+        <label>{{cooService.cooData.CooBoxData.CooMode}}</label></p>
 </div>
 <div class="HeaderBG2 borderRight pull-left">
-    <p> Coo Type: 
-        <!-- {{ 'coo.cooType' | translate  }}: -->
-  
-        <label>
-            {{cooService.cooData.CooBoxData.Header.AgentR_certificateOfOriginTypeName}}
-        </label></p>
-    <p> Coo No.: 
-        <!-- {{ 'coo.cooNo' | translate  }}: -->
-        <label>
-            {{cooService.cooData.CooBoxData.Header.AgentR_certificateID}}
-        </label></p>
+    <p>{{ 'cooType' | translate }}:
+        <label>{{cooService.cooData.CooBoxData.Header.AgentR_certificateOfOriginTypeName}}</label></p>
+    <p>{{ 'cooNo' | translate }}:
+        <label>{{cooService.cooData.CooBoxData.Header.EntityNo}}</label></p>
 </div>
 <div class="HeaderBG2 borderRight pull-left">
-    <p>  CUSDEC: 
-        <!-- {{ 'coo.CUSDECFile' | translate  }}: -->
-   
-        <label> 
+    <p>{{ 'CUSDEC' | translate }}:
+        <label>
             {{cooService.cooData.CooBoxData.Header.DeptCode}}-
             {{cooService.cooData.CooBoxData.Header.ShipmentNumber}}/
             {{cooService.cooData.CooBoxData.Header.CusDecOrder}}
         </label>
     </p>
-    <p>Destination: 
-        <!-- {{ 'coo.destination' | translate  }}: -->
-   
-        <label> 
-            {{cooService.cooData.CooBoxData.Header.COO_DestinationCountry}} -
-            {{cooService.cooData.CooBoxData.Header.COO_DestinationCountryName}}
-        </label></p>
+    <p>{{ 'destination' | translate }}:
+        <label> {{cooService.operationShipmentData.Destination}}</label></p>
+        <!-- <label> {{cooService.cooData.CooBoxData.Header.COO_DestinationCountry}}</label></p> -->
 </div>
 <div class="HeaderBG2 borderRight pull-left">
-    <p>Shipper: 
-        <!-- {{ 'coo.shipper' | translate  }}: -->
-  
-        <label> {{cooService.cooData.CooBoxData.Header.COO_ExporterName}}</label></p>
-    <p>CNEE: 
-        <!-- {{ 'coo.CNEE' | translate  }}: -->
-  
-        <label>  {{cooService.cooData.CooBoxData.Header.COO_ConsigneeName}}</label></p>
+    <p>{{ 'shipper' | translate }}:
+        <label>
+            {{cooService.operationShipmentData.ShipperCode}} -
+            {{cooService.operationShipmentData.ShipperName}}</label></p>
+    <p>{{ 'CNEE' | translate  }}:
+        <label>  {{cooService.operationShipmentData.CNEEName}}</label></p>
 </div>
 <div class="HeaderBG2 borderRight pull-left">
-    <p> ETD: 
-        <!-- {{ 'coo.ETD' | translate  }}: -->
-    
-        <label></label></p>
-    <p>ATD: 
-        <!-- {{ 'coo.ATD' | translate  }}: -->
-  
-        <label></label></p>
+    <p>{{ 'ETD' | translate }}:
+        <label>{{this.dateETD}}</label></p>
+    <p>{{ 'ATD' | translate }}:
+        <label>{{this.dateATD}}</label></p>
 </div>
 <div class="HeaderBG2 pull-left">
-    <p> CUSGTW
-        <!-- {{ 'coo.CUSGTW' | translate  }}: -->
-    
-    <label>  {{cooService.cooData.CooBoxData.Header.CUS_GTW}}</label></p>
+    <p>{{ 'CUSGTW' | translate }}:
+    <label>{{cooService.cooData.CooBoxData.Header.CUS_GTW}}</label></p>
     <p></p>
 </div>
 </div>

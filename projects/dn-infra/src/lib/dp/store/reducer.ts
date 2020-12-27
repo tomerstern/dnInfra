@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { addRow, deleteRow, updateRow, updateTable, clearStateChanges, sortColumn } from './actions';
+import { addRow, deleteRow, deleteRowByColumnValue, updateRow, updateTable, clearStateChanges, sortColumn } from './actions';
 export const initialState: any = {};
 
 const reducer = createReducer(initialState,
@@ -42,56 +42,34 @@ const reducer = createReducer(initialState,
         return ({ ...state, ...newTableData });
     }),
     on(deleteRow, (state, action): any => {
-        const tableData = state[action.data.tableId].data;
-        const changes = { ...state[action.data.tableId].changes };
-        let newChanges;
-        let key = state[action.data.tableId].data[action.data.rowIndex].refKey;
-
-        if (key && changes[key].state === 4) {
-            delete changes[key];
-            newChanges = changes;
-        } else {
-            if (!key) {
-                key = getKey(5);
-            }
-            const newChangesRow = { ...tableData[action.data.rowIndex], refKey: key };
-            newChanges = {
-                ...state[action.data.tableId].changes,
-                [key]: {
-                    ...newChangesRow
-                    , state: 8
-                }
-            };
-        }
-        const newTableData = {
-            [action.data.tableId]:
-            {
-                data: [...tableData.slice(0, action.data.rowIndex),
-                ...tableData.slice(action.data.rowIndex + 1)],
-                changes: newChanges,
-                sortOrder: state[action.data.tableId].sortOrder
-            }
-        };
-        return ({ ...state, ...newTableData });
+        return deleteFromStateByIndex(action.data.tableId, state, action.data.rowIndex);
     }),
+    on(deleteRowByColumnValue, (state, action): any => {
+        let rowIndexes : number[] = getIndexesForDelete(state, action.data.tableId, 
+                                                        action.data.columnName, action.data.columnValue);
+        let updatedState: any = {...state};
+        rowIndexes.reverse().forEach(rowIndex => {            
+            updatedState = deleteFromStateByIndex(action.data.tableId, updatedState, rowIndex);
+        });
+
+        return updatedState;
+    }),    
     on(addRow, (state, action): any => {
         const key = getKey(5);
         const newRow = { ...action.data.rowToAdd, refKey: key };
         const tableData = state[action.data.tableId].data;
         const tableLength = state[action.data.tableId].data.length;
+        debugger
         const newData = {
-            data: [...tableData.slice(0, tableLength),
-                newRow],
-            changes: {
-                ...state[action.data.tableId].changes,
-                [key]: { ...action.data.rowToAdd, state: 4 },
-            sortOrder: state[action.data.tableId].sortOrder
-            }
+            data: [...tableData.slice(0, tableLength), newRow],
+            changes: { ...state[action.data.tableId].changes, [key]: { ...action.data.rowToAdd, state: 4 }
+                     },
+            sortOrder: state[action.data.tableId].sortOrder            
         };
         const newTableData = { [action.data.tableId]: newData };
         return ({ ...state, ...newTableData });
     }),
-    on(clearStateChanges, (state, action): any => {
+    on(clearStateChanges, (state, action): any => {        
         for (const tableId of action.data.tableIds) {
             const newDataArray = [];
             // ziv - Maybe use a filter which removes all refKey elements?
@@ -142,6 +120,55 @@ const reducer = createReducer(initialState,
         return ({ ...state, ...newTableData });
     })
 );
+
+export function getIndexesForDelete(state: any, tableId: string, columnName: string, columnValue: any){
+    const tableData = state[tableId].data;
+    let rowIndexes : number[] = [];
+    let rowIndex = 0;
+    tableData.forEach(row => {            
+        Object.entries(row).forEach(cell => {
+            if (cell[0] == columnName && cell[1] == columnValue)
+            {
+                rowIndexes.push(rowIndex);
+            }
+        });
+
+        rowIndex +=1;
+    });
+
+    return rowIndexes;
+}
+
+export function deleteFromStateByIndex(tableId: string, updatedState: any, rowIndex: number){
+
+    let newChanges;
+    let key = updatedState[tableId].data[rowIndex].refKey;
+    const tableData = updatedState[tableId].data;
+    let slicedTableData = tableData.map(object => ({ ...object }))
+
+    if (!key) {
+        key = getKey(5);
+    }
+    const newChangesRow = { ...slicedTableData[rowIndex], refKey: key };
+    newChanges = {
+        ...updatedState[tableId].changes,
+        [key]: {
+            ...newChangesRow
+            , state: 8
+        }
+    };
+    slicedTableData = [...slicedTableData.slice(0, rowIndex), ...slicedTableData.slice(rowIndex + 1)];
+    const newTableData = {
+        [tableId]:
+        {
+            data: slicedTableData,
+            changes: newChanges,
+            sortOrder: updatedState[tableId].sortOrder
+        }
+    };
+    
+    return ({ ...updatedState, ...newTableData });
+}
 
 export function getSortOrder(state, action) {
     if (state[action.tableId].sortOrder === undefined ||

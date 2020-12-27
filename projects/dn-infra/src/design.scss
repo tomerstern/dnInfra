@@ -43,7 +43,7 @@ $SecondaryColor:#ffce00;
 $HeaderBG: #212121;
 $HeaderShadow: #6E6D6D;
 fa-icon.cssPrimary { color: $PrimaryColor}
-
+.cssPrimary{ color: $PrimaryColor}
 html, body {
   height:99%;
 }
@@ -1068,6 +1068,10 @@ dp-table, dp-tabmenu, dp-tree,p-tabview , p-tabview{
 }
 /* direction end*/
 
+/*chips start*/
+body .ui-chips > ul.ui-inputtext .ui-chips-token{background: $PrimaryColor;}
+body .ui-chips > ul.ui-inputtext:not(.ui-state-disabled).ui-state-focus{  box-shadow: 0 0 0 0.2em $PrimaryColorShadow; border-color: $PrimaryColorHover;}
+/*chips end*/
 /* check move to table css*/
 dp-table p-table tbody tr {
   td{

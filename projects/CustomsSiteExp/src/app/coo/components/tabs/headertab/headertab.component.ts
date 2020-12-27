@@ -18,19 +18,10 @@ import { AutocompleteComponent } from 'projects/dn-infra/src/public-api';
   styleUrls: ['./headertab.component.scss']
 })
 export class HeaderTabComponent implements OnInit {
+  @Input() events: Observable<void>;
   @Output() callCooSaveFunction:EventEmitter<any>=new EventEmitter<any>()
-
-  constructor(public cooService: CooService,
-              public exportassistService: ExportassistService, 
-              public translate: TranslateService) {
-
-    this.cooService.cooDataSubject$.subscribe(data => {
-      console.log(data);
-    })
-  }
   private eventsSubscription: Subscription;
   debugMode: boolean = true;
-  @Input() events: Observable<void>;
   autocompleteDefinition1: AutocompleteDefinitions;
   acDefOperationalCustomer: AutocompleteDefinitions;  
   InputTextDef: InputtextDefinitions;
@@ -44,9 +35,36 @@ export class HeaderTabComponent implements OnInit {
   fetchArr = [];
   headerTabData: any;
   neeType: string;
+  originCountryOption: string = "Country";
+  destinationCountryOption: string = "Country";
+  tradeAgreementOption: string  = "Country1";
   yesNoData=[];
   cumulation:string;  
-  
+  constructor(public cooService: CooService,
+              public exportassistService: ExportassistService, 
+              public translate: TranslateService) {
+
+    this.cooService.cooDataSubject$.subscribe(data => {
+      
+    if(data != undefined)
+    {
+      if( data.CooBoxData.Header.COO_OriginCountry != undefined )
+        this.originCountryOption = "Country";
+      if( data.CooBoxData.Header.COO_OriginGroupOfCountries != undefined )
+        this.originCountryOption = "CountryGroups";
+
+      if( data.CooBoxData.Header.COO_DestinationCountry != undefined )
+        this.destinationCountryOption = "Country";
+      if( data.CooBoxData.Header.COO_DestinationGroupOfCountries != undefined )
+        this.destinationCountryOption = "CountryGroups";
+
+      console.log(data);
+    }
+
+      
+    })
+  }
+    
   ngOnInit(): void {
     
        this.autocompleteDefinition1 = new AutocompleteDefinitions({
@@ -86,8 +104,6 @@ export class HeaderTabComponent implements OnInit {
           }
       }
      } 
-
-
 
   onSubmit() {
     alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.cooService.cooData.CooBoxData.Header, null, 4));
@@ -134,7 +150,39 @@ export class HeaderTabComponent implements OnInit {
         this.setCOO_Consignee("","","")
         break; 
     }
-    
+  }
+
+  handleChange(res: any, id: string)
+  {
+    if(res === undefined){
+      return;
+    }
+    switch (id) {
+      case 'originCountryOption':
+        if( this.originCountryOption == 'Country'  ){
+          this.cooService.cooData.CooBoxData.Header.COO_OriginGroupOfCountries = "";
+        }
+         
+        if( this.originCountryOption == 'ContryGroups' ){
+          this.cooService.cooData.CooBoxData.Header.COO_OriginCountry = "";
+        }
+                      
+        break;
+
+        case 'destinationCountryOption':
+          if( this.destinationCountryOption == 'Country'  ){
+            this.cooService.cooData.CooBoxData.Header.COO_DestinationGroupOfCountries = "";
+          }
+           
+          if( this.destinationCountryOption == 'ContryGroups' ){
+            this.cooService.cooData.CooBoxData.Header.COO_DestinationGroupOfCountries = ""
+          }
+                        
+          break;
+
+      default:
+        break;
+    }
   }
 
   setCOO_Consignee(CneeName: string , CneeAddress: string, CneeCountry: string)

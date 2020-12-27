@@ -183,9 +183,9 @@
             <ng-container *ngIf="column.fieldname === 'index'">
             {{index + 1}}
             </ng-container>
-            <ng-container [ngSwitch]="column.type">
+            <div [ngSwitch]="column.type" (click)="column.clickColumnName !== undefined ? clickEvent(column, row[column.clickColumnName]) : ''" >
               <span *ngSwitchCase="gridColumnTypeEnum.span"
-                (click)="column.clickColumnName !== undefined ? clickEvent(column, row[column.clickColumnName]) : ''" [style]="column.style"
+                [style]="column.style"
                 [class]="column.class">
                 {{row[column.fieldname]}}
             </span>
@@ -205,7 +205,7 @@
                 title="{{row[column.fieldname.concat('_tooltip')]}}" width="{{column.width}}"
                 height="{{column.height}}">
               <span *ngSwitchCase="gridColumnTypeEnum.autocomplete">{{row[column.fieldname]}}</span>
-            </ng-container>
+            </div>
 
           </ng-template>
 

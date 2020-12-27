@@ -7,20 +7,20 @@
 </div> -->
 
 <!-- **** LOADER **** -->
-<!-- <app-maintab></app-maintab> -->
-<!-- <div *ngIf="showApp else loader" id="dpMainPageBody" class="dpCssTabContainer">
+<app-maintab></app-maintab>
+<div *ngIf="showApp else loader" id="dpMainPageBody" [ngClass]="(this.isRtl )?'clsDpRtl dpCssTabContainer' : 'dpCssTabContainer'">
     <router-outlet></router-outlet>
-</div> -->
+</div>
 
-<!-- <p-toolbar styleClass="p-mb-4">
+<p-toolbar styleClass="p-mb-4">
     <div class="p-toolbar-group-left">
         <button pButton pRipple label="Save"
                 (click)="updateShipment()"
                 icon="pi pi-save"
                 class="ui-button ui-button-dp p-mr-2"></button>
     </div>
-</p-toolbar> -->
-<!-- 
+</p-toolbar>
+
 <ng-template #loader>
     <div class="loader">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin:auto;background:#fff;display:block;" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
@@ -29,5 +29,5 @@
             </circle>
         </svg>
     </div>
-</ng-template> -->
+</ng-template>
 <!-- **** LOADER **** -->

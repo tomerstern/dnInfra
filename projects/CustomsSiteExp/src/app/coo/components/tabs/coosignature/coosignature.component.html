@@ -1,8 +1,6 @@
 <br/>
-<div *ngIf="cooService.cooData != undefined" >
-    {{cooService.cooData.CooBoxData | json}} 
-</div>
-<div class="p-grid"  *ngIf="cooService.cooData.CooBoxData != undefined">
+
+<div class="p-grid"  *ngIf="cooService.cooData != undefined">
     <div class="p-col-12 p-md-4">
         <p-fieldset legend="{{ 'coo.CustomsEndorsement' | translate }}" [toggleable]="false">
         <div class="p-grid">
@@ -36,8 +34,9 @@
             <div class="p-col-12 p-md-1 Mandatory">*</div>
             <div class="p-col-12 p-md-6"><b>
                 <dp-calendar 
-                    name="DateOfDeclaration" 
-                    [definition]="CalendarDef1" >
+                name="DateOfDeclaration"
+                    [definition]="CalendarDef1" 
+                    [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_DateOfDeclaration" >
                 </dp-calendar>
             </b></div>      
         </div>

@@ -1,6 +1,7 @@
 <br/>
 <!-- {{cooService.cooData.CooBoxData.Header | json}}  -->
-<div *ngIf="cooService.cooData.CooBoxData != undefined">    
+<!-- <div *ngIf="cooService.cooData != undefined">     -->
+<div *ngIf="cooService.cooData != undefined">    
 <div class="p-grid">
     <div class="p-col-12 p-md-3">
         <p-fieldset legend="General" [toggleable]="false">
@@ -22,7 +23,7 @@
         </div>
         <div class="p-grid">
             <div class="p-col-12 p-md-6">Open Date:</div>
-            <div class="p-col-12 p-md-6"><b>{{cooService.cooData.CooBoxData.Header.OpenDate}}</b></div>
+            <div class="p-col-12 p-md-6"><b>{{this.dateOpen}}</b></div>
         </div>
         <div class="p-grid">
             <div class="p-col-12 p-md-6">Opened By:</div>
@@ -30,11 +31,6 @@
         </div>
         </p-fieldset>
     </div>
-    <div class="p-col-12 p-md-9">
-    </div>
-</div>
-<br/>
-<div class="p-grid">
     <div class="p-col-12 p-md-3">
         <p-fieldset legend="Agent Request" [toggleable]="false">
         <div class="p-grid">
@@ -61,7 +57,7 @@
         </p-fieldset>
     </div>
     <div class="p-col-12 p-md-3">
-        <p-fieldset legend="Replace COO" [toggleable]="true">
+        <p-fieldset legend="Replace COO" [toggleable]="true" [collapsed]=replaceCooCollapsed>
             <div class="p-grid">
                 <div class="p-col-12 p-md-6">COO No. for Cancel:</div>
                 <div class="p-col-12 p-md-6"><b>{{cooService.cooData.CooBoxData.Header.AgentR_certificateIdToCancel}}</b></div>
@@ -80,6 +76,4 @@
             </div>        
             </p-fieldset>
     </div>
-    <div class="p-col-12 p-md-3"></div>
-</div>
 </div>

@@ -21,6 +21,16 @@ export class CooService {
     
   constructor(private http: HttpClient, private webAPI: CommunicationService) {}
 
+  fixDate(dateConvert: string):string
+  {
+    if(dateConvert != undefined)
+    {
+      let date = new Date(parseInt(dateConvert.substr(6))).toISOString().slice(0,10);
+      return date;
+    }
+    return ""
+  }
+  
   //#region  "Set"
   setCooBox(jsonCooBox: any)
   {
@@ -97,7 +107,7 @@ export class CooService {
     this.cooData.CooBoxData.EntityNo = this.cooData.CooBoxData.Header.EntityNo;
   }
 
-  getCooBoxFromServer(key: CooKey, cooMode: CooMode) {    
+  getCooBoxFromServer(key: CooKey, cooMode: CooMode, userID: string) {    
     
     return new Promise((resolve, reject) => { 
       this.webAPI.sendWebAPIRequest("COO/GetCooBoxByEntityNo" , JSON.stringify(key))
@@ -107,7 +117,8 @@ export class CooService {
           this.cooData = {
             CooBoxData: data.result
           };
-          this.cooData.CooBoxData.CooMode = cooMode;
+          this.cooData.CooBoxData.UserID = userID;
+          this.cooData.CooBoxData.CooMode = cooMode.toString();
           this.cooDataSubject$.next(this.cooData);
           resolve('');
         }

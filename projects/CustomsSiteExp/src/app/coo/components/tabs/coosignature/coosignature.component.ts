@@ -16,21 +16,31 @@ export class CoosignatureComponent implements OnInit {
   @Input() events: Observable<void>;
   @Output() callCooSaveFunction:EventEmitter<any>=new EventEmitter<any>()
   customsOfficeSelected:any;
-  constructor(public cooService : CooService, public exportassistService: ExportassistService,) { 
-    cooService.cooDataSubject$.subscribe(data => {console.log(data);})
-  }
   autocompleteDefinition1: AutocompleteDefinitions;
   autocompleteDefinition2: AutocompleteDefinitions;
   CalendarDef1: CalendarDefinitions;
   declarationBy: string;
   stateSavingMode: number = 0;
 
-  ngOnInit(): void {
+  constructor(public cooService: CooService,public exportassistService: ExportassistService) {
+    cooService.cooDataSubject$.subscribe(data => {
+      
+      if(data != undefined)
+      {
+        this.retrieveData();
+        console.log(data);
+      }
+      
+    })
+  }
+  
+  retrieveData()
+  {
+    this.getDefinitions();
+    this.cooService.cooData.CooBoxData.Header.COO_DateOfDeclaration = this.cooService.fixDate(this.cooService.cooData.CooBoxData.Header.COO_DateOfDeclaration);
+  }
 
-     // this.eventsSubscription = this.events.subscribe(() => this.sendDataToParent());
-
-      this.getDefinitions();
-    }
+  ngOnInit(): void {}
 
     getDefinitions() {
       this.autocompleteDefinition1 = new AutocompleteDefinitions({
@@ -61,19 +71,12 @@ export class CoosignatureComponent implements OnInit {
         if( this.cooService.cooData?.CooBoxData?.Header.COO_IsDeclaredByManufacturer )
           this.declarationBy = 'Manufacturer';
       }
-      //this.test.row = this.cooService.cooBox.Header.COO_DateOfDeclaration;
-      //alert(this.cooService.cooBox.Header.COO_DateOfDeclaration) ;
-      
-      //this.COO_IssuingCountry = { name: 'ISRAEL', code: this.cooService.cooBox.Header.COO_IssuingCountry };
-
-
   }
 
   sendDataToParent() {
     this.callCooSaveFunction.emit({name:'signature tab', success:true, obj:this.stateSavingMode});
   }
 
-  
   handleChange(res: any, id: string)
   {
     if(res === undefined){

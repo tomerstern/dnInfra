@@ -18,6 +18,7 @@ export class AppComponent implements OnInit {
     this.fetchArr.push(this.exportassistService.getAllUsingTypes());
     this.fetchArr.push(this.exportassistService.getAllDeclarationSources());
     this.fetchArr.push(this.exportassistService.getAllReferenceTypes());
+    this.fetchArr.push(this.exportassistService.getAllEventCodes());
 
   Promise.all(this.fetchArr).then((data: Array<any>) => {
     this.exportassistService.setCustomers(data[0]);
@@ -29,6 +30,7 @@ export class AppComponent implements OnInit {
     this.exportassistService.setUsingTypes(data[6]);
     this.exportassistService.setDeclarationSources(data[7]);
     this.exportassistService.setReferenceTypes(data[8]);
+    this.exportassistService.setEventCodes(data[9]);
     });
   }
   title = 'CustomsSiteExp';

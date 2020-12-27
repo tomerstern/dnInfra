@@ -47,6 +47,18 @@ export class GlobalFunctionsService {
     return LocUuid;
 
   }
+
+
+  getdate() {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear();
+    return( mm + '/' + dd + '/' + yyyy);
+  }
+
+    
+
   // Extract the unique values for the given key of each item in the array
   // retTreeNodesData = [...new Set(LocSelection.map(it => it.data))];
 

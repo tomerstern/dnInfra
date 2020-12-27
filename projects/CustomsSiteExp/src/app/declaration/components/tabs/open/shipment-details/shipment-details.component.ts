@@ -35,7 +35,7 @@ export class ShipmentDetailsComponent implements OnInit {
     this.acDefIncoTerms = new AutocompleteDefinitions({
       dropdown: true
     });
-    this.openDateCalendarDef = new CalendarDefinitions({minDate: new Date(2019, 6, 12), showTime: false});
+    this.openDateCalendarDef = new CalendarDefinitions({minDate: new Date(2019, 6, 12), showTime: true});
     this.InputTextDef = new InputtextDefinitions({ size: 25 });
 
     // this.openDate = new Date(Number(this.declarationService.declarationData.DeclarationBox.ExportCustoms.OpenDate));

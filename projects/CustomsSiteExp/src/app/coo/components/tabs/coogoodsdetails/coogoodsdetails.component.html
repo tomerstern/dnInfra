@@ -1,1 +1,28 @@
-<p>coogoodsdetails works!</p>
+<br/>
+<div *ngIf="cooService.cooData != undefined" >
+    Invoices:  {{cooService.cooData.CooBoxData.Invoices | json}}
+    <br><br>
+    GoodDetails:  {{cooService.cooData.CooBoxData.GoodDetails | json}}  
+</div>
+<br/>
+<div>
+    {{invoicesForCont | json}}
+    <div class="p-col-12 p-md-8">
+        <dp-table tableId="tblInvoiceDetails" 
+            [definition]="gridInvoiceDetailsDefinition"
+            [datasource]="invoiceDetails"
+            >
+            <!-- [datasource]="" -->
+        </dp-table>
+    </div>
+<dp-table tableId="tblContainers" 
+    [definition]="gridContainersDefinition"
+    [datasource]="goodsDetails"
+    >
+
+    <!-- <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
+        aaaaaaa
+    </ng-template> -->
+</dp-table>
+</div>
+

@@ -24,8 +24,11 @@ export enum CooMode {
 }
 
 export class CooBox extends CooKey {
+    UserID: string;
     CooMode: string;
-    Header: CooHeader;  
+    Header: CooHeader;
+    Invoices: COOInvoiceDetails[];
+    GoodDetails: CooGoodsDetails[];
   }
 
 export class CooHeader extends CooKey {
@@ -77,7 +80,7 @@ export class CooHeader extends CooKey {
     COO_CountryOfDeclaration :string; 
     COO_CountryOfDeclarationHebName :string; 
     COO_CountryOfDeclarationEngName :string; 
-    COO_DateOfDeclaration: Date; 
+    COO_DateOfDeclaration: string; 
     COO_IsDeclaredByManufacturer: boolean; 
     COO_IsDeclaredByExporter: boolean; 
     NonMC_ExportDate :Date; 
@@ -101,3 +104,31 @@ export class CooHeader extends CooKey {
     CUS_GTW :number;
     
   }
+
+export class COOInvoiceDetails{
+  EntityNo :number;	
+  LineNumber: number;	
+  InvoiceNum:number;
+  InvoiceDate: Date;	
+  InvoiceSum: Number;	
+  CurrencyType: string;	
+  DescriptionOfInvoice: string;	
+  IsInvoicesForPrint: boolean;
+}
+
+export class CooGoodsDetails{
+  EntityNo: number; 	
+  LineNumber: number;	
+  ItemSerial: number;	
+  ItemId: number;	
+  OriginCriterion: string;	
+  MarksAndNumbers: string;	
+  PackageQuantity: number;	
+  PackageType: string;	
+  ItemDescription: string;	
+  Weight: number;	
+  MeasureType: string;
+  Invoices: COOInvoiceDetails[];
+
+  //Connected: bool = this.Invoices.length > 0;
+}

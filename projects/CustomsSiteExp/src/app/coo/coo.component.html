@@ -4,6 +4,17 @@
         <!-- <app-toolbar></app-toolbar> -->
         <app-coo-header class="p-col-12 p-md-8"></app-coo-header>
         <br />
+
+        <p-fieldset legend="COO - Test Mode" [toggleable]="true" [collapsed]="true">
+            <div *ngIf="cooService.cooData != undefined" >
+                CooBoxData:  {{cooService.cooData.CooBoxData | json}}  
+                <br><br>
+                OperationShipmentData:  {{cooService.operationShipmentData | json}} 
+                <br><br>
+            </div>
+        </p-fieldset>
+        <br>
+
         <!-- <app-tabmenu></app-tabmenu>
         <router-outlet></router-outlet> -->
         <p-tabView class="dp-css">
@@ -19,6 +30,9 @@
             </p-tabPanel>
             <p-tabPanel header="Non Manipulation Certificate" *ngIf="cooType == '5'">
                 <app-nonmanipulationcertificate></app-nonmanipulationcertificate>
+            </p-tabPanel>
+            <p-tabPanel header="Goods Details" *ngIf="cooType != '5'">
+                <app-coogoodsdetails></app-coogoodsdetails>
             </p-tabPanel>
         </p-tabView>
     </div>
