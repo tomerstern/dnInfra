@@ -1,0 +1,10 @@
+<dp-picklist (onTargetListChange)="updateTarget($event)" [sourceList]="DialogSourceList" [targetList]="DialogTargetList" [tableId]="null" [isUndo]="isUndo"></dp-picklist>
+
+<div class="text-center">
+<button class="ui-button ui-button-dp" pButton type="button" [label]="'Apply'" (click)="funcReturnToParent()">
+</button>   
+
+<button class="ui-button ui-button-dp" pButton type="button" [label]="'Undo All'" (click)="undoChanges()">
+</button>  
+
+</div>

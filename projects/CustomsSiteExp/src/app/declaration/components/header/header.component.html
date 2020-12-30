@@ -2,7 +2,7 @@
     <div class="HeaderContainer1 marginLeft4 text-left" >  
         <div class="borderRight pull-left HeaderBG1">
             <p class="headerP">{{ 'declaration.shipmentNumber' | translate  }}: 
-                {{declarationService.declarationData.DeclarationBox.ShipmentNumber}}
+                {{declarationService.declarationData.DeclarationBox.DeptCode}}-{{declarationService.declarationData.DeclarationBox.ShipmentNumber}}/{{declarationService.declarationData.DeclarationBox.CusDecOrder}}
             </p>
             <p class="headerP">{{ 'declaration.processCode' | translate  }}:
                 {{declarationService.declarationData.DeclarationBox.DeclarationDetails.DeclarationCurrentCode}}

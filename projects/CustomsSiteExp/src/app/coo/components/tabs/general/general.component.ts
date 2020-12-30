@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CooService } from '../../../services/coo.service';
 import { CooMode } from '../../../models/coo';
 import { InputNumberDefinitions } from 'projects/dn-infra/src/lib/dp/components/inputnumber/objects/inputnumber-definitions';
+import { StateSavingMode } from 'projects/CustomsSiteExp/src/app/core/enums';
+
 
 @Component({
   selector: 'app-general',
@@ -39,6 +41,11 @@ export class GeneralComponent implements OnInit {
 
   setCooNew()
   {
+    if(this.cooService.cooData.CooBoxData.CooMode != CooMode.New ) 
+    {
+      return 
+    }
+    this.cooService.cooData.CooBoxData.State = StateSavingMode.Added;
     this.cooService.cooData.CooBoxData.Header.OpenedBy = this.cooService.cooData.CooBoxData.UserID ;
   }
 

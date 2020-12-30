@@ -1,6 +1,5 @@
 <br/>
-
-<div class="p-grid"  *ngIf="cooService.cooData != undefined">
+<div [ngClass]="{'disableDiv': cooService.isDisabled}" class="p-grid"  *ngIf="cooService.cooData != undefined">
     <div class="p-col-12 p-md-4">
         <p-fieldset legend="{{ 'coo.CustomsEndorsement' | translate }}" [toggleable]="false">
         <div class="p-grid">
@@ -9,7 +8,7 @@
             <div class="p-col-12 p-md-6"><b>
                 <dp-autocomplete 
                     *ngIf="cooService.customsOfficeList" 
-                    [initVal]="cooService.cooData.CooBoxData.Header.COO_CustomsHouseName"                                 
+                    [ngModel]="cooService.cooData.CooBoxData.Header.COO_CustomsHouseName"                                 
                     [definition]="autocompleteDefinition2" 
                     [datasource]="cooService.customsOfficeList"
                     (getSelected)="handleChange($event,'customsHouse')">
@@ -22,7 +21,7 @@
             <div class="p-col-12 p-md-6"><b>
                 <dp-autocomplete 
                     *ngIf="exportassistService.countriesList" 
-                    [initVal]="cooService.cooData.CooBoxData.Header.COO_IssuingCountryHebName"
+                    [ngModel]="cooService.cooData.CooBoxData.Header.COO_IssuingCountryHebName"
                     [definition]="autocompleteDefinition1" 
                     [datasource]="exportassistService.countriesList"
                     (getSelected)="handleChange($event,'issuingCountry')">
@@ -72,9 +71,9 @@
                 <div class="p-col-12 p-md-6"><b>
                     <dp-autocomplete 
                     *ngIf="cooService.customsOfficeList" 
-                    [initVal]="cooService.cooData.CooBoxData.Header.COO_CityOfDeclarationName"                                 
+                    [ngModel]="cooService.cooData.CooBoxData.Header.COO_CityOfDeclarationName"                                 
                     [definition]="autocompleteDefinition2" 
-                    [datasource]="cooService.customsOfficeList"
+                    [datasource]="cooService.cityiesList"
                     (getSelected)="handleChange($event,'cityOfDeclaration')">
                </dp-autocomplete> 
                 </b></div>           
@@ -85,7 +84,7 @@
                 <div class="p-col-12 p-md-6"><b>
                     <dp-autocomplete 
                         *ngIf="exportassistService.countriesList" 
-                        [initVal]="cooService.cooData.CooBoxData.Header.COO_CountryOfDeclarationHebName"                                 
+                        [ngModel]="cooService.cooData.CooBoxData.Header.COO_CountryOfDeclarationHebName"                                 
                         [definition]="autocompleteDefinition1" 
                         [datasource]="exportassistService.countriesList"
                         (getSelected)="handleChange($event,'countryOfDeclaration')">

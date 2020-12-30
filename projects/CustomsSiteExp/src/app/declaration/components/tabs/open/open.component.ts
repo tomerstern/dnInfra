@@ -24,6 +24,10 @@ export class OpenComponent implements OnInit {
   selectebillCustomer: string;
   selectedOperationalTeam: string;
 
+
+  getIt(event){
+    console.log(event);
+  }
   ngOnInit(): void {
     const ColumnsExtradata = [
       { ToSearch: true, columnStyle: 'min-width:100px;', ElementData: '' },

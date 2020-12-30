@@ -1,8 +1,3 @@
-<!-- innerValue={{innerValue | json}}<br> -->
-<!-- datasource={{datasource | json}} -->
-
-<!-- (onClear)="clear(autoComplete.value)" -->
-
 <p-autoComplete *ngIf="definition" #autoComplete [id]="definition.inputId" [suggestions]="filteredData"
   (completeMethod)="
   filterEntity(
@@ -10,21 +5,20 @@
     $event,
     definition.dp_AutocompleteType,
     definition.dpAutocompleteMaxSuggestionsToShow
-  )
-" (onBlur)="blurEmit(autoComplete.value)" (onSelect)="emit(autoComplete.value)" (onClear)="innerValue = ''; getSelected.emit('')" 
-  (onUnselect)="emit(autoComplete.value)" [ngModel]="innerValue" [ngModelOptions]="{standalone:true}"
-  [scrollHeight]="definition.scrollHeight" [style]="definition.style" [field]="definition.field"
-  [dropdown]="definition.dropdown" [multiple]="definition.multiple" [dropdownIcon]="definition.dropdownIcon"
-  [minLength]="definition.minLength" [delay]="definition.delay" [completeOnFocus]="definition.completeOnFocus"
-  [inputStyle]="definition.inputStyle" [panelStyle]="definition.panelStyle" [styleClass]="definition.styleClass"
+  )" [(ngModel)]="innerValue" (onClear)="clear($event)" (onSelect)="select(autoComplete.value)" [ngModelOptions]="{standalone:true}" [scrollHeight]="definition.scrollHeight"
+  [style]="definition.style" [field]="definition.field" [dropdown]="definition.dropdown"
+  [multiple]="definition.multiple" [dropdownIcon]="definition.dropdownIcon" [minLength]="definition.minLength"
+  [delay]="definition.delay" [completeOnFocus]="definition.completeOnFocus" [inputStyle]="definition.inputStyle"
+  [panelStyle]="definition.panelStyle" [styleClass]="definition.styleClass"
   [inputStyleClass]="definition.inputStyleClass" [panelStyleClass]="definition.panelStyleClass"
   [inputId]="definition.inputId" [placeholder]="definition.placeholder" [readonly]="definition.readonly"
   [disabled]="definition.disabled" [maxlength]="definition.maxlength" [size]="definition.size"
   [appendTo]="definition.appendTo" [tabindex]="definition.tabindex" [dataKey]="definition.dataKey"
   [autoHighlight]="definition.autoHighlight" [type]="definition.type" [emptyMessage]="definition.emptyMessage"
-  [required]="definition.required? definition.required : required" [autofocus]="definition.autofocus" [forceSelection]="definition.forceSelection"
-  [dropdownMode]="definition.dropdownMode" [baseZIndex]="definition.baseZIndex" [autoZIndex]="definition.autoZIndex"
-  [ariaLabel]="definition.ariaLabel" [ariaLabelledBy]="definition.ariaLabelledBy" [autocomplete]="'off'">
+  [required]="definition.required? definition.required : required" [autofocus]="definition.autofocus"
+  [forceSelection]="definition.forceSelection" [dropdownMode]="definition.dropdownMode"
+  [baseZIndex]="definition.baseZIndex" [autoZIndex]="definition.autoZIndex" [ariaLabel]="definition.ariaLabel"
+  [ariaLabelledBy]="definition.ariaLabelledBy" [autocomplete]="'off'">
 
   <ng-container *ngIf="definition.dp_AutocompleteType === 1">
     <!-- datasource is shadowed, use res instead -->
@@ -54,3 +48,7 @@
   </ng-container>
 
 </p-autoComplete>
+
+<!-- (onBlur)="blurEmit(autoComplete.value)"
+(onSelect)="emit(autoComplete.value)" (onClear)="clear($event)"
+(onUnselect)="emit(autoComplete.value)" -->

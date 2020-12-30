@@ -80,7 +80,9 @@
   "origin": "Origin",
   "country": "Country",
   "groupOfCounries": "Group Of Countries",
+  "countryOrGroup": "Country Or Group",
   "tradeAgreement": "Trade Agreement",
+
   "login": {
     "login": "Login",
     "username": "Enter your user name",
@@ -135,7 +137,16 @@
     "smDate": "SM Date",
     "references": "Referneces",
     "declarationDetails": "Declaration Details",
-    "dates": "Dates"
+    "dates": "Dates",
+    "zipCode": "Zip Code",
+    "angentListId": "Agent List ID",
+    "agentFileReferenceId": "Agent File Reference ID",
+    "agent": "Agent",
+    "agentRoleCode": "Agent Role",
+    "declarationType": "Declaration Type",
+    "previousDocumentType": "Previous Declaration Type",
+    "previousDocumentId": "Previous Declaration ID"
+  
   },
   "coo": {
     "customerNo": "Customer No.",

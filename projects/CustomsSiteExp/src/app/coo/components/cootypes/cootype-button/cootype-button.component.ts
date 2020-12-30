@@ -13,6 +13,7 @@ export class CootypeButtonComponent implements OnInit {
 
   btnNewDef : any = {'label' : 'New'} ;
   btnUpdateDef : any = {'label' : 'Update'} ;
+  btnViewDef : any = {'label' : 'View'} ;
   btnReplaceDef : any = {'label' : 'Replace'} ;
   btnCancelDef : any = {'label' : 'Cancel'} ;
 

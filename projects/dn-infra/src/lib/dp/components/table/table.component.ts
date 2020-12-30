@@ -247,7 +247,7 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
 
 
   ngOnChanges(changes: SimpleChanges) {
-
+debugger
     this.dpCreateFooterData();
     if (!this.initiated) {
       if (this.datasource === null) {
@@ -258,6 +258,14 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
         this.data$ = this.store.select(getTableStateById(this.tableId));
         this.initiated = true;
       }
+    }
+    else{
+      this.store.dispatch(updateTable({ data: { tableId: this.tableId, tableData: this.datasource } }));
+        this.data$ = this.store.select(getTableStateById(this.tableId));
+      // if (changes?.datasource)
+      // {
+      //   this.datasource = changes.datasource.currentValue;
+      // }
     }
 
 
@@ -450,9 +458,9 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     });
   }
 
-  clickEvent(column, val) {
+  clickEvent(column, val, row) {
     if (column.onClick !== undefined) {
-      column.onClick(val);
+      column.onClick(val, row);
     }
   }
 

@@ -19,7 +19,7 @@
                     </div>
                     <div class="p-col-12 p-md-5">       
                         <dp-autocomplete 
-                            [initVal]="declarationService.declarationData.DeclarationBox.ExportCustoms.DestinationCountryName"                                 
+                            [ngModel]="declarationService.declarationData.DeclarationBox.ExportCustoms.DestinationCountryName"                                 
                             [definition]="acDefDestinationCountry" 
                             [datasource]="exportassistService.countriesList"
                             (getSelected)="handleChange($event,'destinationCountry')"
@@ -33,7 +33,7 @@
                     </div>
                     <div class="p-col-12 p-md-5">       
                         <dp-autocomplete    
-                            [initVal]="declarationService.declarationData.DeclarationBox.ExportCustoms.IncoTerms"     
+                            [ngModel]="declarationService.declarationData.DeclarationBox.ExportCustoms.IncoTerms"     
                             [definition]="acDefIncoTerms"
                             [datasource]="exportassistService.incoTermsList"  
                             (getSelected)="handleChange($event, 'incoterms')"              
@@ -46,7 +46,7 @@
                     </div>
                     <div class="p-col-12 p-md-5">       
                         <dp-autocomplete    
-                            [initVal]="declarationService.declarationData.DeclarationBox.ExportCustoms.UsingTypeName"     
+                            [ngModel]="declarationService.declarationData.DeclarationBox.ExportCustoms.UsingTypeName"     
                             [definition]="acDefIncoTerms"
                             [datasource]="exportassistService.usingTypeList"  
                             (getSelected)="handleChange($event, 'usingTypes')"              
@@ -59,7 +59,7 @@
                     </div>
                     <div class="p-col-12 p-md-5">       
                         <dp-autocomplete    
-                            [initVal]="declarationService.declarationData.DeclarationBox.ExportCustoms.DeclarationSourceName"     
+                            [ngModel]="declarationService.declarationData.DeclarationBox.ExportCustoms.DeclarationSourceName"     
                             [definition]="acDefIncoTerms"
                             [datasource]="exportassistService.declarationSourceList"  
                             (getSelected)="handleChange($event, 'declarationSource')"              
@@ -117,7 +117,7 @@
                     </div>
                     <div class="p-col-12 p-md-5">
                         <dp-autocomplete 
-                        [initVal]="declarationService.declarationData.DeclarationBox.ExportCustoms.ContainerTypeName"                                 
+                        [ngModel]="declarationService.declarationData.DeclarationBox.ExportCustoms.ContainerTypeName"                                 
                         [definition]="acDefIncoTerms" 
                         [datasource]="exportassistService.containerTypeList"
                         (getSelected)="handleChange($event,'containerType')"

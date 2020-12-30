@@ -1,5 +1,5 @@
 <br/>
-{{declarationService.declarationData.DeclarationBox.DeclarationDetails | json}}
+{{declarationService.declarationData.DeclarationBox.DeclarationAgent | json}}
 <br>
 <br>
 <br>
@@ -7,47 +7,86 @@
     <div class="p-grid">
         <div class="p-col-12 p-md-4">
             <div class="p-grid">
-                <div class="p-col-12 p-md-3">{{ 'declaration.operationalCustomer' | translate }}:</div>
+                <div class="p-col-12 p-md-3">{{ 'declaration.agentFileReferenceId' | translate }}:</div>
                 <div class="p-col-12 p-md-1 Mandatory">*</div>
                 <div class="p-col-12 p-md-5">
                     <b>
-                        <!-- <dp-autocomplete    
-                            [initVal]="declarationService.declarationData.DeclarationBox.ExportCustoms.CustomerName"     
-                            [definition]="acDefOperationalCustomer"
-                            [datasource]="exportassistService.customersList"  
-                            (getSelected)="handleResult($event, 'operationalCustomer')"              
-                        ></dp-autocomplete> -->
+                        <dp-inputtext [definition]="InputTextDef" name="AgentFileReferenceID" 
+                        [(ngModel)]="declarationService.declarationData.DeclarationBox.DeclarationDetails.AgentFileReferenceID"   
+                        (change)="declarationService.declarationData.DeclarationBox.DeclarationDetails.AgentFileReferenceID = 
+                        declarationService.declarationData.DeclarationBox.DeclarationDetails.AgentFileReferenceID"                        
+                        ></dp-inputtext>
                     </b>
                 </div>
             </div>
             <div class="p-grid">
-                <div class="p-col-12 p-md-3">{{ 'declaration.billCustomer' | translate }}:</div>
+                <div class="p-col-12 p-md-3">{{ 'declaration.agent' | translate }}:</div>
                 <div class="p-col-12 p-md-1 Mandatory">*</div>
                 <div class="p-col-12 p-md-5">
                     <b>
-                    <!-- <dp-autocomplete    
-                    [initVal]="declarationService.declarationData.DeclarationBox.ExportCustoms.BillToName"     
-                    [definition]="acDefOperationalCustomer"
-                    [datasource]="exportassistService.customersList"  
-                    (getSelected)="handleResult($event, 'billCustomer')"              
-                    ></dp-autocomplete> -->
+                        <dp-inputtext [definition]="InputTextDef" name="Agent" 
+                        [(ngModel)]="declarationService.declarationData.DeclarationBox.DeclarationAgent.AgentID"   
+                        (change)="declarationService.declarationData.DeclarationBox.DeclarationAgent.AgentID = 
+                        declarationService.declarationData.DeclarationBox.DeclarationAgent.AgentID"                        
+                        ></dp-inputtext>
                     </b>
                 </div>            
             </div>       
             <div class="p-grid">
-                <div class="p-col-12 p-md-3">{{ 'declaration.operationalTeam' | translate }}:</div>
+                <div class="p-col-12 p-md-3">{{ 'declaration.agentRoleCode' | translate }}:</div>
                 <div class="p-col-12 p-md-1 Mandatory">*</div>
                 <div class="p-col-12 p-md-5">
                     <b>
-                        <!-- <dp-autocomplete    
-                            [initVal]="declarationService.declarationData.DeclarationBox.ExportCustoms.OperationTeamName"     
-                            [definition]="acDefOperationalTeam"
-                            [datasource]="exportassistService.teamsList"  
-                            (getSelected)="handleResult($event, 'operationalTeam')"              
-                        ></dp-autocomplete> -->
+                        <dp-autocomplete    
+                            [ngModel]="declarationService.declarationData.DeclarationBox.DeclarationAgent.AgentRoleName"     
+                            [definition]="acDefAgentRole"
+                            [datasource]="exportassistService.agentRoleList"  
+                            (getSelected)="handleResult($event, 'agentRole')"              
+                        ></dp-autocomplete>
                     </b>
                 </div>
             </div>  
+            <div class="p-grid">
+                <div class="p-col-12 p-md-3">{{ 'declaration.declarationType' | translate }}:</div>
+                <div class="p-col-12 p-md-1 Mandatory">*</div>
+                <div class="p-col-12 p-md-5">
+                    <b>
+                        <dp-autocomplete    
+                            [ngModel]="declarationService.declarationData.DeclarationBox.DeclarationDetails.TypeName"     
+                            [definition]="acDefAgentRole"
+                            [datasource]="exportassistService.declarationTypeList"  
+                            (getSelected)="handleResult($event, 'declarationType')"              
+                        ></dp-autocomplete>
+                    </b>
+                </div>
+            </div>      
+            <div class="p-grid">
+                <div class="p-col-12 p-md-3">{{ 'declaration.previousDocumentType' | translate }}:</div>
+                <div class="p-col-12 p-md-1 Mandatory">*</div>
+                <div class="p-col-12 p-md-5">
+                    <b>
+                        <dp-autocomplete    
+                            [ngModel]="declarationService.declarationData.DeclarationBox.DeclarationDetails.PreviousDocumentTypeName"     
+                            [definition]="acDefAgentRole"
+                            [datasource]="exportassistService.declarationTypeList"  
+                            (getSelected)="handleResult($event, 'previousDocumentType')"              
+                        ></dp-autocomplete>
+                    </b>
+                </div>
+            </div>     
+            <div class="p-grid">
+                <div class="p-col-12 p-md-3">{{ 'declaration.previousDocumentId' | translate }}:</div>
+                <div class="p-col-12 p-md-1 Mandatory">*</div>
+                <div class="p-col-12 p-md-5">
+                    <b>
+                        <dp-inputtext [definition]="InputTextDef" name="Previous Document ID" 
+                        [(ngModel)]="declarationService.declarationData.DeclarationBox.DeclarationDetails.PreviousDocumentID"   
+                        (change)="declarationService.declarationData.DeclarationBox.DeclarationDetails.PreviousDocumentID = 
+                        declarationService.declarationData.DeclarationBox.DeclarationDetails.PreviousDocumentID"                        
+                        ></dp-inputtext>
+                    </b>
+                </div>
+            </div>                               
         </div>
     </div>
 </div>

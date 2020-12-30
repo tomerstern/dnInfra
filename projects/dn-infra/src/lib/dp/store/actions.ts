@@ -6,10 +6,10 @@ export const updateTable = createAction(UPDATE_TABLE, props<{ data: { tableId: s
 const DELETE_ROW = 'Delete row';
 export const deleteRow = createAction(DELETE_ROW, props<{ data: { tableId: string, rowIndex: number } }>());
 
-const DELETE_ROW_BY_COLUMN_VALUE = 'Delete row By Column ID';
+const DELETE_ROW_BY_COLUMN_VALUE = 'Delete row by column values';
 export const deleteRowByColumnValue = 
     createAction(DELETE_ROW_BY_COLUMN_VALUE, 
-                    props<{ data: { tableId: string, columnName: string, columnValue: any } }>());
+                    props<{ data: { tableId: string, columnRecord: Record<string, any> } }>());
 
 const ADD_ROW = 'Add row';
 export const addRow = createAction(ADD_ROW, props<{ data: { tableId: string, rowToAdd: object } }>());
@@ -17,11 +17,9 @@ export const addRow = createAction(ADD_ROW, props<{ data: { tableId: string, row
 const UPDATE_ROW = 'Update row';
 export const updateRow = createAction(UPDATE_ROW, props<{ row: any, rowIndex: number, tableId: string }>());
 
-const UPDATE_ROW_BY_COLUMN_VALUE = 'Update row By Column ID';
-export const updateRowByColumnValue = 
-    createAction(UPDATE_ROW_BY_COLUMN_VALUE, 
-                    props<{ data: { tableId: string, columnNameToSearch: string, columnValueToSearch: any, 
-                                    columnNameToReplace: string, columnValueToReplace: any } }>());
+const UPDATE_ROW_BY_COLUMN_VALUE = 'Update row by column values';
+export const updateRowByColumnValue = createAction(UPDATE_ROW_BY_COLUMN_VALUE, props<{ data: { tableId: string, 
+                                        columnToSearchRecord: Record<string, any>, columnToReplaceRecord: Record<string, any> } }>());
 
 const CLEAR_STATE = 'Clear State';
 export const clearStateChanges = createAction(CLEAR_STATE, props<{ data: { tableIds: string[] } }>());

@@ -1,15 +1,56 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ɵCompiler_compileModuleAndAllComponentsAsync__POST_R3__ } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'projects/CustomsSiteExp/src/environments/environment';
 import { AssistTableMin, AssistTableExport } from '../../shared/models/assist';
 import { CommunicationService } from '../../core/services/communication.service';
+import { BehaviorSubject } from 'rxjs';
+
+export interface assistServiceState {
+  countriesList: any;
+  countryGroupsList: any;
+  customersList: any;
+  teamsList: any;
+  incoTermsList: any;
+  containerTypeList: any;
+  usingTypeList: any;
+  declarationSourceList: any;
+  referenceTypeList: any;
+  assistList: any;
+  eventCodesList: any;
+  agentRoleList: any;
+  declarationTypeList: any;
+
+}
+
+const INITIAL_STATE: assistServiceState = {
+  countriesList: null,
+  countryGroupsList: null,
+  customersList: null,
+  teamsList: null,
+  incoTermsList: null,
+  containerTypeList: null,
+  usingTypeList: null,
+  declarationSourceList: null,
+  referenceTypeList: null,
+  assistList: null,
+  eventCodesList: null,
+  agentRoleList: null,
+  declarationTypeList: null
+};
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExportassistService {
 
-  constructor(private http: HttpClient, private webAPI: CommunicationService) { }
+  private exportState$ = new BehaviorSubject<assistServiceState>(INITIAL_STATE);
+
+  assistState = this.exportState$.asObservable();
+
+  constructor(private http: HttpClient, private webAPI: CommunicationService) {
+ 
+  }
+
   public countriesList: AssistTableMin[];
   public countryGroupsList: AssistTableMin[];
   public customersList: AssistTableMin[];
@@ -21,105 +62,110 @@ export class ExportassistService {
   public referenceTypeList: AssistTableMin[];
   public assistList: AssistTableExport[];
   public eventCodesList: AssistTableMin[];
-  
+  public agentRoleList: AssistTableMin[];
+  public declarationTypeList: AssistTableMin[];
 
-  setCountries(jsonCountriesList: any)
-  {
+  assistSubject$ = new BehaviorSubject<any>({
+    countriesList: null,
+    countryGroupsList: null,
+    customersList: null,
+    teamsList: null,
+    incoTermsList: null,
+    containerTypeList: null,
+    usingTypeList: null,
+    declarationSourceList: null,
+    referenceTypeList: null,
+    assistList: null,
+    eventCodesList: null
+  });
+
+  setCountries(jsonCountriesList: any) {
     this.countriesList = jsonCountriesList;
   }
 
-  setCountryGroups(jsonCountryGroupsList: any)
-  {
+  setCountryGroups(jsonCountryGroupsList: any) {
     this.countryGroupsList = jsonCountryGroupsList;
   }
 
-  setCustomers(jsonCustomersList:any)
-  {
+  setCustomers(jsonCustomersList: any) {
     this.customersList = jsonCustomersList;
   }
 
-  setTeams(jsonTeamsList:any)
-  {
+  setTeams(jsonTeamsList: any) {
     this.teamsList = jsonTeamsList;
   }
 
-  setIncoTerms(jsonTermsList:any)
-  {
+  setIncoTerms(jsonTermsList: any) {
     this.incoTermsList = jsonTermsList;
   }
 
-  setContainerTypes(jsonContainerTypes:any)
-  {
+  setContainerTypes(jsonContainerTypes: any) {
     this.containerTypeList = jsonContainerTypes;
   }
 
-  setUsingTypes(jsonUsingTypes:any)
-  {
+  setUsingTypes(jsonUsingTypes: any) {
     this.usingTypeList = jsonUsingTypes;
   }
 
-  setDeclarationSources(jsonDeclarationSources:any)
-  {
+  setDeclarationSources(jsonDeclarationSources: any) {
     this.declarationSourceList = jsonDeclarationSources;
   }
 
-  setReferenceTypes(jsonReferenceTypes:any)
-  {
+  setReferenceTypes(jsonReferenceTypes: any) {
     this.referenceTypeList = jsonReferenceTypes;
+    const newState = { ...INITIAL_STATE, ...{ referenceTypeList: jsonReferenceTypes } };
+    this.exportState$.next(newState);
   }
 
-  setEventCodes(jsonEventCodes:any)
-  {
+  setEventCodes(jsonEventCodes: any) {
     this.eventCodesList = jsonEventCodes;
   }
 
-  
-  // getExportAssistByKey(tableId: string,  getAll: boolean = false ):any {
+  setAgentRoles(json: any)
+  {
+    this.agentRoleList = json;
+  }
 
-  //   this.getExportAssistByKeyMain(tableId, getAll )
-  //   .then((assistData: any[]) =>{       
-  //     return assistData ;   
-  //   });
-  // }
+  setDeclarationTypes(json: any)
+  {
+    this.declarationTypeList = json;
+  }
 
-// getExportAssistByKeyMain
-  async getExportAssistByKey(tableId: string,  getAll: boolean = false ) {
 
-    var jsonParam = {"tableId" : tableId, "getAll": getAll };
-    return this.webAPI.sendWebRequest('Assist/GetExportAssist', JSON.stringify(jsonParam));
-
+  async getExportAssistByKey(tableId: string, getAll: boolean = false) {
+    return this.webAPI.sendWebRequest('Assist/GetExportAssist', { "tableId": tableId, "getAll": getAll });
   }
 
   async getCountriesList() {
-    return this.webAPI.sendWebRequest("Assist/GetCustomsCountries",{});
+    return this.webAPI.sendWebRequest("Assist/GetCustomsCountries", {});
   }
 
   async getCountryGroupsList() {
-    return this.webAPI.sendWebRequest("Assist/GetCustomsCountryGroups",{});
+    return this.webAPI.sendWebRequest("Assist/GetCustomsCountryGroups", {});
   }
 
   async getAllCustomers() {
-    return this.webAPI.sendWebRequest("Assist/GetCustomers",{});
+    return this.webAPI.sendWebRequest("Assist/GetCustomers", {});
   }
 
   async getAllTeams() {
-    return this.webAPI.sendWebRequest("Assist/GetTeams",{});
+    return this.webAPI.sendWebRequest("Assist/GetTeams", {});
   }
 
   async getAllIncoTerms() {
-    return this.webAPI.sendWebRequest("Assist/GetIncoTerms",{});
+    return this.webAPI.sendWebRequest("Assist/GetIncoTerms", {});
   }
 
   async getAllContainerTypes() {
-    return this.webAPI.sendWebRequest("Assist/GetContainerTypes",{});
+    return this.webAPI.sendWebRequest("Assist/GetContainerTypes", {});
   }
 
   async getAllUsingTypes() {
-      return this.webAPI.sendWebRequest("Assist/GetUsingTypes", {});
+    return this.webAPI.sendWebRequest("Assist/GetUsingTypes", {});
   }
 
   async getAllDeclarationSources() {
-      return this.webAPI.sendWebRequest("Assist/GetDeclarationSources", {});
+    return this.webAPI.sendWebRequest("Assist/GetDeclarationSources", {});
   }
 
   async getAllReferenceTypes() {
@@ -127,7 +173,15 @@ export class ExportassistService {
   }
 
   async getAllEventCodes() {
-    return this.webAPI.sendWebRequest("General/GetAllEventCodes",{});
+    return this.webAPI.sendWebRequest("General/GetAllEventCodes", {});
   }
 
+  async getAllAgentRoles() {
+    return this.webAPI.sendWebRequest("Assist/GetAgentRoles",{});
+  }
+
+  async getAllDeclarationTypes() {
+    return this.webAPI.sendWebRequest("Assist/GetDeclarationTypes",{});
+  }
+  
 }

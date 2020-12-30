@@ -3,452 +3,492 @@
 <!-- *ngIf="cooService.cooDataSubject$.getValue().CooBox != undefined" -->
 <!-- cooService.cooBox.Header.CustomerNo -->
 <!-- [(ngModel)]="cooService.cooDataSubject$.getValue().CooBox.Header.CustomerNo"> -->
-<form name="form" (ngSubmit)="fHeaderTab.form.valid && onSubmit()" #fHeaderTab="ngForm" novalidate> 
+<form name="form" (ngSubmit)="fHeaderTab.form.valid && onSubmit()" #fHeaderTab="ngForm" novalidate>
+    <p-fieldset legend="COO - Test Mode" [toggleable]="true" [collapsed]="true">
+        cooUpdatedData:  {{cooService.cooUpdatedData | json}}
+        <br>
+        fHeaderTab.form.valid:  {{fHeaderTab.form.valid}}<br> COO_TradeAgreementCountry2: {{COO_TradeAgreementCountry2||'none'}}
+    </p-fieldset>  
     <!-- <div *ngIf="cooService.cooData.CooBoxData != undefined && this.debugMode"> -->
-    <div *ngIf="cooService.cooData != undefined" >
-        <p-fieldset legend="COO - Test Mode" [toggleable]="true" [collapsed]="true">
-            cooUpdatedData:  {{cooService.cooUpdatedData | json}}
-            <br>
-            fHeaderTab.form.valid:  {{fHeaderTab.form.valid}}<br> COO_TradeAgreementCountry2: {{COO_TradeAgreementCountry2||'none'}}
-        </p-fieldset> 
-
-<div class="p-grid" >
-    <div class="p-col-12 p-md-4">
-        <p-fieldset legend="{{ 'coo.exporter' | translate  }}" [toggleable]="false">
+    <div [ngClass]="{'disableDiv': cooService.isDisabled}" *ngIf="cooService.cooData != undefined" >
         <div class="p-grid">
-            <div class="p-col-12 p-md-5" (click)="showUpdated(fHeaderTab.form.valid)"> {{ 'coo.customerNo' | translate  }}:</div>
-            <div class="p-col-12 p-md-1 Mandatory">*</div> 
-            <div class="p-col-12 p-md-6">
-                        {{cooService.cooData.CooBoxData.Header.CustomerNo}}
-                <!-- <dp-autocomplete   *ngIf="exportassistService.customersList != undefined"
-                            [initVal]="cooService.cooData.CooBoxData.Header.CustomerNo"     
-                            [definition]="acDefOperationalCustomer" name="CustomerNo"
-                            [datasource]="exportassistService.customersList"  
-                            (getSelected)="changeDropDown($event,'acCustomer')"
-                        ></dp-autocomplete> -->
-            </div>
-        </div>
-        <div class="p-grid">
-            <div class="p-col-12 p-md-5">{{ 'coo.exporterID' | translate  }}:</div>
-            <div class="p-col-12 p-md-1 Mandatory">*</div>
-            <div class="p-col-12 p-md-6">
-                <dp-inputtext [definition]="InputTextDef" 
-                                name="ExporterId" required #ExporterId="ngModel"
-                                [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_ExporterId"
-                                (change)="cooService.cooUpdatedData.Header.COO_ExporterId = cooService.cooData.CooBoxData.Header.COO_ExporterId"
-                               >
-                </dp-inputtext>
-                <div style="font-size:12px" *ngIf="ExporterId.errors?.required">
-                    Name is required.
-                </div>
-            </div>
-        </div>
-        <div class="p-grid">
-            <div class="p-col-12 p-md-5">{{ 'coo.exporterName' | translate  }}:</div>
-            <div class="p-col-12 p-md-1 Mandatory">*</div>
-            <div class="p-col-12 p-md-6">
-                <dp-inputtext [definition]="InputTextDef" name="ExporterName" 
-                [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_ExporterName"
-                (change)="cooService.cooUpdatedData.Header.COO_ExporterName = cooService.cooData.CooBoxData.Header.COO_ExporterName"
-                ></dp-inputtext>
-            </div>           
-        </div>
-        <div class="p-grid">
-            <div class="p-col-12 p-md-5">{{ 'coo.exporterAddress' | translate  }}:</div>
-            <div class="p-col-12 p-md-1 Mandatory">*</div>
-            <div class="p-col-12 p-md-6">
-                <dp-inputtext [definition]="InputTextDef" name="ExporterAddress" 
-                [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_ExporterAddress"
-                (change)="cooService.cooUpdatedData.Header.COO_ExporterAddress = cooService.cooData.CooBoxData.Header.COO_ExporterAddress"
-                 ></dp-inputtext>
-            </div>
-        </div>
-        <div class="p-grid">
-            <div class="p-col-12 p-md-5">{{ 'coo.exporterCountry' | translate  }}:</div>
-            <div class="p-col-12 p-md-1 Mandatory">*</div>
-            <div class="p-col-12 p-md-6">
-                <dp-autocomplete [initVal]="cooService.cooData.CooBoxData.Header.COO_ExporterCountry" 
-                [definition]="autocompleteDefinition1" [datasource]="exportassistService.countriesList"
-                (getSelected)="changeDropDown($event,'acExporterCountry')">
-                <ng-template let-res pTemplate="selectedItem">
-                    {{res.name}}
-                  </ng-template>
-               </dp-autocomplete>
-            </div>
-             
-        </div>
-        </p-fieldset>
-    </div>
-
-    <div class="p-col-12 p-md-4">
-        <p-fieldset legend="{{ 'coo.certificateUsedInPreferentialTradeBetween' | translate  }}" [toggleable]="false">
-
-            <div class="p-grid">
-                <div class="p-col-12 p-md-4">{{'tradeAgreement' |translate }}:</div>
-                <div class="p-col-12 p-md-1"></div>
-                    <input  type="radio"
-                            id="tradeAgreementOptionOptionByCountry1" 
-                            [(ngModel)]="tradeAgreementOption" 
-                            name="rdTradeAgreementOption"
-                            value="Country1" 
-                            (change)="handleChange($event,'tradeAgreementOption')">
-                    <label for="r_opt1">{{'country' |translate }} 1</label><br>
-        
-                    <input  type="radio" 
-                            id="tradeAgreementOptionOptionByCountry2" 
-                            [(ngModel)]="tradeAgreementOption" 
-                            name="rdTradeAgreementOption" 
-                            value="Country2"
-                            (change)="handleChange($event,'tradeAgreementOption')">
-                    <label for="r_opt2">{{'country' |translate }} 2</label><br>
-        
-                    <input  type="radio" 
-                            id="tradeAgreementOptionByGroups" 
-                            [(ngModel)]="tradeAgreementOption" 
-                            name="rdTradeAgreementOption" 
-                            value="ContryGroups"
-                            (change)="handleChange($event,'tradeAgreementOption')">
-                    <label for="r_opt3">{{'groupOfCounries' |translate }}</label><br>
-            </div>
-    
-            <div class="p-grid" *ngIf="tradeAgreementOption == 'Country1'">
-                <!-- <div class="p-col-12 p-md-5">{{ 'coo.tradeAgreementCountry' | translate  }}1:</div> -->
-                <div class="p-col-12 p-md-5"></div>
-                <div class="p-col-12 p-md-1 Mandatory">*</div>
-                <div class="p-col-12 p-md-6">
-                    <!-- dp-autocomplete full required -->
-                    <dp-autocomplete [initVal]="cooService.cooData.CooBoxData.Header.COO_TradeAgreementCountry1"  name="acTradeAgreementCountry1"                                
-                    [definition]="autocompleteDefinition1" [datasource]="exportassistService.countriesList"
-                    (getSelected)="changeDropDown($event,'acTradeAgreementCountry1')" 
-                    required #acTradeAgreementCountry1="ngModel" 
-                        [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_TradeAgreementCountry1"
-                    >
-                   </dp-autocomplete>
-                   <div style="font-size:12px" *ngIf="acTradeAgreementCountry1.errors?.required">
-                    COO_TradeAgreementCountry1 is required.
-                  </div>
-                </div>
-            </div>
-
-            <div class="p-grid" *ngIf="tradeAgreementOption == 'Country2'">
-                <!-- <div class="p-col-12 p-md-5">{{ 'coo.tradeAgreementCountry' | translate  }}2:</div> -->
-                <div class="p-col-12 p-md-5"></div>
-                <div class="p-col-12 p-md-1 Mandatory">*</div>
-                <div class="p-col-12 p-md-6">
-                    <!-- <dp-autocomplete [initVal]="cooService.cooData.CooBoxData.Header.COO_TradeAgreementCountry2"  name="acTradeAgreementCountry2"                                
-                    [definition]="autocompleteDefinition1" [datasource]="exportassistService.countriesList"
-                    (getSelected)="changeDropDown($event,'acTradeAgreementCountry2')">
-                   </dp-autocomplete> -->
-                    
-                   <p-autoComplete [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_TradeAgreementCountry2" 
-                   name="COO_TradeAgreementCountry2" [suggestions]="filteredCountries" 
-                   [minLength]="1" [size]="20" (completeMethod)="filterCountries($event)"
-                   (onSelect)="cooService.cooUpdatedData.Header.COO_TradeAgreementCountry2 = cooService.cooData.CooBoxData.Header.COO_TradeAgreementCountry2"
-                   [dropdown]="true" field="name" ng-reflect-field="code" 
-                   required #acTradeAgreementCountry2="ngModel">
-                   <ng-template let-country pTemplate="item">
-                       <div class="ui-helper-clearfix" >
-                           <ng-container>
-                               <div>{{ country.name  }} </div>
-                             </ng-container>
-                       </div>
-                   </ng-template>
-                   <ng-template let-country pTemplate="selectedItem">
-                       {{ country.name  }}  {{ country.code  }} 
-                     </ng-template>
-               </p-autoComplete>
-               <div style="font-size:12px" *ngIf="acTradeAgreementCountry2.errors?.required">
-                COO_TradeAgreementCountry2 is required.
-              </div>
-                </div>
-            </div>
-
-            <div class="p-grid" *ngIf="tradeAgreementOption == 'ContryGroups'">
-                <!-- <div class="p-col-12 p-md-5">{{ 'coo.tradeAgreementGroupOdCountries' | translate  }}:</div> -->
-                <div class="p-col-12 p-md-5"></div>
-                <div class="p-col-12 p-md-1 Mandatory">*</div>
-                <div class="p-col-12 p-md-6 ">
-                    <dp-autocomplete 
-                    [initVal]="cooService.cooData.CooBoxData.Header.COO_TradeAgreementGroupOfCountries"  
-                    name="acTradeAgreementGroupOdCountries"  required                          
-                    [definition]="autocompleteDefinition1" [datasource]="exportassistService.countryGroupsList"
-                    (getSelected)="changeDropDown($event,'acTradeAgreementGroupOdCountries')"
-                        [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_TradeAgreementGroupOfCountries">
-                   </dp-autocomplete>
-                   <!-- <div style="font-size:12px" *ngIf="acTradeAgreementGroupOdCountries.errors?.required">
-                    tradeAgreementGroupOdCountries is required.
-                  </div> -->
-                </div>           
-            </div>
-        </p-fieldset>
-        <p-fieldset legend="{{ 'coo.countryGroupOfCountriesOrTerritory' | translate  }}" [toggleable]="false">
-            
-            <div class="p-grid">
-                <div class="p-col-12 p-md-5">{{'origin' |translate }}:</div>
-                <div class="p-col-12 p-md-1 Optional"></div>
-
-                <input  type="radio"
-                        id="originCountryOptionByCountry" 
-                        [(ngModel)]="originCountryOption" 
-                        name="rdCountryOption"
-                        value="Country" 
-                        (change)="handleChange($event,'originCountryOption')">
-                        
-                <label for="r_opt1">{{'country' |translate }}</label><br>
-
-                <input  type="radio" 
-                        id="originCountryOptionByGroups" 
-                        [(ngModel)]="originCountryOption" 
-                        name="rdOriginCountryOption" 
-                        value="ContryGroups"
-                        (change)="handleChange($event,'originCountryOption')">
-                <label for="r_opt2">{{'groupOfCounries' |translate }}</label><br>
-            </div>
-                        
-            <div class="p-grid" *ngIf="originCountryOption == 'Country'">
-                <!-- <div class="p-col-12 p-md-5">{{ 'coo.originCountry' | translate  }}:</div> -->
-                <div class="p-col-12 p-md-5"></div>
-                <div class="p-col-12 p-md-1 Mandatory">*</div>
-                <div class="p-col-12 p-md-6">
-                    <dp-autocomplete    [initVal]="cooService.cooData.CooBoxData.Header.COO_OriginCountry"                              
-                                        [definition]="autocompleteDefinition1" 
-                                        [datasource]="exportassistService.countriesList"
-                                        name="acOriginCountry"   
-                                        (getSelected)="changeDropDown($event,'acOriginCountry')">
-                   </dp-autocomplete>
-                </div>
-            </div>
-
-            <div class="p-grid" *ngIf="originCountryOption == 'ContryGroups'">
-                <!-- <div class="p-col-12 p-md-5">{{ 'coo.originGroupOfCountries' | translate  }}:</div> -->
-                <div class="p-col-12 p-md-5"></div>
-                <div class="p-col-12 p-md-1 Mandatory">*</div>
-                <div class="p-col-12 p-md-6">
-                    <dp-autocomplete    [initVal]="cooService.cooData.CooBoxData.Header.COO_OriginGroupOfCountries"  
-                                        [definition]="autocompleteDefinition1" 
-                                        [datasource]="exportassistService.countryGroupsList"
-                                        name="acOriginGroupOfCountries"                                
-                                        (getSelected)="changeDropDown($event,'acOriginGroupOfCountries')">
-                   </dp-autocomplete>
-                </div>
-            </div>
-
-            <div class="p-grid">
-                <div class="p-col-12 p-md-5">{{'destination' |translate }}:</div>
-                <div class="p-col-12 p-md-1 Optional"></div>
-
-                <input  type="radio"
-                        id="destinationCountryOptionByCountry" 
-                        [(ngModel)]="destinationCountryOption" 
-                        name="rdDestinationCountryOption"
-                        value="Country" 
-                        (change)="handleChange($event,'destinationCountryOption')">
-                        
-                <label for="r_opt1">{{'country' |translate }}</label><br>
-
-                <input  type="radio" 
-                        id="destinationCountryOptionByGroups" 
-                        [(ngModel)]="destinationCountryOption" 
-                        name="rdDestinationCountryOption" 
-                        value="ContryGroups"
-                        (change)="handleChange($event,'destinationCountryOption')">
-                <label for="r_opt2">{{'groupOfCounries' |translate }}</label><br>
-            </div>
-
-            <div class="p-grid" *ngIf="destinationCountryOption == 'Country'">
-                <!-- <div class="p-col-12 p-md-5">{{ 'coo.destinationCountry' | translate  }}:</div> -->
-                <div class="p-col-12 p-md-5"></div>
-                <div class="p-col-12 p-md-1 Mandatory">*</div>
-                <div class="p-col-12 p-md-6">
-                    <dp-autocomplete    [initVal]="cooService.cooData.CooBoxData.Header.COO_DestinationCountry"  
-                                        [definition]="autocompleteDefinition1" 
-                                        [datasource]="exportassistService.countriesList"
-                                        name="acDestinationCountry"    
-                                        (getSelected)="changeDropDown($event,'acDestinationCountry')">
-                   </dp-autocomplete>
-                </div>           
-            </div>
-
-            <div class="p-grid" *ngIf="destinationCountryOption == 'ContryGroups'">
-                <!-- <div class="p-col-12 p-md-5">{{ 'coo.destinationGroupOfCountries' | translate  }}:</div> -->
-                <div class="p-col-12 p-md-5"></div>
-                <div class="p-col-12 p-md-1 Mandatory">*</div>
-                <div class="p-col-12 p-md-6">
-                    <dp-autocomplete    [initVal]="cooService.cooData.CooBoxData.Header.COO_DestinationGroupOfCountries"  
-                                        [definition]="autocompleteDefinition1" 
-                                        [datasource]="exportassistService.countryGroupsList"
-                                        name="acDestinationGroupOfCountries"                                
-                                        (getSelected)="changeDropDown($event,'acDestinationGroupOfCountries')">
-                   </dp-autocomplete>
-                </div>
-            </div>        
-        </p-fieldset>
-    </div>
-    
-</div>
-<br/>
-<div class="p-grid">
-    <div class="p-col-12 p-md-4">
-        <p-fieldset legend="{{ 'coo.consigneeOptional' | translate  }}" [toggleable]="false">
-            <div class="p-grid">
-            <span class="HorzRadio">
-                <input type="radio" name="rdConsigneeType1" [(ngModel)]="neeType" name="rdConsigneeType" [value]="'CNEE'" (change)="onChangeNeeType()" />
-                <label for="other">CNEE</label><br/>
-            </span>
-            <span class="HorzRadio">
-                <input type="radio" name="rdConsigneeType2" [(ngModel)]="neeType" name="rdConsigneeType" [value]="'importer'" (change)="onChangeNeeType()"/>
-                <label for="other">importer</label><br>
-            </span>
-        
-            <span class="HorzRadio">
-                <input type="radio" name="rdConsigneeType3" [(ngModel)]="neeType" name="rdConsigneeType" [value]="'Notify1'" (change)="onChangeNeeType()" />
-                <label for="other">Notify1</label>
-            </span>
-        
-            <span class="HorzRadio">
-                <input type="radio" name="rdConsigneeType4" [(ngModel)]="neeType" name="rdConsigneeType" [value]="'Notify2'" (change)="onChangeNeeType()" />
-                <label for="other">Notify2</label>
-            </span>
-            <span class="HorzRadio">
-                <input type="radio" name="rdConsigneeType5" [(ngModel)]="neeType" name="rdConsigneeType" [value]="'AditionalCNEE'" (change)="onChangeNeeType()" />
-                <label for="other">Aditional CNEE</label>
-            </span>
-            </div>
-            <br>
-            <!-- *ngIf="neeType=='CNEE'" -->
-        <div class="p-grid" >
-            <div class="p-col-12 p-md-5">{{ 'coo.CNEEName' | translate  }}:</div>
-            <div class="p-col-12 p-md-1 Mandatory">*</div>
-            <div class="p-col-12 p-md-6">
-                <dp-inputtext [definition]="InputTextDef" name="cneeName"
-                (change)="cooService.cooUpdatedData.Header.COO_ConsigneeName = cooService.cooData.CooBoxData.Header.COO_ConsigneeName"
-                [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_ConsigneeName"
-                 ></dp-inputtext>
-                </div>
-        </div>
-        <div class="p-grid">
-            <div class="p-col-12 p-md-5">{{ 'coo.CNEEAddress' | translate  }}:</div>
-            <div class="p-col-12 p-md-1 Mandatory">*</div>
-            <div class="p-col-12 p-md-6">
-                <dp-inputtext [definition]="InputTextDef" name="cneeAddress" 
-                (change)="cooService.cooUpdatedData.Header.COO_ConsigneeAddress = cooService.cooData.CooBoxData.Header.COO_ConsigneeAddress"
-                [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_ConsigneeAddress"
-                ></dp-inputtext>
-                </div>
-        </div>
-        <div class="p-grid">
-            <div class="p-col-12 p-md-5">{{ 'coo.CNEECountry' | translate  }}:</div>
-            <div class="p-col-12 p-md-1 Mandatory">*</div>
-            <div class="p-col-12 p-md-6"><dp-autocomplete [initVal]="cooService.cooData.CooBoxData.Header.COO_ConsigneeCountry"  name="acCNEECountry"                                
-                [definition]="autocompleteDefinition1" [datasource]="exportassistService.countriesList"
-                (getSelected)="changeDropDown($event,'acCNEECountry')">
-               </dp-autocomplete></div>           
-        </div>
-        <div class="p-grid">
-            <div class="p-col-12 p-md-6">{{ 'coo.CNEERemarks' | translate  }}:</div>
-            <div class="p-col-12 p-md-6">
-                <dp-inputtext [definition]="InputTextDef" name="cneeRemarks" 
-                (change)="cooService.cooUpdatedData.Header.COO_ConsigneeRemarks = cooService.cooData.CooBoxData.Header.COO_ExporterName"
-                [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_ConsigneeRemarks"
-                ></dp-inputtext>
-                </div>
-        </div>
-        <div class="p-grid">
-            <div class="p-col-12 p-md-6">{{ 'coo.printCNEEDetails' | translate  }}:</div>
-            <div class="p-col-12 p-md-6">
-                <dp-checkbox  [definition]="checkboxDef" name="printCNEEDetails"
-                (change)="cooService.cooUpdatedData.Header.COO_IsConsigneeForPrint = cooService.cooData.CooBoxData.Header.COO_IsConsigneeForPrint"
-                [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_IsConsigneeForPrint"
-                ></dp-checkbox>
-                </div>
-        </div>     
-        </p-fieldset>
-    </div>
-    <div class="p-col-12 p-md-4">
-        <p-fieldset legend="{{ 'coo.remarks' | translate  }}:" [toggleable]="false">
-            <div class="p-grid">
-                <div class="p-col-12 p-md-6">{{ 'coo.observations' | translate  }}:</div>
-                <div class="p-col-12 p-md-6">
-                    <dp-inputtext [definition]="InputTextDef" name="observations"
-                    (change)="cooService.cooUpdatedData.Header.COO_Observations = cooService.cooData.CooBoxData.Header.COO_Observations" 
-                    [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_Observations"
-                    ></dp-inputtext>
-                </div>
-            </div>
-            <div class="p-grid">
-                <div class="p-col-12 p-md-6">{{ 'coo.placeOfManufacture' | translate  }}:</div>
-                <div class="p-col-12 p-md-6">
-                    <dp-inputtext [definition]="InputTextDef" name="placeOfManufacture"
-                    (change)="cooService.cooUpdatedData.Header.COO_PlaceOfManufacture = cooService.cooData.CooBoxData.Header.COO_PlaceOfManufacture"
-                    [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_PlaceOfManufacture"
-                     ></dp-inputtext>
-                </div>
-            </div>
-            <div class="p-grid">
-                <div class="p-col-12 p-md-6">{{ 'coo.zipCodeOfManufacture' | translate  }}:</div>
-                <div class="p-col-12 p-md-6"><dp-inputtext [definition]="InputTextDef" name="zipCodeOfManufacture"
-                    (change)="cooService.cooUpdatedData.Header.COO_ZipCodeOfManufacture = cooService.cooData.CooBoxData.Header.COO_ZipCodeOfManufacture"
-                    [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_ZipCodeOfManufacture"
-                     ></dp-inputtext>
-                </div>           
-            </div>
-            <div class="p-grid">
-                <div class="p-col-12 p-md-5">{{ 'coo.cumulation' | translate  }}:</div>
-                <div class="p-col-12 p-md-1 Mandatory">*</div>
-                <div class="p-col-12 p-md-6">
-                   <dp-checkbox  [definition]="checkboxDef"  name="isCumulation"
-                   [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_IsCumulation"></dp-checkbox>
-                   <!-- <dp-checkbox  [definition]="checkboxDef"  [(ngModel)]="headerTabData.cumulation"></dp-checkbox> -->
-                </div>
-            </div>
-            <div class="p-grid">
-                <div class="p-col-12 p-md-5">{{ 'coo.cumulationCountry' | translate  }}:</div>
-                <div class="p-col-12 p-md-1 Mandatory" *ngIf="cooService.cooData.CooBoxData.Header.COO_IsCumulation">*</div>
-                <div class="p-col-12 p-md-1 Mandatory" *ngIf="!cooService.cooData.CooBoxData.Header.COO_IsCumulation"></div>
-                <div class="p-col-12 p-md-6"><dp-autocomplete name="acCumulationCountry"                                
-                    [definition]="autocompleteDefinition1" [datasource]="exportassistService.countriesList"
-                    (getSelected)="changeDropDown($event,'acCumulationCountry')">
-                   </dp-autocomplete></div>
-            </div> 
-            <div class="p-grid">
-                <div class="p-col-12 p-md-5">{{ 'coo.cumulationGroupOfCountries' | translate  }}:</div>
-                <div class="p-col-12 p-md-1 Mandatory" *ngIf="cooService.cooData.CooBoxData.Header.COO_IsCumulation">*</div>
-                <div class="p-col-12 p-md-1 Mandatory" *ngIf="!cooService.cooData.CooBoxData.Header.COO_IsCumulation"></div>
-                <div class="p-col-12 p-md-6"><dp-autocomplete   name="acCumulationGroupOfCountries"                                
-                    [definition]="autocompleteDefinition1" [datasource]="exportassistService.countryGroupsList"
-                    (getSelected)="changeDropDown($event,'acCumulationGroupOfCountries')">
-                   </dp-autocomplete></div>
-            </div>      
-        </p-fieldset>
-    </div>
-</div>
-    <br/>
-    <div class="p-grid">
-        <div class="p-col-12 p-md-4">
-            <p-fieldset legend="{{ 'coo.transportDetailsOptional' | translate  }}" [toggleable]="false">
+            <div class="p-col-12 p-md-4">
+                <p-fieldset legend="{{ 'coo.exporter' | translate  }}" [toggleable]="false">
                 <div class="p-grid">
-                    <div class="p-col-12 p-md-5">{{ 'coo.transportBy' | translate  }}:</div>
-                    <div class="p-col-12 p-md-1 Mandatory">*</div>
-                    <div class="p-col-12 p-md-6"><dp-autocomplete [initVal]="cooService.cooData.CooBoxData.Header.COO_Transport"  name="acTransportBy"                                
-                        [definition]="autocompleteDefinition1" [datasource]="transportByData"
-                        (getSelected)="changeDropDown($event,'acTransportBy')">
-                       </dp-autocomplete></div>
-                </div>
-                <div class="p-grid">
-                    <div class="p-col-12 p-md-5">{{ 'coo.originPort' | translate  }}:</div>
-                    <div class="p-col-12 p-md-1 Optional">*</div>
+                    <div class="p-col-12 p-md-5" (click)="showUpdated(fHeaderTab.form.valid)"> {{ 'coo.customerNo' | translate  }}:</div>
+                    <div class="p-col-12 p-md-1 Mandatory">*</div> 
                     <div class="p-col-12 p-md-6">
-                        <dp-inputtext [definition]="InputTextDef" name="portOfShipment"
-                        (change)="cooService.cooUpdatedData.Header.COO_PortOfShipment = cooService.cooData.CooBoxData.Header.COO_PortOfShipment"
-                        [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_PortOfShipment"
-                ></dp-inputtext>
+                                {{cooService.cooData.CooBoxData.Header.CustomerNo}}
+                        <!-- <dp-autocomplete   *ngIf="exportassistService.customersList != undefined"
+                                    [ngModel]="cooService.cooData.CooBoxData.Header.CustomerNo"     
+                                    [definition]="acDefOperationalCustomer" name="CustomerNo"
+                                    [datasource]="exportassistService.customersList"  
+                                    (getSelected)="changeDropDown($event,'acCustomer')"
+                                ></dp-autocomplete> -->
                     </div>
                 </div>
-            </p-fieldset>
-        </div>
-        <div class="p-col-12 p-md-4">
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-5">{{ 'coo.exporterID' | translate  }}:</div>
+                    <div class="p-col-12 p-md-1 Mandatory">*</div>
+                    <div class="p-col-12 p-md-6">
+                        <dp-inputtext [definition]="InputTextDef" 
+                                        name="ExporterId" required #ExporterId="ngModel"
+                                        [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_ExporterId"
+                                        (change)="cooService.cooUpdatedData.Header.COO_ExporterId = cooService.cooData.CooBoxData.Header.COO_ExporterId"
+                                    >
+                        </dp-inputtext>
+                        <div style="font-size:12px" *ngIf="ExporterId.errors?.required">
+                            Name is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-5">{{ 'coo.exporterName' | translate  }}:</div>
+                    <div class="p-col-12 p-md-1 Mandatory">*</div>
+                    <div class="p-col-12 p-md-6">
+                        <dp-inputtext [definition]="InputTextDef" name="ExporterName" 
+                        [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_ExporterName"
+                        (change)="cooService.cooUpdatedData.Header.COO_ExporterName = cooService.cooData.CooBoxData.Header.COO_ExporterName"
+                        ></dp-inputtext>
+                    </div>           
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-5">{{ 'coo.exporterAddress' | translate  }}:</div>
+                    <div class="p-col-12 p-md-1 Mandatory">*</div>
+                    <div class="p-col-12 p-md-6">
+                        <dp-inputtext [definition]="InputTextDef" name="ExporterAddress" 
+                        [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_ExporterAddress"
+                        (change)="cooService.cooUpdatedData.Header.COO_ExporterAddress = cooService.cooData.CooBoxData.Header.COO_ExporterAddress"
+                        ></dp-inputtext>
+                    </div>
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-5">{{ 'coo.exporterCountry' | translate  }}:</div>
+                    <div class="p-col-12 p-md-1 Mandatory">*</div>
+                    <div class="p-col-12 p-md-6">
+                        <dp-autocomplete [ngModel]="cooService.cooData.CooBoxData.Header.COO_ExporterCountry" 
+                        [definition]="autocompleteDefinition1" [datasource]="exportassistService.countriesList"
+                        (getSelected)="changeDropDown($event,'acExporterCountry')">
+                        <ng-template let-res pTemplate="selectedItem">
+                            {{res.name}}
+                        </ng-template>
+                    </dp-autocomplete>
+                    </div>
+                    
+                </div>
+                </p-fieldset>
+            </div>
+
+            <div class="p-col-12 p-md-4">
+                <p-fieldset legend="{{ 'coo.certificateUsedInPreferentialTradeBetween' | translate  }}" [toggleable]="false">
+
+                    <div class="p-grid">
+                        <div class="p-col-12 p-md-4">{{'tradeAgreement' |translate }}:</div>
+                        <div class="p-col-12 p-md-1"></div>
+                            <input  type="radio"
+                                    id="tradeAgreementOptionOptionByCountry1" 
+                                    [(ngModel)]="tradeAgreementOption" 
+                                    name="rdTradeAgreementOption"
+                                    value="Country1" 
+                                    (change)="handleChange($event,'tradeAgreementOption')">
+                            <label for="r_opt1">{{'country' |translate }} 1</label><br>
+                
+                            <input  type="radio" 
+                                    id="tradeAgreementOptionOptionByCountry2" 
+                                    [(ngModel)]="tradeAgreementOption" 
+                                    name="rdTradeAgreementOption" 
+                                    value="Country2"
+                                    (change)="handleChange($event,'tradeAgreementOption')">
+                            <label for="r_opt2">{{'country' |translate }} 2</label><br>
+                
+                            <input  type="radio" 
+                                    id="tradeAgreementOptionByGroups" 
+                                    [(ngModel)]="tradeAgreementOption" 
+                                    name="rdTradeAgreementOption" 
+                                    value="ContryGroups"
+                                    (change)="handleChange($event,'tradeAgreementOption')">
+                            <label for="r_opt3">{{'groupOfCounries' |translate }}</label><br>
+                    </div>
+            
+                    <div class="p-grid" *ngIf="tradeAgreementOption == 'Country1'">
+                        <!-- <div class="p-col-12 p-md-5">{{ 'coo.tradeAgreementCountry' | translate  }}1:</div> -->
+                        <div class="p-col-12 p-md-5"></div>
+                        <div class="p-col-12 p-md-1 Mandatory">*</div>
+                        <div class="p-col-12 p-md-6">
+                            <!-- dp-autocomplete full required -->
+                            <dp-autocomplete [ngModel]="cooService.cooData.CooBoxData.Header.COO_TradeAgreementCountry1"  name="acTradeAgreementCountry1"                                
+                            [definition]="autocompleteDefinition1" [datasource]="exportassistService.countriesList"
+                            (getSelected)="changeDropDown($event,'acTradeAgreementCountry1')" 
+                            required #acTradeAgreementCountry1="ngModel" 
+                                [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_TradeAgreementCountry1"
+                            >
+                        </dp-autocomplete>
+                        <div style="font-size:12px" *ngIf="acTradeAgreementCountry1.errors?.required">
+                            COO_TradeAgreementCountry1 is required.
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="p-grid" *ngIf="tradeAgreementOption == 'Country2'">
+                        <!-- <div class="p-col-12 p-md-5">{{ 'coo.tradeAgreementCountry' | translate  }}2:</div> -->
+                        <div class="p-col-12 p-md-5"></div>
+                        <div class="p-col-12 p-md-1 Mandatory">*</div>
+                        <div class="p-col-12 p-md-6">
+                            <!-- <dp-autocomplete [ngModel]="cooService.cooData.CooBoxData.Header.COO_TradeAgreementCountry2"  name="acTradeAgreementCountry2"                                
+                            [definition]="autocompleteDefinition1" [datasource]="exportassistService.countriesList"
+                            (getSelected)="changeDropDown($event,'acTradeAgreementCountry2')">
+                        </dp-autocomplete> -->
+                            
+                        <p-autoComplete [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_TradeAgreementCountry2" 
+                        name="COO_TradeAgreementCountry2" [suggestions]="filteredCountries" 
+                        [minLength]="1" [size]="20" (completeMethod)="filterCountries($event)"
+                        (onSelect)="cooService.cooUpdatedData.Header.COO_TradeAgreementCountry2 = cooService.cooData.CooBoxData.Header.COO_TradeAgreementCountry2"
+                        [dropdown]="true" field="name" ng-reflect-field="code" 
+                        required #acTradeAgreementCountry2="ngModel">
+                        <ng-template let-country pTemplate="item">
+                            <div class="ui-helper-clearfix" >
+                                <ng-container>
+                                    <div>{{ country.name  }} </div>
+                                    </ng-container>
+                            </div>
+                        </ng-template>
+                        <ng-template let-country pTemplate="selectedItem">
+                            {{ country.name  }}  {{ country.code  }} 
+                            </ng-template>
+                    </p-autoComplete>
+                    <div style="font-size:12px" *ngIf="acTradeAgreementCountry2.errors?.required">
+                        COO_TradeAgreementCountry2 is required.
+                    </div>
+                        </div>
+                    </div>
+
+                    <div class="p-grid" *ngIf="tradeAgreementOption == 'ContryGroups'">
+                        <!-- <div class="p-col-12 p-md-5">{{ 'coo.tradeAgreementGroupOdCountries' | translate  }}:</div> -->
+                        <div class="p-col-12 p-md-5"></div>
+                        <div class="p-col-12 p-md-1 Mandatory">*</div>
+                        <div class="p-col-12 p-md-6 ">
+                            <dp-autocomplete 
+                            [ngModel]="cooService.cooData.CooBoxData.Header.COO_TradeAgreementGroupOfCountries"  
+                            name="acTradeAgreementGroupOdCountries"  required                          
+                            [definition]="autocompleteDefinition1" [datasource]="exportassistService.countryGroupsList"
+                            (getSelected)="changeDropDown($event,'acTradeAgreementGroupOdCountries')"
+                                [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_TradeAgreementGroupOfCountries">
+                        </dp-autocomplete>
+                        <!-- <div style="font-size:12px" *ngIf="acTradeAgreementGroupOdCountries.errors?.required">
+                            tradeAgreementGroupOdCountries is required.
+                        </div> -->
+                        </div>           
+                    </div>
+                </p-fieldset>
+                <p-fieldset legend="{{ 'coo.countryGroupOfCountriesOrTerritory' | translate  }}" [toggleable]="false">
+                    
+                    <div class="p-grid">
+                        <div class="p-col-12 p-md-5">{{'origin' |translate }}:</div>
+                        <div class="p-col-12 p-md-1 Optional"></div>
+
+                        <input  type="radio"
+                                id="originCountryOptionByCountry" 
+                                [(ngModel)]="originCountryOption" 
+                                name="rdOriginCountryOption"
+                                value="Country" 
+                                (change)="handleChange($event,'originCountryOption')">
+                                
+                        <label for="r_opt1">{{'country' |translate }}</label><br>
+
+                        <input  type="radio" 
+                                id="originCountryOptionByGroups" 
+                                [(ngModel)]="originCountryOption" 
+                                name="rdOriginCountryOption" 
+                                value="ContryGroups"
+                                (change)="handleChange($event,'originCountryOption')">
+                        <label for="r_opt2">{{'groupOfCounries' |translate }}</label><br>
+                    </div>
+                                
+                    <div class="p-grid" *ngIf="originCountryOption == 'Country'">
+                        <!-- <div class="p-col-12 p-md-5">{{ 'coo.originCountry' | translate  }}:</div> -->
+                        <div class="p-col-12 p-md-5"></div>
+                        <div class="p-col-12 p-md-1 Mandatory">*</div>
+                        <div class="p-col-12 p-md-6">
+                            <dp-autocomplete    [ngModel]="cooService.cooData.CooBoxData.Header.COO_OriginCountry"                              
+                                                [definition]="autocompleteDefinition1" 
+                                                [datasource]="exportassistService.countriesList"
+                                                name="acOriginCountry"   
+                                                (getSelected)="changeDropDown($event,'acOriginCountry')">
+                        </dp-autocomplete>
+                        </div>
+                    </div>
+
+                    <div class="p-grid" *ngIf="originCountryOption == 'ContryGroups'">
+                        <!-- <div class="p-col-12 p-md-5">{{ 'coo.originGroupOfCountries' | translate  }}:</div> -->
+                        <div class="p-col-12 p-md-5"></div>
+                        <div class="p-col-12 p-md-1 Mandatory">*</div>
+                        <div class="p-col-12 p-md-6">
+                            <dp-autocomplete    [ngModel]="cooService.cooData.CooBoxData.Header.COO_OriginGroupOfCountries"  
+                                                [definition]="autocompleteDefinition1" 
+                                                [datasource]="exportassistService.countryGroupsList"
+                                                name="acOriginGroupOfCountries"                                
+                                                (getSelected)="changeDropDown($event,'acOriginGroupOfCountries')">
+                        </dp-autocomplete>
+                        </div>
+                    </div>
+
+                    <div class="p-grid">
+                        <div class="p-col-12 p-md-5">{{'destination' |translate }}:</div>
+                        <div class="p-col-12 p-md-1 Optional"></div>
+
+                        <input  type="radio"
+                                id="destinationCountryOptionByCountry" 
+                                [(ngModel)]="destinationCountryOption" 
+                                name="rdDestinationCountryOption"
+                                value="Country" 
+                                (change)="handleChange($event,'destinationCountryOption')">
+                                
+                        <label for="r_opt1">{{'country' |translate }}</label><br>
+
+                        <input  type="radio" 
+                                id="destinationCountryOptionByGroups" 
+                                [(ngModel)]="destinationCountryOption" 
+                                name="rdDestinationCountryOption" 
+                                value="ContryGroups"
+                                (change)="handleChange($event,'destinationCountryOption')">
+                        <label for="r_opt2">{{'groupOfCounries' |translate }}</label><br>
+                    </div>
+
+                    <div class="p-grid" *ngIf="destinationCountryOption == 'Country'">
+                        <!-- <div class="p-col-12 p-md-5">{{ 'coo.destinationCountry' | translate  }}:</div> -->
+                        <div class="p-col-12 p-md-5"></div>
+                        <div class="p-col-12 p-md-1 Mandatory">*</div>
+                        <div class="p-col-12 p-md-6">
+                            <dp-autocomplete    [ngModel]="cooService.cooData.CooBoxData.Header.COO_DestinationCountry"  
+                                                [definition]="autocompleteDefinition1" 
+                                                [datasource]="exportassistService.countriesList"
+                                                name="acDestinationCountry"    
+                                                (getSelected)="changeDropDown($event,'acDestinationCountry')">
+                        </dp-autocomplete>
+                        </div>           
+                    </div>
+
+                    <div class="p-grid" *ngIf="destinationCountryOption == 'ContryGroups'">
+                        <!-- <div class="p-col-12 p-md-5">{{ 'coo.destinationGroupOfCountries' | translate  }}:</div> -->
+                        <div class="p-col-12 p-md-5"></div>
+                        <div class="p-col-12 p-md-1 Mandatory">*</div>
+                        <div class="p-col-12 p-md-6">
+                            <dp-autocomplete    [ngModel]="cooService.cooData.CooBoxData.Header.COO_DestinationGroupOfCountries"  
+                                                [definition]="autocompleteDefinition1" 
+                                                [datasource]="exportassistService.countryGroupsList"
+                                                name="acDestinationGroupOfCountries"                                
+                                                (getSelected)="changeDropDown($event,'acDestinationGroupOfCountries')">
+                        </dp-autocomplete>
+                        </div>
+                    </div>        
+                </p-fieldset>
+            </div>
             
         </div>
-</div>
-</div>
+        <br/>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-4">
+                <p-fieldset legend="{{ 'coo.consigneeOptional' | translate  }}" [toggleable]="false">
+                    <div class="p-grid">
+                    <span class="HorzRadio">
+                        <input type="radio" name="rdConsigneeType1" [(ngModel)]="neeType" name="rdConsigneeType" [value]="'CNEE'" (change)="onChangeNeeType()" />
+                        <label for="other">CNEE</label><br/>
+                    </span>
+                    <span class="HorzRadio">
+                        <input type="radio" name="rdConsigneeType2" [(ngModel)]="neeType" name="rdConsigneeType" [value]="'importer'" (change)="onChangeNeeType()"/>
+                        <label for="other">importer</label><br>
+                    </span>
+                
+                    <span class="HorzRadio">
+                        <input type="radio" name="rdConsigneeType3" [(ngModel)]="neeType" name="rdConsigneeType" [value]="'Notify1'" (change)="onChangeNeeType()" />
+                        <label for="other">Notify1</label>
+                    </span>
+                
+                    <span class="HorzRadio">
+                        <input type="radio" name="rdConsigneeType4" [(ngModel)]="neeType" name="rdConsigneeType" [value]="'Notify2'" (change)="onChangeNeeType()" />
+                        <label for="other">Notify2</label>
+                    </span>
+                    <span class="HorzRadio">
+                        <input type="radio" name="rdConsigneeType5" [(ngModel)]="neeType" name="rdConsigneeType" [value]="'AditionalCNEE'" (change)="onChangeNeeType()" />
+                        <label for="other">Aditional CNEE</label>
+                    </span>
+                    </div>
+                    <br>
+                    <!-- *ngIf="neeType=='CNEE'" -->
+                <div class="p-grid" >
+                    <div class="p-col-12 p-md-5">{{ 'coo.CNEEName' | translate  }}:</div>
+                    <div class="p-col-12 p-md-1 Mandatory">*</div>
+                    <div class="p-col-12 p-md-6">
+                        <dp-inputtext [definition]="InputTextDef" name="cneeName"
+                        (change)="cooService.cooUpdatedData.Header.COO_ConsigneeName = cooService.cooData.CooBoxData.Header.COO_ConsigneeName"
+                        [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_ConsigneeName"
+                        ></dp-inputtext>
+                        </div>
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-5">{{ 'coo.CNEEAddress' | translate  }}:</div>
+                    <div class="p-col-12 p-md-1 Mandatory">*</div>
+                    <div class="p-col-12 p-md-6">
+                        <dp-inputtext [definition]="InputTextDef" name="cneeAddress" 
+                        (change)="cooService.cooUpdatedData.Header.COO_ConsigneeAddress = cooService.cooData.CooBoxData.Header.COO_ConsigneeAddress"
+                        [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_ConsigneeAddress"
+                        ></dp-inputtext>
+                        </div>
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-5">{{ 'coo.CNEECountry' | translate  }}:</div>
+                    <div class="p-col-12 p-md-1 Mandatory">*</div>
+                    <div class="p-col-12 p-md-6"><dp-autocomplete [ngModel]="cooService.cooData.CooBoxData.Header.COO_ConsigneeCountry"  name="acCNEECountry"                                
+                        [definition]="autocompleteDefinition1" [datasource]="exportassistService.countriesList"
+                        (getSelected)="changeDropDown($event,'acCNEECountry')">
+                    </dp-autocomplete></div>           
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-6">{{ 'coo.CNEERemarks' | translate  }}:</div>
+                    <div class="p-col-12 p-md-6">
+                        <dp-inputtext [definition]="InputTextDef" name="cneeRemarks" 
+                        (change)="cooService.cooUpdatedData.Header.COO_ConsigneeRemarks = cooService.cooData.CooBoxData.Header.COO_ExporterName"
+                        [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_ConsigneeRemarks"
+                        ></dp-inputtext>
+                        </div>
+                </div>
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-6">{{ 'coo.printCNEEDetails' | translate  }}:</div>
+                    <div class="p-col-12 p-md-6">
+                        <dp-checkbox  [definition]="checkboxDef" name="printCNEEDetails"
+                        (change)="cooService.cooUpdatedData.Header.COO_IsConsigneeForPrint = cooService.cooData.CooBoxData.Header.COO_IsConsigneeForPrint"
+                        [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_IsConsigneeForPrint"
+                        ></dp-checkbox>
+                        </div>
+                </div>     
+                </p-fieldset>
+            </div>
+            <div class="p-col-12 p-md-4">
+                <p-fieldset legend="{{ 'coo.remarks' | translate  }}:" [toggleable]="false">
+                    <div class="p-grid">
+                        <div class="p-col-12 p-md-6">{{ 'coo.observations' | translate  }}:</div>
+                        <div class="p-col-12 p-md-6">
+                            <dp-inputtext [definition]="InputTextDef" name="observations"
+                            (change)="cooService.cooUpdatedData.Header.COO_Observations = cooService.cooData.CooBoxData.Header.COO_Observations" 
+                            [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_Observations"
+                            ></dp-inputtext>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col-12 p-md-6">{{ 'coo.placeOfManufacture' | translate  }}:</div>
+                        <div class="p-col-12 p-md-6">
+                            <dp-inputtext [definition]="InputTextDef" name="placeOfManufacture"
+                            (change)="cooService.cooUpdatedData.Header.COO_PlaceOfManufacture = cooService.cooData.CooBoxData.Header.COO_PlaceOfManufacture"
+                            [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_PlaceOfManufacture"
+                            ></dp-inputtext>
+                        </div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col-12 p-md-6">{{'zipCode' | translate}} Of {{'manufacture' | translate }}:</div>
+                        <div class="p-col-12 p-md-6">
+                            <dp-inputtext 
+                                [definition]="InputTextDef" 
+                                name="zipCodeOfManufacture"
+                                (change)="cooService.cooUpdatedData.Header.COO_ZipCodeOfManufacture = cooService.cooData.CooBoxData.Header.COO_ZipCodeOfManufacture"
+                                [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_ZipCodeOfManufacture"
+                            ></dp-inputtext>
+                        </div>           
+                    </div>
+
+                    <div class="p-grid">
+                        <div class="p-col-12 p-md-5">{{ 'coo.cumulation' | translate  }}:</div>
+                        <div class="p-col-12 p-md-1 Mandatory">*</div>
+                        <div class="p-col-12 p-md-6">
+                        <dp-checkbox  [definition]="checkboxDef"  name="isCumulation"
+                        [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_IsCumulation"></dp-checkbox>
+                        <!-- <dp-checkbox  [definition]="checkboxDef"  [(ngModel)]="headerTabData.cumulation"></dp-checkbox> -->
+                        </div>
+                    </div>
+
+                    <div class="p-grid">
+                        <div class="p-col-12 p-md-5">{{'countryOrGroup' |translate }}:</div>
+                        <div class="p-col-12 p-md-1 Optional"></div>
+
+                        <input  type="radio"
+                                id="cumulationCountryOptionByCountry" 
+                                [(ngModel)]="cumulationCountryOption" 
+                                name="rdCumulationCountryOption"
+                                value="Country" 
+                                (change)="handleChange($event,'cumulationCountryOption')">
+                                
+                        <label for="r_opt1">{{'country' |translate }}</label><br>
+
+                        <input  type="radio" 
+                                id="cumulationCountryOptionByGroups" 
+                                [(ngModel)]="cumulationCountryOption" 
+                                name="rdCumulationCountryOption" 
+                                value="ContryGroups"
+                                (change)="handleChange($event,'cumulationCountryOption')">
+                        <label for="r_opt2">{{'groupOfCounries' |translate }}</label><br>
+                    </div>
+                    
+                    
+                    <div class="p-grid" *ngIf="cumulationCountryOption == 'Country'">
+                        <!-- <div class="p-col-12 p-md-5">{{ 'coo.cumulationCountry' | translate  }}:</div> -->
+                        <div class="p-col-12 p-md-5"></div>
+                        <div class="p-col-12 p-md-1 Mandatory" *ngIf="cooService.cooData.CooBoxData.Header.COO_IsCumulation">*</div>
+                        <div class="p-col-12 p-md-1 Mandatory" *ngIf="!cooService.cooData.CooBoxData.Header.COO_IsCumulation"></div>
+                        <div class="p-col-12 p-md-6">
+                            <dp-autocomplete name="acCumulationCountry"    
+                                [ngModel]="cooService.cooData.CooBoxData.Header.COO_CumulationCountry"                            
+                                [definition]="autocompleteDefinition1" 
+                                [datasource]="exportassistService.countriesList"
+                                (getSelected)="changeDropDown($event,'acCumulationCountry')">
+                            </dp-autocomplete>
+                        </div>
+                    </div> 
+
+                    <!-- <div class="p-col-12 p-md-5">{{ 'coo.cumulationGroupOfCountries' | translate  }}:</div> -->
+                    <div class="p-grid" *ngIf="cumulationCountryOption == 'ContryGroups'">
+                        <div class="p-col-12 p-md-5"></div>
+                        <div class="p-col-12 p-md-1 Mandatory" *ngIf="cooService.cooData.CooBoxData.Header.COO_IsCumulation">*</div>
+                        <div class="p-col-12 p-md-1 Mandatory" *ngIf="!cooService.cooData.CooBoxData.Header.COO_IsCumulation"></div>
+                        <div class="p-col-12 p-md-6">
+                            <dp-autocomplete   
+                                [ngModel]="cooService.cooData.CooBoxData.Header.COO_CumulationGroupOfCountries"
+                                name="acCumulationGroupOfCountries"                                
+                                [definition]="autocompleteDefinition1" 
+                                [datasource]="exportassistService.countryGroupsList"
+                                (getSelected)="changeDropDown($event,'acCumulationGroupOfCountries')">
+                        </dp-autocomplete>
+                        </div>
+                    </div>  
+                            
+                </p-fieldset>
+            </div>
+        </div>
+        <br/>
+        <div class="p-grid">
+            <div class="p-col-12 p-md-4">
+                <p-fieldset legend="{{ 'coo.transportDetailsOptional' | translate  }}" [toggleable]="false">
+                    <div class="p-grid">
+                        <div class="p-col-12 p-md-5">{{ 'coo.transportBy' | translate  }}:</div>
+                        <div class="p-col-12 p-md-1 Mandatory">*</div>
+                        <div class="p-col-12 p-md-6"><dp-autocomplete [ngModel]="cooService.cooData.CooBoxData.Header.COO_Transport"  name="acTransportBy"                                
+                            [definition]="autocompleteDefinition1" [datasource]="transportByData"
+                            (getSelected)="changeDropDown($event,'acTransportBy')">
+                        </dp-autocomplete></div>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col-12 p-md-5">{{ 'coo.originPort' | translate  }}:</div>
+                        <div class="p-col-12 p-md-1 Optional">*</div>
+                        <div class="p-col-12 p-md-6">
+                            <dp-inputtext [definition]="InputTextDef" name="portOfShipment"
+                            (change)="cooService.cooUpdatedData.Header.COO_PortOfShipment = cooService.cooData.CooBoxData.Header.COO_PortOfShipment"
+                            [(ngModel)]="cooService.cooData.CooBoxData.Header.COO_PortOfShipment"
+                    ></dp-inputtext>
+                        </div>
+                    </div>
+                </p-fieldset>
+            </div>
+            <div class="p-col-12 p-md-4">
+                
+            </div>
+        </div>
+    </div>
 </form>

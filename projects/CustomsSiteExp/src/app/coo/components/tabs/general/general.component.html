@@ -1,7 +1,7 @@
 <br/>
 <!-- {{cooService.cooData.CooBoxData.Header | json}}  -->
 <!-- <div *ngIf="cooService.cooData != undefined">     -->
-<div *ngIf="cooService.cooData != undefined">    
+<div [ngClass]="{'disableDiv': cooService.isDisabled}" *ngIf="cooService.cooData != undefined">    
 <div class="p-grid">
     <div class="p-col-12 p-md-3">
         <p-fieldset legend="General" [toggleable]="false">

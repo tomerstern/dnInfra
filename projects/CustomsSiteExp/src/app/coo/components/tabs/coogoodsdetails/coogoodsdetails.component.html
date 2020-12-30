@@ -1,3 +1,11 @@
+<p-fieldset legend="COO - Test Mode" [toggleable]="true" [collapsed]="true">
+    <div *ngIf="cooService.operationGoodDetailsData != undefined" >
+        OperationGoodDetailsData: {{cooService.operationGoodDetailsData | json}}  
+        <br><br>
+        operationInvoiceData: {{cooService.operationInvoiceData | json}} 
+        <br><br>
+    </div>
+</p-fieldset>
 <br/>
 <div *ngIf="cooService.cooData != undefined" >
     Invoices:  {{cooService.cooData.CooBoxData.Invoices | json}}
@@ -6,23 +14,19 @@
 </div>
 <br/>
 <div>
-    {{invoicesForCont | json}}
     <div class="p-col-12 p-md-8">
-        <dp-table tableId="tblInvoiceDetails" 
-            [definition]="gridInvoiceDetailsDefinition"
-            [datasource]="invoiceDetails"
-            >
-            <!-- [datasource]="" -->
-        </dp-table>
+        <app-invoicedetails [state]="'standalone'" [invoiceDetails]="invoiceDetails" ></app-invoicedetails>
     </div>
 <dp-table tableId="tblContainers" 
     [definition]="gridContainersDefinition"
-    [datasource]="goodsDetails"
+    [(datasource)]="goodsDetails"
+    
     >
 
     <!-- <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
         aaaaaaa
     </ng-template> -->
 </dp-table>
+
 </div>
 

@@ -139,7 +139,7 @@ export class HeaderComponent implements OnInit {
       ,
       {
         label: 'Declaration',
-        routerLink: ['/declaration', {ShipmentNumber: 1, DeptCode: "1", CusDecOrder: 1, declarationMode: 'UPDATE'}]
+        routerLink: ['/declaration', {ShipmentNumber: 10001000, DeptCode: "1", CusDecOrder: 12, declarationMode: 'UPDATE'}]
       },
       {
         label: 'COO',

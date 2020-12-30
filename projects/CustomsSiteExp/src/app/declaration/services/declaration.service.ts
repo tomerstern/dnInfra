@@ -243,6 +243,8 @@ export class DeclarationService {
 
   async updateDeclarationData() {
     this.declarationData.DeclarationBox.DeclarationDetails.State = StateSavingMode.Modified;
+    this.declarationData.DeclarationBox.ExportCustoms.State = StateSavingMode.Modified;
+    this.declarationData.DeclarationBox.DeclarationAgent.State = StateSavingMode.Modified;
     this.copyKeyFromHeaderToBox();
     return await new Promise((resolve, reject) => {
       this.webAPI.sendWebAPIRequest("Declaration/UpdateDeclarationBox", JSON.stringify(this.declarationData.DeclarationBox))

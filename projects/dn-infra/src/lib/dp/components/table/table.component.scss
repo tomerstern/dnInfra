@@ -75,6 +75,12 @@ body .ui-table .ui-sortable-column:focus fa-icon{
 body .ui-table .ui-sortable-column:not(.ui-state-highlight):hover fa-icon{
     color: black;
 }
+
+td div.ng-star-inserted
+{
+    width:100%;
+    height: 100%;
+}
 // .ui-table-scrollable-wrapper .ui-table-scrollable-view:nth-child(1) .cssFrozenHeader .cssFrozenHeaderIcon{
 //     visibility: visible;
 // }

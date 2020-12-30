@@ -5,19 +5,22 @@ import { StateSavingMode } from  '../../core/enums';
 import { ICooData,CooKey, CooMode} from '../models/coo';
 import { CommunicationService } from '../../core/services/communication.service';
 import { AssistTableMin } from '../../shared/models/assist';
-import { OperationShipmentData } from '../../core/models/shipment';
+import { OperationShipmentData, OperationGoodDetailsData , OperationInvoiceData } from '../../core/models/shipment';
 
 @Injectable({ providedIn: 'root'})
 
 export class CooService {
 
-  countriesList: AssistTableMin;
+  cityiesList: AssistTableMin;
   customsOfficeList: AssistTableMin;
   cooTypes: AssistTableMin;    
   cooData: ICooData;
   operationShipmentData: OperationShipmentData;
+  operationGoodDetailsData: OperationGoodDetailsData[];
+  operationInvoiceData: OperationInvoiceData[];
   cooUpdatedData: any;  
   cooDataSubject$ = new BehaviorSubject<ICooData>(null);
+  isDisabled: boolean = false;
     
   constructor(private http: HttpClient, private webAPI: CommunicationService) {}
 
@@ -30,7 +33,7 @@ export class CooService {
     }
     return ""
   }
-  
+
   //#region  "Set"
   setCooBox(jsonCooBox: any)
   {
@@ -38,19 +41,29 @@ export class CooService {
     this.cooDataSubject$.next(this.cooData);
   }
 
-  setCountries(jsonCountriesList: any)
+  setCities(jsonData: any)
   {
-    this.countriesList = jsonCountriesList;
+    this.cityiesList = jsonData;
   }
 
-  setCustomsOffice(jsonCustomsOfficeList: any)
+  setCustomsOffice(jsonData: any)
   {
-    this.customsOfficeList = jsonCustomsOfficeList;
+    this.customsOfficeList = jsonData;
   }
 
-  setOperationShipmentData(jsonShipmentData: any)
+  setOperationShipmentData(jsonData: any)
   {
-    this.operationShipmentData = jsonShipmentData;
+    this.operationShipmentData = jsonData;
+  }
+
+  setOperationGoodDetailsData(jsonData: any)
+  {
+    this.operationGoodDetailsData = jsonData;
+  }
+  
+  setOperationInvoiceData(jsonData: any)
+  {
+    this.operationInvoiceData = jsonData;
   }
  /*------------------------------*/
 
@@ -70,8 +83,8 @@ export class CooService {
    return this.webAPI.sendWebRequest("COO/GetCooTypesList",{});
   }
 
-  async getCountriesList() {
-    return this.webAPI.sendWebRequest("Assist/GetCustomsCountries",{});
+  async getCitesList() {
+    return this.webAPI.sendWebRequest("Assist/GetCustomsCities",{});
   }
 
   async getCustomsOfficeList() {
@@ -80,6 +93,14 @@ export class CooService {
 
   async getOperationShipmentData(key: CooKey) {
     return this.webAPI.sendWebRequest("Shipment/GetOperationShipmentData",key);
+  }
+
+  async getOperationGoodDetailsData(key: CooKey) {
+    return this.webAPI.sendWebRequest("Shipment/GetOperationGoodDetailsData",key);
+  }
+
+  async getOperationInvoiceData(key: CooKey) {
+    return this.webAPI.sendWebRequest("Shipment/GetOperationInvoiceData",key);
   }
   
   async updateCooData() {
@@ -108,7 +129,7 @@ export class CooService {
   }
 
   getCooBoxFromServer(key: CooKey, cooMode: CooMode, userID: string) {    
-    
+    console.log(key)
     return new Promise((resolve, reject) => { 
       this.webAPI.sendWebAPIRequest("COO/GetCooBoxByEntityNo" , JSON.stringify(key))
       .then((data: { Status: string; result: any }) => {        
@@ -117,6 +138,7 @@ export class CooService {
           this.cooData = {
             CooBoxData: data.result
           };
+          
           this.cooData.CooBoxData.UserID = userID;
           this.cooData.CooBoxData.CooMode = cooMode.toString();
           this.cooDataSubject$.next(this.cooData);

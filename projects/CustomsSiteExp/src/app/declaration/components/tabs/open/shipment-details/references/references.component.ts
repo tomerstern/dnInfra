@@ -49,7 +49,7 @@ export class ReferencesComponent implements OnInit {
     columns.push(column1);
 
     const columnParams2: GridColumnParams = new GridColumnParams();
-    columnParams1.addParam(InputTextProperties.mode, 'basic');
+    columnParams2.addParam(InputTextProperties.mode, 'basic');
     const column2 = new GridColumn({
       headername: 'Reference',
       fieldname: 'Reference',
@@ -58,13 +58,13 @@ export class ReferencesComponent implements OnInit {
     });
     columns.push(column2);
 
-    const columnParams5: GridColumnParams = new GridColumnParams();
-    columnParams5.addParam(CalendarProperties.showTime, false);
-    const column5 = new GridColumn({
+    const columnParams3: GridColumnParams = new GridColumnParams();
+    columnParams3.addParam(CalendarProperties.showTime, false);
+    const column3 = new GridColumn({
       headername: 'Date Added', fieldname: 'DateAdded', type: this.gridColumnTypeEnum.calendar,
-      columnParams: columnParams5, iseditable: true
+      columnParams: columnParams3, iseditable: true
     });
-    columns.push(column5);
+    columns.push(column3);
 
     return columns;
   }

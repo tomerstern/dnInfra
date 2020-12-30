@@ -20,7 +20,8 @@ export enum CooMode {
   New = 'NEW',
   Replace = 'REPLACE',
   Update = 'UPDATE',
-  Cancel = 'CANCEL'
+  Cancel = 'CANCEL',
+  View = 'VIEW'
 }
 
 export class CooBox extends CooKey {
@@ -114,6 +115,18 @@ export class COOInvoiceDetails{
   CurrencyType: string;	
   DescriptionOfInvoice: string;	
   IsInvoicesForPrint: boolean;
+  ConnectedNum: Number;
+
+  isEqual(invoice: COOInvoiceDetails): boolean
+  {
+    return (invoice.EntityNo == this.EntityNo && invoice.InvoiceNum == this.InvoiceNum);
+  }
+
+  toString()
+  {
+    return "No: " + this.InvoiceNum + " Date: " + this.InvoiceDate.toDateString(); 
+  }
+
 }
 
 export class CooGoodsDetails{
@@ -129,6 +142,20 @@ export class CooGoodsDetails{
   Weight: number;	
   MeasureType: string;
   Invoices: COOInvoiceDetails[];
+
+  updateInvoices(invoices: COOInvoiceDetails[])
+  {
+    this.Invoices = invoices;
+  }
+
+  clone(): CooGoodsDetails {
+    //let currentObj = <CooGoodsDetails>this;
+    let object = new CooGoodsDetails();
+    for (let prop in <CooGoodsDetails>this) {
+      object[prop] = this[prop];
+    }
+    return object;
+  } 
 
   //Connected: bool = this.Invoices.length > 0;
 }

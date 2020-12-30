@@ -3,7 +3,7 @@
     [rowHover]="definition.rowHover" [rows]="definition.rows" [showCurrentPageReport]="true"
     [rowsPerPageOptions]="definition.rowsPerPageOptions" [paginator]="definition.paginator"
     [currentPageReportTemplate]="definition.currentPageReportTemplate" [editMode]="definition.editMode"
-    [(first)]="first" [selectionMode]="definition.selectionMode" [selection]="definition.selectionMode"
+    [(first)]="first" [selectionMode]="definition.selectionMode" [(selection)]="definition.selection"
     (onRowSelect)="onRowSelect($event)" [scrollHeight]="definition.FreezeHeaderTableHeight"
     [scrollable]="definition.scrollable" [frozenWidth]="frozenWidth + 'px'" [frozenColumns]="frozenCols"
     (onPage)="paginate($event)" [ngClass]="(definition.isRoundedInputs === false )?'cssSquareInputs' :''">
@@ -74,6 +74,20 @@
             class="ui-button ui-button-dp" (click)="toggleFilter = !toggleFilter" pAddRow></button>
         </th>
       </tr>
+
+      <!-- <ng-template pTemplate="body" *ngIf="definition.rowExpanded" let-rowData let-expanded="expanded" let-columns="columns">
+        <tr>
+            <td>
+                <a href="#" [pRowToggler]="rowData">
+                    <i [ngClass]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></i>
+                </a>
+            </td>
+            <td *ngFor="let col of columns">
+                {{rowData[col.field]}}
+            </td>
+        </tr>
+    </ng-template> -->
+
       <!-- FILTER -->
       <tr class="clsDpHeadFilterTr">
         <th *ngFor="let column of columns" [hidden]="!toggleFilter" [ngSwitch]="column.type" class="clsDpFilterHeader">
@@ -163,7 +177,7 @@
 
 
               <dp-autocomplete (getSelected)="updateRow(column.fieldname, row, $event, index, column.fieldCode)"
-                [initVal]="row[column.fieldname]" [required]="column.isMandatory" *ngSwitchCase="gridColumnTypeEnum.autocomplete" 
+                [ngModel]="row[column.fieldname]" [required]="column.isMandatory" *ngSwitchCase="gridColumnTypeEnum.autocomplete" 
                 [datasource]="column.ColumnDatasource" [columnDefinition]="column">
               </dp-autocomplete>
 
@@ -183,7 +197,7 @@
             <ng-container *ngIf="column.fieldname === 'index'">
             {{index + 1}}
             </ng-container>
-            <div [ngSwitch]="column.type" (click)="column.clickColumnName !== undefined ? clickEvent(column, row[column.clickColumnName]) : ''" >
+            <div [ngSwitch]="column.type" (click)="column.clickColumnName !== undefined ? clickEvent(column, row[column.clickColumnName], row) : ''" >
               <span *ngSwitchCase="gridColumnTypeEnum.span"
                 [style]="column.style"
                 [class]="column.class">

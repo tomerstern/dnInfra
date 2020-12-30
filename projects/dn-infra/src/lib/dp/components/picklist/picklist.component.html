@@ -1,9 +1,10 @@
-<p-pickList [title]="tableId"  [source]="sourceList" [target]="targetList" sourceHeader="Available" targetHeader="Selected" dragdrop="true"
-(onMoveToSource)="saveInLocalStorage($event)" (onMoveToTarget)="saveInLocalStorage($event)"
+<p-pickList [title]="tableId"  [source]="sourceListCopy" [target]="targetListCopy" sourceHeader="Available" targetHeader="Selected" dragdrop="true"
+(onMoveToSource)="changeTarget($event)" (onMoveToTarget)="changeTarget($event)"
     [responsive]="true" [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}" filterBy="name"
-    sourceFilterPlaceholder="Search by name" targetFilterPlaceholder="Search by name">
+    sourceFilterPlaceholder="Search" targetFilterPlaceholder="Search">
     <ng-template let-listItem pTemplate="item">
-        {{listItem.fieldname}}
+        <!-- {{listItem.fieldname}} -->
+        {{listItem.toString()}}
         <!-- <div class="product-item">
             <div class="product-list-detail">
                 <h5 class="p-mb-2">{{product.name}}</h5>
@@ -16,4 +17,4 @@
             </div>
         </div> -->
     </ng-template>
-</p-pickList>
+</p-pickList>   

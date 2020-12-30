@@ -84,7 +84,7 @@ export class CootypeDetailsComponent implements OnInit {
     
     const columnParams5: GridColumnParams = new GridColumnParams();
     const column5 = new GridColumn({
-      headername: 'Shipper', fieldname: 'CustomerName', columnParams: columnParams5
+      headername: 'Shipper', fieldname: 'COO_ExporterName', columnParams: columnParams5
       , width: 200
       ,clickColumnName: 'EntityNo'
       ,onClick: (param) => {

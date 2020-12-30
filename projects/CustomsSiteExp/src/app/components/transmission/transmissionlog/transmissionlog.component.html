@@ -1,10 +1,18 @@
+
 <dp-table *ngIf="gridData" tableId="tableFormDetails" [definition]="gridDefinition" [datasource]="gridData"></dp-table>
+
+<div *ngIf = "jsonRequestDetails != undefined" >
+    <app-transmissiondetails  [jsonTransmissionData]="xml"></app-transmissiondetails>
+    <!-- {{jsonRequestDetails[0].SendRemarks}} -->
+    <!-- ExeptionDescription:{{this.obj.Result.PC_NG_2281_MSG02_CertificateOfOriginRequestFeedback.ResponseContentHeader.Exception.ExeptionDescription._text}}  -->
+</div>
 
 
 <!-- {{this.xml}} -->
 
-<div *ngIf = "jsonRequestDetails != undefined" >
-    <app-transmissiondetails  [jsonTransmissionData]="obj"></app-transmissiondetails>
-    <!-- {{jsonRequestDetails[0].SendRemarks}} -->
-    <!-- ExeptionDescription:{{this.obj.Result.PC_NG_2281_MSG02_CertificateOfOriginRequestFeedback.ResponseContentHeader.Exception.ExeptionDescription._text}}  -->
-</div>
+
+
+<!-- <div>
+    <app-display-xml [displayXML]="outputXml"></app-display-xml>
+</div> -->
+

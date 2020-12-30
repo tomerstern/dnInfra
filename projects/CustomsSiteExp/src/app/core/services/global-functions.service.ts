@@ -1,5 +1,6 @@
 // import { JsonPipe } from '@angular/common';
 import { Injectable } from '@angular/core';
+import { takeUntil } from 'rxjs/operators';
 // import { isNumber } from 'util';
 
 import { environment } from '../../../environments/environment';
@@ -73,4 +74,10 @@ export class GlobalFunctionsService {
     return( mm + '/' + dd + '/' + yyyy);
   }
 
+  funcConvertToBoolean(n) {
+    if(n === 1 || n === '1' || n.toUpperCase() === 'TRUE') {
+      return true;
+    }
+    return false
+  }
 }

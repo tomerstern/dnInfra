@@ -5,7 +5,7 @@
             <fieldset>
                 <legend>regular:</legend>
 
-                <dp-autocomplete *ngIf="dataForAc1" [initVal]="'Albania'" 
+                <dp-autocomplete *ngIf="dataForAc1" [ngModel]="'Albania'" 
                     (getSelected)="handleResult($event, 1)"
                     [definition]="autocompleteDefinition1" [datasource]="dataForAc1">
                 </dp-autocomplete>
@@ -24,7 +24,7 @@
             <fieldset>
                 <legend>regular with multi select:</legend>
 
-                <dp-autocomplete *ngIf="dataForAc2" [initVal]="['newapie', 'new cess']"
+                <dp-autocomplete *ngIf="dataForAc2" [ngModel]="['newapie', 'new cess']"
                     (getSelected)="handleResult($event, 2)" 
                     [definition]="autocompleteDefinition2"
                     [datasource]="dataForAc2">
@@ -56,7 +56,7 @@
             <fieldset>
                 <legend>With Images (default):</legend>
 
-                <dp-autocomplete *ngIf="dataForAc3" [initVal]="someVar"
+                <dp-autocomplete *ngIf="dataForAc3" [ngModel]="someVar"
                     (getSelected)="handleResult($event, 3)" 
                     [definition]="autocompleteDefinition3"
                     [datasource]="dataForAc3">
@@ -86,13 +86,13 @@
                     (getSelected)="handleResult($event, 4)"
                     [definition]="autocompleteDefinition4"
                     [datasource]="dataForAc4"
-                    [initVal]="'Albania'"
+                    [ngModel]="'Albania'"
                 ></dp-autocomplete> -->
         
                 <!-- *ngIf="dataForAc4" -->
                 <dp-autocomplete  
                     *ngIf="dataForAc4"
-                    [initVal]="{ name: 'Albania', code: 'AL' }" 
+                    [ngModel]="{ name: 'Albania', code: 'AL' }" 
                     (getSelected)="handleResult($event, 4)"
                     [definition]="autocompleteDefinition4" [datasource]="dataForAc4">
                 </dp-autocomplete>
@@ -122,7 +122,7 @@
                     (getSelected)="handleResult($event, 5)"
                     [definition]="autocompleteDefinition5"
                     [datasource]="dataForAc5"
-                    [initVal]="'ACCCLOSE'"
+                    [ngModel]="'ACCCLOSE'"
                 ></dp-autocomplete>
 
                 <br><br>
@@ -143,7 +143,7 @@
                     (getSelected)="handleResult($event, 6)"
                     [definition]="autocompleteDefinition6"
                     [datasource]="dataForAc6"
-                    [initVal]="'ACCUPD'"
+                    [ngModel]="'ACCUPD'"
                 ></dp-autocomplete>
 
                 <br><br>
@@ -171,13 +171,13 @@
 
                 <legend>Data From DB:</legend>
                 <!-- *ngIf="dataForAc7"  -->
-                <!-- [initVal]="'IRELAND'" -->
+                <!-- [ngModel]="'IRELAND'" -->
                 <!-- "{ name: 'Albania', code: 'AL' }"  -->
                 <dp-autocomplete 
                     (getSelected)="handleResult($event, 7)"
                     [definition]="autocompleteDefinition7"
                     [datasource]="dataForAc7"
-                    [initVal]="{ name: 'Albania', code: 'AL' }" 
+                    [ngModel]="{ name: 'Albania', code: 'AL' }" 
                 ></dp-autocomplete>                    
                 <br><br>
 
@@ -202,7 +202,7 @@
 
                 <!-- <dp-autocomplete  
                     (firstInteraction)="getDbSataForAc8($event)" 
-                    [initVal]="someVar"
+                    [ngModel]="someVar"
                     (getSelected)="handleResult($event,8)" 
                     [definition]="autocompleteDefinition3"
                     [datasource]="dataForAc8">

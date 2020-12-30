@@ -7,7 +7,7 @@ import { ToastDefinitions } from 'projects/dn-infra/src/lib/dp/components/toast/
 import { TransmissionlogComponent } from '../../../components/transmission/transmissionlog/transmissionlog.component';
 import { Store } from '@ngrx/store';
 import { getAppState } from 'projects/dn-infra/src/lib/dp/store/selectors';
-import { addRow, clearStateChanges, deleteRowByColumnValue, updateRowByColumnValue } from 'projects/dn-infra/src/lib/dp/store/actions';
+import { clearStateChanges, addRow, deleteRowByColumnValue, updateRowByColumnValue } from 'projects/dn-infra/src/lib/dp/store/actions';
 import { map, take } from 'rxjs/operators';
 
 @Component({
@@ -42,37 +42,51 @@ export class ToolbarComponent implements OnInit {
   //   });    
   // }
 
-addRow(){
-  this.store.dispatch(addRow({ data: { tableId: 'references', rowToAdd: this.newEmptyRow() } }));
-}
-
-newEmptyRow() {
-  const row: any = {};
-  row['ShipmentNumber'] = 1;
-  row['DeptCode'] = '1';
-  row['CusDecOrder'] = 1;
-  row['LineNumber'] = 15;
-  row['ReferenceType'] = '1';
-  row['ReferenceTypeName'] = 'PO';
-  row['Reference'] = 'yoyoyoyoy';
-  row['DateAdded'] = '2020-05-05';
-
-  return row;
-}
+  addRow(){    
+    this.store.dispatch(addRow({ data: { tableId: 'references', rowToAdd: this.newEmptyRow() } }));
+  }
+  
+  newEmptyRow() {
+    const row: any = {};
+    row['ShipmentNumber'] = 1;
+    row['DeptCode'] = '1';
+    row['CusDecOrder'] = 1;
+    row['LineNumber'] = 15;
+    row['ReferenceType'] = '1';
+    row['ReferenceTypeName'] = 'PO';
+    row['Reference'] = 'yoyoyoyoy';
+    row['DateAdded'] = '2020-05-05';
+  
+    return row;
+  }
 
 deleteByColumn(){
-  this.store.dispatch(deleteRowByColumnValue({ data: { tableId: 'references', columnName: 'Reference', columnValue: '666' } }));
+  const columnRecord: Record<string, any>[] = [
+    {'Reference': 888},
+    {'ReferenceType': 2}
+  ];
+
+  this.store.dispatch(deleteRowByColumnValue({ data: { tableId: 'references', columnRecord } }));
 }
 
 updateByColumn(){
-  this.store.dispatch(updateRowByColumnValue({ data: { tableId: 'references', 
-                                                columnNameToSearch: 'Reference', columnValueToSearch: '666',
-                                                columnNameToReplace: 'ReferenceType', columnValueToReplace: '2' } }));
+  const columnToSearchRecord: Record<string, any>[] = [
+    {'Reference': 888},
+    {'ReferenceType': 2}
+  ];
+
+  const columnToReplaceRecord: Record<string, any>[] = [
+    {'Reference': 18},
+    {'ReferenceType': 1},
+    {'ReferenceTypeName':'PO'}
+  ];
+
+  this.store.dispatch(updateRowByColumnValue({ data: { tableId: 'references', columnToSearchRecord, columnToReplaceRecord } }));
 }
 
 saveData()
 {
-  this.addRow()
+  // this.addRow();
   // this.deleteByColumn()
   // this.updateByColumn()
   this.updateTableChanges();  

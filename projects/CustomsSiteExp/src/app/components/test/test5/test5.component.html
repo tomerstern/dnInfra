@@ -1,4 +1,8 @@
 <h2>שאילתת תיקים</h2>
+
+
+<!-- class="dpTempYellow"  -->
+
 <!-- Template Driven -->
 <!-- <form name="form" (ngSubmit)="f.valid && onSubmit(f)" #f="ngForm" >   -->
 <!--novalidate  vs ngNativeValidate -->
@@ -23,9 +27,9 @@
                             <div class="p-col-12 p-md-5">
                                 <!-- [ngModel]="dataForAc1[0]" -->
                                 <!-- *ngIf="dataForAc1" -->
-                                <dp-autocomplete [initVal]="" name="department" [definition]="acDefDepartment"
+                                <dp-autocomplete  name="department" [definition]="acDefDepartment"
                                     [datasource]="dataForAc1" (getSelected)="handleAcResult($event, 4)" required
-                                    class="dpTempYellow">
+                                    >
                                 </dp-autocomplete>
                             </div>
                             <div class="p-col-12 p-md-3">
@@ -59,8 +63,11 @@
                                 {{'shipmentNumber' | translate}}
                             </div>
                             <div class="p-col-12 p-md-5">
-                                <dp-inputtext name="ShipmentNumber" [(ngModel)]="model.ShipmentNumber"
-                                    class="dpTempYellow"></dp-inputtext>
+                                <dp-inputtext
+                                    name="ShipmentNumber" 
+                                    [(ngModel)]="model.ShipmentNumber"
+                                    class="dpTempYellow"
+                                ></dp-inputtext>
                             </div>
                             <div class="p-col-12 p-md-3">
                                 cccccc
@@ -130,7 +137,7 @@
                                 <dp-calendar 
                                     name="EtdDateFrom" 
                                     [definition]="CalendarDefFromETD"
-                                    class="dpTempYellow"
+                                    class="dpTempYellow" 
                                     [ngModel]="model.fromEtd"                                    
                                 ></dp-calendar>
                             </div>
@@ -146,7 +153,7 @@
                                 <dp-calendar 
                                     name="AtdDateFrom" 
                                     [definition]="CalendarDefFromATD"
-                                    class="dpTempYellow"
+                                    class="dpTempYellow" 
                                     [ngModel]="model.fromAtd"                                    
                                 ></dp-calendar>
                             </div>
@@ -164,7 +171,7 @@
                                 <dp-calendar 
                                     name="openDateTo" 
                                     [definition]="CalendarDefToOpenDate"
-                                    class="dpTempYellow"
+                                    class="dpTempYellow" 
                                     [ngModel]="toOpenDate"                                
                                 ></dp-calendar>
                             </div>
@@ -180,7 +187,7 @@
                                 <dp-calendar 
                                     name="EtdDateTo" 
                                     [definition]="CalendarDefToETD"
-                                    class="dpTempYellow"
+                                    class="dpTempYellow" 
                                     [ngModel]="model.ToEtd"                               
                                 ></dp-calendar>
 
@@ -197,7 +204,7 @@
                                 <dp-calendar 
                                     name="AtdDateTo" 
                                     [definition]="CalendarDefToATD"
-                                    class="dpTempYellow"
+                                    class="dpTempYellow" 
                                     [ngModel]="model.ToAtd"                               
                                 ></dp-calendar>
                             </div>
@@ -226,10 +233,12 @@
                             <div class="p-col-12 p-md-5 form-control">
 
                                 <dp-autocomplete                                                    
-                                                                [definition]="acDefOperationalCustomer"  
-                                                                [datasource]="exportassistService.customersList"
-                                                                (getSelected)="handleAcResult($event,3)"
-                                                                ></dp-autocomplete>
+                                    [definition]="acDefOperationalCustomer"  
+                                    [datasource]="exportassistService.customersList"
+                                    (getSelected)="handleAcResult($event,3)"
+                                    class="dpTempYellow" 
+                                    name="operationalCustomer"
+                                ></dp-autocomplete>
 
                             </div>
                             <div class="p-col-12 p-md-3">
@@ -243,10 +252,12 @@
                             <div class="p-col-12 p-md-5">
 
                                 <dp-autocomplete                                                    
-                                                                [definition]="acDefBindingCustomer"  
-                                                                [datasource]="exportassistService.customersList"
-                                                                (getSelected)="handleAcResult($event,4)"
-                                                                ></dp-autocomplete>
+                                    [definition]="acDefBindingCustomer"  
+                                    [datasource]="exportassistService.customersList"
+                                    (getSelected)="handleAcResult($event,4)"
+                                    class="dpTempYellow" 
+                                    name="bindingCustome"
+                                ></dp-autocomplete>
 
                             </div>
                             <div class="p-col-12 p-md-3">
@@ -261,8 +272,12 @@
                             </div>
                             <div class="p-col-12 p-md-5">
                                 <!-- <dp-inputtext name="exporterBnNumber1" [(ngModel)]="model.exporterBnNumber1"
-                                    class="dpTempYellow"></dp-inputtext> -->
-                                    <p-chips name="exporterBnNumber" [ngModel]="exporterBnNumber"></p-chips>
+                                    ></dp-inputtext> -->
+                                    <p-chips 
+                                        name="exporterBnNumber" 
+                                        [ngModel]="exporterBnNumber"
+                                        class="dpTempYellow3" 
+                                    ></p-chips>
                             </div>
                             <div class="p-col-12 p-md-3">
     
@@ -270,15 +285,14 @@
                         </div>
 
                         
-
-
+<!-- 
                         <div class="p-grid">
                             <div class="p-col-12 p-md-3">
                                 {{'exporterBnNumber' | translate}}
                             </div>
                             <div class="p-col-12 p-md-5">
                                 <dp-inputtext name="exporterBnNumber1" [(ngModel)]="model.exporterBnNumber1"
-                                    class="dpTempYellow"></dp-inputtext>
+                                    ></dp-inputtext>
                             </div>
                             <div class="p-col-12 p-md-3"
                                 [ngStyle]="{'display':isCloseMoreExporterBnNumbers === true ? 'block' : 'none' }">
@@ -294,48 +308,48 @@
                             [ngStyle]="{'display':isCloseMoreExporterBnNumbers === false ? 'flex' : 'none' }">
                             <div class="p-col-12 p-md-4">
                                 <dp-inputtext name="exporterBnNumber2" [(ngModel)]="model.exporterBnNumber2"
-                                    class="dpTempYellow"></dp-inputtext>
+                                    ></dp-inputtext>
                             </div>
                             <div class="p-col-12 p-md-4">
                                 <dp-inputtext name="exporterBnNumber3" [(ngModel)]="model.exporterBnNumber3"
-                                    class="dpTempYellow"></dp-inputtext>
+                                    ></dp-inputtext>
                             </div>
                             <div class="p-col-12 p-md-4">
                                 <dp-inputtext name="exporterBnNumber4" [(ngModel)]="model.exporterBnNumber4"
-                                    class="dpTempYellow"></dp-inputtext>
+                                    ></dp-inputtext>
                             </div>
                         </div>
                         <div class="p-grid"
                             [ngStyle]="{'display':isCloseMoreExporterBnNumbers === false ? 'flex' : 'none' }">
                             <div class="p-col-12 p-md-4">
                                 <dp-inputtext name="exporterBnNumber5" [(ngModel)]="model.exporterBnNumber5"
-                                    class="dpTempYellow"></dp-inputtext>
+                                    ></dp-inputtext>
                             </div>
                             <div class="p-col-12 p-md-4">
                                 <dp-inputtext name="exporterBnNumber6" [(ngModel)]="model.exporterBnNumber6"
-                                    class="dpTempYellow"></dp-inputtext>
+                                    ></dp-inputtext>
                             </div>
                             <div class="p-col-12 p-md-4">
                                 <dp-inputtext name="exporterBnNumber7" [(ngModel)]="model.exporterBnNumber7"
-                                    class="dpTempYellow"></dp-inputtext>
+                                    ></dp-inputtext>
                             </div>
                         </div>
                         <div class="p-grid"
                             [ngStyle]="{'display':isCloseMoreExporterBnNumbers === false ? 'flex' : 'none' }">
                             <div class="p-col-12 p-md-4">
                                 <dp-inputtext name="exporterBnNumber8" [(ngModel)]="model.exporterBnNumber8"
-                                    class="dpTempYellow"></dp-inputtext>
+                                    ></dp-inputtext>
                             </div>
                             <div class="p-col-12 p-md-4">
                                 <dp-inputtext name="exporterBnNumber9" [(ngModel)]="model.exporterBnNumber9"
-                                    class="dpTempYellow"></dp-inputtext>
+                                    ></dp-inputtext>
                             </div>
                             <div class="p-col-12 p-md-4">
                                 <dp-inputtext name="exporterBnNumber10" [(ngModel)]="model.exporterBnNumber10"
-                                    class="dpTempYellow"></dp-inputtext>
+                                    ></dp-inputtext>
                             </div>
-                        </div>
-                        <div class="p-grid"
+                        </div> -->
+                        <!-- <div class="p-grid"
                             [ngStyle]="{'display':isCloseMoreExporterBnNumbers === false ? 'flex' : 'none' }">
                             <div class="p-col-12 p-md-4">
 
@@ -349,7 +363,8 @@
                                     <fa-icon [icon]="faChevronUp" size="lg" class="cssPrimary"></fa-icon>
                                 </a>
                             </div>
-                        </div>
+                        </div> -->
+
                     </div>
 
                     <div class="p-col-12 p-md-5 was6">
@@ -360,9 +375,10 @@
                             <div class="p-col-12 p-md-5">
                                 <!--  [datasource]="exportassistService.countriesList" -->
                                 <dp-autocomplete                                                    
-                                                                [definition]="acDefCssv"                              
-                                                                (getSelected)="handleAcResult($event,18)"
-                                                            ></dp-autocomplete>
+                                    [definition]="acDefCssv"   
+                                    name="Cssv"                            
+                                    (getSelected)="handleAcResult($event,18)"
+                                ></dp-autocomplete>
                             </div>
                             <div class="p-col-12 p-md-3">
                                 cccccc
@@ -373,8 +389,10 @@
                                 {{'goodsReceiver' | translate}}
                             </div>
                             <div class="p-col-12 p-md-5">
-                                <dp-inputtext name="GoodsReceiver" [(ngModel)]="model.GoodsReceiver"
-                                    class="dpTempYellow"></dp-inputtext>
+                                <dp-inputtext 
+                                    name="GoodsReceiver" 
+                                    [(ngModel)]="model.GoodsReceiver"
+                                ></dp-inputtext>
                             </div>
                             <div class="p-col-12 p-md-3">
                                 cccccc
@@ -408,8 +426,11 @@
                                 {{'declarationId' | translate}}
                             </div>
                             <div class="p-col-12 p-md-5">
-                                <dp-inputtext name="DeclarationID" [(ngModel)]="DeclarationID"
-                                    class="dpTempYellow"></dp-inputtext>
+                                <dp-inputtext 
+                                    name="DeclarationID" 
+                                    [(ngModel)]="DeclarationID"
+                                    class="dpTempYellow" 
+                                ></dp-inputtext>
                             </div>
                             <div class="p-col-12 p-md-3">
 
@@ -417,12 +438,16 @@
                         </div>
                         <div class="p-grid">
                             <div class="p-col-12 p-md-3">
-                                {{'declarationType' | translate}}
+                                {{'declarationType' | translate}}  -  אין טבלה פנימית / מאיפה רשימת האפשרויות  
                             </div>
                             <div class="p-col-12 p-md-5">
-                                <dp-autocomplete [initVal]="" name="dp6" [definition]="acDefDeclarationType"
-                                    [datasource]="dataForAc6" (getSelected)="handleAcResult($event, 6)"
-                                    [ngModel]="acDataSelected6" class="dpTempYellow">
+                                <dp-autocomplete  
+                                    name="declarationType" 
+                                    [definition]="acDefDeclarationType"
+                                    [datasource]="dataForAc6" 
+                                    (getSelected)="handleAcResult($event, 6)"
+                                    [ngModel]="acDataSelected6" 
+                                    >
                                 </dp-autocomplete>
                             </div>
                             <div class="p-col-12 p-md-3">
@@ -431,12 +456,17 @@
                         </div>
                         <div class="p-grid">
                             <div class="p-col-12 p-md-3">
-                                {{'processCode' | translate}}aaaaa
+                                {{'processCode' | translate}}
                             </div>
                             <div class="p-col-12 p-md-5">
-                                <dp-autocomplete [initVal]="" name="dp7" [definition]="acDefProcessCode"
-                                    [datasource]="dataForAc7" (getSelected)="handleAcResult($event, 7)"
-                                    [ngModel]="acDataSelected7" class="dpTempYellow">
+                                <dp-autocomplete  
+                                    name="processCode" 
+                                    [definition]="acDefProcessCode"
+                                    [datasource]="dataForAc7" 
+                                    (getSelected)="handleAcResult($event, 7)"
+                                    [ngModel]="acDataSelected7"
+                                    class="dpTempYellow" 
+                                    >
                                 </dp-autocomplete>
                             </div>
                             <div class="p-col-12 p-md-3">
@@ -448,10 +478,12 @@
                                 {{'customsHouseExports' | translate}}
                             </div>
                             <div class="p-col-12 p-md-5">
-                                <dp-autocomplete [initVal]="" name="dp8" [definition]="acDefCustomsHouseExports"
-                                    [datasource]="dataForAc8" (getSelected)="handleAcResult($event, 8)"
-                                    [ngModel]="acDataSelected8" class="dpTempYellow">
-                                </dp-autocomplete>
+                                <dp-autocomplete 
+                                     name="customsHouseExports" 
+                                     [definition]="acDefCustomsHouseExports"
+                                    [datasource]="dataForAc8"                                   
+                                    [ngModel]="acDataCustomsHouseExports"
+                                ></dp-autocomplete>
                             </div>
                             <div class="p-col-12 p-md-3">
 
@@ -462,7 +494,9 @@
                                 {{'cargoId' | translate}}
                             </div>
                             <div class="p-col-12 p-md-5">
-                                <dp-inputtext name="CargoId" [(ngModel)]="model.CargoId" class="dpTempYellow">
+                                <dp-inputtext 
+                                    name="CargoId" 
+                                    [(ngModel)]="model.CargoId" >
                                 </dp-inputtext>
                             </div>
                             <div class="p-col-12 p-md-3">
@@ -474,9 +508,14 @@
                                 {{'cargoIdType' | translate}}
                             </div>
                             <div class="p-col-12 p-md-5">
-                                <dp-autocomplete [initVal]="" name="dp9" [definition]="acDefCargoIdType"
-                                    [datasource]="dataForAc9" (getSelected)="handleAcResult($event, 9)"
-                                    [ngModel]="acDataSelected9" class="dpTempYellow">
+                                <dp-autocomplete  
+                                    name="cargoIdType" 
+                                    [definition]="acDefCargoIdType"
+                                    [datasource]="dataForAc9" 
+                                    (getSelected)="handleAcResult($event, 9)"
+                                    [ngModel]="acDataSelected9" 
+                                    class="dpTempYellow" 
+                                >
                                 </dp-autocomplete>
                             </div>
                             <div class="p-col-12 p-md-3">
@@ -488,9 +527,15 @@
                                 {{'incoterms' | translate}}
                             </div>
                             <div class="p-col-12 p-md-5">
-                                <dp-autocomplete [initVal]="" name="dp10" [definition]="acDefIncoterms"
-                                    [datasource]="dataForAc10" (getSelected)="handleAcResult($event, 10)"
-                                    [ngModel]="acDataSelected10" class="dpTempYellow">
+
+                                <dp-autocomplete                                    
+                                    name="incoterms"
+                                    [definition]="acDefIncoterms"
+                                    [datasource]="exportassistService.incoTermsList"
+                                    (getSelected)="handleAcResult($event, 10)"
+                                    [ngModel]="acDataSelected10" 
+                                    class="dpTempYellow" 
+                                >
                                 </dp-autocomplete>
                             </div>
                             <div class="p-col-12 p-md-3">
@@ -505,10 +550,11 @@
                             <div class="p-col-12 p-md-5">
                                 <!--  [datasource]="exportassistService.countriesList" -->
                                 <dp-autocomplete                                                    
-                                                                [definition]="acDefPreferenceDocument"  
-                                                               
-                                                                (getSelected)="handleAcResult($event,17)"
-                                                            ></dp-autocomplete>
+                                    [definition]="acDefPreferenceDocument"  
+                                    name="preferenceDocument"
+                                    
+                                    (getSelected)="handleAcResult($event,17)"
+                                ></dp-autocomplete>
                             </div>
                             <div class="p-col-12 p-md-3">
 
@@ -542,13 +588,17 @@
 
                         <div class="p-grid">
                             <div class="p-col-12 p-md-3">
-                                {{'storageSiteType' | translate}}
+                                {{'storageSiteType' | translate}} -  אין נתונים באסיסט
                             </div>
                             <div class="p-col-12 p-md-5">
-                                <dp-autocomplete [initVal]="" name="dp11" [definition]="acDefStorageSiteType"
-                                    [datasource]="dataForAc11" (getSelected)="handleAcResult($event, 11)"
-                                    [ngModel]="acDataSelected11" class="dpTempYellow">
-                                </dp-autocomplete>
+                                <dp-autocomplete  
+                                    name="FacilityType" 
+                                    [definition]="acDefStorageSiteType"
+                                    [datasource]="dataForAc11" 
+                                    (getSelected)="handleAcResult($event, 11)"
+                                    [ngModel]="acDataSelected11" 
+                                    class="dpTempYellow"
+                                ></dp-autocomplete>
                             </div>
                             <div class="p-col-12 p-md-3">
                                 cccccc
@@ -556,12 +606,12 @@
                         </div>
                         <div class="p-grid">
                             <div class="p-col-12 p-md-3">
-                                {{'storageSiteCode' | translate}}
+                                {{'storageSiteCode' | translate}} -  אין נתונים באסיסט
                             </div>
                             <div class="p-col-12 p-md-5">
-                                <dp-autocomplete [initVal]="" name="dp12" [definition]="acDefStorageSiteCode"
+                                <dp-autocomplete  name="storageSiteCode" [definition]="acDefStorageSiteCode"
                                     [datasource]="dataForAc12" (getSelected)="handleAcResult($event, 12)"
-                                    [ngModel]="acDataSelected12" class="dpTempYellow">
+                                    [ngModel]="acDataSelected12" >
                                 </dp-autocomplete>
                             </div>
                             <div class="p-col-12 p-md-3">
@@ -570,12 +620,12 @@
                         </div>
                         <div class="p-grid">
                             <div class="p-col-12 p-md-3">
-                                {{'internalPassages' | translate}}
+                                {{'internalPassages' | translate}} -  אין נתונים באסיסט
                             </div>
                             <div class="p-col-12 p-md-5">
-                                <dp-autocomplete [initVal]="" name="dp12" [definition]="acDefInternalPassages"
+                                <dp-autocomplete  name="internalPassagesCode" [definition]="acDefInternalPassages"
                                     [datasource]="dataForAc13" (getSelected)="handleAcResult($event, 13)"
-                                    [ngModel]="acDataSelected13" class="dpTempYellow">
+                                    [ngModel]="acDataSelected13" >
                                 </dp-autocomplete>
                             </div>
                             <div class="p-col-12 p-md-3">
@@ -584,11 +634,19 @@
                         </div>
                         <div class="p-grid">
                             <div class="p-col-12 p-md-3">
-                                {{'declarationSiteLocation' | translate}}
+                                {{'declarationSiteLocation' | translate}} -  לאיזה טבלה? ואיזה שדה?
                             </div>
                             <div class="p-col-12 p-md-5">
-                                <dp-inputtext name="DeclarationSiteLocation" [(ngModel)]="model.DeclarationSiteLocation"
-                                    class="dpTempYellow"></dp-inputtext>
+                                <!-- <dp-inputtext name="DeclarationSiteLocation" [(ngModel)]="model.DeclarationSiteLocation"
+                                    ></dp-inputtext> -->
+
+
+                                 <dp-inputnumber 
+                                    [definition]="InputNumberDef"
+                                    name="DeclarationSiteLocation"
+                                    [(ngModel)]="model.numberOfDeclarations"                                     
+                                 ></dp-inputnumber>
+
                             </div>
                             <div class="p-col-12 p-md-3">
                                 cccccc
@@ -626,10 +684,12 @@
                             <div class="p-col-12 p-md-5">
 
                                 <dp-autocomplete                                                    
-                                                                [definition]="acDefDestinationCountry"  
-                                                                [datasource]="exportassistService.countriesList"
-                                                                (getSelected)="handleAcResult($event,11)"
-                                                                ></dp-autocomplete>
+                                    [definition]="acDefDestinationCountry"  
+                                    [datasource]="exportassistService.countriesList"
+                                    (getSelected)="handleAcResult($event,11)"
+                                    name="destinationCountry"
+                                    class="dpTempYellow" 
+                                ></dp-autocomplete>
                                  
                             </div>
                             <div class="p-col-12 p-md-3">
@@ -644,10 +704,10 @@
 
                                 <!--  [datasource]="exportassistService.countriesList" -->
                                 <dp-autocomplete                                                    
-                                                                [definition]="acDefContinent"  
-                                                               
-                                                                (getSelected)="handleAcResult($event,12)"
-                                                                ></dp-autocomplete>
+                                    [definition]="acDefContinent"  
+                                    name="continent"
+                                    (getSelected)="handleAcResult($event,12)"
+                               ></dp-autocomplete>
 
                             </div>
                             <div class="p-col-12 p-md-3">
@@ -692,10 +752,10 @@
 
                                 <!--  [datasource]="exportassistService.countriesList" -->
                                 <dp-autocomplete                                                    
-                                                                [definition]="acDefShipmentType"  
-                                                               
-                                                                (getSelected)="handleAcResult($event,13)"
-                                                            ></dp-autocomplete>
+                                    [definition]="acDefShipmentType"  
+                                     
+                                    (getSelected)="handleAcResult($event,13)"
+                                ></dp-autocomplete>
 
                             </div>
                             <div class="p-col-12 p-md-3">
@@ -709,10 +769,10 @@
                             <div class="p-col-12 p-md-5">
                                 <!--  [datasource]="exportassistService.countriesList" -->
                                 <dp-autocomplete                                                    
-                                                                [definition]="acDefIncidentallyPprotest"  
-                                                               
-                                                                (getSelected)="handleAcResult($event,14)"
-                                                            ></dp-autocomplete>
+                                    [definition]="acDefIncidentallyPprotest"  
+                                    name="incidentallyPprotest"
+                                    (getSelected)="handleAcResult($event,14)"
+                                ></dp-autocomplete>
                             </div>
                             <div class="p-col-12 p-md-3">
                                 cccccc
@@ -725,10 +785,10 @@
                             <div class="p-col-12 p-md-5">
                                 <!--  [datasource]="exportassistService.countriesList" -->
                                 <dp-autocomplete                                                    
-                                                                [definition]="acDefAInitiated"  
-                                                               
-                                                                (getSelected)="handleAcResult($event,15)"
-                                                            ></dp-autocomplete>
+                                    [definition]="acDefAInitiated"  
+                                    name="aInitiated"
+                                    (getSelected)="handleAcResult($event,15)"
+                                ></dp-autocomplete>
                             </div>
                             <div class="p-col-12 p-md-3">
                                 cccccc
@@ -758,7 +818,7 @@
                             </div>
                             <div class="p-col-12 p-md-5">
                                 <dp-inputtext name="generalSearch" [(ngModel)]="model.generalSearch"
-                                    class="dpTempYellow"></dp-inputtext>
+                                    ></dp-inputtext>
                             </div>
                             <div class="p-col-12 p-md-3">
                                 cccccc
@@ -770,8 +830,11 @@
                                 {{'referenceNo' | translate}}
                             </div>
                             <div class="p-col-12 p-md-5">
-                                <dp-inputtext name="referenceNo" [(ngModel)]="model.referenceNo" class="dpTempYellow">
-                                </dp-inputtext>
+                                <dp-inputtext 
+                                    name="referenceNo" 
+                                    [(ngModel)]="model.referenceNo"
+                                    class="dpTempYellow"
+                                ></dp-inputtext>
                             </div>
                             <div class="p-col-12 p-md-3">
                                 cccccc
@@ -785,10 +848,10 @@
                             <div class="p-col-12 p-md-5">
                                 <!--  [datasource]="exportassistService.countriesList" -->
                                 <dp-autocomplete                                                    
-                                                                [definition]="acDefReferenceType"  
-                                                               
-                                                                (getSelected)="handleAcResult($event,16)"
-                                                            ></dp-autocomplete>
+                                    [definition]="acDefReferenceType"  
+                                    name="ReferenceType"
+                                    (getSelected)="handleAcResult($event,16)"
+                                ></dp-autocomplete>
                             </div>
                             <div class="p-col-12 p-md-3">
                                 cccccc
@@ -799,8 +862,11 @@
                                 {{'waybillNumber' | translate}}
                             </div>
                             <div class="p-col-12 p-md-5">
-                                <dp-inputtext name="SHMPNumber" [(ngModel)]="model.SHMPNumber" class="dpTempYellow">
-                                </dp-inputtext>
+                                <dp-inputtext 
+                                    name="SHMPNumber" 
+                                    [(ngModel)]="model.SHMPNumber" 
+                                    class="dpTempYellow"
+                                ></dp-inputtext>
                             </div>
                             <div class="p-col-12 p-md-3">
                                 cccccc
@@ -812,7 +878,7 @@
                             </div>
                             <div class="p-col-12 p-md-5">
                                 <dp-inputtext name="containerNumber" [(ngModel)]="model.containerNumber"
-                                    class="dpTempYellow"></dp-inputtext>
+                                    ></dp-inputtext>
                             </div>
                             <div class="p-col-12 p-md-3">
                                 cccccc
@@ -824,7 +890,7 @@
                             </div>
                             <div class="p-col-12 p-md-5">
                                 <dp-inputtext name="storageCertificateNumber"
-                                    [(ngModel)]="model.storageCertificateNumber" class="dpTempYellow"></dp-inputtext>
+                                    [(ngModel)]="model.storageCertificateNumber" ></dp-inputtext>
                             </div>
                             <div class="p-col-12 p-md-3">
                                 cccccc
@@ -835,8 +901,11 @@
                                 {{'relatedDeclarationNumber' | translate}}
                             </div>
                             <div class="p-col-12 p-md-5">
-                                <dp-inputtext name="relatedDeclarationNumber"
-                                    [(ngModel)]="model.relatedDeclarationNumber" class="dpTempYellow"></dp-inputtext>
+                                <dp-inputtext 
+                                    name="PreviousDocumentID"
+                                    [(ngModel)]="model.PreviousDocumentID" 
+                                    class="dpTempYellow"
+                                ></dp-inputtext>
                             </div>
                             <div class="p-col-12 p-md-3">
                                 cccccc
@@ -849,7 +918,7 @@
                             </div>
                             <div class="p-col-12 p-md-5">
                                 <dp-inputtext name="fundTransactionNumber" [(ngModel)]="model.fundTransactionNumber"
-                                    class="dpTempYellow"></dp-inputtext>
+                                    ></dp-inputtext>
                             </div>
                             <div class="p-col-12 p-md-3">
                                 cccccc
@@ -862,7 +931,7 @@
                             </div>
                             <div class="p-col-12 p-md-5">
                                 <dp-inputtext name="cooFormNumber" [(ngModel)]="model.cooFormNumber"
-                                    class="dpTempYellow"></dp-inputtext>
+                                    ></dp-inputtext>
                             </div>
                             <div class="p-col-12 p-md-3">
                                 cccccc
@@ -874,10 +943,12 @@
                                 {{'numberOfStatementsPerCaseGreaterThan' | translate}}
                             </div>
                             <div class="p-col-12 p-md-5">
-                                <dp-inputnumber [definition]="InputNumberDef"
-                                    name="numberOfStatementsPerCaseGreaterThan"
-                                    [(ngModel)]="model.numberOfStatementsPerCaseGreaterThan" class="dpTempYellow">
-                                </dp-inputnumber>
+                                <dp-inputnumber 
+                                    [definition]="InputNumberDef"
+                                    name="numberOfDeclarations"
+                                    [(ngModel)]="model.numberOfDeclarations" 
+                                    class="dpTempYellow"
+                                 ></dp-inputnumber>
                             </div>
                             <div class="p-col-12 p-md-3">
                                 cccccc
@@ -919,13 +990,13 @@
         <div class="p-col-12 p-md-12">
             <p-fieldset [toggleable]="true" [collapsed]="collapsed8" legend="{{'dataForSearch' | translate}}">
                 <div class="p-grid">
-                    <div class="p-col-12 p-md-12 was6">        
-                        <!-- [datasource]="declarationService.declarationData.DeclarationBox.ReferenceList" -->
-                        <!-- <dp-table 
+                    <div class="p-col-12 p-md-7">
+                        <dp-table 
                             tableId="tblEventsParams"
-                            [definition]="gridDefinition"
+                            [definition]="gridEventsDefinition"
                             [datasource]=""
-                         ></dp-table>                       -->
+                        ></dp-table>  
+            
                     </div>
                 </div>
             </p-fieldset>
@@ -933,148 +1004,6 @@
     </div>
 
 
-    <div class="p-grid">
-        <div class="p-col-12 p-md-12">
-            <p-fieldset [toggleable]="true" [collapsed]="collapsed8" legend="{{'dataForSearch' | translate}}">
-                <div class="p-grid">
-                    <div class="p-col-12 p-md-12 was6">
-                        <div class="p-grid">
-                            <div id="tblEventsInShipmentsQueryCont">
-                                <table id="tblEventsInShipmentsQuery">
-                                    <thead>
-                                        <tr>
-                                            <th>{{'event' | translate}}</th>
-                                            <th class="cssShortTd">{{'included' | translate}} / {{'notIncluded' |
-                                                translate}} </th>
-                                            <th>{{'fromEventDate' | translate}}</th>
-                                            <th>{{'toEventDate' | translate}}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <dp-autocomplete                                                    
-                                                    [definition]="acDefEvent1"                                                                             
-                                                    (getSelected)="handleAcResult($event,19)"
-                                                    [datasource]="exportassistService.eventCodesList"
-                                                ></dp-autocomplete>
-                                            </td>
-                                            <td>
-                                                <!-- [definition]="checkboxDefinitions" -->
-                                                <dp-checkbox name="chkEventIncluded1" [ngModel]="model.EventIncluded1">
-                                                </dp-checkbox>
-                                            </td>
-                                            <td>
-                                                <dp-calendar name="fromEventDate1"
-                                                    [definition]="CalendarDefFromEventDate1"
-                                                    [(ngModel)]="model.fromEventDate1"></dp-calendar>
-                                            </td>
-                                            <td>
-                                                <dp-calendar name="toEventDate1" [definition]="CalendarDefToEventDate1"
-                                                    [(ngModel)]="model.toEventDate1"></dp-calendar>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <dp-autocomplete                                                    
-                                                    [definition]="acDefEvent2"  
-                                                    (getSelected)="handleAcResult($event,20)"
-                                                ></dp-autocomplete>
-                                            </td>
-                                            <td>
-                                                <!-- [definition]="checkboxDefinitions" -->
-                                                <dp-checkbox name="chkEventIncluded2" [ngModel]="model.EventIncluded2">
-                                                </dp-checkbox>
-                                            </td>
-                                            <td>
-                                                <dp-calendar name="fromEventDate2"
-                                                    [definition]="CalendarDefFromEventDate2"
-                                                    [(ngModel)]="model.fromEventDate2"></dp-calendar>
-                                            </td>
-                                            <td>
-                                                <dp-calendar name="toEventDate2" [definition]="CalendarDefToEventDate2"
-                                                    [(ngModel)]="model.toEventDate2"></dp-calendar>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <dp-autocomplete                                                    
-                                                    [definition]="acDefEvent3"                                                                                 
-                                                    (getSelected)="handleAcResult($event,21)"
-                                                ></dp-autocomplete>
-                                            </td>
-                                            <td>
-                                                <!-- [definition]="checkboxDefinitions" -->
-                                                <dp-checkbox name="chkEventIncluded3" [ngModel]="model.EventIncluded3">
-                                                </dp-checkbox>
-                                            </td>
-                                            <td>
-                                                <dp-calendar name="fromEventDate3"
-                                                    [definition]="CalendarDefFromEventDate3"
-                                                    [(ngModel)]="model.fromEventDate3"></dp-calendar>
-                                            </td>
-                                            <td>
-                                                <dp-calendar name="toEventDate3" [definition]="CalendarDefToEventDate3"
-                                                    [(ngModel)]="model.toEventDate3"></dp-calendar>
-                                            </td>
-                                        </tr>
-
-
-                                        <tr>
-                                            <td>
-                                                <dp-autocomplete                                                    
-                                                    [definition]="acDefEvent4"                                                                         
-                                                    (getSelected)="handleAcResult($event,22)"
-                                                ></dp-autocomplete>
-                                            </td>
-                                            <td>
-                                                <!-- [definition]="checkboxDefinitions" -->
-                                                <dp-checkbox name="chkEventIncluded4" [ngModel]="model.EventIncluded4">
-                                                </dp-checkbox>
-                                            </td>
-                                            <td>
-                                                <dp-calendar name="fromEventDate4"
-                                                    [definition]="CalendarDefFromEventDate4"
-                                                    [(ngModel)]="model.fromEventDate4"></dp-calendar>
-                                            </td>
-                                            <td>
-                                                <dp-calendar name="toEventDate4" [definition]="CalendarDefToEventDate4"
-                                                    [(ngModel)]="model.toEventDate4"></dp-calendar>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <dp-autocomplete                                                    
-                                                    [definition]="acDefEvent5"                                                                             
-                                                    (getSelected)="handleAcResult($event,23)"
-                                                ></dp-autocomplete>
-                                            </td>
-                                            <td>
-                                                <!-- [definition]="checkboxDefinitions" -->
-                                                <dp-checkbox name="chkEventIncluded5" [ngModel]="model.EventIncluded5">
-                                                </dp-checkbox>
-                                            </td>
-                                            <td>
-                                                <dp-calendar name="fromEventDate5"
-                                                    [definition]="CalendarDefFromEventDate5"
-                                                    [(ngModel)]="model.fromEventDate5"></dp-calendar>
-                                            </td>
-                                            <td>
-                                                <dp-calendar name="toEventDate5" [definition]="CalendarDefToEventDate5"
-                                                    [(ngModel)]="model.toEventDate5"></dp-calendar>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </p-fieldset>
-        </div>
-    </div>
 
 
     <!-- <div class="p-grid">
@@ -1117,20 +1046,20 @@
     <br><br> -->
     <dp-button class="ui-button-dp" [definition]="btnDef1"></dp-button>
     <!-- (click)='login()' -->
+
+
+
+    
 </form>
 
 <br><br>
 
-<dp-table 
-tableId="tblEventsParams"
-[definition]="gridDefinition"
-[datasource]=""
-></dp-table>  
 
 
 
-<!-- <dp-table *ngIf="gridData1" tableId="tblShipmentsQuery" [definition]="gridDefinition1" [datasource]="gridData1">
-</dp-table> -->
+
+<dp-table *ngIf="gridData1" tableId="tblShipmentsQuery" [definition]="gridShipmentsQueryDefinition" [datasource]="gridData1">
+</dp-table>
 <!-- <div id="element_to_scroll" style=" height:6em;width: 1px; bottom:0px"></div> -->
 
 

@@ -30,6 +30,7 @@ export interface IDeclarationData {
 export class DeclarationBox extends DeclarationKeys {
     DeclarationDetails: DeclarationDetails = new DeclarationDetails();
     ExportCustoms: ExportCustoms = new ExportCustoms();
+    DeclarationAgent: DeclarationAgent = new DeclarationAgent();
     ReferenceList: References[];
 }
 
@@ -43,6 +44,7 @@ export class DeclarationDetails extends DeclarationKeys {
 
     DeclarationID: string;
     TypeCode: string;
+    TypeName: string;
     DeclarationOfficeID: string;
     AcceptanceDateTime: Date;
     IssueDateTime: Date;
@@ -69,6 +71,7 @@ export class DeclarationDetails extends DeclarationKeys {
     TotalMadDealValueAmountNIS: number;
     PreviousDocumentID: string;
     PreviousDocumentTypeCode: string;
+    PreviousDocumentTypeName: string;
     DeclarationStatusCode: number;
     DeclarationStatusName: string;
     LogisticStatusCode: number;
@@ -83,6 +86,7 @@ export class ExportCustoms extends DeclarationKeys {
     ReshPrintDate: Date;
     CustomerCode: string;
     CustomerName: string;
+    CustomerJson: string;
     BillToCode: string;
     BillToName: string;
     OperationTeam: string;
@@ -101,6 +105,13 @@ export class ExportCustoms extends DeclarationKeys {
     WaybillNumberDate: Date;
     DestinationCountry: string;
     DestinationCountryName: string;
+}
+
+export class DeclarationAgent extends DeclarationKeys {
+
+    AgentID: string;
+    AgentRoleCode: string;
+    AgentRoleName: string;
 }
 
 export class References extends DeclarationKeys {

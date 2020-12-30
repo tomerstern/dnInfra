@@ -56,7 +56,7 @@
             <div class="p-col-12 p-md-5">{{ 'coo.department' | translate  }}:</div>
             <div class="p-col-12 p-md-1 Mandatory">*</div>
             <div class="p-col-12 p-md-6">
-                <dp-autocomplete [initVal]="'ISRAEL'"  name="acDepartment1" [ngModel]="NonManCerData.department"                               
+                <dp-autocomplete [ngModel]="'ISRAEL'"  name="acDepartment1" [ngModel]="NonManCerData.department"                               
                 [definition]="autocompleteDefinition1" [datasource]="countriesData">
                </dp-autocomplete>
                 </div>           
@@ -148,7 +148,7 @@
             <div class="p-col-12 p-md-5">{{ 'coo.exportCountry' | translate  }}:</div>
             <div class="p-col-12 p-md-1 Mandatory">*</div>
             <div class="p-col-12 p-md-6">
-                <dp-autocomplete [initVal]="'ISRAEL'"  name="acexportCountry" 
+                <dp-autocomplete [ngModel]="'ISRAEL'"  name="acexportCountry" 
                 [(ngModel)]="cooService.cooData.CooBoxData.Header.NonMC_ExportCountry"                               
                 [definition]="autocompleteDefinition1" [datasource]="countriesData">
                </dp-autocomplete>
@@ -158,7 +158,7 @@
             <div class="p-col-12 p-md-5">{{ 'coo.originPort' | translate  }} ({{ 'export' | translate  }}):</div>
             <div class="p-col-12 p-md-1 Mandatory">*</div>
             <div class="p-col-12 p-md-6">
-                <dp-autocomplete [initVal]="'ISRAEL'"  name="acExporterCountry" 
+                <dp-autocomplete [ngModel]="'ISRAEL'"  name="acExporterCountry" 
                 [(ngModel)]="cooService.cooData.CooBoxData.Header.NonMC_ExportPort" 
                 [definition]="autocompleteDefinition1" [datasource]="countriesData">
                </dp-autocomplete>
@@ -188,7 +188,7 @@
             <div class="p-col-12 p-md-5">{{ 'coo.transitionCountry' | translate  }}:</div>
             <div class="p-col-12 p-md-1 Mandatory">*</div>
             <div class="p-col-12 p-md-6">
-                <dp-autocomplete [initVal]="'ISRAEL'"  name="acentrancePortIL"                                
+                <dp-autocomplete [ngModel]="'ISRAEL'"  name="acentrancePortIL"                                
                 [definition]="autocompleteDefinition1" [datasource]="countriesData"
                 [(ngModel)]="cooService.cooData.CooBoxData.Header.NonMC_TransirCountry">
                </dp-autocomplete>
@@ -198,7 +198,7 @@
             <div class="p-col-12 p-md-5">{{ 'coo.entrancePortIL' | translate  }}:</div>
             <div class="p-col-12 p-md-1 Mandatory">*</div>
             <div class="p-col-12 p-md-6">
-                <dp-autocomplete [initVal]="'ISRAEL'"  name="acentrancePortIL"                                
+                <dp-autocomplete [ngModel]="'ISRAEL'"  name="acentrancePortIL"                                
                 [definition]="autocompleteDefinition1" [datasource]="countriesData"
                 [(ngModel)]="cooService.cooData.CooBoxData.Header.NonMC_PortOfEntrance">
                </dp-autocomplete>
@@ -208,7 +208,7 @@
             <div class="p-col-12 p-md-5">{{ 'coo.departurePortIL' | translate  }}:</div>
             <div class="p-col-12 p-md-1 Mandatory">*</div>
             <div class="p-col-12 p-md-6">
-                <dp-autocomplete [initVal]="'ISRAEL'"  name="acdeparturePortIL"                                
+                <dp-autocomplete [ngModel]="'ISRAEL'"  name="acdeparturePortIL"                                
                 [definition]="autocompleteDefinition1" [datasource]="countriesData"
                 [(ngModel)]="cooService.cooData.CooBoxData.Header.NonMC_ExitPort">
                </dp-autocomplete>

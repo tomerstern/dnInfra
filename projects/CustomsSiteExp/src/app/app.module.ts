@@ -27,7 +27,6 @@ import { Test3Component } from './components/test/test3/test3.component';
 import { Test4Component } from './components/test/test4/test4.component';
 import { Test5Component } from './components/test/test5/test5.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,

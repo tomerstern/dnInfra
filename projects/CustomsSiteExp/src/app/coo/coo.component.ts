@@ -7,12 +7,13 @@ import { ICooData, CooKey, CooMode, CooBox } from './models/coo';
 import { Subject } from 'rxjs';
 import { undistributeHeight } from '@fullcalendar/core';
 import { ToastComponent } from 'projects/dn-infra/src/public-api';
+import { DpDialogService } from 'projects/dn-infra/src/lib/dp/components/dynamicdialog/Objects/dynamicdialog-definitions';
 
 @Component({
   selector: 'app-coo',
   templateUrl: './coo.component.html',
-  styleUrls: ['./coo.component.scss']
-  // providers: [CooService]
+  styleUrls: ['./coo.component.scss'],
+  providers: [DpDialogService]
 })
 export class CooComponent implements OnInit {
 
@@ -30,45 +31,45 @@ export class CooComponent implements OnInit {
   @ViewChild('toast') toast: ToastComponent;
   toastDefinition: ToastDefinitions;
 
-  ngOnInit(): void {
-
+  ngOnInit(): void { 
     this.toastDefinition = new ToastDefinitions({position: "center"});
    
     this.activatedRoute.params.subscribe( async data =>
       {
-        // this.checkErrorPage(data)
-        if (data['cooMode'] === undefined)
-        {
-            // Open error page
-            this.route.navigate(['/error']);
-        }
-        this.cooType = data['cooType']; 
-        const mode: string = data['cooMode'].toString();
-        this.cooMode = CooMode[mode];
+        this.checkErrorPage(data)
+        // if (data['cooMode'] === undefined)
+        // {
+        //     // Open error page
+        //     this.route.navigate(['/error']);
+        // }
+        // this.cooType = data['cooType']; 
+        // const mode: string = data['cooMode'].toString();
+        // this.cooMode = CooMode[mode];
 
-        if (this.cooMode === undefined)
-        {
-          this.showApp = true;
-          this.route.navigate(['/error']);
-        }
+        // if (this.cooMode === undefined)
+        // {
+        //   this.showApp = true;
+        //   this.route.navigate(['/error']);
+        // }
 
-        switch (this.cooMode) {
+        // switch (this.cooMode) {
          
-          case CooMode.New:
-          case CooMode.Update:
-          case CooMode.Replace:
-          {
+        //   case CooMode.New:
+        //   case CooMode.Update:
+        //   case CooMode.View:
+        //   case CooMode.Replace:
+        //   {
             
             // this.checkErrorPage(data)
-            this.cooKey = this.setAndCheckCooKey(this.cooMode, data['entityNo'], data['ShipmentNumber'],
-                        data['DeptCode'], data['CusDecOrder']);
-            if (this.cooKey === undefined){
-              this.showApp = true;
-              this.route.navigate(['/error']);
-            }
+            // this.cooKey = this.setAndCheckCooKey(this.cooMode, data['entityNo'], data['ShipmentNumber'],
+            //             data['DeptCode'], data['CusDecOrder']);
+            // if (this.cooKey === undefined){
+            //   this.showApp = true;
+            //   this.route.navigate(['/error']);
+            // }
             
             this.cooService.getCooBoxFromServer(this.cooKey, this.cooMode, data['UserID'] )
-            .then((response: string) => {              
+            .then((response: string) => {            
               if(response != '')
               {
                 this.showApp = true;
@@ -76,68 +77,65 @@ export class CooComponent implements OnInit {
               }
             });
             this.cooService.cooDataSubject$.subscribe((result: ICooData) => {
-              //this.setCooReplace()
+              this.retrieveData();
             });
-
-            this.fetchArr.push(this.cooService.getOperationShipmentData(this.cooKey));
-            this.fetchArr.push(this.cooService.getCustomsOfficeList());
-            Promise.all(this.fetchArr).then((data: Array<any>) => {
-              this.cooService.setOperationShipmentData(data[0]);
-              this.cooService.setCustomsOffice(data[1]);
-                            
-              
-              this.showApp = true;
-
-            });
-
-            break;
-          }
+            
+            // break;
+          // }
           
-          default: {
-            // default
-             break;
-          }
-       }
+          // default: {
+            //  break;
+          // }
+      //  }
       
       }
     );
 
   }
 
-  // setCooReplace()
-  // {
-  //   if ( this.cooService.cooData == undefined )
-  //     return
-
-  //   if(this.cooService.cooData.CooBoxData.CooMode != CooMode.Replace ) 
-  //     return 
-
-  //   this.cooService.cooData.CooBoxData.Header.EntityNo = 0;
-  //   this.cooService.cooData.CooBoxData.Header.AgentR_certificateIdToCancel = this.cooService.cooData.CooBoxData.Header.AgentR_certificateID;
-  //   this.cooService.cooData.CooBoxData.Header.AgentR_certificateID = "";
-  //   this.cooService.cooData.CooBoxData.Header.AgentR_replacementReason = this.cooService.cooData.CooBoxData.CooMode;
-  //   this.cooService.cooData.CooBoxData.CooMode = CooMode.Update;
-  //   this.cooService.cooData.CooBoxData.Header.AgentR_internalApplication = "";
+  retrieveData()
+  {  
+    if ( this.cooService.cooData != undefined )
+        this.showApp = true;
     
-  //   return;
-  // }
+    this.fetchArr.push(this.cooService.getOperationShipmentData(this.cooKey));
+    this.fetchArr.push(this.cooService.getOperationGoodDetailsData(this.cooKey));
+    this.fetchArr.push(this.cooService.getOperationInvoiceData(this.cooKey));
+    this.fetchArr.push(this.cooService.getCustomsOfficeList());
+    this.fetchArr.push(this.cooService.getCitesList());
+    Promise.all(this.fetchArr).then((data: Array<any>) => {
+      this.cooService.setOperationShipmentData(data[0]);
+      this.cooService.setOperationGoodDetailsData(data[1]);
+      this.cooService.setOperationInvoiceData(data[2]);
+      this.cooService.setCustomsOffice(data[3]);
+      this.cooService.setCities(data[4]);
+    });
+  }
 
   checkErrorPage(data: any){
+    debugger
+    //cooMode
     if (data['cooMode'] === undefined)
-    {
-        // Open error page
-        this.route.navigate(['/error']);
-    }
-    this.cooKey = this.setAndCheckCooKey(CooMode.Update, data['entityNo'], data['ShipmentNumber'],
-    data['DeptCode'], data['CusDecOrder']);
-    if (this.cooKey === undefined){
-    this.showApp = true;
-    this.route.navigate(['/error']);
-}
+        this.route.navigate(['/error']);// Open error page
+    
+    const mode: string = data['cooMode'].toString();
+    this.cooMode = CooMode[mode];
+
+    if (this.cooMode === undefined)
+      this.route.navigate(['/error']);// Open error page
+
+    this.cooType = data['cooType']; 
+    this.cooKey = this.setAndCheckCooKey(this.cooMode, 
+                                        data['entityNo'], 
+                                        data['ShipmentNumber'],
+                                        data['DeptCode'], 
+                                        data['CusDecOrder']);
+    if (this.cooKey === undefined)
+      this.route.navigate(['/error']);
   }
 
   setAndCheckCooKey(cooMode: CooMode, entityNo: string, shipmentNumber: string, deptCode: string, cusDecOrder: string){
-    
+    debugger
      const result: CooKey = new CooKey();
 
     if (cooMode === CooMode.New) {
@@ -160,7 +158,12 @@ export class CooComponent implements OnInit {
       result.CusDecOrder =+ cusDecOrder;
     }
    
-    if (cooMode === CooMode.Update || cooMode === CooMode.Replace){
+    if (cooMode === CooMode.View ) {
+      this.cooService.isDisabled = true;
+    }
+
+    if (cooMode === CooMode.Update || cooMode === CooMode.Replace || cooMode === CooMode.View){
+      
       if (entityNo === undefined)
       {
         return undefined;

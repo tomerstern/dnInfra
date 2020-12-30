@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { IMalamMainData} from '../../models/Transmission';
 import { CommunicationService } from '../../../../core/services/communication.service';
 import { ShipmentKey } from 'projects/CustomsSiteExp/src/app/core/models/shipment';
+import { getMaxListeners } from 'process';
 
 @Injectable({
   providedIn: 'root'
@@ -18,10 +19,9 @@ export class TransmissionService {
     this.malamMain = jsonTransmission;
   }
 
-  async getCooHeaderList( key: ShipmentKey) {
-    //let jsonKey: any = JSON.stringify(key);
+  async GetTansmissionLog( key: ShipmentKey) {
     return this.webAPI.sendWebRequest("Transmission/GetTansmissionLog" , key);
-    // return this.sendWebRequest("Transmission/GetTansmissionLog" , jsonKey);
   }
+
 }
 

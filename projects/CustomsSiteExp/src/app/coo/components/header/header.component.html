@@ -1,45 +1,45 @@
-<div class="HeaderContainer1 marginLeft4" *ngIf="cooService.cooData != undefined" >
-<div class="borderRight pull-left">
-    <p class="HeaderBG1">{{ 'entityNo' | translate }}:
-        <label>{{cooService.cooData.CooBoxData.Header.EntityNo}}</label></p>
-    <p class="HeaderBG1">{{ 'cooStatus'| translate }}:
-        <label>{{cooService.cooData.CooBoxData.CooMode}}</label></p>
-</div>
-<div class="HeaderBG2 borderRight pull-left">
-    <p>{{ 'cooType' | translate }}:
-        <label>{{cooService.cooData.CooBoxData.Header.AgentR_certificateOfOriginTypeName}}</label></p>
-    <p>{{ 'cooNo' | translate }}:
-        <label>{{cooService.cooData.CooBoxData.Header.EntityNo}}</label></p>
-</div>
-<div class="HeaderBG2 borderRight pull-left">
-    <p>{{ 'CUSDEC' | translate }}:
-        <label>
-            {{cooService.cooData.CooBoxData.Header.DeptCode}}-
-            {{cooService.cooData.CooBoxData.Header.ShipmentNumber}}/
-            {{cooService.cooData.CooBoxData.Header.CusDecOrder}}
-        </label>
-    </p>
-    <p>{{ 'destination' | translate }}:
-        <label> {{cooService.operationShipmentData.Destination}}</label></p>
-        <!-- <label> {{cooService.cooData.CooBoxData.Header.COO_DestinationCountry}}</label></p> -->
-</div>
-<div class="HeaderBG2 borderRight pull-left">
-    <p>{{ 'shipper' | translate }}:
-        <label>
-            {{cooService.operationShipmentData.ShipperCode}} -
-            {{cooService.operationShipmentData.ShipperName}}</label></p>
-    <p>{{ 'CNEE' | translate  }}:
-        <label>  {{cooService.operationShipmentData.CNEEName}}</label></p>
-</div>
-<div class="HeaderBG2 borderRight pull-left">
-    <p>{{ 'ETD' | translate }}:
-        <label>{{this.dateETD}}</label></p>
-    <p>{{ 'ATD' | translate }}:
-        <label>{{this.dateATD}}</label></p>
-</div>
-<div class="HeaderBG2 pull-left">
-    <p>{{ 'CUSGTW' | translate }}:
-    <label>{{cooService.cooData.CooBoxData.Header.CUS_GTW}}</label></p>
-    <p></p>
-</div>
+<div class="HeaderContainer1 marginLeft4 DivHeader" *ngIf="cooService.cooData != undefined" >
+    <div class="borderRight pull-left HeaderBG1">
+        <p>{{ 'entityNo' | translate }}:
+            <label>{{cooService.cooData.CooBoxData.Header.EntityNo}}</label></p>
+        <p>{{ 'cooStatus'| translate }}:
+            <label>{{cooService.cooData.CooBoxData.CooMode}}</label></p>
+    </div>
+    <div class="HeaderBG2 borderRight pull-left">
+        <p>{{ 'cooType' | translate }}:
+            <label>{{cooService.cooData.CooBoxData.Header.AgentR_certificateOfOriginTypeName}}</label></p>
+        <p>{{ 'cooNo' | translate }}:
+            <label>{{cooService.cooData.CooBoxData.Header.EntityNo}}</label></p>
+    </div>
+    <div class="HeaderBG2 borderRight pull-left">
+        <p>{{ 'CUSDEC' | translate }}:
+            <label>
+                {{cooService.cooData.CooBoxData.Header.DeptCode}}-
+                {{cooService.cooData.CooBoxData.Header.ShipmentNumber}}/
+                {{cooService.cooData.CooBoxData.Header.CusDecOrder}}
+            </label>
+        </p>
+        <p>{{ 'destination' | translate }}:
+            <label> {{cooService.operationShipmentData.Destination}}</label></p>
+            <!-- <label> {{cooService.cooData.CooBoxData.Header.COO_DestinationCountry}}</label></p> -->
+    </div>
+    <div class="HeaderBG2 borderRight pull-left">
+        <p>{{ 'shipper' | translate }}:
+            <label>
+                {{cooService.operationShipmentData.ShipperCode}} -
+                {{cooService.operationShipmentData.ShipperName}}</label></p>
+        <p>{{ 'CNEE' | translate  }}:
+            <label>  {{cooService.operationShipmentData.CNEEName}}</label></p>
+    </div>
+    <div class="HeaderBG2 borderRight pull-left">
+        <p>{{ 'ETD' | translate }}:
+            <label>{{this.dateETD}}</label></p>
+        <p>{{ 'ATD' | translate }}:
+            <label>{{this.dateATD}}</label></p>
+    </div>
+    <div class="HeaderBG2 pull-left">
+        <p>{{ 'CUSGTW' | translate }}:
+        <label>{{cooService.cooData.CooBoxData.Header.CUS_GTW}}</label></p>
+        <p></p>
+    </div>
 </div>

@@ -33,22 +33,24 @@ export class CootypeMainComponent implements OnInit {
         this.cooKey.CusDecOrder = data['CusDecOrder'];
         this.cooKey.DeptCode = data['DeptCode'];
         this.userID = data['UserID'];
-
-        this.fetchArr.push(this.cooService.getCooTypesList())
-        this.fetchArr.push(this.cooService.getCooHeaderList(this.cooKey));
-        Promise.all(this.fetchArr).then((data: Array<any>) => {
-          this.arrCooTypeList = data[0];
-          this.headersData = { headers: data[1] } ;
-          this.setCountForCooTypes();
-              
-        }).catch(err => {
-          console.log(err);
-        });
-
+        this.retrieveData();    
       }
     );
     
     
+  }
+
+  retrieveData()
+  {  
+    this.fetchArr.push(this.cooService.getCooTypesList())
+    this.fetchArr.push(this.cooService.getCooHeaderList(this.cooKey));
+    Promise.all(this.fetchArr).then((data: Array<any>) => {
+      this.arrCooTypeList = data[0];
+      this.headersData = { headers: data[1] } ;
+      this.setCountForCooTypes();
+    }).catch(err => {
+      console.log(err);
+    });
   }
 
   setCountForCooTypes()
@@ -60,7 +62,7 @@ export class CootypeMainComponent implements OnInit {
 
     for (let i = 0; i < this.arrCooTypeList.length; i++)
     {
-    
+      this.headersData.headers[i].OpenDate = this.cooService.fixDate(this.headersData.headers[i].OpenDate);
       jsonCooData = this.headersData.headers.filter(x => x.AgentR_certificateOfOriginTypeCode == this.arrCooTypeList[i].code);
       iCount = jsonCooData.length;
       if( iCount > 0 )
@@ -125,6 +127,9 @@ export class CootypeMainComponent implements OnInit {
        this.routerToCoo(this.cooBox.EntityNo , this.cooBox.AgentR_certificateOfOriginTypeCode , sButtonType);
      // }
     }
+
+    if (sButtonType == "View") 
+      this.routerToCoo(this.cooBox.EntityNo , this.cooBox.AgentR_certificateOfOriginTypeCode , sButtonType);
     
     if (sButtonType == "Cancel") 
       alert("This Button Not Handlle yet")

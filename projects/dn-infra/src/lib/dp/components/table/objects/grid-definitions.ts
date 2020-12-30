@@ -12,6 +12,7 @@ export interface IGridDefinition {
     exportToPdf?: boolean;
     selectColumns?: boolean;
     selectionMode?: string;
+    selection?:any;
     onBeforeDelete?: Function;
     onAfterDelete?: Function;
     onAfterAdd?: Function;
@@ -52,6 +53,8 @@ export interface IGridColumn {
     HeaderClassNames?: string; /*for frozen columns*/
     fieldCode?: string;
     filterMatchMode?: string;
+    
+    
 }
 
 
@@ -80,6 +83,7 @@ export class GridDefinitions implements IGridDefinition {
     exportToPdf: boolean;
     selectColumns: boolean;
     selectionMode: string;
+    selection:any;
     onBeforeDelete: Function;
     onAfterDelete: Function;
     onAfterAdd: Function;
@@ -111,6 +115,7 @@ export class GridDefinitions implements IGridDefinition {
         this.exportToPdf = (params.exportToPdf == null ? true : params.exportToPdf);
         this.selectColumns = (params.selectColumns == null ? true : params.selectColumns);
         this.selectionMode = params.selectionMode;
+        this.selection = params.selection;
         this.onBeforeDelete = params.onBeforeDelete;
         this.onAfterDelete = params.onAfterDelete;
         this.onAfterAdd = params.onAfterAdd;
@@ -231,5 +236,9 @@ export class GridColumn implements IGridColumn {
         this.LocaleString = (params.LocaleString == null || params.LocaleString === undefined ? false : params.LocaleString);
         this.HeaderClassNames = (params.HeaderClassNames == null || params.HeaderClassNames === undefined ? '' : params.HeaderClassNames);
         this.filterMatchMode = (params.filterMatchMode == null ? 'contains' : params.filterMatchMode);
+    }
+
+    toString(){
+        return this.fieldname;
     }
 }

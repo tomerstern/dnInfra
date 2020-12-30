@@ -20,7 +20,7 @@
 <div style="padding-top: 15px;">Entity Id:</div>
 <div ><dp-inputtext [definition]="InputTextDef" [ngModel]="detail.EntityId" (ngModelChange)="updateDetails()"></dp-inputtext></div>
 <div style="padding-top: 15px;">Activity:</div>
-<dp-autocomplete [definition]="autocompleteDef" [datasource]="dataForAutocomplete" [initVal]="selectedItemAutocomplete" ></dp-autocomplete>
+<dp-autocomplete [definition]="autocompleteDef" [datasource]="dataForAutocomplete" [ngModel]="selectedItemAutocomplete" ></dp-autocomplete>
 <div style="padding-top: 15px;">Is Old:</div>
 <dp-checkbox  [definition]="checkboxDef" [ngModel]="isOldChk" (ngModelChange)="updateDetails()"></dp-checkbox>
 <div style="padding-top: 15px;">E commerce:</div>

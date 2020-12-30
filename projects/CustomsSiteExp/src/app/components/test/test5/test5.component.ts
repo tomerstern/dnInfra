@@ -28,20 +28,23 @@ export class Test5Component implements OnInit {
   isShowParams = true;
   columns1: GridColumn[];
   gridData1: any[];
-  gridDefinition1: GridDefinitions;
+  gridShipmentsQueryDefinition: GridDefinitions;
 
+  arrFieldsetIsOpen:any[];
 
-  exporterBnNumber: string[] = ['1111111'];
-  gridDefinition: GridDefinitions;
-  gridColumnTypeEnum = GridColumnType;
-
-  team: any = {code: "2", name: "BU2"};
-  fromOpenDate = '';
-  toOpenDate= '';
-  DeclarationID = '333';
 
   collapsed1 = false; collapsed2 = false; collapsed3 = false; collapsed4 = false; 
   collapsed5 = false; collapsed6 = false; collapsed7 = false; collapsed8 = false; 
+
+  exporterBnNumber: string[] = []; // = ['436789'];
+  acDataCustomsHouseExports: string[] = []; // any={code:'', name:''};
+  gridEventsDefinition: GridDefinitions;
+  gridColumnTypeEnum = GridColumnType;
+
+  team: any ; // = {code: "2", name: "BU2"};
+  fromOpenDate = '';
+  toOpenDate= '';
+  DeclarationID = '';
 
   faChevronDown=faChevronDown;
   faChevronUp=faChevronUp;
@@ -82,14 +85,13 @@ export class Test5Component implements OnInit {
   CalendarDefToATD: CalendarDefinitions;
 
 
-
   CalendarDef2: CalendarDefinitions;
 
-  CalendarDefFromEventDate1: CalendarDefinitions; CalendarDefToEventDate1: CalendarDefinitions;
-  CalendarDefFromEventDate2: CalendarDefinitions; CalendarDefToEventDate2: CalendarDefinitions;
-  CalendarDefFromEventDate3: CalendarDefinitions; CalendarDefToEventDate3: CalendarDefinitions;
-  CalendarDefFromEventDate4: CalendarDefinitions; CalendarDefToEventDate4: CalendarDefinitions;
-  CalendarDefFromEventDate5: CalendarDefinitions; CalendarDefToEventDate5: CalendarDefinitions;
+  // CalendarDefFromEventDate1: CalendarDefinitions; CalendarDefToEventDate1: CalendarDefinitions;
+  // CalendarDefFromEventDate2: CalendarDefinitions; CalendarDefToEventDate2: CalendarDefinitions;
+  // CalendarDefFromEventDate3: CalendarDefinitions; CalendarDefToEventDate3: CalendarDefinitions;
+  // CalendarDefFromEventDate4: CalendarDefinitions; CalendarDefToEventDate4: CalendarDefinitions;
+  // CalendarDefFromEventDate5: CalendarDefinitions; CalendarDefToEventDate5: CalendarDefinitions;
 
   acDefDestinationCountry: AutocompleteDefinitions;
 
@@ -115,7 +117,9 @@ export class Test5Component implements OnInit {
   dataForAcEvent5: any[];// 23 
 
   acDataSelected1: any;acDataSelected2: any;acDataSelected3: any;acDataSelected4: any;acDataSelected5: any;
-  acDataSelected6: any;acDataSelected7: any;acDataSelected8: any;acDataSelected9: any;acDataSelected10: any;
+  acDataSelected6: any;acDataSelected7: any;
+
+  acDataSelected9: any;acDataSelected10: any;
   acDataSelected11: any;acDataSelected12: any;acDataSelected13: any;acDataSelected14: any;acDataSelected15: any;
   acDataSelected16: any;acDataSelected17: any;acDataSelected18: any;acDataSelected19: any;
 
@@ -165,13 +169,56 @@ export class Test5Component implements OnInit {
   ngOnInit(): void {
 
     // this.getData();
-    this.initDates();
+    this.fieldsetsOpenStatus();
+    // this.initDates();
     this.craeteEventsTable();
     this.initFields();
     this.getDefinitions();
     this.getLateData114();
-
   }
+
+  fieldsetsOpenStatus() {
+    this.exportassistService.getExportAssistByKey('700007')
+    .then((assistData: any[]) =>{    
+      if(assistData !== undefined) {        
+        this.arrFieldsetIsOpen =  assistData;
+
+        this.arrFieldsetIsOpen.forEach(item => {
+          switch (item.code) {
+            case '1':
+              this.collapsed1 = this.gf.funcConvertToBoolean(item.name);
+              break;
+            case '2':
+              this.collapsed2 = this.gf.funcConvertToBoolean(item.name);
+              break;
+            case '3':
+              this.collapsed3 = this.gf.funcConvertToBoolean(item.name);
+              break;
+            case '4':
+              this.collapsed4 = this.gf.funcConvertToBoolean(item.name);
+              break;
+            case '5':
+              this.collapsed5 = this.gf.funcConvertToBoolean(item.name);
+              break;
+            case '6':
+              this.collapsed6 = this.gf.funcConvertToBoolean(item.name);
+              break;
+            case '7':
+              this.collapsed7 = this.gf.funcConvertToBoolean(item.name);
+              break;
+            case '8':
+              this.collapsed8 = this.gf.funcConvertToBoolean(item.name);
+                break;             
+            default:
+              break;
+          }
+        });
+
+      }      
+    });
+    
+  }
+
 
   initDates() {
     
@@ -182,7 +229,7 @@ export class Test5Component implements OnInit {
 
   craeteEventsTable() {
     const columns: GridColumn[] = this.getColumns();
-    this.gridDefinition = new GridDefinitions({
+    this.gridEventsDefinition = new GridDefinitions({
       dataKey: 'EventNumber',
       columns,
       toolbar: true,
@@ -199,12 +246,12 @@ export class Test5Component implements OnInit {
     columnParams1.addParam(AutocompleteProperties.dp_AutocompleteType, 0);
     columnParams1.addParam(AutocompleteProperties.multiple, false);
     columnParams1.addParam(AutocompleteProperties.dropdown, true);
-
+    
     const column1 = new GridColumn({
-      headername: this.translate.instant('event'), fieldname: 'ReferenceTypeName', fieldCode: 'ReferenceType',
+      headername: this.translate.instant('event'), fieldname: 'name', fieldCode: 'code',
       type: this.gridColumnTypeEnum.autocomplete, columnParams: columnParams1,
       iseditable: true,
-      ColumnDatasource: this.exportassistService.referenceTypeList, 
+      ColumnDatasource: this.exportassistService.eventCodesList, 
       isMandatory: true
     });
   
@@ -217,7 +264,7 @@ export class Test5Component implements OnInit {
       fieldname: 'IsActive',
       columnParams: columnParams2,
       type: this.gridColumnTypeEnum.checkbox,
-      iseditable: false
+      iseditable: true
     });
     columns.push(column2);
 
@@ -329,7 +376,7 @@ export class Test5Component implements OnInit {
         this.acDataSelected7 = res;
         break;
       case 8:
-        this.acDataSelected8 = res;
+        this.acDataCustomsHouseExports = res;
         break;
 
       case 11:
@@ -438,8 +485,7 @@ export class Test5Component implements OnInit {
 
     this.acDefDestinationCountry = new AutocompleteDefinitions({
       inputId: 'ac11', 
-      dropdown: true,
-      field: 'description'
+      dropdown: true
     }); 
 
     this.CalendarDefFromOpenDate = new CalendarDefinitions({
@@ -461,7 +507,7 @@ export class Test5Component implements OnInit {
       minDate: new Date(2019, 1, 1), showTime: false
     });
 
-    
+    /*
     this.CalendarDefFromEventDate1 = new CalendarDefinitions({
       minDate: new Date(2019, 1, 1), showTime: false
     });
@@ -493,7 +539,7 @@ export class Test5Component implements OnInit {
     this.CalendarDefToEventDate5 = new CalendarDefinitions({
       minDate: new Date(2019, 1, 1), showTime: false
     });
-    
+    */
     
     this.acDefDeclarationType = new AutocompleteDefinitions({
       inputId: 'acDeclarationType', 
@@ -518,7 +564,9 @@ export class Test5Component implements OnInit {
     this.acDefCustomsHouseExports = new AutocompleteDefinitions({
       inputId: 'acCustomsHouseExports', 
       field: 'name',
-       dropdown: true
+       dropdown: true,
+       multiple: true
+       ,dp_AutocompleteType: 0, minLength: 1
       , dpAutocompleteLateDataLoadFunc: () => {
         this.getLateData8();
       }
@@ -697,7 +745,7 @@ export class Test5Component implements OnInit {
 
     this.columns1 = this.getColumns1();
 
-    this.gridDefinition1 = new GridDefinitions({
+    this.gridShipmentsQueryDefinition = new GridDefinitions({
       dataKey: 'ShipmentNumber', columns: this.columns1, toolbar:true
     });
 
@@ -754,15 +802,10 @@ export class Test5Component implements OnInit {
 
     // this.dataForAc1 = this.exportassistService.getExportAssistByKey('50000');
 
-
-    console.log(this.exportassistService.getExportAssistByKey('50000'));
-
-
-
     this.exportassistService.getExportAssistByKey('50000')
-    .then((assistData: any[]) =>{    
+    .then((assistData: any[]) =>{
       if(assistData !== undefined) {
-        this.dataForAc1 =  assistData  ;        
+        this.dataForAc1 = assistData;     
       }      
     });
 
@@ -803,7 +846,7 @@ export class Test5Component implements OnInit {
       }
 
       getLateData8() {
-        this.exportassistService.getExportAssistByKey('602011')  // ????/
+        this.exportassistService.getExportAssistByKey('50000')  // ????/ 602011
         .then((assistData: any[]) =>{    
           if(assistData !== undefined) {
             this.dataForAc8 =  assistData  ;        
@@ -823,7 +866,7 @@ export class Test5Component implements OnInit {
       }    
 
       getLateData10() {
-        // incoterms 
+        // // incoterms 
         this.exportassistService.getExportAssistByKey('')
         .then((assistData: any[]) =>{    
           if(assistData !== undefined) {
@@ -1008,7 +1051,7 @@ getLateDataEvent5() {
 
   onSubmit(form) {
 
-
+    debugger;
     this.isShowParams = false;
 
     console.log(form);

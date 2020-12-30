@@ -1,3 +1,35 @@
+<div *ngIf="exportassistService.customersList != undefined">
+    <div class="p-grid">
+        <div class="p-col-12 p-md-4">
+            <div class="p-grid">
+                <b>
+                    <div class="p-col-12 p-md-3">{{ 'declaration.declarationId' | translate }}:</div>
+                </b>
+                <div class="p-col-12 p-md-5">
+                    {{declarationService.declarationData.DeclarationBox.DeclarationDetails.DeclarationID}}
+                </div>
+            </div>
+            <div class="p-grid">
+                <b>
+                    <div class="p-col-12 p-md-3">{{ 'declaration.version' | translate }}:</div>
+                </b>                
+                <div class="p-col-12 p-md-5">
+                    {{declarationService.declarationData.DeclarationBox.DeclarationDetails.VersionID}} 
+                </div>            
+            </div>       
+            <div class="p-grid">
+                <b>
+                    <div class="p-col-12 p-md-3">{{ 'declaration.angentListId' | translate }}:</div>
+                </b>
+                <div class="p-col-12 p-md-5">
+                    7898*{{declarationService.declarationData.DeclarationBox.DeptCode}}-{{declarationService.declarationData.DeclarationBox.ShipmentNumber}}/{{declarationService.declarationData.DeclarationBox.CusDecOrder}}
+                </div>
+            </div>  
+        </div>
+    </div>
+</div>
+
+
 <div class="p-col-12 p-md-6">
     <p-fieldset legend="{{ 'declaration.declarationDetails' | translate }}" [toggleable]="false">
         <app-declaration-details></app-declaration-details>

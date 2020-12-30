@@ -34,6 +34,10 @@ export class AssistTableMin {
     code :string;
     name: string;
     description: string
+
+    toString(){
+      return this.name;
+    }
   }
   export class AssistTableExport {
     AssistTableValueID :string;

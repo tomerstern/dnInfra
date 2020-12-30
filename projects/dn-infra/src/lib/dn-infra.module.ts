@@ -36,9 +36,10 @@ import { tableReducer } from './dp/store/reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { PicklistComponent } from './dp/components/picklist/picklist.component';
 import { ColumnSelectionComponent } from './dp/components/table/columnSelection/column-selection/column-selection.component';
-
 import { DynamicdialogComponent } from './dp/components/dynamicdialog/dynamicdialog.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { PicklistWindowComponent } from './dp/components/picklistwindow/picklistwindow.component';
+
 
 
 @NgModule({
@@ -47,7 +48,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MenubarComponent, DialogComponent, TabviewComponent, TreeComponent
     , InputtextComponent, InputnumberComponent, ButtonComponent, TableComponent
     // CellComponent
-    , TabmenuComponent, PicklistComponent, ColumnSelectionComponent, DynamicdialogComponent],
+    , TabmenuComponent, PicklistComponent, ColumnSelectionComponent, DynamicdialogComponent, PicklistWindowComponent],
   imports: [
     CalendarModule,
     FormsModule,

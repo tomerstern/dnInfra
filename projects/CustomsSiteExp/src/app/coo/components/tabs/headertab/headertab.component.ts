@@ -38,6 +38,7 @@ export class HeaderTabComponent implements OnInit {
   originCountryOption: string = "Country";
   destinationCountryOption: string = "Country";
   tradeAgreementOption: string  = "Country1";
+  cumulationCountryOption: string  = "Country";
   yesNoData=[];
   cumulation:string;  
   constructor(public cooService: CooService,
@@ -48,6 +49,13 @@ export class HeaderTabComponent implements OnInit {
       
     if(data != undefined)
     {
+      if( data.CooBoxData.Header.COO_TradeAgreementCountry1 != undefined )
+        this.tradeAgreementOption = "Country1";
+      if( data.CooBoxData.Header.COO_TradeAgreementCountry2 != undefined )
+        this.tradeAgreementOption = "Country2";
+      if( data.CooBoxData.Header.COO_TradeAgreementGroupOfCountries != undefined )
+        this.tradeAgreementOption = "CountryGroups";
+
       if( data.CooBoxData.Header.COO_OriginCountry != undefined )
         this.originCountryOption = "Country";
       if( data.CooBoxData.Header.COO_OriginGroupOfCountries != undefined )
@@ -57,6 +65,11 @@ export class HeaderTabComponent implements OnInit {
         this.destinationCountryOption = "Country";
       if( data.CooBoxData.Header.COO_DestinationGroupOfCountries != undefined )
         this.destinationCountryOption = "CountryGroups";
+
+      if( data.CooBoxData.Header.COO_CumulationCountry != undefined )
+        this.cumulationCountryOption = "Country";
+      if( data.CooBoxData.Header.COO_CumulationGroupOfCountries != undefined )
+        this.cumulationCountryOption = "CountryGroups";
 
       console.log(data);
     }
@@ -158,6 +171,24 @@ export class HeaderTabComponent implements OnInit {
       return;
     }
     switch (id) {
+      case 'tradeAgreementOption':
+        if( this.tradeAgreementOption == 'Country1'  ){
+          this.cooService.cooData.CooBoxData.Header.COO_TradeAgreementCountry2 = "";
+          this.cooService.cooData.CooBoxData.Header.COO_TradeAgreementGroupOfCountries = "";
+        }
+         
+        if( this.tradeAgreementOption == 'Country2'  ){
+          this.cooService.cooData.CooBoxData.Header.COO_TradeAgreementCountry1 = "";
+          this.cooService.cooData.CooBoxData.Header.COO_TradeAgreementGroupOfCountries = "";
+        }
+
+        if( this.tradeAgreementOption == 'ContryGroups'  ){
+          this.cooService.cooData.CooBoxData.Header.COO_TradeAgreementCountry1 = "";
+          this.cooService.cooData.CooBoxData.Header.COO_TradeAgreementCountry2 = "";
+        }
+                      
+        break;
+
       case 'originCountryOption':
         if( this.originCountryOption == 'Country'  ){
           this.cooService.cooData.CooBoxData.Header.COO_OriginGroupOfCountries = "";
@@ -175,9 +206,19 @@ export class HeaderTabComponent implements OnInit {
           }
            
           if( this.destinationCountryOption == 'ContryGroups' ){
-            this.cooService.cooData.CooBoxData.Header.COO_DestinationGroupOfCountries = ""
+            this.cooService.cooData.CooBoxData.Header.COO_DestinationCountry = ""
           }
                         
+          break;
+
+        case 'cumulationCountryOption':
+          if( this.cumulationCountryOption == 'Country'  ){
+            this.cooService.cooData.CooBoxData.Header.COO_CumulationGroupOfCountries = "";
+          }
+          
+          if( this.cumulationCountryOption == 'ContryGroups' ){
+            this.cooService.cooData.CooBoxData.Header.COO_CumulationCountry = ""
+          }                        
           break;
 
       default:

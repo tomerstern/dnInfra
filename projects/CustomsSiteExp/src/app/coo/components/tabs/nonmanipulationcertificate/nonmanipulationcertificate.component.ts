@@ -43,11 +43,9 @@ export class NonmanipulationcertificateComponent implements OnInit {
     this.InputNumberDef = new InputNumberDefinitions({});
     this.calendarDef = new CalendarDefinitions({minDate: new Date(2019, 6, 12), showTime: false});
     this.checkboxDef = new CheckboxDefinitions({});
-    this.fetchArr.push(this.cooService.getCountriesList());
     this.fetchArr.push(this.cooService.getNonManCer());
     Promise.all(this.fetchArr).then((data: Array<any>) => {
-      this.countriesData = data[0];
-      this.NonManCerData = data[1];
+      this.NonManCerData = data[0];
     }).catch(err => {
       console.log(err);
     });

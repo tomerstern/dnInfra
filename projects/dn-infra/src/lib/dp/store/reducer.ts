@@ -1,5 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
-import { addRow, deleteRow, deleteRowByColumnValue, updateRow, updateTable, clearStateChanges, sortColumn } from './actions';
+import { addRow, deleteRow, deleteRowByColumnValue, updateRowByColumnValue, updateRow, updateTable, 
+            clearStateChanges, sortColumn } from './actions';
 export const initialState: any = {};
 
 const reducer = createReducer(initialState,
@@ -19,34 +20,37 @@ const reducer = createReducer(initialState,
         // }
     }),
     on(updateRow, (state, action): any => {
-        let newChanges = {};
-        let key;
-        let stateToSet;
-        if (action.row.refKey) {
-            key = action.row.refKey;
-            state[action.tableId].changes[key].state === 4 ? stateToSet = 4 : stateToSet = 16;
-        }
-        else {
-            key = getKey(5);
-            stateToSet = 16;
-        }
-        const newRow = { ...action.row, refKey: key };
-        newChanges = { ...state[action.tableId].changes, [key]: { ...newRow, state: stateToSet } };
-        const newData = {
-            data: [...state[action.tableId].data.slice(0, action.rowIndex),
-                newRow, ...state[action.tableId].data.slice(action.rowIndex + 1)],
-            changes: newChanges,
-            sortOrder: state[action.tableId].sortOrder
-        };
-        const newTableData = { [action.tableId]: newData };
-        return ({ ...state, ...newTableData });
+        return updateRowInState(state, action.tableId, action.row, action.rowIndex);
     }),
+    on(updateRowByColumnValue, (state, action): any => {
+        debugger
+        let rowIndexes : number[] = getRowIndexes(state, action.data.tableId, action.data.columnToSearchRecord);        
+        rowIndexes.forEach(rowIndex => {  
+            let rowToUpdate = { ...state[action.data.tableId].data[rowIndex]};
+            Object.entries(rowToUpdate).forEach(cell => {
+                Object.values(action.data.columnToReplaceRecord).forEach(column => {
+                    const currentCellName = cell[0];
+                    let columnName = Object.keys(column)[0];
+                    let columnValue = Object.values(column)[0];
+    
+                    if (currentCellName == columnName)
+                    {
+                        rowToUpdate[currentCellName] = columnValue;
+                    }
+                });
+            });
+            state = updateRowInState(state, action.data.tableId, rowToUpdate, rowIndex);
+        });
+
+        return state;
+
+    }),    
     on(deleteRow, (state, action): any => {
         return deleteFromStateByIndex(action.data.tableId, state, action.data.rowIndex);
     }),
     on(deleteRowByColumnValue, (state, action): any => {
-        let rowIndexes : number[] = getIndexesForDelete(state, action.data.tableId, 
-                                                        action.data.columnName, action.data.columnValue);
+
+        let rowIndexes : number[] = getRowIndexes(state, action.data.tableId, action.data.columnRecord);
         let updatedState: any = {...state};
         rowIndexes.reverse().forEach(rowIndex => {            
             updatedState = deleteFromStateByIndex(action.data.tableId, updatedState, rowIndex);
@@ -121,19 +125,64 @@ const reducer = createReducer(initialState,
     })
 );
 
-export function getIndexesForDelete(state: any, tableId: string, columnName: string, columnValue: any){
+function updateRowInState(state: any, tableId: string, rowToUpdate, rowIndex: number){
+    
+    let newChanges = {};
+    let key;
+    let stateToSet;
+    if (rowToUpdate.refKey) {
+        key = rowToUpdate.refKey;
+        state[tableId].changes[key].state === 4 ? stateToSet = 4 : stateToSet = 16;
+    }
+    else {
+        key = getKey(5);
+        stateToSet = 16;
+    }
+    const newRow = { ...rowToUpdate, refKey: key };
+    newChanges = { ...state[tableId].changes, [key]: { ...newRow, state: stateToSet } };
+    const newData = {
+        data: [...state[tableId].data.slice(0, rowIndex),
+            newRow, ...state[tableId].data.slice(rowIndex + 1)],
+        changes: newChanges,
+        sortOrder: state[tableId].sortOrder
+    };
+    const newTableData = { [tableId]: newData };
+
+    return ({ ...state, ...newTableData });
+}
+
+function getRowIndexes(state: any, tableId: string, columnRecord: Record<string, any>){
+
     const tableData = state[tableId].data;
+    const columnRecordLength =  Object.keys(columnRecord).length;
     let rowIndexes : number[] = [];
     let rowIndex = 0;
+    let matchCount = 0;    
+
     tableData.forEach(row => {            
         Object.entries(row).forEach(cell => {
-            if (cell[0] == columnName && cell[1] == columnValue)
-            {
-                rowIndexes.push(rowIndex);
-            }
+
+            Object.values(columnRecord).forEach(column => {
+                const currentCellName = cell[0];
+                const currentCellValue = cell[1];
+                const columnName = Object.keys(column)[0];
+                const columnValue = Object.values(column)[0];
+
+                if (currentCellName == columnName && currentCellValue == columnValue)
+                {
+                    matchCount += 1;
+                    return;
+                }
+            });
         });
 
+        if (matchCount == columnRecordLength)
+        {
+            rowIndexes.push(rowIndex);            
+        }
+
         rowIndex +=1;
+        matchCount = 0;
     });
 
     return rowIndexes;

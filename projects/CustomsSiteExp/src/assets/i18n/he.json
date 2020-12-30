@@ -79,7 +79,9 @@
     "origin": "מוצא",
     "country": "ארץ",
     "groupOfCounries": "קבוצת מדינות",
+    "countryOrGroup": "מדניה או קבוצה",
     "tradeAgreement": "הסכם סחר",
+ 
     "login": {
         "login": "התחבר",
         "username": "הזן שם משתמש",
@@ -134,7 +136,15 @@
         "smDate": "SM Date",
         "references": "אסמכתאות",
         "declarationDetails": "פרטי ההצהרה",
-        "dates": "תאריכים"
+        "dates": "תאריכים",
+        "zipCode": "מיקוד",
+        "angentListId": "מזהה רשימת סוכן",
+        "agentFileReferenceId": "מזהה תיק סוכן",
+        "agent": "סוכן",
+        "agentRoleCode": "תפקיד סוכן",
+        "declarationType": "סוג הצהרה",
+        "previousDocumentType": "סוג הצהרה קשורה",
+        "previousDocumentId": "מספר הצהרה קשורה"
     },
     "coo": {
         "customerNo":"מספר לקוח",

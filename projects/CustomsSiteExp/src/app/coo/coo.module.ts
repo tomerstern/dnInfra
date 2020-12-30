@@ -25,6 +25,8 @@ import { NonmanipulationcertificateComponent } from './components/tabs/nonmanipu
 import { FormsModule } from '@angular/forms';
 import { TransmissionlogComponent } from '../components/transmission/transmissionlog/transmissionlog.component';
 import { TransmissiondetailsComponent } from '../components/transmission/transmissiondetails/transmissiondetails.component';
+import { DisplayXMLComponent } from '../components/transmission/display-xml/display-xml.component';
+import { InvoicedetailsComponent } from './components/invoicedetails/invoicedetails.component';
 
 
 @NgModule({
@@ -44,7 +46,9 @@ import { TransmissiondetailsComponent } from '../components/transmission/transmi
     CoosignatureComponent,
     NonmanipulationcertificateComponent,
     TransmissionlogComponent,
-    TransmissiondetailsComponent
+    TransmissiondetailsComponent,
+    DisplayXMLComponent,
+    InvoicedetailsComponent
   ],
   imports: [
     FieldsetModule,
